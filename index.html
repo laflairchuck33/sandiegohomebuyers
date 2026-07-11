@@ -81,23 +81,21 @@
       position: relative;
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
+    .hero-video {
       position: absolute;
-      top: -200px; right: -200px;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,201,177,0.08) 0%, transparent 70%);
-      pointer-events: none;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+      z-index: 0;
     }
-    .hero::after {
-      content: '';
+    .hero-overlay {
       position: absolute;
-      bottom: -100px; left: -100px;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(0,201,177,0.05) 0%, transparent 70%);
-      pointer-events: none;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, rgba(13,13,13,0.7) 100%);
+      z-index: 1;
     }
-    .hero-content { max-width: 800px; position: relative; z-index: 1; }
+    .hero-content { max-width: 800px; position: relative; z-index: 2; }
     .hero-tag {
       display: inline-flex;
       align-items: center;
@@ -388,6 +386,10 @@
 
 <!-- HERO -->
 <section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="https://videos.pexels.com/video-files/2169880/2169880-hd_1920_1080_30fps.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-tag">San Diego's Trusted Home Buyer Guide</div>
     <h1>Find Your Dream<br/>Home in <span>San Diego</span></h1>

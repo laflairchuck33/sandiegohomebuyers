@@ -515,24 +515,21 @@
     document.getElementById('priceDisplay').textContent = '$' + price.toLocaleString();
     document.getElementById('downDisplay').innerHTML = downPct + '% <span id="downDollarDisplay">($' + downAmt.toLocaleString() + ')</span>';
     const dtiPct = Math.round(maxDTI * 100);
+    const actualDTI = income > 0 ? ((total + debt) / income) * 100 : 0;
 
+    // Always show selected price as approval amount
+    document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
+    document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
+
+    // DTI label — just confirms qualification
     if (income <= 0) {
-      // No income entered — show selected price, prompt for income
-      document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
-      document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
-      document.getElementById('dtiLabel').textContent = 'Enter your income above to see your max approval';
+      document.getElementById('dtiLabel').textContent = 'Enter your monthly income to check qualification';
       document.getElementById('dtiLabel').style.color = 'var(--gray)';
-    } else if (maxLoan < price) {
-      // Income too low for selected price
-      document.getElementById('approvedPrice').textContent = '$' + maxLoan.toLocaleString();
-      document.getElementById('congratsPrice').textContent = '$' + maxLoan.toLocaleString();
-      document.getElementById('dtiLabel').innerHTML = `⚠️ Based on your income, max approval is <strong style="color:var(--teal)">$${maxLoan.toLocaleString()}</strong> at ${dtiPct}% DTI (${loanType.toUpperCase()}). Try lowering the price or increasing income.`;
+    } else if (actualDTI > dtiPct) {
+      document.getElementById('dtiLabel').innerHTML = `⚠️ Your DTI is <strong>${actualDTI.toFixed(1)}%</strong> — above the ${dtiPct}% max for ${loanType.toUpperCase()}. Try a lower price or higher down payment.`;
       document.getElementById('dtiLabel').style.color = '#f0a500';
     } else {
-      // Income is sufficient
-      document.getElementById('approvedPrice').textContent = '$' + maxLoan.toLocaleString();
-      document.getElementById('congratsPrice').textContent = '$' + maxLoan.toLocaleString();
-      document.getElementById('dtiLabel').textContent = `✓ Approved up to $${maxLoan.toLocaleString()} based on ${dtiPct}% max DTI (${loanType.toUpperCase()})`;
+      document.getElementById('dtiLabel').innerHTML = `✓ DTI ${actualDTI.toFixed(1)}% — within the ${dtiPct}% max for ${loanType.toUpperCase()}. You qualify!`;
       document.getElementById('dtiLabel').style.color = 'var(--teal)';
     }
 
@@ -557,7 +554,7 @@
 
     // HOA if condo
     const propBtn = document.querySelector('#prequal .tile-btn.selected[data-val="condo"]');
-    const hoa = propBtn ? 400 : 0;
+    const hoa = propBtn ? 450 : 0;
 
     const total = pi + tax + ins + pmi + hoa;
 

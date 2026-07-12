@@ -10,430 +10,147 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0d0d0d;
-      --bg2: #141414;
-      --bg3: #1a1a1a;
-      --card: #1e1e1e;
-      --teal: #00c9b1;
-      --teal2: #00a896;
-      --white: #ffffff;
-      --gray: #888888;
-      --lightgray: #b0b0b0;
-      --border: #2a2a2a;
+      --bg: #0d0d0d; --bg2: #141414; --card: #1e1e1e;
+      --teal: #00c9b1; --white: #ffffff; --gray: #888888;
+      --lightgray: #b0b0b0; --border: #2a2a2a;
     }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--white);
-      line-height: 1.6;
-    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); line-height: 1.6; }
 
     /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: #0a0a0a;
-      border-bottom: 1px solid var(--border);
-      padding: 18px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      font-size: 1.1rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--white);
-    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #0a0a0a; border-bottom: 1px solid var(--border); padding: 18px 48px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 1.1rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: var(--white); }
     .nav-logo span { color: var(--teal); }
-    .nav-search {
-      display: flex;
-      align-items: center;
-      background: #1a1a1a;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 8px 16px;
-      gap: 10px;
-      margin-left: 24px;
-    }
-    .nav-search input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--white);
-      font-size: 0.85rem;
-      font-family: inherit;
-      width: 220px;
-      padding: 0;
-    }
+    .nav-search { display: flex; align-items: center; background: #1a1a1a; border: 1px solid var(--border); border-radius: 4px; padding: 8px 16px; gap: 10px; margin-left: 24px; }
+    .nav-search input { background: transparent; border: none; outline: none; color: var(--white); font-size: 0.85rem; font-family: inherit; width: 220px; padding: 0; }
     .nav-search input::placeholder { color: var(--gray); }
     .nav-search svg { color: var(--teal); flex-shrink: 0; }
-    .nav-search button {
-      background: var(--teal);
-      border: none;
-      color: #000;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 3px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: opacity 0.2s;
-    }
-    .nav-search button:hover { opacity: 0.85; }
+    .nav-search button { background: var(--teal); border: none; color: #000; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 3px; cursor: pointer; font-family: inherit; }
     .nav-links { display: flex; gap: 36px; align-items: center; }
-    .nav-links a {
-      color: var(--lightgray);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
+    .nav-links a { color: var(--lightgray); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s; }
     .nav-links a:hover { color: var(--teal); }
-    .nav-cta {
-      background: var(--teal) !important;
-      color: #000 !important;
-      padding: 10px 24px !important;
-      border-radius: 4px !important;
-      font-weight: 700 !important;
-    }
-    .nav-cta:hover { opacity: 0.85; }
+    .nav-cta { background: var(--teal) !important; color: #000 !important; padding: 10px 24px !important; border-radius: 4px !important; font-weight: 700 !important; }
+
+    /* FILTER BAR */
+    .filter-bar { position: fixed; top: 72px; left: 0; right: 0; z-index: 99; background: #0f0f0f; border-bottom: 1px solid var(--border); padding: 12px 48px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .filter-btn { background: #1a1a1a; border: 1px solid var(--border); color: var(--lightgray); font-family: inherit; font-size: 0.82rem; font-weight: 600; padding: 8px 16px; border-radius: 4px; cursor: pointer; transition: border-color 0.2s, color 0.2s; white-space: nowrap; }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--teal); color: var(--teal); background: rgba(0,201,177,0.08); }
+    .filter-save { background: var(--teal); border: none; color: #000; font-family: inherit; font-size: 0.82rem; font-weight: 700; padding: 8px 18px; border-radius: 4px; cursor: pointer; margin-left: auto; }
 
     /* HERO */
-    .hero {
-      min-height: 100vh;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      padding: 155px 48px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-video {
-      position: absolute;
-      inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0.25;
-      z-index: 0;
-    }
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, rgba(13,13,13,0.7) 100%);
-      z-index: 1;
-    }
+    .hero { min-height: 100vh; background: var(--bg); display: flex; align-items: center; padding: 155px 48px 80px; position: relative; overflow: hidden; }
+    .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.25; z-index: 0; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(13,13,13,0.5), rgba(13,13,13,0.7)); z-index: 1; }
     .hero-content { max-width: 800px; position: relative; z-index: 2; }
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--teal);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 28px;
-    }
-    .hero-tag::before {
-      content: '';
-      display: block;
-      width: 32px; height: 2px;
-      background: var(--teal);
-    }
-    .hero h1 {
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      color: var(--white);
-      margin-bottom: 24px;
-    }
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; color: var(--teal); font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 28px; }
+    .hero-tag::before { content: ''; display: block; width: 32px; height: 2px; background: var(--teal); }
+    .hero h1 { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900; line-height: 1.05; letter-spacing: -2px; color: var(--white); margin-bottom: 24px; }
     .hero h1 span { color: var(--teal); }
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--lightgray);
-      max-width: 520px;
-      margin-bottom: 48px;
-      line-height: 1.8;
-    }
+    .hero p { font-size: 1.1rem; color: var(--lightgray); max-width: 520px; margin-bottom: 48px; line-height: 1.8; }
     .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--teal);
-      color: #000;
-      padding: 16px 40px;
-      border-radius: 4px;
-      font-weight: 800;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: opacity 0.2s, transform 0.2s;
-    }
+    .btn-primary { background: var(--teal); color: #000; padding: 16px 40px; border-radius: 4px; font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; transition: opacity 0.2s, transform 0.2s; }
     .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
-    .btn-outline {
-      border: 1px solid var(--border);
-      color: var(--lightgray);
-      padding: 16px 40px;
-      border-radius: 4px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
+    .btn-outline { border: 1px solid var(--border); color: var(--lightgray); padding: 16px 40px; border-radius: 4px; font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
     .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
 
-    /* STATS BAR */
-    .stats {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 48px;
-      display: flex;
-      justify-content: center;
-      gap: 80px;
-      flex-wrap: wrap;
-    }
+    /* STATS */
+    .stats { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 48px; display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; }
     .stat-item { text-align: center; }
-    .stat-number {
-      font-size: 2.8rem;
-      font-weight: 900;
-      color: var(--teal);
-      line-height: 1;
-      letter-spacing: -1px;
-    }
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--gray);
-      margin-top: 8px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+    .stat-number { font-size: 2.8rem; font-weight: 900; color: var(--teal); line-height: 1; letter-spacing: -1px; }
+    .stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 8px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
 
     /* SECTIONS */
     section { padding: 100px 48px; }
     .container { max-width: 1100px; margin: 0 auto; }
-    .section-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--teal);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .section-tag::before {
-      content: '';
-      display: block;
-      width: 24px; height: 2px;
-      background: var(--teal);
-    }
-    .section-title {
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 900;
-      color: var(--white);
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-      line-height: 1.1;
-    }
-    .section-sub {
-      font-size: 1rem;
-      color: var(--lightgray);
-      max-width: 520px;
-      margin-bottom: 60px;
-      line-height: 1.8;
-    }
+    .section-tag { display: inline-flex; align-items: center; gap: 8px; color: var(--teal); font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+    .section-tag::before { content: ''; display: block; width: 24px; height: 2px; background: var(--teal); }
+    .section-title { font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; color: var(--white); letter-spacing: -1px; margin-bottom: 16px; line-height: 1.1; }
+    .section-sub { font-size: 1rem; color: var(--lightgray); max-width: 520px; margin-bottom: 60px; line-height: 1.8; }
 
     /* HOW IT WORKS */
     .how { background: var(--bg2); }
     .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; }
-    .step {
-      background: var(--card);
-      padding: 40px 32px;
-      position: relative;
-      transition: background 0.2s;
-    }
+    .step { background: var(--card); padding: 40px 32px; transition: background 0.2s; }
     .step:hover { background: #222; }
-    .step-num {
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--teal);
-      line-height: 1;
-      margin-bottom: 20px;
-      opacity: 0.6;
-    }
-    .step h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
+    .step-num { font-size: 3rem; font-weight: 900; color: var(--teal); line-height: 1; margin-bottom: 20px; opacity: 0.6; }
+    .step h3 { font-size: 1rem; font-weight: 700; color: var(--white); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
     .step p { font-size: 0.9rem; color: var(--gray); line-height: 1.7; }
 
     /* LISTINGS */
     .listings { background: var(--bg); padding-top: 0; }
-    .listings-map-layout {
-      display: flex;
-      gap: 0;
-      height: 620px;
-    }
-    .listings-sidebar {
-      width: 420px;
-      flex-shrink: 0;
-      overflow-y: auto;
-      background: var(--bg2);
-      border-right: 1px solid var(--border);
-    }
+    .listings-map-layout { display: flex; height: 620px; }
+    .listings-sidebar { width: 420px; flex-shrink: 0; overflow-y: auto; background: var(--bg2); border-right: 1px solid var(--border); }
     .listings-sidebar::-webkit-scrollbar { width: 4px; }
-    .listings-sidebar::-webkit-scrollbar-track { background: var(--bg2); }
     .listings-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
     .map-container { flex: 1; position: relative; }
     #map { width: 100%; height: 100%; }
-    .listings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2px; }
-    .listing-card {
-      background: var(--card);
-      overflow: hidden;
-      transition: transform 0.2s;
-      cursor: pointer;
-    }
-    .listing-card:hover { transform: scale(1.01); }
-    .listing-img { width: 100%; height: 220px; object-fit: cover; display: block; filter: brightness(0.85); }
-    .listing-body { padding: 24px; }
-    .listing-tag {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 10px;
-    }
-    .listing-price { font-size: 1.6rem; font-weight: 900; color: var(--white); margin-bottom: 6px; letter-spacing: -0.5px; }
-    .listing-address { font-size: 0.9rem; color: var(--lightgray); margin-bottom: 12px; }
+    .listing-card { background: var(--card); overflow: hidden; transition: background 0.2s; }
+    .listing-card:hover { background: #222; }
+    .listing-img { width: 100%; height: 200px; object-fit: cover; display: block; filter: brightness(0.85); }
+    .listing-body { padding: 20px; }
+    .listing-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+    .listing-price { font-size: 1.5rem; font-weight: 900; color: var(--white); margin-bottom: 4px; }
+    .listing-address { font-size: 0.88rem; color: var(--lightgray); margin-bottom: 10px; }
     .listing-meta { font-size: 0.82rem; color: var(--gray); display: flex; gap: 16px; }
 
-    /* FORM */
-    .form-section { background: var(--bg2); }
-    .form-layout { display: flex; gap: 80px; align-items: flex-start; flex-wrap: wrap; }
-    .form-info { flex: 1; min-width: 260px; }
-    .form-info ul { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
-    .form-info ul li { color: var(--lightgray); font-size: 0.95rem; display: flex; align-items: center; gap: 12px; }
-    .form-info ul li::before { content: ''; display: block; width: 6px; height: 6px; background: var(--teal); border-radius: 50%; flex-shrink: 0; }
-    .form-wrap { flex: 1; min-width: 300px; background: var(--card); border: 1px solid var(--border); padding: 48px 40px; }
-    .form-wrap h3 { font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 32px; letter-spacing: -0.5px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .form-group { display: flex; flex-direction: column; gap: 8px; }
-    .form-group.full { grid-column: 1 / -1; }
-    label { font-size: 0.75rem; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
-    input, select, textarea {
-      padding: 14px 16px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      color: var(--white);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    input::placeholder, textarea::placeholder { color: var(--gray); }
-    input:focus, select:focus, textarea:focus { border-color: var(--teal); }
-    select option { background: var(--bg); }
-    textarea { resize: vertical; min-height: 100px; }
-    .form-submit {
-      width: 100%;
-      background: var(--teal);
-      color: #000;
-      border: none;
-      padding: 16px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: opacity 0.2s;
-      font-family: inherit;
-    }
-    .form-submit:hover { opacity: 0.85; }
-    .form-note { font-size: 0.75rem; color: var(--gray); text-align: center; margin-top: 12px; }
-    .success-msg {
-      display: none;
-      background: rgba(0,201,177,0.08);
-      border: 1px solid var(--teal);
-      color: var(--white);
-      padding: 28px 24px;
-      text-align: center;
-      margin-top: 12px;
-    }
-    .success-msg h4 {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--teal);
-      margin-bottom: 8px;
-    }
-    .success-msg p {
-      font-size: 0.9rem;
-      color: var(--lightgray);
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-    .prequalify-prompt {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      padding: 20px;
-      margin-top: 4px;
-    }
-    .prequalify-prompt p {
-      font-size: 0.9rem;
-      color: var(--lightgray);
-      margin-bottom: 16px;
-    }
-    .prequalify-prompt strong { color: var(--white); }
-    .prequalify-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-yes {
-      background: var(--teal);
-      color: #000;
-      border: none;
-      font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 12px 28px;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    .btn-yes:hover { opacity: 0.85; }
-    .btn-no {
-      background: transparent;
-      color: var(--gray);
-      border: 1px solid var(--border);
-      font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 12px 28px;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .btn-no:hover { color: var(--lightgray); border-color: var(--lightgray); }
+    /* PRE-QUAL CALCULATOR */
+    .prequal-section { background: var(--bg2); }
+    .prequal-layout { display: flex; gap: 60px; align-items: flex-start; flex-wrap: wrap; }
+    .prequal-left { flex: 1; min-width: 260px; }
+    .prequal-right { flex: 1.2; min-width: 320px; }
+    .calc-box { background: var(--card); border: 1px solid var(--border); padding: 40px; }
+    .calc-field { margin-bottom: 24px; }
+    .calc-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 10px; }
+    .calc-value { font-size: 1.8rem; font-weight: 900; color: var(--teal); text-align: center; margin-bottom: 8px; }
+    .calc-value span { font-size: 0.9rem; color: var(--gray); font-weight: 400; margin-left: 6px; }
+    input[type=range] { width: 100%; accent-color: var(--teal); height: 6px; cursor: pointer; }
+    .range-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--gray); margin-top: 6px; }
+    .tile-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .tile-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tile-btn { background: var(--bg2); border: 1px solid var(--border); color: var(--lightgray); font-family: inherit; font-size: 0.82rem; font-weight: 600; padding: 16px 10px; border-radius: 4px; cursor: pointer; transition: all 0.2s; text-align: left; }
+    .tile-btn:hover { border-color: var(--teal); }
+    .tile-btn.selected { border-color: var(--teal); color: var(--teal); background: rgba(0,201,177,0.08); }
+    .tile-btn .tile-icon { font-size: 1.2rem; margin-bottom: 6px; display: block; }
+    .tile-btn .tile-name { font-weight: 800; color: var(--white); display: block; margin-bottom: 4px; font-size: 0.88rem; }
+    .tile-btn.selected .tile-name { color: var(--teal); }
+    .tile-btn .tile-desc { font-size: 0.7rem; color: var(--gray); font-weight: 400; line-height: 1.5; }
+    .money-input-wrap { display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--border); padding: 12px 16px; border-radius: 2px; transition: border-color 0.2s; }
+    .money-input-wrap:focus-within { border-color: var(--teal); }
+    .money-input-wrap span { color: var(--teal); font-size: 1.1rem; font-weight: 700; }
+    .money-input-wrap input { background: transparent; border: none; outline: none; color: var(--white); font-size: 1rem; font-family: inherit; width: 100%; }
+    .money-input-wrap input::placeholder { color: var(--gray); }
+
+    /* RESULT BOX */
+    .result-box { background: var(--card); border: 1px solid var(--border); padding: 40px; position: sticky; top: 140px; }
+    .result-box h3 { font-size: 1rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; }
+    .result-approved { text-align: center; margin-bottom: 28px; }
+    .result-approved-label { font-size: 0.78rem; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .result-approved-price { font-size: 3rem; font-weight: 900; color: var(--white); letter-spacing: -2px; line-height: 1; }
+    .result-approved-price.updated { color: var(--teal); }
+    .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .pay-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 3px; padding: 12px; }
+    .pay-item-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); margin-bottom: 4px; }
+    .pay-item-value { font-size: 1rem; font-weight: 900; color: var(--white); }
+    .pay-total { background: rgba(0,201,177,0.08); border: 1px solid var(--teal); border-radius: 3px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .pay-total-label { font-size: 0.75rem; font-weight: 700; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; }
+    .pay-total-value { font-size: 1.6rem; font-weight: 900; color: var(--white); }
+    .pay-note { font-size: 0.7rem; color: var(--gray); text-align: center; margin-bottom: 24px; }
+    .btn-getletter { width: 100%; background: var(--teal); color: #000; border: none; font-family: inherit; font-size: 0.9rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 18px; cursor: pointer; transition: opacity 0.2s; margin-bottom: 8px; }
+    .btn-getletter:hover { opacity: 0.85; }
+    .btn-note { font-size: 0.72rem; color: var(--gray); text-align: center; }
+
+    /* LETTER FORM */
+    .letter-form { display: none; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
+    .letter-form input { width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 2px; font-size: 0.9rem; font-family: inherit; color: var(--white); outline: none; margin-bottom: 10px; transition: border-color 0.2s; }
+    .letter-form input:focus { border-color: var(--teal); }
+    .letter-form input::placeholder { color: var(--gray); }
+
+    /* CONGRATS */
+    .congrats-box { display: none; text-align: center; padding: 32px 24px; }
+    .congrats-box .emoji { font-size: 3rem; margin-bottom: 12px; }
+    .congrats-box h3 { font-size: 1.6rem; font-weight: 900; color: var(--teal); margin-bottom: 6px; }
+    .congrats-box p { font-size: 0.9rem; color: var(--lightgray); margin-bottom: 20px; }
 
     /* TESTIMONIALS */
     .testimonials { background: var(--bg); }
@@ -441,7 +158,7 @@
     .testi-card { background: var(--card); padding: 36px; }
     .testi-stars { color: var(--teal); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 20px; }
     .testi-text { font-size: 0.95rem; color: var(--lightgray); line-height: 1.8; margin-bottom: 24px; font-style: italic; }
-    .testi-author { font-weight: 700; font-size: 0.88rem; color: var(--white); letter-spacing: 0.5px; }
+    .testi-author { font-weight: 700; font-size: 0.88rem; color: var(--white); }
     .testi-location { font-size: 0.78rem; color: var(--gray); margin-top: 4px; }
 
     /* CONTACT */
@@ -453,74 +170,19 @@
     .contact-card a, .contact-card span { color: var(--lightgray); text-decoration: none; font-size: 0.9rem; }
     .contact-card a:hover { color: var(--teal); }
 
-    /* FOOTER */
-    footer {
-      background: #0a0a0a;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 32px 24px;
-      font-size: 0.8rem;
-      color: var(--gray);
-      letter-spacing: 0.5px;
-    }
+    footer { background: #0a0a0a; border-top: 1px solid var(--border); text-align: center; padding: 32px 24px; font-size: 0.8rem; color: var(--gray); }
     footer a { color: var(--teal); text-decoration: none; }
 
-    /* FILTER BAR */
-    .filter-bar {
-      position: fixed;
-      top: 72px; left: 0; right: 0;
-      z-index: 99;
-      background: #0f0f0f;
-      border-bottom: 1px solid var(--border);
-      padding: 12px 48px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .filter-btn {
-      background: #1a1a1a;
-      border: 1px solid var(--border);
-      color: var(--lightgray);
-      font-family: inherit;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: border-color 0.2s, color 0.2s;
-      white-space: nowrap;
-    }
-    .filter-btn:hover { border-color: var(--teal); color: var(--teal); }
-    .filter-btn.active { border-color: var(--teal); color: var(--teal); background: rgba(0,201,177,0.08); }
-    .filter-save {
-      background: var(--teal);
-      border: none;
-      color: #000;
-      font-family: inherit;
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 8px 18px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-left: auto;
-      transition: opacity 0.2s;
-    }
-    .filter-save:hover { opacity: 0.85; }
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
-      .nav-links { display: none; }
-      .nav-search { display: none; }
+      .nav-links, .nav-search { display: none; }
       .filter-bar { top: 57px; padding: 8px 16px; gap: 8px; }
       .filter-save { margin-left: 0; }
-      .hero { padding: 100px 24px 60px; }
-      section { padding: 70px 24px; }
-      .stats { gap: 40px; padding: 40px 24px; }
-      .form-wrap { padding: 32px 20px; }
-      .form-grid { grid-template-columns: 1fr; }
+      .hero { padding: 120px 24px 60px; }
+      section { padding: 60px 24px; }
+      .stats { gap: 32px; padding: 32px 24px; }
+      .tile-grid-3 { grid-template-columns: 1fr; }
+      .result-box { position: static; }
     }
   </style>
 </head>
@@ -528,7 +190,7 @@
 
 <!-- NAV -->
 <nav>
-  <div style="display:flex;align-items:center;gap:0;">
+  <div style="display:flex;align-items:center;">
     <div class="nav-logo">San Diego <span>Home Buyers</span></div>
     <div class="nav-search">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -538,9 +200,9 @@
   </div>
   <div class="nav-links">
     <a href="#listings">Listings</a>
-    <a href="#contact-form">Get Pre-Approved</a>
+    <a href="#prequal">Get Pre-Approved</a>
     <a href="#contact">Contact</a>
-    <a href="#contact-form" class="nav-cta">Get Started</a>
+    <a href="#prequal" class="nav-cta">Get Started</a>
   </div>
 </nav>
 
@@ -565,7 +227,7 @@
     <h1>Find Your Dream<br/>Home in <span>San Diego</span></h1>
     <p>Expert guidance, exclusive listings, and personalized support — from your first search to the keys in your hand.</p>
     <div class="hero-buttons">
-      <a href="#contact-form" class="btn-primary">Start Your Search</a>
+      <a href="#prequal" class="btn-primary">Get Pre-Approved Free</a>
       <a href="#listings" class="btn-outline">Browse Listings</a>
     </div>
   </div>
@@ -573,69 +235,181 @@
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat-item">
-    <div class="stat-number">500+</div>
-    <div class="stat-label">Homes Sold</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">98%</div>
-    <div class="stat-label">Client Satisfaction</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">15+</div>
-    <div class="stat-label">Years Experience</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">$0</div>
-    <div class="stat-label">Buyer Agent Fee</div>
-  </div>
+  <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Homes Sold</div></div>
+  <div class="stat-item"><div class="stat-number">98%</div><div class="stat-label">Client Satisfaction</div></div>
+  <div class="stat-item"><div class="stat-number">15+</div><div class="stat-label">Years Experience</div></div>
+  <div class="stat-item"><div class="stat-number">$0</div><div class="stat-label">Buyer Agent Fee</div></div>
 </div>
 
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
+<!-- PRE-QUAL CALCULATOR -->
+<section class="prequal-section" id="prequal">
   <div class="container">
-    <div class="section-tag">Simple Process</div>
-    <h2 class="section-title">How It Works</h2>
-    <p class="section-sub">We make buying a home in San Diego straightforward — no stress, no surprises.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Tell Us What You Want</h3>
-        <p>Share your budget, preferred neighborhoods, and must-haves. We listen first.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Get Matched to Listings</h3>
-        <p>We curate the best available homes — including off-market deals you won't find on Zillow.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Tour & Make an Offer</h3>
-        <p>Schedule tours on your schedule. We advise on pricing and negotiate hard on your behalf.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Close & Get Your Keys</h3>
-        <p>We handle every detail so closing day is smooth, fast, and stress-free.</p>
-      </div>
-    </div>
+    <div class="section-tag">Instant Pre-Qualification</div>
+    <h2 class="section-title">How Much Can You Afford?</h2>
+    <p class="section-sub">No sign-up required. Get your estimated payment and pre-approval amount instantly.</p>
+    <div class="prequal-layout">
+
+      <!-- LEFT: INPUTS -->
+      <div class="prequal-left">
+        <div class="calc-box">
+
+          <!-- 1. Home Price -->
+          <div class="calc-field">
+            <label class="calc-label">1. Target Home Price</label>
+            <div class="calc-value" id="priceDisplay">$500,000</div>
+            <input type="range" id="homePrice" min="200000" max="2000000" step="25000" value="500000" oninput="updateCalc()" />
+            <div class="range-labels"><span>$200k</span><span>$1M</span><span>$2M</span></div>
+          </div>
+
+          <!-- 2. Down Payment -->
+          <div class="calc-field">
+            <label class="calc-label">2. Down Payment</label>
+            <div class="calc-value" id="downDisplay">10% <span id="downDollarDisplay">($50,000)</span></div>
+            <input type="range" id="downPayment" min="3" max="99" step="1" value="10" oninput="updateCalc()" />
+            <div class="range-labels"><span>3%</span><span>20%</span><span>50%</span><span>99%</span></div>
+          </div>
+
+          <!-- 3. Monthly Income -->
+          <div class="calc-field">
+            <label class="calc-label">3. Total Monthly Income (All Buyers)</label>
+            <div class="money-input-wrap">
+              <span>$</span>
+              <input type="number" id="monthlyIncome" placeholder="e.g. 8,500" min="0" oninput="updateCalc()" />
+            </div>
+            <div style="font-size:0.72rem;color:var(--gray);margin-top:6px;">Salary, freelance, rental income, etc.</div>
+          </div>
+
+          <!-- 4. Monthly Debt -->
+          <div class="calc-field">
+            <label class="calc-label">4. Total Monthly Debt</label>
+            <div class="money-input-wrap">
+              <span>$</span>
+              <input type="number" id="monthlyDebt" placeholder="e.g. 1,200" min="0" oninput="updateCalc()" />
+            </div>
+            <div style="font-size:0.72rem;color:var(--gray);margin-top:6px;">Car payments, student loans, credit cards, etc.</div>
+          </div>
+
+          <!-- 5. Loan Type -->
+          <div class="calc-field">
+            <label class="calc-label">5. Select Your Loan Type</label>
+            <div class="tile-grid-3">
+              <button class="tile-btn selected" onclick="selectTile(this,'loan')" data-val="conventional">
+                <span class="tile-icon">🏦</span>
+                <span class="tile-name">Conventional</span>
+                <span class="tile-desc">620+ credit. Down as low as 3%. No upfront MIP.</span>
+              </button>
+              <button class="tile-btn" onclick="selectTile(this,'loan')" data-val="fha">
+                <span class="tile-icon">🏛️</span>
+                <span class="tile-name">FHA</span>
+                <span class="tile-desc">580+ credit. Down as low as 3.5%. Flexible requirements.</span>
+              </button>
+              <button class="tile-btn" onclick="selectTile(this,'loan')" data-val="va">
+                <span class="tile-icon">🎖️</span>
+                <span class="tile-name">VA</span>
+                <span class="tile-desc">Veterans only. Zero down. No PMI. Best rates.</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 6. Property Type -->
+          <div class="calc-field" style="margin-bottom:0;">
+            <label class="calc-label">6. Property Type</label>
+            <div class="tile-grid-2">
+              <button class="tile-btn selected" onclick="selectTile(this,'prop')" data-val="sfr">
+                <span class="tile-icon">🏠</span>
+                <span class="tile-name">Single Family</span>
+                <span class="tile-desc">SFR</span>
+              </button>
+              <button class="tile-btn" onclick="selectTile(this,'prop')" data-val="condo">
+                <span class="tile-icon">🏢</span>                <span class="tile-name">Condo</span>
+                <span class="tile-desc">Condo/Townhome</span>
+              </button>
+              <button class="tile-btn" onclick="selectTile(this,'prop')" data-val="multi">
+                <span class="tile-icon">🏘️</span>
+                <span class="tile-name">Multi-Unit</span>
+                <span class="tile-desc">2–4 Units</span>
+              </button>
+              <button class="tile-btn" onclick="selectTile(this,'prop')" data-val="mfg">
+                <span class="tile-icon">🏗️</span>
+                <span class="tile-name">Manufactured</span>
+                <span class="tile-desc">Mobile/Manufactured</span>
+              </button>
+            </div>
+          </div>
+
+        </div><!-- /calc-box -->
+      </div><!-- /prequal-left -->
+
+      <!-- RIGHT: RESULT -->
+      <div class="prequal-right">
+        <div class="result-box">
+          <h3>📊 Your Estimate</h3>
+
+          <div class="result-approved">
+            <div class="result-approved-label">Pre-Approved Up To</div>
+            <div class="result-approved-price" id="approvedPrice">$500,000</div>
+          </div>
+
+          <div class="pay-grid">
+            <div class="pay-item"><div class="pay-item-label">Principal & Interest</div><div class="pay-item-value" id="piDisplay">—</div></div>
+            <div class="pay-item"><div class="pay-item-label">Property Tax</div><div class="pay-item-value" id="taxDisplay">—</div></div>
+            <div class="pay-item"><div class="pay-item-label">Home Insurance</div><div class="pay-item-value" id="insDisplay">$150</div></div>
+            <div class="pay-item"><div class="pay-item-label">PMI / MIP</div><div class="pay-item-value" id="pmiDisplay">—</div></div>
+          </div>
+
+          <div class="pay-total">
+            <div class="pay-total-label">Est. Monthly Payment</div>
+            <div class="pay-total-value" id="totalDisplay">—</div>
+          </div>
+
+          <div class="pay-note">*30-yr fixed estimate. Actual rate may vary.</div>
+
+          <!-- CTA -->
+          <div id="ctaArea">
+            <button class="btn-getletter" onclick="showLetterForm()">🏠 Get My Pre-Approval Letter</button>
+            <div class="btn-note">🔒 Free · No hard credit pull · Takes 2 min</div>
+          </div>
+
+          <!-- LETTER FORM -->
+          <div class="letter-form" id="letterForm">
+            <div style="font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:14px;">Enter your info to get your official letter:</div>
+            <input type="text" id="lfName" placeholder="Full Name *" />
+            <input type="email" id="lfEmail" placeholder="Email Address *" />
+            <input type="tel" id="lfPhone" placeholder="Phone Number" />
+            <button class="btn-getletter" style="margin-top:4px;" onclick="submitLetter()">Send My Pre-Approval Letter →</button>
+            <div class="btn-note" style="margin-top:8px;">🔒 Your info is private and never shared.</div>
+          </div>
+
+          <!-- CONGRATS -->
+          <div class="congrats-box" id="congratsBox">
+            <div class="emoji">🎉</div>
+            <h3>Congratulations!</h3>
+            <p>You are Pre-Approved up to</p>
+            <div style="font-size:2.8rem;font-weight:900;color:var(--white);letter-spacing:-1px;margin-bottom:16px;" id="congratsPrice">$500,000</div>
+            <p style="margin-bottom:24px;">Your pre-approval letter is on its way! Complete your official application to lock in your rate.</p>
+            <button class="btn-getletter" onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')">📝 Complete My Application →</button>
+          </div>
+
+        </div><!-- /result-box -->
+      </div><!-- /prequal-right -->
+
+    </div><!-- /prequal-layout -->
   </div>
 </section>
 
 <!-- LISTINGS -->
 <section class="listings" id="listings">
-  <div class="container" style="max-width:100%;padding:0 48px 0;">
-    <div style="padding: 60px 0 32px;">
+  <div class="container" style="max-width:100%;padding:0 48px;">
+    <div style="padding:60px 0 32px;">
       <div class="section-tag">Available Now</div>
       <h2 class="section-title">Featured Listings</h2>
       <p class="section-sub">Hand-picked homes across San Diego's most sought-after neighborhoods.</p>
     </div>
   </div>
   <div class="listings-map-layout">
-    <!-- SIDEBAR -->
     <div class="listings-sidebar">
       <div class="listing-card" onclick="focusPin(0)" style="cursor:pointer;border-bottom:1px solid var(--border);">
-        <img class="listing-img" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Home in Chula Vista" />
+        <img class="listing-img" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Chula Vista" />
         <div class="listing-body">
           <div class="listing-tag">For Sale</div>
           <div class="listing-price">$749,000</div>
@@ -644,7 +418,7 @@
         </div>
       </div>
       <div class="listing-card" onclick="focusPin(1)" style="cursor:pointer;border-bottom:1px solid var(--border);">
-        <img class="listing-img" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80" alt="Home in Eastlake" />
+        <img class="listing-img" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80" alt="Eastlake" />
         <div class="listing-body">
           <div class="listing-tag">For Sale</div>
           <div class="listing-price">$895,000</div>
@@ -653,7 +427,7 @@
         </div>
       </div>
       <div class="listing-card" onclick="focusPin(2)" style="cursor:pointer;">
-        <img class="listing-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Home in Otay Ranch" />
+        <img class="listing-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Otay Ranch" />
         <div class="listing-body">
           <div class="listing-tag">For Sale</div>
           <div class="listing-price">$629,000</div>
@@ -662,176 +436,21 @@
         </div>
       </div>
     </div>
-    <!-- MAP -->
-    <div class="map-container">
-      <div id="map"></div>
-    </div>
+    <div class="map-container"><div id="map"></div></div>
   </div>
 </section>
 
-<!-- LEAD FORM -->
-<section class="form-section" id="contact-form">
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
   <div class="container">
-    <div class="form-layout">
-      <div class="form-info">
-        <div class="section-tag">Get Started Free</div>
-        <h2 class="section-title">Ready to Find Your Home?</h2>
-        <p class="section-sub">Tell us what you're looking for and we'll reach out within 24 hours with personalized options.</p>
-        <ul>
-          <li>Free buyer consultation</li>
-          <li>No obligation, no pressure</li>
-          <li>Access to off-market listings</li>
-          <li>Expert local market knowledge</li>
-          <li>Zero buyer agent fee</li>
-        </ul>
-      </div>
-      <div class="form-wrap">
-        <h3>Tell Us About Yourself</h3>
-        <form id="leadForm" onsubmit="handleSubmit(event)">
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="fname">First Name *</label>
-              <input type="text" id="fname" required placeholder="Charles" />
-            </div>
-            <div class="form-group">
-              <label for="lname">Last Name *</label>
-              <input type="text" id="lname" required placeholder="La Flair" />
-            </div>
-            <div class="form-group">
-              <label for="email">Email Address *</label>
-              <input type="email" id="email" required placeholder="you@email.com" />
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" placeholder="(619) 555-0100" />
-            </div>
-            <div class="form-group full">
-              <label for="budget">Budget Range</label>
-              <select id="budget">
-                <option value="">Select your budget</option>
-                <option>Under $500,000</option>
-                <option>$500,000 – $750,000</option>
-                <option>$750,000 – $1,000,000</option>
-                <option>$1,000,000 – $1,500,000</option>
-                <option>$1,500,000+</option>
-              </select>
-            </div>
-            <div class="form-group full">
-              <label for="neighborhood">Preferred Neighborhood(s)</label>
-              <input type="text" id="neighborhood" placeholder="e.g. Chula Vista, Eastlake, Otay Ranch..." />
-            </div>
-            <div class="form-group full">
-              <label for="message">Anything else we should know?</label>
-              <textarea id="message" placeholder="Tell us about your ideal home..."></textarea>
-            </div>
-          </div>
-          <button type="submit" class="form-submit">Start My Home Search</button>
-          <div class="form-note">🔒 Your info is private and never shared.</div>
-          <div class="success-msg" id="successMsg">
-            <h4>✓ You're all set!</h4>
-            <p>We got your info and will be in touch within 24 hours.<br/>In the meantime — do you want to get pre-qualified?</p>
-            <div class="prequalify-prompt">
-              <p><strong>Getting pre-qualified is free</strong> and takes about 5 minutes. It shows sellers you're serious and tells you exactly what you can afford.</p>
-              <div class="prequalify-buttons" id="prequalifyBtns">
-                <button class="btn-yes" onclick="showIncomeStep()">Yes, Get Pre-Qualified →</button>
-                <button class="btn-no" onclick="dismissPrequalify()">Maybe Later</button>
-              </div>
-              <div id="incomeStep" style="display:none;margin-top:16px;">
-                <!-- 1. Target Home Price -->
-                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;">Target Home Price</label>
-                <div style="text-align:center;margin-bottom:10px;">
-                  <span id="priceLabel" style="font-size:1.6rem;font-weight:900;color:var(--teal);">$500,000</span>
-                </div>
-                <input type="range" id="homePrice" min="200000" max="2000000" step="25000" value="500000"
-                  style="width:100%;accent-color:var(--teal);height:6px;cursor:pointer;"
-                  oninput="document.getElementById('priceLabel').textContent='$'+parseInt(this.value).toLocaleString();updateDown(document.getElementById('downPayment').value)" />
-                <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--gray);margin-top:6px;">
-                  <span>$200k</span><span>$1M</span><span>$2M</span>
-                </div>
-
-                <!-- 2. Down Payment -->
-                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;margin-top:20px;">Down Payment</label>
-                <div style="text-align:center;margin-bottom:10px;">
-                  <span id="downLabel" style="font-size:1.6rem;font-weight:900;color:var(--teal);">10%</span>
-                  <span id="downDollar" style="font-size:0.9rem;color:var(--gray);margin-left:8px;">($50,000)</span>
-                </div>
-                <input type="range" id="downPayment" min="3" max="99" step="1" value="10"
-                  style="width:100%;accent-color:var(--teal);height:6px;cursor:pointer;"
-                  oninput="updateDown(this.value)" />
-                <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--gray);margin-top:6px;">
-                  <span>3%</span><span>20%</span><span>50%</span><span>99%</span>
-                </div>
-
-                <!-- 3. Total Monthly Income -->
-                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;margin-top:20px;">Total Monthly Income for All Buyers</label>
-                <div style="display:flex;gap:10px;align-items:center;">
-                  <span style="color:var(--teal);font-size:1.2rem;font-weight:700;">$</span>
-                  <input type="number" id="monthlyIncome" placeholder="e.g. 8,500" min="0" style="flex:1;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:2px;font-size:1rem;color:var(--white);font-family:inherit;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'" />
-                </div>
-                <p style="font-size:0.78rem;color:var(--gray);margin-top:8px;">Include all sources: salary, freelance, rental income, etc.</p>
-
-                <!-- 5. Loan Type -->
-                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;margin-top:20px;">Select Your Loan Type</label>
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" id="loanTypeGrid">
-                  <button type="button" class="loan-btn" onclick="selectLoan(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:18px 12px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:left;">
-                    <div style="font-size:1.2rem;margin-bottom:6px;">🏦</div>
-                    <div style="font-weight:800;color:var(--white);margin-bottom:6px;">Conventional</div>
-                    <div style="font-size:0.72rem;color:var(--gray);font-weight:400;line-height:1.5;">Best for strong credit (620+). Down payment as low as 3%. No upfront mortgage insurance premium.</div>
-                  </button>
-                  <button type="button" class="loan-btn" onclick="selectLoan(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:18px 12px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:left;">
-                    <div style="font-size:1.2rem;margin-bottom:6px;">🏛️</div>
-                    <div style="font-weight:800;color:var(--white);margin-bottom:6px;">FHA</div>
-                    <div style="font-size:0.72rem;color:var(--gray);font-weight:400;line-height:1.5;">Great for first-time buyers. Down payment as low as 3.5%. More flexible credit requirements (580+).</div>
-                  </button>
-                  <button type="button" class="loan-btn" onclick="selectLoan(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:18px 12px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:left;">
-                    <div style="font-size:1.2rem;margin-bottom:6px;">🎖️</div>
-                    <div style="font-weight:800;color:var(--white);margin-bottom:6px;">VA</div>
-                    <div style="font-size:0.72rem;color:var(--gray);font-weight:400;line-height:1.5;">Exclusive to Veterans &amp; active military. Zero down required. No PMI. Best rates available.</div>
-                  </button>
-                </div>
-
-                <!-- 4. Total Monthly Debt -->
-                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;margin-top:20px;">Total Monthly Debt</label>
-                <div style="display:flex;gap:10px;align-items:center;">
-                  <span style="color:var(--teal);font-size:1.2rem;font-weight:700;">$</span>
-                  <input type="number" id="monthlyDebt" placeholder="e.g. 1,200" min="0" style="flex:1;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:2px;font-size:1rem;color:var(--white);font-family:inherit;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'" />
-                </div>
-                <p style="font-size:0.78rem;color:var(--gray);margin-top:8px;">Include: car payments, student loans, credit cards, etc.</p>
-
-                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:12px;margin-top:20px;">What Type of Property Are You Looking For?</label>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="propTypeGrid">
-                  <button type="button" class="prop-btn" onclick="selectProp(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:14px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:center;">🏠 Single Family<br/><span style="font-size:0.75rem;color:var(--gray);font-weight:400;">SFR</span></button>
-                  <button type="button" class="prop-btn" onclick="selectProp(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:14px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:center;">🏢 Condo<br/><span style="font-size:0.75rem;color:var(--gray);font-weight:400;">Condo/Townhome</span></button>
-                  <button type="button" class="prop-btn" onclick="selectProp(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:14px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:center;">🏘️ Multi-Unit<br/><span style="font-size:0.75rem;color:var(--gray);font-weight:400;">2–4 Units</span></button>
-                  <button type="button" class="prop-btn" onclick="selectProp(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:14px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:center;">🏗️ Manufactured<br/><span style="font-size:0.75rem;color:var(--gray);font-weight:400;">Mobile/Manufactured</span></button>
-                </div>
-
-                <div style="margin-top:28px;background:linear-gradient(135deg,rgba(0,201,177,0.12),rgba(0,201,177,0.04));border:1px solid var(--teal);border-radius:6px;padding:28px 24px;text-align:center;">
-                  <div style="font-size:1.5rem;margin-bottom:10px;">🏡</div>
-                  <div style="font-size:1.1rem;font-weight:900;color:var(--white);margin-bottom:6px;">You're Ready!</div>
-                  <div style="font-size:0.85rem;color:var(--lightgray);margin-bottom:20px;line-height:1.6;">Based on your info, let's get you officially pre-qualified.<br/>It's free, fast, and shows sellers you mean business.</div>
-                  <button class="btn-yes" style="width:100%;font-size:1rem;padding:18px;letter-spacing:1.5px;box-shadow:0 4px 20px rgba(0,201,177,0.3);" onclick="submitIncome()">🏠 Get Pre-Qualification</button>
-                  <div style="font-size:0.75rem;color:var(--gray);margin-top:12px;">🔒 No hard credit pull · Takes ~5 minutes</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- CONGRATS BOX -->
-            <div id="congratsBox" style="display:none;margin-top:16px;background:linear-gradient(135deg,rgba(0,201,177,0.15),rgba(0,201,177,0.05));border:1px solid var(--teal);border-radius:6px;padding:36px 28px;text-align:center;">
-              <div style="font-size:3rem;margin-bottom:12px;">🎉</div>
-              <div style="font-size:1.5rem;font-weight:900;color:var(--teal);letter-spacing:-0.5px;margin-bottom:8px;">Congratulations!</div>
-              <div style="font-size:1rem;color:var(--lightgray);margin-bottom:6px;">You are Pre-Approved up to</div>
-              <div id="approvedPrice" style="font-size:2.8rem;font-weight:900;color:var(--white);letter-spacing:-1px;margin-bottom:20px;">$500,000</div>
-              <div style="font-size:0.85rem;color:var(--gray);margin-bottom:16px;line-height:1.6;">Here's your estimated monthly payment breakdown:</div>
-              <div id="payBreakdown"></div>
-              <div style="margin-top:20px;"></div>
-              <button class="btn-yes" style="width:100%;font-size:1rem;padding:18px;letter-spacing:1px;box-shadow:0 4px 24px rgba(0,201,177,0.35);" onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')">📝 Complete My Application →</button>
-              <div style="font-size:0.75rem;color:var(--gray);margin-top:12px;">🔒 Secure &amp; confidential · No hard credit pull</div>
-            </div>
-
-          </div>
-        </form>
-      </div>
+    <div class="section-tag">Simple Process</div>
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">We make buying a home in San Diego straightforward — no stress, no surprises.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h3>Tell Us What You Want</h3><p>Share your budget, preferred neighborhoods, and must-haves. We listen first.</p></div>
+      <div class="step"><div class="step-num">02</div><h3>Get Matched to Listings</h3><p>We curate the best available homes — including off-market deals you won't find on Zillow.</p></div>
+      <div class="step"><div class="step-num">03</div><h3>Tour & Make an Offer</h3><p>Schedule tours on your schedule. We advise on pricing and negotiate hard on your behalf.</p></div>
+      <div class="step"><div class="step-num">04</div><h3>Close & Get Your Keys</h3><p>We handle every detail so closing day is smooth, fast, and stress-free.</p></div>
     </div>
   </div>
 </section>
@@ -843,24 +462,9 @@
     <h2 class="section-title">Real Results</h2>
     <p class="section-sub">Hundreds of San Diego families found their perfect home with our help.</p>
     <div class="testi-grid">
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"They found us our dream home in Eastlake in under 3 weeks. The process was seamless — they handled everything!"</p>
-        <div class="testi-author">Marcus & Deja T.</div>
-        <div class="testi-location">Eastlake, San Diego</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"As a first-time buyer I was nervous, but they walked me through every step. Closed in 30 days and I love my home!"</p>
-        <div class="testi-author">Priya M.</div>
-        <div class="testi-location">Chula Vista, San Diego</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Got access to listings that weren't even on Zillow. Incredible service, highly recommend to anyone buying in SD."</p>
-        <div class="testi-author">Kevin R.</div>
-        <div class="testi-location">Otay Ranch, San Diego</div>
-      </div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"They found us our dream home in Eastlake in under 3 weeks. The process was seamless!"</p><div class="testi-author">Marcus & Deja T.</div><div class="testi-location">Eastlake, San Diego</div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"As a first-time buyer I was nervous, but they walked me through every step. Closed in 30 days!"</p><div class="testi-author">Priya M.</div><div class="testi-location">Chula Vista, San Diego</div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Got access to listings that weren't even on Zillow. Incredible service, highly recommend!"</p><div class="testi-author">Kevin R.</div><div class="testi-location">Otay Ranch, San Diego</div></div>
     </div>
   </div>
 </section>
@@ -870,215 +474,122 @@
   <div class="container">
     <div class="section-tag">Reach Us</div>
     <h2 class="section-title">Get In Touch</h2>
-    <p class="section-sub">Have questions? We're here to help — reach out any way that works for you.</p>
+    <p class="section-sub">Have questions? We're here to help.</p>
     <div class="contact-grid">
-      <div class="contact-card">
-        <div class="contact-icon">📞</div>
-        <h4>Call or Text</h4>
-        <a href="tel:+16192573708">(619) 257-3708</a>
-      </div>
-      <div class="contact-card">
-        <div class="contact-icon">✉️</div>
-        <h4>Email</h4>
-        <a href="mailto:info@sandiegohomebuyers.org">info@sandiegohomebuyers.org</a>
-      </div>
-      <div class="contact-card">
-        <div class="contact-icon">📍</div>
-        <h4>Location</h4>
-        <span>Chula Vista, CA 91914</span>
-      </div>
-      <div class="contact-card">
-        <div class="contact-icon">🕐</div>
-        <h4>Hours</h4>
-        <span>Mon–Sat: 8AM – 7PM</span>
-      </div>
+      <div class="contact-card"><div class="contact-icon">📞</div><h4>Call or Text</h4><a href="tel:+16192573708">(619) 257-3708</a></div>
+      <div class="contact-card"><div class="contact-icon">✉️</div><h4>Email</h4><a href="mailto:info@sandiegohomebuyers.org">info@sandiegohomebuyers.org</a></div>
+      <div class="contact-card"><div class="contact-icon">📍</div><h4>Location</h4><span>Chula Vista, CA 91914</span></div>
+      <div class="contact-card"><div class="contact-icon">🕐</div><h4>Hours</h4><span>Mon–Sat: 8AM – 7PM</span></div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <p>© 2026 San Diego Home Buyers &nbsp;·&nbsp; <a href="mailto:info@sandiegohomebuyers.org">info@sandiegohomebuyers.org</a> &nbsp;·&nbsp; All rights reserved.</p>
 </footer>
 
 <script>
-  // MAP
-  const listings = [
+  // ── TILE SELECTION ──
+  function selectTile(btn, group) {
+    btn.closest('.tile-grid-3, .tile-grid-2').querySelectorAll('.tile-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    updateCalc();
+  }
+
+  // ── CALC ──
+  function updateCalc() {
+    const price    = parseInt(document.getElementById('homePrice').value) || 500000;
+    const downPct  = parseInt(document.getElementById('downPayment').value) || 10;
+    const income   = parseFloat(document.getElementById('monthlyIncome').value) || 0;
+    const debt     = parseFloat(document.getElementById('monthlyDebt').value) || 0;
+    const loanBtn  = document.querySelector('#prequal .tile-grid-3 .tile-btn.selected');
+    const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
+
+    const downAmt  = Math.round(price * downPct / 100);
+    const loanAmt  = price - downAmt;
+    const ltv      = (loanAmt / price) * 100;
+
+    // Update displays
+    document.getElementById('priceDisplay').textContent = '$' + price.toLocaleString();
+    document.getElementById('downDisplay').innerHTML = downPct + '% <span id="downDollarDisplay">($' + downAmt.toLocaleString() + ')</span>';
+    document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
+    document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
+
+    // Rate assumptions
+    const rate = loanType === 'va' ? 0.0625 : loanType === 'fha' ? 0.065 : 0.07;
+    const mo   = rate / 12;
+    const n    = 360;
+    const pi   = loanAmt * (mo * Math.pow(1 + mo, n)) / (Math.pow(1 + mo, n) - 1);
+
+    // Tax & insurance
+    const tax  = (price * 0.0125) / 12;
+    const ins  = 150;
+
+    // PMI
+    let pmi = 0;
+    if (loanType === 'conventional' && ltv > 80) {
+      pmi = (loanAmt * 0.0085) / 12;
+    } else if (loanType === 'fha') {
+      const mipRate = (loanAmt <= 726200 && ltv > 95) ? 0.0055 : 0.005;
+      pmi = (loanAmt * mipRate) / 12;
+    }
+
+    const total = pi + tax + ins + pmi;
+
+    document.getElementById('piDisplay').textContent    = '$' + Math.round(pi).toLocaleString() + '/mo';
+    document.getElementById('taxDisplay').textContent   = '$' + Math.round(tax).toLocaleString() + '/mo';
+    document.getElementById('insDisplay').textContent   = '$150/mo';
+    document.getElementById('pmiDisplay').textContent   = pmi > 0 ? '$' + Math.round(pmi).toLocaleString() + '/mo' : 'None ✓';
+    document.getElementById('pmiDisplay').style.color   = pmi > 0 ? 'var(--white)' : 'var(--teal)';
+    document.getElementById('totalDisplay').textContent = '$' + Math.round(total).toLocaleString() + '/mo';
+  }
+
+  // ── LETTER FORM ──
+  function showLetterForm() {
+    document.getElementById('ctaArea').style.display = 'none';
+    document.getElementById('letterForm').style.display = 'block';
+  }
+
+  function submitLetter() {
+    const name  = document.getElementById('lfName').value.trim();
+    const email = document.getElementById('lfEmail').value.trim();
+    if (!name || !email) {
+      if (!name) document.getElementById('lfName').style.borderColor = 'var(--teal)';
+      if (!email) document.getElementById('lfEmail').style.borderColor = 'var(--teal)';
+      return;
+    }
+    document.getElementById('letterForm').style.display = 'none';
+    document.getElementById('congratsBox').style.display = 'block';
+    window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
+  }
+
+  // ── MAP ──
+  const listingsData = [
     { lat: 32.6401, lng: -117.0842, price: '$749,000', address: 'Chula Vista, CA 91914', beds: 4, baths: 3 },
     { lat: 32.6274, lng: -116.9637, price: '$895,000', address: 'Eastlake, CA 91915', beds: 5, baths: 3 },
     { lat: 32.6105, lng: -116.9544, price: '$629,000', address: 'Otay Ranch, CA 91913', beds: 3, baths: 2 },
   ];
-
   let map, markers = [];
-
   function initMap() {
     map = L.map('map', { zoomControl: true }).setView([32.6280, -117.0200], 12);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      subdomains: 'abcd', maxZoom: 19
-    }).addTo(map);
-
-    listings.forEach((l, i) => {
-      const icon = L.divIcon({
-        className: '',
-        html: `<div style="background:#00c9b1;color:#000;font-weight:800;font-size:12px;padding:6px 10px;border-radius:4px;white-space:nowrap;font-family:Inter,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.4)">${l.price}</div>`,
-        iconAnchor: [40, 20]
-      });
-      const marker = L.marker([l.lat, l.lng], { icon })
-        .addTo(map)
-        .bindPopup(`<b>${l.price}</b><br>${l.address}<br>${l.beds} bed · ${l.baths} bath`);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19 }).addTo(map);
+    listingsData.forEach((l, i) => {
+      const icon = L.divIcon({ className: '', html: `<div style="background:#00c9b1;color:#000;font-weight:800;font-size:12px;padding:6px 10px;border-radius:4px;white-space:nowrap;font-family:Inter,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.4)">${l.price}</div>`, iconAnchor: [40, 20] });
+      const marker = L.marker([l.lat, l.lng], { icon }).addTo(map).bindPopup(`<b>${l.price}</b><br>${l.address}<br>${l.beds} bed · ${l.baths} bath`);
       markers.push(marker);
     });
   }
+  function focusPin(i) { map.setView([listingsData[i].lat, listingsData[i].lng], 14, { animate: true }); markers[i].openPopup(); }
 
-  function focusPin(i) {
-    const l = listings[i];
-    map.setView([l.lat, l.lng], 14, { animate: true });
-    markers[i].openPopup();
-  }
+  // ── FILTERS / SEARCH ──
+  function toggleFilter(btn) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+  function doSearch() { const val = document.getElementById('navSearch').value.trim(); if (val) document.getElementById('listings').scrollIntoView({ behavior: 'smooth' }); }
 
-  window.addEventListener('load', initMap);
-
-  function selectLoan(btn) {
-    document.querySelectorAll('.loan-btn').forEach(b => {
-      b.style.borderColor = 'var(--border)';
-      b.style.color = 'var(--lightgray)';
-      b.style.background = 'var(--bg2)';
-    });
-    btn.style.borderColor = 'var(--teal)';
-    btn.style.color = 'var(--teal)';
-    btn.style.background = 'rgba(0,201,177,0.08)';
-  }
-
-  function selectProp(btn) {
-    document.querySelectorAll('.prop-btn').forEach(b => {
-      b.style.borderColor = 'var(--border)';
-      b.style.color = 'var(--lightgray)';
-      b.style.background = 'var(--bg2)';
-    });
-    btn.style.borderColor = 'var(--teal)';
-    btn.style.color = 'var(--teal)';
-    btn.style.background = 'rgba(0,201,177,0.08)';
-  }
-
-  function updateDown(pct) {
-    const price = parseInt(document.getElementById('homePrice').value) || 500000;
-    const dollar = Math.round(price * pct / 100);
-    document.getElementById('downLabel').textContent = pct + '%';
-    document.getElementById('downDollar').textContent = '($' + dollar.toLocaleString() + ')';
-  }
-
-  function showIncomeStep() {
-    document.getElementById('prequalifyBtns').style.display = 'none';
-    document.getElementById('incomeStep').style.display = 'block';
-    document.getElementById('monthlyIncome').focus();
-  }
-
-  function dismissPrequalify() {
-    document.querySelector('.prequalify-prompt').style.display = 'none';
-  }
-
-  function submitIncome() {
-    const income = document.getElementById('monthlyIncome').value;
-    if (!income) {
-      document.getElementById('monthlyIncome').style.borderColor = 'var(--teal)';
-      document.getElementById('monthlyIncome').focus();
-      return;
-    }
-
-    const price     = parseInt(document.getElementById('homePrice').value) || 500000;
-    const downPct   = parseInt(document.getElementById('downPayment').value) || 10;
-    const loanType  = (document.querySelector('.loan-btn[style*="rgba(0,201,177"]') || {}).innerText || '';
-    const isVA      = loanType.includes('VA');
-    const isFHA     = loanType.includes('FHA');
-    const isConv    = loanType.includes('Conventional');
-
-    const downAmt   = Math.round(price * downPct / 100);
-    const loanAmt   = price - downAmt;
-    const ltv       = (loanAmt / price) * 100;
-
-    // Interest rate assumption
-    const rate      = isVA ? 0.0625 : isFHA ? 0.065 : 0.07;
-    const monthlyRate = rate / 12;
-    const numPayments = 360; // 30yr
-    const principal = loanAmt * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
-
-    // Property tax: 1.25% annually
-    const propTax   = (price * 0.0125) / 12;
-
-    // Home insurance: $150/mo fixed
-    const insurance = 150;
-
-    // PMI logic
-    let pmi = 0;
-    if (isConv && ltv > 80) {
-      pmi = (loanAmt * 0.0085) / 12; // ~0.85% conventional PMI
-    } else if (isFHA) {
-      const mipRate = (loanAmt <= 726200 && ltv > 95) ? 0.0055 : 0.005;
-      pmi = (loanAmt * mipRate) / 12;
-    }
-    // VA: no PMI
-
-    const totalPayment = principal + propTax + insurance + pmi;
-
-    // Populate congrats
-    document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
-    document.getElementById('payBreakdown').innerHTML = `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;text-align:left;">
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;">
-          <div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Principal & Interest</div>
-          <div style="font-size:1.1rem;font-weight:900;color:var(--white);">$${Math.round(principal).toLocaleString()}/mo</div>
-        </div>
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;">
-          <div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Property Tax</div>
-          <div style="font-size:1.1rem;font-weight:900;color:var(--white);">$${Math.round(propTax).toLocaleString()}/mo</div>
-        </div>
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;">
-          <div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Home Insurance</div>
-          <div style="font-size:1.1rem;font-weight:900;color:var(--white);">$150/mo</div>
-        </div>
-        ${pmi > 0 ? `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;">
-          <div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">PMI / MIP</div>
-          <div style="font-size:1.1rem;font-weight:900;color:var(--white);">$${Math.round(pmi).toLocaleString()}/mo</div>
-        </div>` : '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;"><div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">PMI</div><div style="font-size:1.1rem;font-weight:900;color:var(--teal);">None ✓</div></div>'}
-      </div>
-      <div style="background:rgba(0,201,177,0.08);border:1px solid var(--teal);border-radius:4px;padding:16px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:0.8rem;font-weight:700;color:var(--teal);letter-spacing:1px;text-transform:uppercase;">Est. Total Monthly Payment</div>
-        <div style="font-size:1.8rem;font-weight:900;color:var(--white);">$${Math.round(totalPayment).toLocaleString()}/mo</div>
-      </div>
-      <div style="font-size:0.72rem;color:var(--gray);margin-top:8px;text-align:center;">*Estimate based on 30-yr fixed. Actual rate may vary.</div>
-    `;
-
-    document.getElementById('incomeStep').style.display = 'none';
-    document.getElementById('congratsBox').style.display = 'block';
-  }
-
-  function toggleFilter(btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  function doSearch() {
-    const val = document.getElementById('navSearch').value.trim();
-    if (val) {
-      document.getElementById('listings').scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    document.getElementById('successMsg').style.display = 'block';
-    document.getElementById('leadForm').style.opacity = '0.5';
-    document.getElementById('leadForm').style.pointerEvents = 'none';
-  }
+  // Init
+  window.addEventListener('load', () => { initMap(); updateCalc(); });
   document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const el = document.querySelector(a.getAttribute('href'));
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    });
+    a.addEventListener('click', e => { e.preventDefault(); const el = document.querySelector(a.getAttribute('href')); if (el) el.scrollIntoView({ behavior: 'smooth' }); });
   });
 </script>
-
 </body>
 </html>

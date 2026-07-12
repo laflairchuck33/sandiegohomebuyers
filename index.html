@@ -732,9 +732,18 @@
             <p>We got your info and will be in touch within 24 hours.<br/>In the meantime — do you want to get pre-qualified?</p>
             <div class="prequalify-prompt">
               <p><strong>Getting pre-qualified is free</strong> and takes about 5 minutes. It shows sellers you're serious and tells you exactly what you can afford.</p>
-              <div class="prequalify-buttons">
-                <button class="btn-yes" onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')">Yes, Get Pre-Qualified →</button>
-                <button class="btn-no" onclick="document.getElementById('successMsg').querySelector('.prequalify-prompt').style.display='none';document.querySelector('.btn-no').style.display='none'">Maybe Later</button>
+              <div class="prequalify-buttons" id="prequalifyBtns">
+                <button class="btn-yes" onclick="showIncomeStep()">Yes, Get Pre-Qualified →</button>
+                <button class="btn-no" onclick="dismissPrequalify()">Maybe Later</button>
+              </div>
+              <div id="incomeStep" style="display:none;margin-top:16px;">
+                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;">Total Monthly Income for All Buyers</label>
+                <div style="display:flex;gap:10px;align-items:center;">
+                  <span style="color:var(--teal);font-size:1.2rem;font-weight:700;">$</span>
+                  <input type="number" id="monthlyIncome" placeholder="e.g. 8,500" min="0" style="flex:1;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:2px;font-size:1rem;color:var(--white);font-family:inherit;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'" />
+                </div>
+                <p style="font-size:0.78rem;color:var(--gray);margin-top:8px;">Include all sources: salary, freelance, rental income, etc.</p>
+                <button class="btn-yes" style="width:100%;margin-top:16px;" onclick="submitIncome()">Continue to Application →</button>
               </div>
             </div>
           </div>
@@ -846,6 +855,26 @@
   }
 
   window.addEventListener('load', initMap);
+
+  function showIncomeStep() {
+    document.getElementById('prequalifyBtns').style.display = 'none';
+    document.getElementById('incomeStep').style.display = 'block';
+    document.getElementById('monthlyIncome').focus();
+  }
+
+  function dismissPrequalify() {
+    document.querySelector('.prequalify-prompt').style.display = 'none';
+  }
+
+  function submitIncome() {
+    const income = document.getElementById('monthlyIncome').value;
+    if (!income) {
+      document.getElementById('monthlyIncome').style.borderColor = 'var(--teal)';
+      document.getElementById('monthlyIncome').focus();
+      return;
+    }
+    window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
+  }
 
   function toggleFilter(btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));

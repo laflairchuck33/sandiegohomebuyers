@@ -771,13 +771,12 @@
                 <p style="font-size:0.78rem;color:var(--gray);margin-top:8px;">Include all sources: salary, freelance, rental income, etc.</p>
 
                 <!-- 5. Loan Type -->
-                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;margin-top:20px;">Loan Type</label>
-                <select id="loanType" style="width:100%;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:2px;font-size:0.95rem;font-family:inherit;color:var(--white);outline:none;cursor:pointer;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'">
-                  <option value="">Select loan type...</option>
-                  <option value="conventional">🏦 Conventional</option>
-                  <option value="fha">🏛️ FHA</option>
-                  <option value="va">🎖️ VA</option>
-                </select>
+                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;margin-top:20px;">Select Your Loan Type</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" id="loanTypeGrid">
+                  <button type="button" class="loan-btn" onclick="selectLoan(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:18px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:center;">🏦 Conventional<br/><span style="font-size:0.72rem;color:var(--gray);font-weight:400;">Standard loan</span></button>
+                  <button type="button" class="loan-btn" onclick="selectLoan(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:18px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:center;">🏛️ FHA<br/><span style="font-size:0.72rem;color:var(--gray);font-weight:400;">Low down payment</span></button>
+                  <button type="button" class="loan-btn" onclick="selectLoan(this)" style="background:var(--bg2);border:1px solid var(--border);color:var(--lightgray);font-family:inherit;font-size:0.85rem;font-weight:600;padding:18px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;text-align:center;">🎖️ VA<br/><span style="font-size:0.72rem;color:var(--gray);font-weight:400;">Veterans only</span></button>
+                </div>
 
                 <!-- 4. Total Monthly Debt -->
                 <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;margin-top:20px;">Total Monthly Debt</label>
@@ -907,6 +906,17 @@
   }
 
   window.addEventListener('load', initMap);
+
+  function selectLoan(btn) {
+    document.querySelectorAll('.loan-btn').forEach(b => {
+      b.style.borderColor = 'var(--border)';
+      b.style.color = 'var(--lightgray)';
+      b.style.background = 'var(--bg2)';
+    });
+    btn.style.borderColor = 'var(--teal)';
+    btn.style.color = 'var(--teal)';
+    btn.style.background = 'rgba(0,201,177,0.08)';
+  }
 
   function selectProp(btn) {
     document.querySelectorAll('.prop-btn').forEach(b => {

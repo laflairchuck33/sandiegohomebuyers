@@ -4,185 +4,174 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>San Diego Home Buyers | Find Your Dream Home</title>
-  <meta name="description" content="Find your dream home in San Diego. Expert guidance, exclusive listings, and personalized support for every buyer." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #0d0d0d; --bg2: #141414; --card: #1e1e1e;
-      --teal: #00c9b1; --white: #ffffff; --gray: #888888;
-      --lightgray: #b0b0b0; --border: #2a2a2a;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); line-height: 1.6; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d0d0d;--bg2:#141414;--card:#1e1e1e;--teal:#00c9b1;--white:#fff;--gray:#888;--light:#b0b0b0;--border:#2a2a2a}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);line-height:1.6}
 
     /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #0a0a0a; border-bottom: 1px solid var(--border); padding: 18px 48px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-size: 1.1rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: var(--white); }
-    .nav-logo span { color: var(--teal); }
-    .nav-search { display: flex; align-items: center; background: #1a1a1a; border: 1px solid var(--border); border-radius: 4px; padding: 8px 16px; gap: 10px; margin-left: 24px; }
-    .nav-search input { background: transparent; border: none; outline: none; color: var(--white); font-size: 0.85rem; font-family: inherit; width: 220px; padding: 0; }
-    .nav-search input::placeholder { color: var(--gray); }
-    .nav-search svg { color: var(--teal); flex-shrink: 0; }
-    .nav-search button { background: var(--teal); border: none; color: #000; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 3px; cursor: pointer; font-family: inherit; }
-    .nav-links { display: flex; gap: 36px; align-items: center; }
-    .nav-links a { color: var(--lightgray); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--teal); }
-    .nav-cta { background: var(--teal) !important; color: #000 !important; padding: 10px 24px !important; border-radius: 4px !important; font-weight: 700 !important; }
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#0a0a0a;border-bottom:1px solid var(--border);padding:15px 40px;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:.95rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+    .logo span{color:var(--teal)}
+    .nav-search{display:flex;align-items:center;background:#1a1a1a;border:1px solid var(--border);border-radius:4px;padding:7px 12px;gap:8px;margin-left:18px}
+    .nav-search input{background:transparent;border:none;outline:none;color:var(--white);font-size:.82rem;font-family:inherit;width:190px}
+    .nav-search input::placeholder{color:var(--gray)}
+    .nav-search button{background:var(--teal);border:none;color:#000;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 11px;border-radius:3px;cursor:pointer;font-family:inherit}
+    .nav-links{display:flex;gap:24px;align-items:center}
+    .nav-links a{color:var(--light);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.5px;text-transform:uppercase;transition:color .2s}
+    .nav-links a:hover{color:var(--teal)}
+    .nav-cta{background:var(--teal)!important;color:#000!important;padding:8px 18px!important;border-radius:4px!important;font-weight:700!important}
 
     /* FILTER BAR */
-    .filter-bar { position: fixed; top: 72px; left: 0; right: 0; z-index: 99; background: #0f0f0f; border-bottom: 1px solid var(--border); padding: 12px 48px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .filter-btn { background: #1a1a1a; border: 1px solid var(--border); color: var(--lightgray); font-family: inherit; font-size: 0.82rem; font-weight: 600; padding: 8px 16px; border-radius: 4px; cursor: pointer; transition: border-color 0.2s, color 0.2s; white-space: nowrap; }
-    .filter-btn:hover, .filter-btn.active { border-color: var(--teal); color: var(--teal); background: rgba(0,201,177,0.08); }
-    .filter-save { background: var(--teal); border: none; color: #000; font-family: inherit; font-size: 0.82rem; font-weight: 700; padding: 8px 18px; border-radius: 4px; cursor: pointer; margin-left: auto; }
+    .fbar{position:fixed;top:62px;left:0;right:0;z-index:99;background:#0f0f0f;border-bottom:1px solid var(--border);padding:9px 40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .fbtn{background:#1a1a1a;border:1px solid var(--border);color:var(--light);font-family:inherit;font-size:.78rem;font-weight:600;padding:6px 13px;border-radius:4px;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .fbtn:hover,.fbtn.active{border-color:var(--teal);color:var(--teal);background:rgba(0,201,177,.08)}
+    .fsave{background:var(--teal);border:none;color:#000;font-family:inherit;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:4px;cursor:pointer;margin-left:auto}
 
     /* HERO */
-    .hero { min-height: 100vh; background: var(--bg); display: flex; align-items: center; padding: 155px 48px 80px; position: relative; overflow: hidden; }
-    .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.25; z-index: 0; }
-    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(13,13,13,0.5), rgba(13,13,13,0.7)); z-index: 1; }
-    .hero-content { max-width: 800px; position: relative; z-index: 2; }
-    .hero-tag { display: inline-flex; align-items: center; gap: 8px; color: var(--teal); font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 28px; }
-    .hero-tag::before { content: ''; display: block; width: 32px; height: 2px; background: var(--teal); }
-    .hero h1 { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900; line-height: 1.05; letter-spacing: -2px; color: var(--white); margin-bottom: 24px; }
-    .hero h1 span { color: var(--teal); }
-    .hero p { font-size: 1.1rem; color: var(--lightgray); max-width: 520px; margin-bottom: 48px; line-height: 1.8; }
-    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
-    .btn-primary { background: var(--teal); color: #000; padding: 16px 40px; border-radius: 4px; font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; transition: opacity 0.2s, transform 0.2s; }
-    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
-    .btn-outline { border: 1px solid var(--border); color: var(--lightgray); padding: 16px 40px; border-radius: 4px; font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
-    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+    .hero{min-height:100vh;background:var(--bg);display:flex;align-items:center;padding:148px 40px 80px;position:relative;overflow:hidden}
+    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.2;z-index:0}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,.6),rgba(13,13,13,.8));z-index:1}
+    .hero-content{max-width:780px;position:relative;z-index:2}
+    .htag{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px}
+    .htag::before{content:'';display:block;width:26px;height:2px;background:var(--teal)}
+    .hero h1{font-size:clamp(2.6rem,5vw,4.8rem);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:18px}
+    .hero h1 span{color:var(--teal)}
+    .hero p{font-size:1rem;color:var(--light);max-width:480px;margin-bottom:36px;line-height:1.8}
+    .hbtns{display:flex;gap:12px;flex-wrap:wrap}
+    .btn-p{background:var(--teal);color:#000;padding:13px 34px;border-radius:4px;font-weight:800;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:opacity .2s}
+    .btn-p:hover{opacity:.85}
+    .btn-o{border:1px solid var(--border);color:var(--light);padding:13px 34px;border-radius:4px;font-weight:600;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
+    .btn-o:hover{border-color:var(--teal);color:var(--teal)}
 
     /* STATS */
-    .stats { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 48px; display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; }
-    .stat-item { text-align: center; }
-    .stat-number { font-size: 2.8rem; font-weight: 900; color: var(--teal); line-height: 1; letter-spacing: -1px; }
-    .stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 8px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+    .stats{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:40px;display:flex;justify-content:center;gap:68px;flex-wrap:wrap}
+    .snum{font-size:2.4rem;font-weight:900;color:var(--teal);line-height:1;letter-spacing:-1px}
+    .slbl{font-size:.75rem;color:var(--gray);margin-top:6px;font-weight:500;letter-spacing:1px;text-transform:uppercase}
 
     /* SECTIONS */
-    section { padding: 100px 48px; }
-    .container { max-width: 1100px; margin: 0 auto; }
-    .section-tag { display: inline-flex; align-items: center; gap: 8px; color: var(--teal); font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
-    .section-tag::before { content: ''; display: block; width: 24px; height: 2px; background: var(--teal); }
-    .section-title { font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; color: var(--white); letter-spacing: -1px; margin-bottom: 16px; line-height: 1.1; }
-    .section-sub { font-size: 1rem; color: var(--lightgray); max-width: 520px; margin-bottom: 60px; line-height: 1.8; }
+    section{padding:72px 40px}
+    .container{max-width:1100px;margin:0 auto}
+    .stag{display:inline-flex;align-items:center;gap:7px;color:var(--teal);font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+    .stag::before{content:'';display:block;width:18px;height:2px;background:var(--teal)}
+    .stitle{font-size:clamp(1.7rem,3vw,2.6rem);font-weight:900;color:var(--white);letter-spacing:-1px;margin-bottom:12px;line-height:1.1}
+    .ssub{font-size:.92rem;color:var(--light);max-width:480px;margin-bottom:44px;line-height:1.8}
 
-    /* HOW IT WORKS */
-    .how { background: var(--bg2); }
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; }
-    .step { background: var(--card); padding: 40px 32px; transition: background 0.2s; }
-    .step:hover { background: #222; }
-    .step-num { font-size: 3rem; font-weight: 900; color: var(--teal); line-height: 1; margin-bottom: 20px; opacity: 0.6; }
-    .step h3 { font-size: 1rem; font-weight: 700; color: var(--white); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
-    .step p { font-size: 0.9rem; color: var(--gray); line-height: 1.7; }
+    /* PRE-QUAL */
+    .pqs{background:var(--bg2)}
+    .pql{display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap}
+    .pq-left{flex:1;min-width:280px}
+    .pq-right{flex:1;min-width:280px;position:sticky;top:120px}
+    .cbox{background:var(--card);border:1px solid var(--border);padding:28px}
+    .csec{margin-bottom:22px}
+    .clbl{font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;display:block}
+    .cval{font-size:1.7rem;font-weight:900;color:var(--teal);margin-bottom:7px;letter-spacing:-.5px}
+    .csubl{font-size:.7rem;color:var(--gray);margin-top:3px}
+    input[type=range]{width:100%;accent-color:var(--teal);height:4px;cursor:pointer}
+    .rlbls{display:flex;justify-content:space-between;font-size:.68rem;color:var(--gray);margin-top:3px}
+    .cinput{width:100%;padding:11px 13px;background:var(--bg);border:1px solid var(--border);border-radius:2px;font-size:.92rem;font-family:inherit;color:var(--white);outline:none;transition:border-color .2s}
+    .cinput:focus{border-color:var(--teal)}
+    .cinput::placeholder{color:var(--gray)}
+    .iwrap{display:flex;align-items:center;gap:7px}
+    .ipfx{color:var(--teal);font-size:1.05rem;font-weight:700}
+    .tg3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+    .tg2{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+    .tile{background:var(--bg2);border:1px solid var(--border);color:var(--light);font-family:inherit;padding:13px 9px;border-radius:4px;cursor:pointer;text-align:left;transition:all .2s}
+    .tile:hover{border-color:var(--teal)}
+    .tile.sel{border-color:var(--teal);background:rgba(0,201,177,.08);color:var(--teal)}
+    .ticon{font-size:1.1rem;display:block;margin-bottom:5px}
+    .tname{font-size:.8rem;font-weight:800;display:block;margin-bottom:3px;color:var(--white)}
+    .tile.sel .tname{color:var(--teal)}
+    .tdesc{font-size:.68rem;color:var(--gray);line-height:1.4;display:block}
+
+    /* RESULT */
+    .rbox{background:var(--card);border:1px solid var(--border);padding:28px}
+    .rbox h3{font-size:.9rem;font-weight:800;color:var(--white);margin-bottom:18px;letter-spacing:.5px;text-transform:uppercase}
+    .rapproved{text-align:center;background:rgba(0,201,177,.06);border:1px solid rgba(0,201,177,.2);padding:18px;margin-bottom:16px}
+    .ral{font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:5px}
+    .rap{font-size:2.2rem;font-weight:900;color:var(--white);letter-spacing:-1px}
+    .dti-lbl{font-size:.7rem;margin-top:5px}
+    .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}
+    .pitem{background:var(--bg2);border:1px solid var(--border);padding:11px}
+    .pilbl{font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:3px}
+    .pival{font-size:.95rem;font-weight:800;color:var(--white)}
+    .ptotal{background:rgba(0,201,177,.1);border:1px solid var(--teal);padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+    .ptlbl{font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--teal)}
+    .ptval{font-size:1.5rem;font-weight:900;color:var(--white)}
+    .pnote{font-size:.66rem;color:var(--gray);margin-bottom:18px}
+    .btn-gl{width:100%;background:var(--teal);color:#000;border:none;font-family:inherit;font-size:.85rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:15px;cursor:pointer;transition:opacity .2s}
+    .btn-gl:hover{opacity:.85}
+    .btn-note{font-size:.68rem;color:var(--gray);text-align:center;margin-top:7px}
+    .lform{display:none;margin-top:14px}
+    .lform input{width:100%;padding:11px 13px;background:var(--bg);border:1px solid var(--border);border-radius:2px;font-size:.88rem;font-family:inherit;color:var(--white);outline:none;margin-bottom:9px}
+    .lform input:focus{border-color:var(--teal)}
+    .lform input::placeholder{color:var(--gray)}
+    .cbox2{display:none;text-align:center;padding:22px;background:rgba(0,201,177,.06);border:1px solid var(--teal);margin-top:14px}
+    .cbox2 .emo{font-size:2.2rem;margin-bottom:8px}
+    .cbox2 h3{font-size:1.3rem;font-weight:900;color:var(--teal);margin-bottom:5px}
+    .cbox2 p{font-size:.85rem;color:var(--light);margin-bottom:7px;line-height:1.6}
 
     /* LISTINGS */
-    .listings { background: var(--bg); padding-top: 0; }
-    .listings-map-layout { display: flex; height: 620px; }
-    .listings-sidebar { width: 420px; flex-shrink: 0; overflow-y: auto; background: var(--bg2); border-right: 1px solid var(--border); }
-    .listings-sidebar::-webkit-scrollbar { width: 4px; }
-    .listings-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-    .map-container { flex: 1; position: relative; }
-    #map { width: 100%; height: 100%; }
-    .listing-card { background: var(--card); overflow: hidden; transition: background 0.2s; }
-    .listing-card:hover { background: #222; }
-    .listing-img { width: 100%; height: 200px; object-fit: cover; display: block; filter: brightness(0.85); }
-    .listing-body { padding: 20px; }
-    .listing-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
-    .listing-price { font-size: 1.5rem; font-weight: 900; color: var(--white); margin-bottom: 4px; }
-    .listing-address { font-size: 0.88rem; color: var(--lightgray); margin-bottom: 10px; }
-    .listing-meta { font-size: 0.82rem; color: var(--gray); display: flex; gap: 16px; }
+    .listings{background:var(--bg);padding-top:0}
+    .map-layout{display:flex;height:580px}
+    .lsidebar{width:360px;flex-shrink:0;overflow-y:auto;background:var(--bg2);border-right:1px solid var(--border)}
+    .lsidebar::-webkit-scrollbar{width:3px}
+    .lsidebar::-webkit-scrollbar-thumb{background:var(--border)}
+    .map-wrap{flex:1}
+    #map{width:100%;height:100%}
+    .lcard{background:var(--card);overflow:hidden;cursor:pointer;transition:background .2s;border-bottom:1px solid var(--border)}
+    .lcard:hover{background:#252525}
+    .limg{width:100%;height:170px;object-fit:cover;display:block;filter:brightness(.85)}
+    .lbody{padding:16px}
+    .ltag{font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+    .lprice{font-size:1.3rem;font-weight:900;color:var(--white);margin-bottom:3px}
+    .laddr{font-size:.82rem;color:var(--light);margin-bottom:8px}
+    .lmeta{font-size:.75rem;color:var(--gray);display:flex;gap:12px}
 
-    /* PRE-QUAL CALCULATOR */
-    .prequal-section { background: var(--bg2); }
-    .prequal-layout { display: flex; gap: 60px; align-items: flex-start; flex-wrap: wrap; }
-    .prequal-left { flex: 1; min-width: 260px; }
-    .prequal-right { flex: 1.2; min-width: 320px; }
-    .calc-box { background: var(--card); border: 1px solid var(--border); padding: 40px; }
-    .calc-field { margin-bottom: 24px; }
-    .calc-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 10px; }
-    .calc-value { font-size: 1.8rem; font-weight: 900; color: var(--teal); text-align: center; margin-bottom: 8px; }
-    .calc-value span { font-size: 0.9rem; color: var(--gray); font-weight: 400; margin-left: 6px; }
-    input[type=range] { width: 100%; accent-color: var(--teal); height: 6px; cursor: pointer; }
-    .range-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--gray); margin-top: 6px; }
-    .tile-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-    .tile-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .tile-btn { background: var(--bg2); border: 1px solid var(--border); color: var(--lightgray); font-family: inherit; font-size: 0.82rem; font-weight: 600; padding: 16px 10px; border-radius: 4px; cursor: pointer; transition: all 0.2s; text-align: left; }
-    .tile-btn:hover { border-color: var(--teal); }
-    .tile-btn.selected { border-color: var(--teal); color: var(--teal); background: rgba(0,201,177,0.08); }
-    .tile-btn .tile-icon { font-size: 1.2rem; margin-bottom: 6px; display: block; }
-    .tile-btn .tile-name { font-weight: 800; color: var(--white); display: block; margin-bottom: 4px; font-size: 0.88rem; }
-    .tile-btn.selected .tile-name { color: var(--teal); }
-    .tile-btn .tile-desc { font-size: 0.7rem; color: var(--gray); font-weight: 400; line-height: 1.5; }
-    .money-input-wrap { display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--border); padding: 12px 16px; border-radius: 2px; transition: border-color 0.2s; }
-    .money-input-wrap:focus-within { border-color: var(--teal); }
-    .money-input-wrap span { color: var(--teal); font-size: 1.1rem; font-weight: 700; }
-    .money-input-wrap input { background: transparent; border: none; outline: none; color: var(--white); font-size: 1rem; font-family: inherit; width: 100%; }
-    .money-input-wrap input::placeholder { color: var(--gray); }
+    /* HOW */
+    .how{background:var(--bg2)}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px}
+    .step{background:var(--card);padding:32px 26px;transition:background .2s}
+    .step:hover{background:#222}
+    .snum{font-size:2.6rem;font-weight:900;color:var(--teal);opacity:.5;line-height:1;margin-bottom:14px}
+    .step h3{font-size:.86rem;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+    .step p{font-size:.85rem;color:var(--gray);line-height:1.7}
 
-    /* RESULT BOX */
-    .result-box { background: var(--card); border: 1px solid var(--border); padding: 40px; position: sticky; top: 140px; }
-    .result-box h3 { font-size: 1rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; }
-    .result-approved { text-align: center; margin-bottom: 28px; }
-    .result-approved-label { font-size: 0.78rem; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
-    .result-approved-price { font-size: 3rem; font-weight: 900; color: var(--white); letter-spacing: -2px; line-height: 1; }
-    .result-approved-price.updated { color: var(--teal); }
-    .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-    .pay-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 3px; padding: 12px; }
-    .pay-item-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); margin-bottom: 4px; }
-    .pay-item-value { font-size: 1rem; font-weight: 900; color: var(--white); }
-    .pay-total { background: rgba(0,201,177,0.08); border: 1px solid var(--teal); border-radius: 3px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .pay-total-label { font-size: 0.75rem; font-weight: 700; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; }
-    .pay-total-value { font-size: 1.6rem; font-weight: 900; color: var(--white); }
-    .pay-note { font-size: 0.7rem; color: var(--gray); text-align: center; margin-bottom: 24px; }
-    .btn-getletter { width: 100%; background: var(--teal); color: #000; border: none; font-family: inherit; font-size: 0.9rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 18px; cursor: pointer; transition: opacity 0.2s; margin-bottom: 8px; }
-    .btn-getletter:hover { opacity: 0.85; }
-    .btn-note { font-size: 0.72rem; color: var(--gray); text-align: center; }
-
-    /* LETTER FORM */
-    .letter-form { display: none; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
-    .letter-form input { width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 2px; font-size: 0.9rem; font-family: inherit; color: var(--white); outline: none; margin-bottom: 10px; transition: border-color 0.2s; }
-    .letter-form input:focus { border-color: var(--teal); }
-    .letter-form input::placeholder { color: var(--gray); }
-
-    /* CONGRATS */
-    .congrats-box { display: none; text-align: center; padding: 32px 24px; }
-    .congrats-box .emoji { font-size: 3rem; margin-bottom: 12px; }
-    .congrats-box h3 { font-size: 1.6rem; font-weight: 900; color: var(--teal); margin-bottom: 6px; }
-    .congrats-box p { font-size: 0.9rem; color: var(--lightgray); margin-bottom: 20px; }
-
-    /* TESTIMONIALS */
-    .testimonials { background: var(--bg); }
-    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; }
-    .testi-card { background: var(--card); padding: 36px; }
-    .testi-stars { color: var(--teal); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 20px; }
-    .testi-text { font-size: 0.95rem; color: var(--lightgray); line-height: 1.8; margin-bottom: 24px; font-style: italic; }
-    .testi-author { font-weight: 700; font-size: 0.88rem; color: var(--white); }
-    .testi-location { font-size: 0.78rem; color: var(--gray); margin-top: 4px; }
+    /* TESTI */
+    .testi{background:var(--bg)}
+    .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px}
+    .tcard{background:var(--card);padding:28px}
+    .tstars{color:var(--teal);font-size:.85rem;letter-spacing:2px;margin-bottom:14px}
+    .ttext{font-size:.88rem;color:var(--light);line-height:1.8;margin-bottom:18px;font-style:italic}
+    .tauth{font-weight:700;font-size:.82rem;color:var(--white)}
+    .tloc{font-size:.72rem;color:var(--gray);margin-top:2px}
 
     /* CONTACT */
-    .contact { background: var(--bg2); }
-    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2px; margin-top: 48px; }
-    .contact-card { background: var(--card); padding: 36px 28px; text-align: center; }
-    .contact-icon { font-size: 1.8rem; margin-bottom: 16px; }
-    .contact-card h4 { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
-    .contact-card a, .contact-card span { color: var(--lightgray); text-decoration: none; font-size: 0.9rem; }
-    .contact-card a:hover { color: var(--teal); }
+    .contact{background:var(--bg2)}
+    .cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:2px;margin-top:36px}
+    .ccard{background:var(--card);padding:24px;text-align:center}
+    .cico{font-size:1.5rem;margin-bottom:10px}
+    .ccard h4{font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+    .ccard a,.ccard span{color:var(--light);text-decoration:none;font-size:.85rem}
+    .ccard a:hover{color:var(--teal)}
 
-    footer { background: #0a0a0a; border-top: 1px solid var(--border); text-align: center; padding: 32px 24px; font-size: 0.8rem; color: var(--gray); }
-    footer a { color: var(--teal); text-decoration: none; }
+    footer{background:#0a0a0a;border-top:1px solid var(--border);text-align:center;padding:24px;font-size:.75rem;color:var(--gray)}
+    footer a{color:var(--teal);text-decoration:none}
 
-    @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      .nav-links, .nav-search { display: none; }
-      .filter-bar { top: 57px; padding: 8px 16px; gap: 8px; }
-      .filter-save { margin-left: 0; }
-      .hero { padding: 120px 24px 60px; }
-      section { padding: 60px 24px; }
-      .stats { gap: 32px; padding: 32px 24px; }
-      .tile-grid-3 { grid-template-columns: 1fr; }
-      .result-box { position: static; }
+    @media(max-width:768px){
+      nav{padding:12px 16px}
+      .nav-links,.nav-search{display:none}
+      .fbar{top:52px;padding:7px 14px}
+      .hero{padding:126px 18px 56px}
+      section{padding:54px 18px}
+      .pq-right{position:static}
+      .map-layout{flex-direction:column;height:auto}
+      .lsidebar{width:100%;height:300px}
+      #map{height:280px}
     }
   </style>
 </head>
@@ -190,10 +179,10 @@
 
 <!-- NAV -->
 <nav>
-  <div style="display:flex;align-items:center;">
-    <div class="nav-logo">San Diego <span>Home Buyers</span></div>
+  <div style="display:flex;align-items:center">
+    <div class="logo">San Diego <span>Home Buyers</span></div>
     <div class="nav-search">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00c9b1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input type="text" placeholder="Search city, neighborhood, zip..." id="navSearch" onkeydown="if(event.key==='Enter')doSearch()" />
       <button onclick="doSearch()">Search</button>
     </div>
@@ -207,13 +196,13 @@
 </nav>
 
 <!-- FILTER BAR -->
-<div class="filter-bar">
-  <button class="filter-btn active" onclick="toggleFilter(this)">For Sale ▾</button>
-  <button class="filter-btn" onclick="toggleFilter(this)">Price ▾</button>
-  <button class="filter-btn" onclick="toggleFilter(this)">Beds / Baths ▾</button>
-  <button class="filter-btn" onclick="toggleFilter(this)">Home Type ▾</button>
-  <button class="filter-btn" onclick="toggleFilter(this)">Filters ▾</button>
-  <button class="filter-save">💾 Save Search</button>
+<div class="fbar">
+  <button class="fbtn active" onclick="toggleFilter(this)">For Sale ▾</button>
+  <button class="fbtn" onclick="toggleFilter(this)">Price ▾</button>
+  <button class="fbtn" onclick="toggleFilter(this)">Beds / Baths ▾</button>
+  <button class="fbtn" onclick="toggleFilter(this)">Home Type ▾</button>
+  <button class="fbtn" onclick="toggleFilter(this)">Filters ▾</button>
+  <button class="fsave">💾 Save Search</button>
 </div>
 
 <!-- HERO -->
@@ -223,250 +212,216 @@
   </video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-tag">San Diego's Trusted Home Buyer Guide</div>
+    <div class="htag">San Diego's Trusted Home Buyer Guide</div>
     <h1>Find Your Dream<br/>Home in <span>San Diego</span></h1>
     <p>Expert guidance, exclusive listings, and personalized support — from your first search to the keys in your hand.</p>
-    <div class="hero-buttons">
-      <a href="#prequal" class="btn-primary">Get Pre-Approved Free</a>
-      <a href="#listings" class="btn-outline">Browse Listings</a>
+    <div class="hbtns">
+      <a href="#prequal" class="btn-p">Get Pre-Approved Free</a>
+      <a href="#listings" class="btn-o">Browse Listings</a>
     </div>
   </div>
 </section>
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Homes Sold</div></div>
-  <div class="stat-item"><div class="stat-number">98%</div><div class="stat-label">Client Satisfaction</div></div>
-  <div class="stat-item"><div class="stat-number">15+</div><div class="stat-label">Years Experience</div></div>
-  <div class="stat-item"><div class="stat-number">$0</div><div class="stat-label">Buyer Agent Fee</div></div>
+  <div><div class="snum">500+</div><div class="slbl">Homes Sold</div></div>
+  <div><div class="snum">98%</div><div class="slbl">Client Satisfaction</div></div>
+  <div><div class="snum">15+</div><div class="slbl">Years Experience</div></div>
+  <div><div class="snum">$0</div><div class="slbl">Buyer Agent Fee</div></div>
 </div>
 
 <!-- PRE-QUAL CALCULATOR -->
-<section class="prequal-section" id="prequal">
+<section class="pqs" id="prequal">
   <div class="container">
-    <div class="section-tag">Instant Pre-Qualification</div>
-    <h2 class="section-title">How Much Can You Afford?</h2>
-    <p class="section-sub">No sign-up required. Get your estimated payment and pre-approval amount instantly.</p>
-    <div class="prequal-layout">
+    <div class="stag">Instant Pre-Qualification</div>
+    <h2 class="stitle">What Can You Afford?</h2>
+    <p class="ssub">Get your estimated payment and pre-approval amount instantly — no account needed.</p>
+    <div class="pql">
 
-      <!-- LEFT: INPUTS -->
-      <div class="prequal-left">
-        <div class="calc-box">
+      <!-- LEFT -->
+      <div class="pq-left">
+        <div class="cbox">
 
-          <!-- 1. Home Price -->
-          <div class="calc-field">
-            <label class="calc-label">1. Target Home Price</label>
-            <div class="calc-value" id="priceDisplay">$500,000</div>
+          <div class="csec">
+            <span class="clbl">Target Home Price</span>
+            <div class="cval" id="priceDisplay">$500,000</div>
             <input type="range" id="homePrice" min="200000" max="2000000" step="25000" value="500000" oninput="updateCalc()" />
-            <div class="range-labels"><span>$200k</span><span>$1M</span><span>$2M</span></div>
+            <div class="rlbls"><span>$200k</span><span>$1M</span><span>$2M</span></div>
           </div>
 
-          <!-- 2. Down Payment -->
-          <div class="calc-field">
-            <label class="calc-label">2. Down Payment</label>
-            <div class="calc-value" id="downDisplay">10% <span id="downDollarDisplay">($50,000)</span></div>
+          <div class="csec">
+            <span class="clbl">Down Payment</span>
+            <div class="cval" id="downDisplay">10% <span style="font-size:.95rem;color:var(--gray)">($50,000)</span></div>
             <input type="range" id="downPayment" min="3" max="99" step="1" value="10" oninput="updateCalc()" />
-            <div class="range-labels"><span>3%</span><span>20%</span><span>50%</span><span>99%</span></div>
+            <div class="rlbls"><span>3%</span><span>20%</span><span>50%</span><span>99%</span></div>
           </div>
 
-          <!-- 3. Monthly Income -->
-          <div class="calc-field">
-            <label class="calc-label">3. Total Monthly Income (All Buyers)</label>
-            <div class="money-input-wrap">
-              <span>$</span>
-              <input type="number" id="monthlyIncome" placeholder="e.g. 8,500" min="0" oninput="updateCalc()" />
+          <div class="csec">
+            <span class="clbl">Total Monthly Income (All Buyers)</span>
+            <div class="iwrap">
+              <span class="ipfx">$</span>
+              <input type="number" id="monthlyIncome" class="cinput" placeholder="e.g. 8,500" min="0" oninput="updateCalc()" />
             </div>
-            <div style="font-size:0.72rem;color:var(--gray);margin-top:6px;">Salary, freelance, rental income, etc.</div>
+            <div class="csubl">Salary, freelance, rental income, etc.</div>
           </div>
 
-          <!-- 4. Monthly Debt -->
-          <div class="calc-field">
-            <label class="calc-label">4. Total Monthly Debt</label>
-            <div class="money-input-wrap">
-              <span>$</span>
-              <input type="number" id="monthlyDebt" placeholder="e.g. 1,200" min="0" oninput="updateCalc()" />
+          <div class="csec">
+            <span class="clbl">Total Monthly Debt</span>
+            <div class="iwrap">
+              <span class="ipfx">$</span>
+              <input type="number" id="monthlyDebt" class="cinput" placeholder="e.g. 1,200" min="0" oninput="updateCalc()" />
             </div>
-            <div style="font-size:0.72rem;color:var(--gray);margin-top:6px;">Car payments, student loans, credit cards, etc.</div>
+            <div class="csubl">Car payments, student loans, credit cards, etc.</div>
           </div>
 
-          <!-- 5. Loan Type -->
-          <div class="calc-field">
-            <label class="calc-label">5. Select Your Loan Type</label>
-            <div class="tile-grid-3">
-              <button class="tile-btn selected" onclick="selectTile(this,'loan')" data-val="conventional">
-                <span class="tile-icon">🏦</span>
-                <span class="tile-name">Conventional</span>
-                <span class="tile-desc">620+ credit. Down as low as 3%. No upfront MIP.</span>
+          <div class="csec">
+            <span class="clbl">Select Loan Type</span>
+            <div class="tg3" id="loanGrid">
+              <button class="tile sel" onclick="selectTile(this,'loan')" data-val="conventional">
+                <span class="ticon">🏦</span><span class="tname">Conventional</span>
+                <span class="tdesc">620+ credit. As low as 3% down. No upfront MIP.</span>
               </button>
-              <button class="tile-btn" onclick="selectTile(this,'loan')" data-val="fha">
-                <span class="tile-icon">🏛️</span>
-                <span class="tile-name">FHA</span>
-                <span class="tile-desc">580+ credit. Down as low as 3.5%. Flexible requirements.</span>
+              <button class="tile" onclick="selectTile(this,'loan')" data-val="fha">
+                <span class="ticon">🏛️</span><span class="tname">FHA</span>
+                <span class="tdesc">First-time buyers. 3.5% down. Flexible credit (580+).</span>
               </button>
-              <button class="tile-btn" onclick="selectTile(this,'loan')" data-val="va">
-                <span class="tile-icon">🎖️</span>
-                <span class="tile-name">VA</span>
-                <span class="tile-desc">Veterans only. Zero down. No PMI. Best rates.</span>
+              <button class="tile" onclick="selectTile(this,'loan')" data-val="va">
+                <span class="ticon">🎖️</span><span class="tname">VA</span>
+                <span class="tdesc">Veterans & military. Zero down. No PMI. Best rates.</span>
               </button>
             </div>
           </div>
 
-          <!-- 6. Property Type -->
-          <div class="calc-field" style="margin-bottom:0;">
-            <label class="calc-label">6. Property Type</label>
-            <div class="tile-grid-2">
-              <button class="tile-btn selected" onclick="selectTile(this,'prop')" data-val="sfr">
-                <span class="tile-icon">🏠</span>
-                <span class="tile-name">Single Family</span>
-                <span class="tile-desc">SFR</span>
+          <div class="csec">
+            <span class="clbl">Property Type</span>
+            <div class="tg2" id="propGrid">
+              <button class="tile sel" onclick="selectTile(this,'prop')" data-val="sfr">
+                <span class="ticon">🏠</span><span class="tname">Single Family</span><span class="tdesc">SFR</span>
               </button>
-              <button class="tile-btn" onclick="selectTile(this,'prop')" data-val="condo">
-                <span class="tile-icon">🏢</span>                <span class="tile-name">Condo</span>
-                <span class="tile-desc">Condo/Townhome</span>
+              <button class="tile" onclick="selectTile(this,'prop')" data-val="condo">
+                <span class="ticon">🏢</span><span class="tname">Condo</span><span class="tdesc">Condo / Townhome (+$450 HOA est.)</span>
               </button>
-              <button class="tile-btn" onclick="selectTile(this,'prop')" data-val="multi">
-                <span class="tile-icon">🏘️</span>
-                <span class="tile-name">Multi-Unit</span>
-                <span class="tile-desc">2–4 Units</span>
+              <button class="tile" onclick="selectTile(this,'prop')" data-val="multi">
+                <span class="ticon">🏘️</span><span class="tname">Multi-Unit</span><span class="tdesc">2–4 Units</span>
               </button>
-              <button class="tile-btn" onclick="selectTile(this,'prop')" data-val="mfg">
-                <span class="tile-icon">🏗️</span>
-                <span class="tile-name">Manufactured</span>
-                <span class="tile-desc">Mobile/Manufactured</span>
+              <button class="tile" onclick="selectTile(this,'prop')" data-val="mfg">
+                <span class="ticon">🏗️</span><span class="tname">Manufactured</span><span class="tdesc">Mobile / Manufactured</span>
               </button>
             </div>
           </div>
 
-        </div><!-- /calc-box -->
-      </div><!-- /prequal-left -->
+        </div>
+      </div>
 
-      <!-- RIGHT: RESULT -->
-      <div class="prequal-right">
-        <div class="result-box">
+      <!-- RIGHT -->
+      <div class="pq-right">
+        <div class="rbox">
           <h3>📊 Your Estimate</h3>
 
-          <div class="result-approved">
-            <div class="result-approved-label">Pre-Approved Up To</div>
-            <div class="result-approved-price" id="approvedPrice">$500,000</div>
-            <div id="dtiLabel" style="font-size:0.72rem;color:var(--gray);margin-top:6px;">Enter income to see your max</div>
+          <div class="rapproved">
+            <div class="ral">Pre-Approved Up To</div>
+            <div class="rap" id="approvedPrice">$500,000</div>
+            <div class="dti-lbl" id="dtiLabel" style="color:var(--gray)">Enter your income to check qualification</div>
           </div>
 
-          <div class="pay-grid">
-            <div class="pay-item"><div class="pay-item-label">Principal & Interest</div><div class="pay-item-value" id="piDisplay">—</div></div>
-            <div class="pay-item"><div class="pay-item-label">Property Tax</div><div class="pay-item-value" id="taxDisplay">—</div></div>
-            <div class="pay-item"><div class="pay-item-label">Home Insurance</div><div class="pay-item-value" id="insDisplay">$150</div></div>
-            <div class="pay-item"><div class="pay-item-label">PMI / MIP</div><div class="pay-item-value" id="pmiDisplay">—</div></div>
-            <div class="pay-item" id="hoaRow" style="display:none;"><div class="pay-item-label">HOA (est.)</div><div class="pay-item-value" id="hoaDisplay">$400/mo</div></div>
+          <div class="pgrid">
+            <div class="pitem"><div class="pilbl">Principal & Interest</div><div class="pival" id="piDisplay">—</div></div>
+            <div class="pitem"><div class="pilbl">Property Tax</div><div class="pival" id="taxDisplay">—</div></div>
+            <div class="pitem"><div class="pilbl">Home Insurance</div><div class="pival" id="insDisplay">$150/mo</div></div>
+            <div class="pitem"><div class="pilbl">PMI / MIP</div><div class="pival" id="pmiDisplay">—</div></div>
+            <div class="pitem" id="hoaRow" style="display:none"><div class="pilbl">HOA (est.)</div><div class="pival" id="hoaDisplay">$450/mo</div></div>
           </div>
 
-          <div class="pay-total">
-            <div class="pay-total-label">Est. Monthly Payment</div>
-            <div class="pay-total-value" id="totalDisplay">—</div>
+          <div class="ptotal">
+            <div class="ptlbl">Est. Monthly Payment</div>
+            <div class="ptval" id="totalDisplay">—</div>
           </div>
-
-          <div class="pay-note">*30-yr fixed estimate. Actual rate may vary.</div>
+          <div class="pnote">*30-yr fixed estimate. Rate assumptions: Conv 7%, FHA 6.5%, VA 6.25%. Actual rate may vary.</div>
 
           <!-- CTA -->
           <div id="ctaArea">
-            <button class="btn-getletter" onclick="showLetterForm()">🏠 Get My Pre-Approval Letter</button>
+            <button class="btn-gl" onclick="showLetterForm()">🏠 Get My Pre-Approval Letter</button>
             <div class="btn-note">🔒 Free · No hard credit pull · Takes 2 min</div>
           </div>
 
           <!-- LETTER FORM -->
-          <div class="letter-form" id="letterForm">
-            <div style="font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:14px;">Enter your info to get your official letter:</div>
+          <div class="lform" id="letterForm">
+            <div style="font-size:.82rem;font-weight:700;color:var(--white);margin-bottom:12px">Enter your info to get your official letter:</div>
             <input type="text" id="lfName" placeholder="Full Name *" />
             <input type="email" id="lfEmail" placeholder="Email Address *" />
             <input type="tel" id="lfPhone" placeholder="Phone Number" />
-            <button class="btn-getletter" style="margin-top:4px;" onclick="submitLetter()">Send My Pre-Approval Letter →</button>
-            <div class="btn-note" style="margin-top:8px;">🔒 Your info is private and never shared.</div>
+            <button class="btn-gl" onclick="submitLetter()">Send My Pre-Approval Letter →</button>
+            <div class="btn-note" style="margin-top:7px">🔒 Your info is private and never shared.</div>
           </div>
 
           <!-- CONGRATS -->
-          <div class="congrats-box" id="congratsBox">
-            <div class="emoji">🎉</div>
+          <div class="cbox2" id="congratsBox">
+            <div class="emo">🎉</div>
             <h3>Congratulations!</h3>
             <p>You are Pre-Approved up to</p>
-            <div style="font-size:2.8rem;font-weight:900;color:var(--white);letter-spacing:-1px;margin-bottom:16px;" id="congratsPrice">$500,000</div>
-            <p style="margin-bottom:24px;">Your pre-approval letter is on its way! Complete your official application to lock in your rate.</p>
-            <button class="btn-getletter" onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')">📝 Complete My Application →</button>
+            <div style="font-size:2.4rem;font-weight:900;color:var(--white);letter-spacing:-1px;margin-bottom:14px" id="congratsPrice">$500,000</div>
+            <p style="margin-bottom:20px">Your request is submitted! Complete your official application to lock in your rate.</p>
+            <button class="btn-gl" onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')">📝 Complete My Application →</button>
           </div>
-
-        </div><!-- /result-box -->
-      </div><!-- /prequal-right -->
-
-    </div><!-- /prequal-layout -->
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- LISTINGS -->
 <section class="listings" id="listings">
-  <div class="container" style="max-width:100%;padding:0 48px;">
-    <div style="padding:60px 0 32px;">
-      <div class="section-tag">Available Now</div>
-      <h2 class="section-title">Featured Listings</h2>
-      <p class="section-sub">Hand-picked homes across San Diego's most sought-after neighborhoods.</p>
+  <div class="container" style="max-width:100%;padding:0 40px">
+    <div style="padding:56px 0 28px">
+      <div class="stag">Available Now</div>
+      <h2 class="stitle">Featured Listings</h2>
+      <p class="ssub">Hand-picked homes across San Diego's most sought-after neighborhoods.</p>
     </div>
   </div>
-  <div class="listings-map-layout">
-    <div class="listings-sidebar">
-      <div class="listing-card" onclick="focusPin(0)" style="cursor:pointer;border-bottom:1px solid var(--border);">
-        <img class="listing-img" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Chula Vista" />
-        <div class="listing-body">
-          <div class="listing-tag">For Sale</div>
-          <div class="listing-price">$749,000</div>
-          <div class="listing-address">Chula Vista, CA 91914</div>
-          <div class="listing-meta"><span>🛏 4 Beds</span><span>🚿 3 Baths</span><span>📐 2,100 sqft</span></div>
-        </div>
+  <div class="map-layout">
+    <div class="lsidebar">
+      <div class="lcard" onclick="focusPin(0)">
+        <img class="limg" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Chula Vista" />
+        <div class="lbody"><div class="ltag">For Sale</div><div class="lprice">$749,000</div><div class="laddr">Chula Vista, CA 91914</div><div class="lmeta"><span>🛏 4 Beds</span><span>🚿 3 Baths</span><span>📐 2,100 sqft</span></div></div>
       </div>
-      <div class="listing-card" onclick="focusPin(1)" style="cursor:pointer;border-bottom:1px solid var(--border);">
-        <img class="listing-img" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80" alt="Eastlake" />
-        <div class="listing-body">
-          <div class="listing-tag">For Sale</div>
-          <div class="listing-price">$895,000</div>
-          <div class="listing-address">Eastlake, CA 91915</div>
-          <div class="listing-meta"><span>🛏 5 Beds</span><span>🚿 3 Baths</span><span>📐 2,650 sqft</span></div>
-        </div>
+      <div class="lcard" onclick="focusPin(1)">
+        <img class="limg" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80" alt="Eastlake" />
+        <div class="lbody"><div class="ltag">For Sale</div><div class="lprice">$895,000</div><div class="laddr">Eastlake, CA 91915</div><div class="lmeta"><span>🛏 5 Beds</span><span>🚿 3 Baths</span><span>📐 2,650 sqft</span></div></div>
       </div>
-      <div class="listing-card" onclick="focusPin(2)" style="cursor:pointer;">
-        <img class="listing-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Otay Ranch" />
-        <div class="listing-body">
-          <div class="listing-tag">For Sale</div>
-          <div class="listing-price">$629,000</div>
-          <div class="listing-address">Otay Ranch, CA 91913</div>
-          <div class="listing-meta"><span>🛏 3 Beds</span><span>🚿 2 Baths</span><span>📐 1,750 sqft</span></div>
-        </div>
+      <div class="lcard" onclick="focusPin(2)" style="border-bottom:none">
+        <img class="limg" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Otay Ranch" />
+        <div class="lbody"><div class="ltag">For Sale</div><div class="lprice">$629,000</div><div class="laddr">Otay Ranch, CA 91913</div><div class="lmeta"><span>🛏 3 Beds</span><span>🚿 2 Baths</span><span>📐 1,750 sqft</span></div></div>
       </div>
     </div>
-    <div class="map-container"><div id="map"></div></div>
+    <div class="map-wrap"><div id="map"></div></div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
 <section class="how" id="how">
   <div class="container">
-    <div class="section-tag">Simple Process</div>
-    <h2 class="section-title">How It Works</h2>
-    <p class="section-sub">We make buying a home in San Diego straightforward — no stress, no surprises.</p>
+    <div class="stag">Simple Process</div>
+    <h2 class="stitle">How It Works</h2>
+    <p class="ssub">We make buying a home in San Diego straightforward — no stress, no surprises.</p>
     <div class="steps">
-      <div class="step"><div class="step-num">01</div><h3>Tell Us What You Want</h3><p>Share your budget, preferred neighborhoods, and must-haves. We listen first.</p></div>
-      <div class="step"><div class="step-num">02</div><h3>Get Matched to Listings</h3><p>We curate the best available homes — including off-market deals you won't find on Zillow.</p></div>
-      <div class="step"><div class="step-num">03</div><h3>Tour & Make an Offer</h3><p>Schedule tours on your schedule. We advise on pricing and negotiate hard on your behalf.</p></div>
-      <div class="step"><div class="step-num">04</div><h3>Close & Get Your Keys</h3><p>We handle every detail so closing day is smooth, fast, and stress-free.</p></div>
+      <div class="step"><div class="snum">01</div><h3>Tell Us What You Want</h3><p>Share your budget, preferred neighborhoods, and must-haves.</p></div>
+      <div class="step"><div class="snum">02</div><h3>Get Matched to Listings</h3><p>We curate the best homes including off-market deals.</p></div>
+      <div class="step"><div class="snum">03</div><h3>Tour & Make an Offer</h3><p>We advise on pricing and negotiate hard on your behalf.</p></div>
+      <div class="step"><div class="snum">04</div><h3>Close & Get Your Keys</h3><p>We handle every detail so closing day is smooth.</p></div>
     </div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="testimonials">
+<section class="testi">
   <div class="container">
-    <div class="section-tag">Client Stories</div>
-    <h2 class="section-title">Real Results</h2>
-    <p class="section-sub">Hundreds of San Diego families found their perfect home with our help.</p>
-    <div class="testi-grid">
-      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"They found us our dream home in Eastlake in under 3 weeks. The process was seamless!"</p><div class="testi-author">Marcus & Deja T.</div><div class="testi-location">Eastlake, San Diego</div></div>
-      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"As a first-time buyer I was nervous, but they walked me through every step. Closed in 30 days!"</p><div class="testi-author">Priya M.</div><div class="testi-location">Chula Vista, San Diego</div></div>
-      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Got access to listings that weren't even on Zillow. Incredible service, highly recommend!"</p><div class="testi-author">Kevin R.</div><div class="testi-location">Otay Ranch, San Diego</div></div>
+    <div class="stag">Client Stories</div>
+    <h2 class="stitle">Real Results</h2>
+    <p class="ssub">Hundreds of San Diego families found their perfect home with our help.</p>
+    <div class="tgrid">
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"They found us our dream home in Eastlake in under 3 weeks. The process was seamless!"</p><div class="tauth">Marcus & Deja T.</div><div class="tloc">Eastlake, San Diego</div></div>
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"As a first-time buyer I was nervous, but they walked me through every step. Closed in 30 days!"</p><div class="tauth">Priya M.</div><div class="tloc">Chula Vista, San Diego</div></div>
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"Got access to listings not even on Zillow. Incredible service, highly recommend!"</p><div class="tauth">Kevin R.</div><div class="tloc">Otay Ranch, San Diego</div></div>
     </div>
   </div>
 </section>
@@ -474,14 +429,14 @@
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="container">
-    <div class="section-tag">Reach Us</div>
-    <h2 class="section-title">Get In Touch</h2>
-    <p class="section-sub">Have questions? We're here to help.</p>
-    <div class="contact-grid">
-      <div class="contact-card"><div class="contact-icon">📞</div><h4>Call or Text</h4><a href="tel:+16192573708">(619) 257-3708</a></div>
-      <div class="contact-card"><div class="contact-icon">✉️</div><h4>Email</h4><a href="mailto:info@sandiegohomebuyers.org">info@sandiegohomebuyers.org</a></div>
-      <div class="contact-card"><div class="contact-icon">📍</div><h4>Location</h4><span>Chula Vista, CA 91914</span></div>
-      <div class="contact-card"><div class="contact-icon">🕐</div><h4>Hours</h4><span>Mon–Sat: 8AM – 7PM</span></div>
+    <div class="stag">Reach Us</div>
+    <h2 class="stitle">Get In Touch</h2>
+    <p class="ssub">Have questions? We're here to help.</p>
+    <div class="cgrid">
+      <div class="ccard"><div class="cico">📞</div><h4>Call or Text</h4><a href="tel:+16192573708">(619) 257-3708</a></div>
+      <div class="ccard"><div class="cico">✉️</div><h4>Email</h4><a href="mailto:info@sandiegohomebuyers.org">info@sandiegohomebuyers.org</a></div>
+      <div class="ccard"><div class="cico">📍</div><h4>Location</h4><span>Chula Vista, CA 91914</span></div>
+      <div class="ccard"><div class="cico">🕐</div><h4>Hours</h4><span>Mon–Sat: 8AM – 7PM</span></div>
     </div>
   </div>
 </section>
@@ -491,158 +446,130 @@
 </footer>
 
 <script>
-  // ── TILE SELECTION ──
-  function selectTile(btn, group) {
-    btn.closest('.tile-grid-3, .tile-grid-2').querySelectorAll('.tile-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    updateCalc();
+// ── TILE SELECTION ──
+function selectTile(btn, group) {
+  const grid = group === 'loan' ? document.getElementById('loanGrid') : document.getElementById('propGrid');
+  grid.querySelectorAll('.tile').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  updateCalc();
+}
+
+// ── MAIN CALC ──
+function updateCalc() {
+  const price   = parseInt(document.getElementById('homePrice').value) || 500000;
+  const downPct = parseInt(document.getElementById('downPayment').value) || 10;
+  const income  = parseFloat(document.getElementById('monthlyIncome').value) || 0;
+  const debt    = parseFloat(document.getElementById('monthlyDebt').value) || 0;
+
+  const loanBtn  = document.querySelector('#loanGrid .tile.sel');
+  const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
+  const propBtn  = document.querySelector('#propGrid .tile.sel');
+  const propType = propBtn ? propBtn.dataset.val : 'sfr';
+
+  const downAmt = Math.round(price * downPct / 100);
+  const loanAmt = price - downAmt;
+  const ltv     = (loanAmt / price) * 100;
+
+  // Update sliders display
+  document.getElementById('priceDisplay').textContent = '$' + price.toLocaleString();
+  document.getElementById('downDisplay').innerHTML = downPct + '% <span style="font-size:.95rem;color:var(--gray)">($' + downAmt.toLocaleString() + ')</span>';
+  document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
+  document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
+
+  // Rate
+  const rate = loanType === 'va' ? 0.0625 : loanType === 'fha' ? 0.065 : 0.07;
+  const mo   = rate / 12;
+  const n    = 360;
+  const pi   = loanAmt > 0 ? loanAmt * (mo * Math.pow(1+mo,n)) / (Math.pow(1+mo,n)-1) : 0;
+
+  // Tax & insurance
+  const tax = (price * 0.0125) / 12;
+  const ins = 150;
+
+  // PMI
+  let pmi = 0;
+  if (loanType === 'conventional' && ltv > 80) {
+    pmi = (loanAmt * 0.0085) / 12;
+  } else if (loanType === 'fha') {
+    const mipRate = (loanAmt <= 726200 && ltv > 95) ? 0.0055 : 0.005;
+    pmi = (loanAmt * mipRate) / 12;
   }
 
-  // ── CALC ──
-  function updateCalc() {
-    const price    = parseInt(document.getElementById('homePrice').value) || 500000;
-    const downPct  = parseInt(document.getElementById('downPayment').value) || 10;
-    const income   = parseFloat(document.getElementById('monthlyIncome').value) || 0;
-    const debt     = parseFloat(document.getElementById('monthlyDebt').value) || 0;
-    const loanBtn  = document.querySelector('#prequal .tile-grid-3 .tile-btn.selected');
-    const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
+  // HOA
+  const hoa = propType === 'condo' ? 450 : 0;
+  document.getElementById('hoaRow').style.display = hoa > 0 ? 'block' : 'none';
+  document.getElementById('hoaDisplay').textContent = '$450/mo (est.)';
 
-    const downAmt  = Math.round(price * downPct / 100);
-    const loanAmt  = price - downAmt;
-    const ltv      = (loanAmt / price) * 100;
+  const total = pi + tax + ins + pmi + hoa;
 
-    // Update displays
-    document.getElementById('priceDisplay').textContent = '$' + price.toLocaleString();
-    document.getElementById('downDisplay').innerHTML = downPct + '% <span id="downDollarDisplay">($' + downAmt.toLocaleString() + ')</span>';
-    const dtiPct = Math.round(maxDTI * 100);
-    const actualDTI = income > 0 ? ((total + debt) / income) * 100 : 0;
+  // Update payment display
+  document.getElementById('piDisplay').textContent  = '$' + Math.round(pi).toLocaleString() + '/mo';
+  document.getElementById('taxDisplay').textContent  = '$' + Math.round(tax).toLocaleString() + '/mo';
+  document.getElementById('insDisplay').textContent  = '$150/mo';
+  document.getElementById('pmiDisplay').textContent  = pmi > 0 ? '$' + Math.round(pmi).toLocaleString() + '/mo' : 'None ✓';
+  document.getElementById('pmiDisplay').style.color  = pmi > 0 ? 'var(--white)' : 'var(--teal)';
+  document.getElementById('totalDisplay').textContent = '$' + Math.round(total).toLocaleString() + '/mo';
 
-    // Always show selected price as approval amount
-    document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
-    document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
-
-    // DTI label — just confirms qualification
-    if (income <= 0) {
-      document.getElementById('dtiLabel').textContent = 'Enter your monthly income to check qualification';
-      document.getElementById('dtiLabel').style.color = 'var(--gray)';
-    } else if (actualDTI > dtiPct) {
-      document.getElementById('dtiLabel').innerHTML = `⚠️ Your DTI is <strong>${actualDTI.toFixed(1)}%</strong> — above the ${dtiPct}% max for ${loanType.toUpperCase()}. Try a lower price or higher down payment.`;
+  // DTI check
+  const maxDTI = loanType === 'va' ? 0.60 : loanType === 'fha' ? 0.5699 : 0.50;
+  const dtiPct = Math.round(maxDTI * 100);
+  const loanLabel = loanType.toUpperCase();
+  if (income <= 0) {
+    document.getElementById('dtiLabel').textContent = 'Enter your income to check qualification';
+    document.getElementById('dtiLabel').style.color = 'var(--gray)';
+  } else {
+    const actualDTI = ((total + debt) / income) * 100;
+    if (actualDTI > dtiPct) {
+      document.getElementById('dtiLabel').innerHTML = '⚠️ DTI ' + actualDTI.toFixed(1) + '% — above ' + dtiPct + '% max for ' + loanLabel + '. Try a lower price or higher down payment.';
       document.getElementById('dtiLabel').style.color = '#f0a500';
     } else {
-      document.getElementById('dtiLabel').innerHTML = `✓ DTI ${actualDTI.toFixed(1)}% — within the ${dtiPct}% max for ${loanType.toUpperCase()}. You qualify!`;
+      document.getElementById('dtiLabel').innerHTML = '✓ DTI ' + actualDTI.toFixed(1) + '% — qualifies for ' + loanLabel + ' (max ' + dtiPct + '%)';
       document.getElementById('dtiLabel').style.color = 'var(--teal)';
     }
-
-    // Rate assumptions
-    const rate = loanType === 'va' ? 0.0625 : loanType === 'fha' ? 0.065 : 0.07;
-    const mo   = rate / 12;
-    const n    = 360;
-    const pi   = loanAmt * (mo * Math.pow(1 + mo, n)) / (Math.pow(1 + mo, n) - 1);
-
-    // Tax & insurance
-    const tax  = (price * 0.0125) / 12;
-    const ins  = 150;
-
-    // PMI
-    let pmi = 0;
-    if (loanType === 'conventional' && ltv > 80) {
-      pmi = (loanAmt * 0.0085) / 12;
-    } else if (loanType === 'fha') {
-      const mipRate = (loanAmt <= 726200 && ltv > 95) ? 0.0055 : 0.005;
-      pmi = (loanAmt * mipRate) / 12;
-    }
-
-    // HOA if condo
-    const propBtn = document.querySelector('#prequal .tile-btn.selected[data-val="condo"]');
-    const hoa = propBtn ? 450 : 0;
-
-    const total = pi + tax + ins + pmi + hoa;
-
-    // ── MAX APPROVAL BASED ON DTI ──
-    const maxDTI = loanType === 'va' ? 0.60 : loanType === 'fha' ? 0.5699 : 0.50;
-    const maxTotalPayment = (income * maxDTI) - debt;
-    // Fixed costs: tax + ins + hoa (these scale with price, so iterate)
-    // Solve for max loan amount iteratively
-    let maxLoan = 0;
-    if (income > 0 && maxTotalPayment > 0) {
-      // Binary search for max loan
-      let lo = 0, hi = 5000000;
-      for (let i = 0; i < 40; i++) {
-        const mid = (lo + hi) / 2;
-        const midDown = mid * (downPct / 100);
-        const midLoan = mid - midDown;
-        const midLTV  = (midLoan / mid) * 100;
-        const midMo   = rate / 12;
-        const midPI   = midLoan * (midMo * Math.pow(1 + midMo, n)) / (Math.pow(1 + midMo, n) - 1);
-        const midTax  = (mid * 0.0125) / 12;
-        const midIns  = 150;
-        const midHoa  = hoa > 0 ? 400 : 0;
-        let midPMI = 0;
-        if (loanType === 'conventional' && midLTV > 80) midPMI = (midLoan * 0.0085) / 12;
-        else if (loanType === 'fha') { const r2 = (midLoan <= 726200 && midLTV > 95) ? 0.0055 : 0.005; midPMI = (midLoan * r2) / 12; }
-        const midTotal = midPI + midTax + midIns + midHoa + midPMI + debt;
-        if (midTotal < income * maxDTI) lo = mid; else hi = mid;
-      }
-      maxLoan = Math.round(lo / 25000) * 25000; // round to nearest $25k
-    }
-
-    document.getElementById('piDisplay').textContent    = '$' + Math.round(pi).toLocaleString() + '/mo';
-    document.getElementById('taxDisplay').textContent   = '$' + Math.round(tax).toLocaleString() + '/mo';
-    document.getElementById('insDisplay').textContent   = '$150/mo';
-    document.getElementById('pmiDisplay').textContent   = pmi > 0 ? '$' + Math.round(pmi).toLocaleString() + '/mo' : 'None ✓';
-    document.getElementById('pmiDisplay').style.color   = pmi > 0 ? 'var(--white)' : 'var(--teal)';
-    document.getElementById('hoaDisplay').textContent   = hoa > 0 ? '$400/mo (est.)' : 'N/A';
-    document.getElementById('hoaDisplay').style.color   = hoa > 0 ? 'var(--white)' : 'var(--gray)';
-    document.getElementById('hoaRow').style.display     = hoa > 0 ? 'block' : 'none';
-    document.getElementById('totalDisplay').textContent = '$' + Math.round(total).toLocaleString() + '/mo';
   }
+}
 
-  // ── LETTER FORM ──
-  function showLetterForm() {
-    document.getElementById('ctaArea').style.display = 'none';
-    document.getElementById('letterForm').style.display = 'block';
+// ── LETTER FORM ──
+function showLetterForm() {
+  document.getElementById('ctaArea').style.display = 'none';
+  document.getElementById('letterForm').style.display = 'block';
+}
+function submitLetter() {
+  const name  = document.getElementById('lfName').value.trim();
+  const email = document.getElementById('lfEmail').value.trim();
+  if (!name || !email) {
+    if (!name)  document.getElementById('lfName').style.borderColor  = 'var(--teal)';
+    if (!email) document.getElementById('lfEmail').style.borderColor = 'var(--teal)';
+    return;
   }
+  document.getElementById('letterForm').style.display = 'none';
+  document.getElementById('congratsBox').style.display = 'block';
+  window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
+}
 
-  function submitLetter() {
-    const name  = document.getElementById('lfName').value.trim();
-    const email = document.getElementById('lfEmail').value.trim();
-    if (!name || !email) {
-      if (!name) document.getElementById('lfName').style.borderColor = 'var(--teal)';
-      if (!email) document.getElementById('lfEmail').style.borderColor = 'var(--teal)';
-      return;
-    }
-    document.getElementById('letterForm').style.display = 'none';
-    document.getElementById('congratsBox').style.display = 'block';
-    window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
-  }
-
-  // ── MAP ──
-  const listingsData = [
-    { lat: 32.6401, lng: -117.0842, price: '$749,000', address: 'Chula Vista, CA 91914', beds: 4, baths: 3 },
-    { lat: 32.6274, lng: -116.9637, price: '$895,000', address: 'Eastlake, CA 91915', beds: 5, baths: 3 },
-    { lat: 32.6105, lng: -116.9544, price: '$629,000', address: 'Otay Ranch, CA 91913', beds: 3, baths: 2 },
-  ];
-  let map, markers = [];
-  function initMap() {
-    map = L.map('map', { zoomControl: true }).setView([32.6280, -117.0200], 12);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19 }).addTo(map);
-    listingsData.forEach((l, i) => {
-      const icon = L.divIcon({ className: '', html: `<div style="background:#00c9b1;color:#000;font-weight:800;font-size:12px;padding:6px 10px;border-radius:4px;white-space:nowrap;font-family:Inter,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.4)">${l.price}</div>`, iconAnchor: [40, 20] });
-      const marker = L.marker([l.lat, l.lng], { icon }).addTo(map).bindPopup(`<b>${l.price}</b><br>${l.address}<br>${l.beds} bed · ${l.baths} bath`);
-      markers.push(marker);
-    });
-  }
-  function focusPin(i) { map.setView([listingsData[i].lat, listingsData[i].lng], 14, { animate: true }); markers[i].openPopup(); }
-
-  // ── FILTERS / SEARCH ──
-  function toggleFilter(btn) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-  function doSearch() { const val = document.getElementById('navSearch').value.trim(); if (val) document.getElementById('listings').scrollIntoView({ behavior: 'smooth' }); }
-
-  // Init
-  window.addEventListener('load', () => { initMap(); updateCalc(); });
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => { e.preventDefault(); const el = document.querySelector(a.getAttribute('href')); if (el) el.scrollIntoView({ behavior: 'smooth' }); });
+// ── MAP ──
+const ld = [
+  {lat:32.6401,lng:-117.0842,price:'$749,000',address:'Chula Vista, CA 91914',beds:4,baths:3},
+  {lat:32.6274,lng:-116.9637,price:'$895,000',address:'Eastlake, CA 91915',beds:5,baths:3},
+  {lat:32.6105,lng:-116.9544,price:'$629,000',address:'Otay Ranch, CA 91913',beds:3,baths:2},
+];
+let map, markers = [];
+function initMap() {
+  map = L.map('map',{zoomControl:true}).setView([32.628,-117.02],12);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
+  ld.forEach((l,i) => {
+    const icon = L.divIcon({className:'',html:`<div style="background:#00c9b1;color:#000;font-weight:800;font-size:11px;padding:5px 9px;border-radius:4px;white-space:nowrap;font-family:Inter,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.4)">${l.price}</div>`,iconAnchor:[38,18]});
+    markers.push(L.marker([l.lat,l.lng],{icon}).addTo(map).bindPopup(`<b>${l.price}</b><br>${l.address}<br>${l.beds} bed · ${l.baths} bath`));
   });
+}
+function focusPin(i){map.setView([ld[i].lat,ld[i].lng],14,{animate:true});markers[i].openPopup();}
+
+// ── MISC ──
+function toggleFilter(btn){document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function doSearch(){const v=document.getElementById('navSearch').value.trim();if(v)document.getElementById('listings').scrollIntoView({behavior:'smooth'});}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const el=document.querySelector(a.getAttribute('href'));if(el)el.scrollIntoView({behavior:'smooth'});});});
+
+window.addEventListener('load',()=>{initMap();updateCalc();});
 </script>
 </body>
 </html>

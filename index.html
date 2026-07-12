@@ -114,7 +114,7 @@
       background: var(--bg);
       display: flex;
       align-items: center;
-      padding: 120px 48px 80px;
+      padding: 155px 48px 80px;
       position: relative;
       overflow: hidden;
     }
@@ -397,10 +397,57 @@
     }
     footer a { color: var(--teal); text-decoration: none; }
 
+    /* FILTER BAR */
+    .filter-bar {
+      position: fixed;
+      top: 65px; left: 0; right: 0;
+      z-index: 99;
+      background: #0f0f0f;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 48px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      color: var(--lightgray);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .filter-btn.active { border-color: var(--teal); color: var(--teal); background: rgba(0,201,177,0.08); }
+    .filter-save {
+      background: var(--teal);
+      border: none;
+      color: #000;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: auto;
+      transition: opacity 0.2s;
+    }
+    .filter-save:hover { opacity: 0.85; }
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
       .nav-search { display: none; }
+      .filter-bar { top: 57px; padding: 8px 16px; gap: 8px; }
+      .filter-save { margin-left: 0; }
       .hero { padding: 100px 24px 60px; }
       section { padding: 70px 24px; }
       .stats { gap: 40px; padding: 40px 24px; }
@@ -428,6 +475,16 @@
     <a href="#contact-form" class="nav-cta">Get Started</a>
   </div>
 </nav>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="toggleFilter(this)">For Sale ▾</button>
+  <button class="filter-btn" onclick="toggleFilter(this)">Price ▾</button>
+  <button class="filter-btn" onclick="toggleFilter(this)">Beds / Baths ▾</button>
+  <button class="filter-btn" onclick="toggleFilter(this)">Home Type ▾</button>
+  <button class="filter-btn" onclick="toggleFilter(this)">Filters ▾</button>
+  <button class="filter-save">💾 Save Search</button>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -666,6 +723,11 @@
 </footer>
 
 <script>
+  function toggleFilter(btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
   function doSearch() {
     const val = document.getElementById('navSearch').value.trim();
     if (val) {

@@ -822,7 +822,9 @@
               <div style="font-size:1.5rem;font-weight:900;color:var(--teal);letter-spacing:-0.5px;margin-bottom:8px;">Congratulations!</div>
               <div style="font-size:1rem;color:var(--lightgray);margin-bottom:6px;">You are Pre-Approved up to</div>
               <div id="approvedPrice" style="font-size:2.8rem;font-weight:900;color:var(--white);letter-spacing:-1px;margin-bottom:20px;">$500,000</div>
-              <div style="font-size:0.85rem;color:var(--gray);margin-bottom:28px;line-height:1.6;">Complete your official application to lock in your rate<br/>and get your pre-approval letter.</div>
+              <div style="font-size:0.85rem;color:var(--gray);margin-bottom:16px;line-height:1.6;">Here's your estimated monthly payment breakdown:</div>
+              <div id="payBreakdown"></div>
+              <div style="margin-top:20px;"></div>
               <button class="btn-yes" style="width:100%;font-size:1rem;padding:18px;letter-spacing:1px;box-shadow:0 4px 24px rgba(0,201,177,0.35);" onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')">📝 Complete My Application →</button>
               <div style="font-size:0.75rem;color:var(--gray);margin-top:12px;">🔒 Secure &amp; confidential · No hard credit pull</div>
             </div>
@@ -983,13 +985,72 @@
       document.getElementById('monthlyIncome').focus();
       return;
     }
-    const price = parseInt(document.getElementById('homePrice').value) || 500000;
-    const priceFormatted = '$' + price.toLocaleString();
 
-    // Hide the flow, show congrats
+    const price     = parseInt(document.getElementById('homePrice').value) || 500000;
+    const downPct   = parseInt(document.getElementById('downPayment').value) || 10;
+    const loanType  = (document.querySelector('.loan-btn[style*="rgba(0,201,177"]') || {}).innerText || '';
+    const isVA      = loanType.includes('VA');
+    const isFHA     = loanType.includes('FHA');
+    const isConv    = loanType.includes('Conventional');
+
+    const downAmt   = Math.round(price * downPct / 100);
+    const loanAmt   = price - downAmt;
+    const ltv       = (loanAmt / price) * 100;
+
+    // Interest rate assumption
+    const rate      = isVA ? 0.0625 : isFHA ? 0.065 : 0.07;
+    const monthlyRate = rate / 12;
+    const numPayments = 360; // 30yr
+    const principal = loanAmt * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+
+    // Property tax: 1.25% annually
+    const propTax   = (price * 0.0125) / 12;
+
+    // Home insurance: $150/mo fixed
+    const insurance = 150;
+
+    // PMI logic
+    let pmi = 0;
+    if (isConv && ltv > 80) {
+      pmi = (loanAmt * 0.0085) / 12; // ~0.85% conventional PMI
+    } else if (isFHA) {
+      const mipRate = (loanAmt <= 726200 && ltv > 95) ? 0.0055 : 0.005;
+      pmi = (loanAmt * mipRate) / 12;
+    }
+    // VA: no PMI
+
+    const totalPayment = principal + propTax + insurance + pmi;
+
+    // Populate congrats
+    document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
+    document.getElementById('payBreakdown').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;text-align:left;">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;">
+          <div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Principal & Interest</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--white);">$${Math.round(principal).toLocaleString()}/mo</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;">
+          <div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Property Tax</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--white);">$${Math.round(propTax).toLocaleString()}/mo</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;">
+          <div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Home Insurance</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--white);">$150/mo</div>
+        </div>
+        ${pmi > 0 ? `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;">
+          <div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">PMI / MIP</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--white);">$${Math.round(pmi).toLocaleString()}/mo</div>
+        </div>` : '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px;"><div style="font-size:0.7rem;color:var(--gray);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">PMI</div><div style="font-size:1.1rem;font-weight:900;color:var(--teal);">None ✓</div></div>'}
+      </div>
+      <div style="background:rgba(0,201,177,0.08);border:1px solid var(--teal);border-radius:4px;padding:16px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--teal);letter-spacing:1px;text-transform:uppercase;">Est. Total Monthly Payment</div>
+        <div style="font-size:1.8rem;font-weight:900;color:var(--white);">$${Math.round(totalPayment).toLocaleString()}/mo</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--gray);margin-top:8px;text-align:center;">*Estimate based on 30-yr fixed. Actual rate may vary.</div>
+    `;
+
     document.getElementById('incomeStep').style.display = 'none';
     document.getElementById('congratsBox').style.display = 'block';
-    document.getElementById('approvedPrice').textContent = priceFormatted;
   }
 
   function toggleFilter(btn) {

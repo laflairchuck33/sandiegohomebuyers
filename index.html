@@ -761,6 +761,18 @@
                   <span>$200k</span><span>$1M</span><span>$2M</span>
                 </div>
 
+                <label style="font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px;margin-top:20px;">Down Payment</label>
+                <div style="text-align:center;margin-bottom:10px;">
+                  <span id="downLabel" style="font-size:1.6rem;font-weight:900;color:var(--teal);">10%</span>
+                  <span id="downDollar" style="font-size:0.9rem;color:var(--gray);margin-left:8px;">($50,000)</span>
+                </div>
+                <input type="range" id="downPayment" min="3" max="50" step="1" value="10"
+                  style="width:100%;accent-color:var(--teal);height:6px;cursor:pointer;"
+                  oninput="updateDown(this.value)" />
+                <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--gray);margin-top:6px;">
+                  <span>3%</span><span>10%</span><span>20%</span><span>50%</span>
+                </div>
+
                 <button class="btn-yes" style="width:100%;margin-top:20px;" onclick="submitIncome()">Continue to Application →</button>
               </div>
             </div>
@@ -873,6 +885,13 @@
   }
 
   window.addEventListener('load', initMap);
+
+  function updateDown(pct) {
+    const price = parseInt(document.getElementById('homePrice').value) || 500000;
+    const dollar = Math.round(price * pct / 100);
+    document.getElementById('downLabel').textContent = pct + '%';
+    document.getElementById('downDollar').textContent = '($' + dollar.toLocaleString() + ')';
+  }
 
   function showIncomeStep() {
     document.getElementById('prequalifyBtns').style.display = 'none';

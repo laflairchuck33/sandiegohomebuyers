@@ -376,15 +376,64 @@
     .form-note { font-size: 0.75rem; color: var(--gray); text-align: center; margin-top: 12px; }
     .success-msg {
       display: none;
-      background: rgba(0,201,177,0.1);
+      background: rgba(0,201,177,0.08);
       border: 1px solid var(--teal);
-      color: var(--teal);
-      padding: 16px;
+      color: var(--white);
+      padding: 28px 24px;
       text-align: center;
-      font-weight: 600;
-      font-size: 0.9rem;
       margin-top: 12px;
     }
+    .success-msg h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .success-msg p {
+      font-size: 0.9rem;
+      color: var(--lightgray);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .prequalify-prompt {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-top: 4px;
+    }
+    .prequalify-prompt p {
+      font-size: 0.9rem;
+      color: var(--lightgray);
+      margin-bottom: 16px;
+    }
+    .prequalify-prompt strong { color: var(--white); }
+    .prequalify-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-yes {
+      background: var(--teal);
+      color: #000;
+      border: none;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-yes:hover { opacity: 0.85; }
+    .btn-no {
+      background: transparent;
+      color: var(--gray);
+      border: 1px solid var(--border);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 12px 28px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-no:hover { color: var(--lightgray); border-color: var(--lightgray); }
 
     /* TESTIMONIALS */
     .testimonials { background: var(--bg); }
@@ -678,7 +727,17 @@
           </div>
           <button type="submit" class="form-submit">Start My Home Search</button>
           <div class="form-note">🔒 Your info is private and never shared.</div>
-          <div class="success-msg" id="successMsg">✓ Got it! We'll be in touch within 24 hours.</div>
+          <div class="success-msg" id="successMsg">
+            <h4>✓ You're all set!</h4>
+            <p>We got your info and will be in touch within 24 hours.<br/>In the meantime — do you want to get pre-qualified?</p>
+            <div class="prequalify-prompt">
+              <p><strong>Getting pre-qualified is free</strong> and takes about 5 minutes. It shows sellers you're serious and tells you exactly what you can afford.</p>
+              <div class="prequalify-buttons">
+                <button class="btn-yes" onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')">Yes, Get Pre-Qualified →</button>
+                <button class="btn-no" onclick="document.getElementById('successMsg').querySelector('.prequalify-prompt').style.display='none';document.querySelector('.btn-no').style.display='none'">Maybe Later</button>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     </div>

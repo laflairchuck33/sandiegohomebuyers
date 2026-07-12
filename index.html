@@ -501,23 +501,50 @@ function updateCalc() {
   document.getElementById('totalDisplay').textContent = '$' + Math.round(total).toLocaleString() + '/mo';
 
   // DTI qualification check
-  const maxDTI   = loanType === 'va' ? 0.60 : loanType === 'fha' ? 0.5699 : 0.50;
-  const dtiPct   = Math.round(maxDTI * 100);
   const loanName = loanType.toUpperCase();
-  const el       = document.getElementById('dtiLabel');
+  const el = document.getElementById('dtiLabel');
 
   if (income <= 0) {
     el.textContent = 'Enter your income to check qualification';
     el.style.color = 'var(--g)';
   } else {
-    const actualDTI = ((total + debt) / income) * 100;
-    if (actualDTI > dtiPct) {
-      el.innerHTML = '⚠️ DTI ' + actualDTI.toFixed(1) + '% — above ' + dtiPct + '% max for ' + loanName + '. Try a lower price or higher down payment.';
-      el.style.color = '#f0a500';
+    const frontDTI = (total / income) * 100;           // housing only
+    const backDTI  = ((total + debt) / income) * 100;  // housing + all debt
+
+    let qualified = true;
+    let msg = '';
+
+    if (loanType === 'fha') {
+      // FHA: Front End max 46.99%, Back End max 56.99%
+      if (frontDTI > 46.99) {
+        qualified = false;
+        msg = '⚠️ Front-End DTI ' + frontDTI.toFixed(1) + '% — above 46.99% FHA max. Lower the price or increase down payment.';
+      } else if (backDTI > 56.99) {
+        qualified = false;
+        msg = '⚠️ Back-End DTI ' + backDTI.toFixed(1) + '% — above 56.99% FHA max. Reduce your monthly debts.';
+      } else {
+        msg = '✓ FHA Qualifies — Front-End ' + frontDTI.toFixed(1) + '% (max 46.99%) · Back-End ' + backDTI.toFixed(1) + '% (max 56.99%)';
+      }
+    } else if (loanType === 'va') {
+      // VA: Back End max 60%
+      if (backDTI > 60) {
+        qualified = false;
+        msg = '⚠️ DTI ' + backDTI.toFixed(1) + '% — above 60% VA max. Try a lower price or reduce debts.';
+      } else {
+        msg = '✓ VA Qualifies — DTI ' + backDTI.toFixed(1) + '% (max 60%)';
+      }
     } else {
-      el.innerHTML = '✓ DTI ' + actualDTI.toFixed(1) + '% — qualifies for ' + loanName + ' (max ' + dtiPct + '%)';
-      el.style.color = 'var(--teal)';
+      // Conventional: Back End max 50%
+      if (backDTI > 50) {
+        qualified = false;
+        msg = '⚠️ DTI ' + backDTI.toFixed(1) + '% — above 50% Conventional max. Try a lower price or reduce debts.';
+      } else {
+        msg = '✓ Conventional Qualifies — DTI ' + backDTI.toFixed(1) + '% (max 50%)';
+      }
     }
+
+    el.innerHTML = msg;
+    el.style.color = qualified ? 'var(--teal)' : '#f0a500';
   }
 }
 

@@ -514,13 +514,27 @@
     // Update displays
     document.getElementById('priceDisplay').textContent = '$' + price.toLocaleString();
     document.getElementById('downDisplay').innerHTML = downPct + '% <span id="downDollarDisplay">($' + downAmt.toLocaleString() + ')</span>';
-    const displayPrice = maxLoan > 0 ? maxLoan : price;
-    document.getElementById('approvedPrice').textContent = '$' + displayPrice.toLocaleString();
-    document.getElementById('congratsPrice').textContent = '$' + displayPrice.toLocaleString();
-    // Show DTI label
     const dtiPct = Math.round(maxDTI * 100);
-    const dtiLabel = income > 0 ? `Based on ${dtiPct}% max DTI (${loanType.toUpperCase()})` : 'Enter income to see your max';
-    document.getElementById('dtiLabel').textContent = dtiLabel;
+
+    if (income <= 0) {
+      // No income entered — show selected price, prompt for income
+      document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
+      document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
+      document.getElementById('dtiLabel').textContent = 'Enter your income above to see your max approval';
+      document.getElementById('dtiLabel').style.color = 'var(--gray)';
+    } else if (maxLoan < price) {
+      // Income too low for selected price
+      document.getElementById('approvedPrice').textContent = '$' + maxLoan.toLocaleString();
+      document.getElementById('congratsPrice').textContent = '$' + maxLoan.toLocaleString();
+      document.getElementById('dtiLabel').innerHTML = `⚠️ Based on your income, max approval is <strong style="color:var(--teal)">$${maxLoan.toLocaleString()}</strong> at ${dtiPct}% DTI (${loanType.toUpperCase()}). Try lowering the price or increasing income.`;
+      document.getElementById('dtiLabel').style.color = '#f0a500';
+    } else {
+      // Income is sufficient
+      document.getElementById('approvedPrice').textContent = '$' + maxLoan.toLocaleString();
+      document.getElementById('congratsPrice').textContent = '$' + maxLoan.toLocaleString();
+      document.getElementById('dtiLabel').textContent = `✓ Approved up to $${maxLoan.toLocaleString()} based on ${dtiPct}% max DTI (${loanType.toUpperCase()})`;
+      document.getElementById('dtiLabel').style.color = 'var(--teal)';
+    }
 
     // Rate assumptions
     const rate = loanType === 'va' ? 0.0625 : loanType === 'fha' ? 0.065 : 0.07;

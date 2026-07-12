@@ -348,6 +348,7 @@
           <div class="result-approved">
             <div class="result-approved-label">Pre-Approved Up To</div>
             <div class="result-approved-price" id="approvedPrice">$500,000</div>
+            <div id="dtiLabel" style="font-size:0.72rem;color:var(--gray);margin-top:6px;">Enter income to see your max</div>
           </div>
 
           <div class="pay-grid">
@@ -513,8 +514,13 @@
     // Update displays
     document.getElementById('priceDisplay').textContent = '$' + price.toLocaleString();
     document.getElementById('downDisplay').innerHTML = downPct + '% <span id="downDollarDisplay">($' + downAmt.toLocaleString() + ')</span>';
-    document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
-    document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
+    const displayPrice = maxLoan > 0 ? maxLoan : price;
+    document.getElementById('approvedPrice').textContent = '$' + displayPrice.toLocaleString();
+    document.getElementById('congratsPrice').textContent = '$' + displayPrice.toLocaleString();
+    // Show DTI label
+    const dtiPct = Math.round(maxDTI * 100);
+    const dtiLabel = income > 0 ? `Based on ${dtiPct}% max DTI (${loanType.toUpperCase()})` : 'Enter income to see your max';
+    document.getElementById('dtiLabel').textContent = dtiLabel;
 
     // Rate assumptions
     const rate = loanType === 'va' ? 0.0625 : loanType === 'fha' ? 0.065 : 0.07;
@@ -540,6 +546,34 @@
     const hoa = propBtn ? 400 : 0;
 
     const total = pi + tax + ins + pmi + hoa;
+
+    // ── MAX APPROVAL BASED ON DTI ──
+    const maxDTI = loanType === 'va' ? 0.60 : loanType === 'fha' ? 0.5699 : 0.50;
+    const maxTotalPayment = (income * maxDTI) - debt;
+    // Fixed costs: tax + ins + hoa (these scale with price, so iterate)
+    // Solve for max loan amount iteratively
+    let maxLoan = 0;
+    if (income > 0 && maxTotalPayment > 0) {
+      // Binary search for max loan
+      let lo = 0, hi = 5000000;
+      for (let i = 0; i < 40; i++) {
+        const mid = (lo + hi) / 2;
+        const midDown = mid * (downPct / 100);
+        const midLoan = mid - midDown;
+        const midLTV  = (midLoan / mid) * 100;
+        const midMo   = rate / 12;
+        const midPI   = midLoan * (midMo * Math.pow(1 + midMo, n)) / (Math.pow(1 + midMo, n) - 1);
+        const midTax  = (mid * 0.0125) / 12;
+        const midIns  = 150;
+        const midHoa  = hoa > 0 ? 400 : 0;
+        let midPMI = 0;
+        if (loanType === 'conventional' && midLTV > 80) midPMI = (midLoan * 0.0085) / 12;
+        else if (loanType === 'fha') { const r2 = (midLoan <= 726200 && midLTV > 95) ? 0.0055 : 0.005; midPMI = (midLoan * r2) / 12; }
+        const midTotal = midPI + midTax + midIns + midHoa + midPMI + debt;
+        if (midTotal < income * maxDTI) lo = mid; else hi = mid;
+      }
+      maxLoan = Math.round(lo / 25000) * 25000; // round to nearest $25k
+    }
 
     document.getElementById('piDisplay').textContent    = '$' + Math.round(pi).toLocaleString() + '/mo';
     document.getElementById('taxDisplay').textContent   = '$' + Math.round(tax).toLocaleString() + '/mo';

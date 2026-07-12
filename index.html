@@ -355,6 +355,7 @@
             <div class="pay-item"><div class="pay-item-label">Property Tax</div><div class="pay-item-value" id="taxDisplay">—</div></div>
             <div class="pay-item"><div class="pay-item-label">Home Insurance</div><div class="pay-item-value" id="insDisplay">$150</div></div>
             <div class="pay-item"><div class="pay-item-label">PMI / MIP</div><div class="pay-item-value" id="pmiDisplay">—</div></div>
+            <div class="pay-item" id="hoaRow" style="display:none;"><div class="pay-item-label">HOA (est.)</div><div class="pay-item-value" id="hoaDisplay">$400/mo</div></div>
           </div>
 
           <div class="pay-total">
@@ -534,13 +535,20 @@
       pmi = (loanAmt * mipRate) / 12;
     }
 
-    const total = pi + tax + ins + pmi;
+    // HOA if condo
+    const propBtn = document.querySelector('#prequal .tile-btn.selected[data-val="condo"]');
+    const hoa = propBtn ? 400 : 0;
+
+    const total = pi + tax + ins + pmi + hoa;
 
     document.getElementById('piDisplay').textContent    = '$' + Math.round(pi).toLocaleString() + '/mo';
     document.getElementById('taxDisplay').textContent   = '$' + Math.round(tax).toLocaleString() + '/mo';
     document.getElementById('insDisplay').textContent   = '$150/mo';
     document.getElementById('pmiDisplay').textContent   = pmi > 0 ? '$' + Math.round(pmi).toLocaleString() + '/mo' : 'None ✓';
     document.getElementById('pmiDisplay').style.color   = pmi > 0 ? 'var(--white)' : 'var(--teal)';
+    document.getElementById('hoaDisplay').textContent   = hoa > 0 ? '$400/mo (est.)' : 'N/A';
+    document.getElementById('hoaDisplay').style.color   = hoa > 0 ? 'var(--white)' : 'var(--gray)';
+    document.getElementById('hoaRow').style.display     = hoa > 0 ? 'block' : 'none';
     document.getElementById('totalDisplay').textContent = '$' + Math.round(total).toLocaleString() + '/mo';
   }
 

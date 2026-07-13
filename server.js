@@ -109,7 +109,6 @@ function sendToFUB({ name, phone, email, callTime, calcData }) {
 
     const payload = JSON.stringify({
       source: 'SanDiegoHomeBuyers.com',
-      type: 'buyer',
       firstName,
       lastName,
       emails: [{ value: email, type: 'personal' }],

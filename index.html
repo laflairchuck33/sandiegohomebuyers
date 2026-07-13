@@ -502,7 +502,12 @@ function updateCalc() {
   // PMI / MIP
   let pmi = 0;
   if (loanType === 'conventional' && ltv > 80) {
-    pmi = (loanAmt * 0.0085) / 12;
+    let pmiRate = 0;
+    if (ltv > 95)      pmiRate = 0.0050;  // 97% LTV
+    else if (ltv > 90) pmiRate = 0.0031;  // 95% LTV
+    else if (ltv > 85) pmiRate = 0.0015;  // 90% LTV
+    else               pmiRate = 0.0010;  // 85% LTV
+    pmi = (loanAmt * pmiRate) / 12;
   } else if (loanType === 'fha') {
     const mipRate = (loanAmt <= 726200 && ltv > 95) ? 0.0055 : 0.005;
     pmi = (loanAmt * mipRate) / 12;

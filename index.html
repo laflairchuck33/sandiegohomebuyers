@@ -490,7 +490,7 @@ function updateCalc() {
   document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
 
   // Rate assumption
-  const rate = loanType === 'va' ? 0.0625 : loanType === 'fha' ? 0.065 : 0.07;
+  const rate = loanType === 'va' ? 0.060 : loanType === 'fha' ? 0.060 : 0.065;
   const mo   = rate / 12;
   const n    = 360;
   const pi   = loanAmt > 0 ? loanAmt * (mo * Math.pow(1+mo,n)) / (Math.pow(1+mo,n)-1) : 0;

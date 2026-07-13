@@ -443,8 +443,9 @@ function enforceDownMin() {
   const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
   const slider   = document.getElementById('downPayment');
   const minDown  = loanType === 'va' ? 0 : loanType === 'fha' ? 3.5 : 3;
-  slider.min = minDown;
-  slider.step = 0.5;
+  // Set min/step BEFORE reading value so browser doesn't auto-snap
+  slider.step  = 0.5;
+  slider.min   = 0; // keep html min at 0 so 3.5 is always a valid step
   const current = parseFloat(slider.value);
   if (isNaN(current) || current < minDown) slider.value = minDown;
 }
@@ -469,7 +470,8 @@ function updateCalc() {
   // Enforce down payment minimums per loan type
   const slider  = document.getElementById('downPayment');
   const minDown = loanType === 'va' ? 0 : loanType === 'fha' ? 3.5 : 3;
-  slider.min = minDown;
+  slider.step = 0.5;
+  slider.min  = 0; // keep at 0 so 3.5 is always a valid step position
   const rawDown = slider.value;
   let downPct = rawDown === '' ? minDown : parseFloat(rawDown);
   if (downPct < minDown) { downPct = minDown; slider.value = minDown; }

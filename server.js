@@ -115,7 +115,6 @@ function sendToFUB({ name, phone, email, callTime, calcData }) {
       emails: [{ value: email, type: 'personal' }],
       phones: [{ value: phone, type: 'mobile' }],
       tags: ['san-diego-homebuyer', 'website-lead', calcData.prequalStatus || 'unknown'],
-      note,
     });
 
     const options = {

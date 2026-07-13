@@ -6,6 +6,7 @@ require('dotenv').config();
 const express    = require('express');
 const nodemailer = require('nodemailer');
 const cors       = require('cors');
+const fetch      = require('node-fetch');
 const path = require('path');
 const https = require('https');
 
@@ -188,40 +189,30 @@ async function sendEmailNotification({ name, phone, email, callTime, calcData })
 // ===========================
 // TELEGRAM NOTIFICATION
 // ===========================
-function sendTelegramNotification({ name, phone, email, callTime, calcData }) {
-  return new Promise((resolve, reject) => {
-    const msg = [
-      '🏠 NEW LEAD - SanDiegoHomeBuyers.com',
-      '',
-      `👤 Name: ${name}`,
-      `📱 Phone: ${phone || 'Not provided'}`,
-      `📧 Email: ${email}`,
-      `🏦 Loan: ${(calcData.loanType || 'N/A').toUpperCase()}`,
-      `💰 Price: $${Math.round(calcData.homePrice || 0).toLocaleString()}`,
-      `💵 Est. Payment: $${Math.round(calcData.totalMonthly || 0).toLocaleString()}/mo`,
-      `✅ Status: ${calcData.prequalStatus || 'N/A'}`,
-    ].join('\n');
+async function sendTelegramNotification({ name, phone, email, callTime, calcData }) {
+  const msg = [
+    '🏠 NEW LEAD - SanDiegoHomeBuyers.com',
+    '',
+    `👤 Name: ${name}`,
+    `📱 Phone: ${phone || 'Not provided'}`,
+    `📧 Email: ${email}`,
+    `🏦 Loan: ${(calcData.loanType || 'N/A').toUpperCase()}`,
+    `💰 Price: $${Math.round(calcData.homePrice || 0).toLocaleString()}`,
+    `💵 Est. Payment: $${Math.round(calcData.totalMonthly || 0).toLocaleString()}/mo`,
+    `✅ Status: ${calcData.prequalStatus || 'N/A'}`,
+  ].join('\n');
 
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const qs = new URLSearchParams({ chat_id: '865040112', text: msg }).toString();
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-    const opts = {
-      hostname: 'api.telegram.org',
-      path: `/bot${botToken}/sendMessage?${qs}`,
-      method: 'GET'
-    };
-
-    const req = https.request(opts, (res) => {
-      let d = ''; res.on('data', c => d += c);
-      res.on('end', () => {
-        const r = JSON.parse(d);
-        if (r.ok) resolve(r);
-        else reject(new Error('Telegram: ' + JSON.stringify(r)));
-      });
-    });
-    req.on('error', reject);
-    req.end();
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: 865040112, text: msg })
   });
+  const r = await res.json();
+  if (!r.ok) throw new Error('Telegram: ' + JSON.stringify(r));
+  return r;
 }
 
 // ===========================

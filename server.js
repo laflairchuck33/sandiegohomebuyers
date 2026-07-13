@@ -202,14 +202,13 @@ function sendTelegramNotification({ name, phone, email, callTime, calcData }) {
       `✅ Status: ${calcData.prequalStatus || 'N/A'}`,
     ].join('\n');
 
-    const payload = JSON.stringify({ chat_id: 865040112, text: msg });
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    const qs = new URLSearchParams({ chat_id: '865040112', text: msg }).toString();
 
     const opts = {
       hostname: 'api.telegram.org',
-      path: `/bot${botToken.replace(/[^\w:.-]/g, encodeURIComponent)}/sendMessage`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) }
+      path: `/bot${botToken}/sendMessage?${qs}`,
+      method: 'GET'
     };
 
     const req = https.request(opts, (res) => {
@@ -221,7 +220,7 @@ function sendTelegramNotification({ name, phone, email, callTime, calcData }) {
       });
     });
     req.on('error', reject);
-    req.write(payload); req.end();
+    req.end();
   });
 }
 

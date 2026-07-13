@@ -482,7 +482,7 @@ function updateCalc() {
   // Update slider displays
   document.getElementById('priceDisplay').textContent = '$' + price.toLocaleString();
   document.getElementById('downDisplay').innerHTML = downPct + '% <span style="font-size:1rem;color:var(--g)">($' + downAmt.toLocaleString() + ')</span>';
-  document.getElementById('approvedPrice').textContent = '$' + price.toLocaleString();
+  document.getElementById('approvedPrice').innerHTML = '$' + price.toLocaleString() + ' <span class="appr-sales-lbl">SALES PRICE</span>';
   document.getElementById('congratsPrice').textContent = '$' + price.toLocaleString();
 
   // Rate assumption

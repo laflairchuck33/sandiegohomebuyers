@@ -3,7 +3,8 @@
 // Run: node server.js
 
 require('dotenv').config();
-const express = require('express');
+const express    = require('express');
+const nodemailer = require('nodemailer');
 const path = require('path');
 const https = require('https');
 
@@ -49,13 +50,13 @@ app.post('/api/lead', async (req, res) => {
     console.error('❌ FUB Error:', err.message);
   }
 
-  // --- Telegram notification ---
+  // --- Email notification ---
   try {
-    await sendTelegramNotification({ name, phone, email, callTime, calcData });
+    await sendEmailNotification({ name, phone, email, callTime, calcData });
     results.email = true;
-    console.log('✅ Telegram: Notification sent');
+    console.log('✅ Email: Notification sent');
   } catch (err) {
-    console.error('❌ Telegram Error:', err.message);
+    console.error('❌ Email Error:', err.message);
   }
 
   // --- SMS notification via Twilio ---
@@ -134,92 +135,41 @@ function sendToFUB({ name, phone, email, callTime, calcData }) {
 // EMAIL NOTIFICATION
 // ===========================
 async function sendEmailNotification({ name, phone, email, callTime, calcData }) {
-  // Uses system sendmail if available
-  // For production: replace with SMTP (nodemailer) or SendGrid/Mailgun
-  const { exec } = require('child_process');
-  const { promisify } = require('util');
-  const execAsync = promisify(exec);
+  const subject = `🏠 New Lead: ${name} — San Diego Home Buyers`;
+  const text = [
+    'New lead from SanDiegoHomeBuyers.com',
+    '',
+    `Name: ${name}`,
+    `Phone: ${phone || 'Not provided'}`,
+    `Email: ${email}`,
+    `Best Time to Call: ${callTime}`,
+    '',
+    '--- Calculator Data ---',
+    `Home Price: $${Math.round(calcData.homePrice || 0).toLocaleString()}`,
+    `Loan Type: ${(calcData.loanType || 'N/A').toUpperCase()}`,
+    `Est. Monthly Payment: $${Math.round(calcData.totalMonthly || 0).toLocaleString()}/mo`,
+    `Pre-Qual Status: ${calcData.prequalStatus || 'N/A'}`,
+    '',
+    '---',
+    'San Diego Home Buyers | allin-lending.com'
+  ].join('\n');
 
-  const subject = `New Lead: ${name} — San Diego Home Buyers`;
-  const body = `
-New lead from SanDiegoHomeBuyers.com
-
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-Best Time to Call: ${callTime}
-
---- Calculator Data ---
-Home Price: $${Math.round(calcData.homePrice || 0).toLocaleString()}
-Down Payment: $${Math.round(calcData.downPayment || 0).toLocaleString()}
-Loan Type: ${calcData.loanType || 'N/A'}
-Est. Monthly Payment: $${Math.round(calcData.totalMonthly || 0).toLocaleString()}/mo
-Annual Income: $${Math.round(calcData.annualIncome || 0).toLocaleString()}
-Monthly Debt: $${Math.round(calcData.monthlyDebt || 0).toLocaleString()}
-Credit Score: ${calcData.creditScore || 'N/A'}+
-Est. DTI: ${calcData.dti ? calcData.dti.toFixed(1) + '%' : 'N/A'}
-Pre-Qual Status: ${calcData.prequalStatus || 'N/A'}
-Est. Max Purchase Power: $${Math.round(calcData.maxPurchasePrice || 0).toLocaleString()}
-
----
-All In Lending | SanDiegoHomeBuyers.com
-  `.trim();
-
-  // Get fresh access token via Microsoft OAuth2
-  // Decode token in case it was base64-encoded for safe storage in env vars
-  const rawToken = process.env.OUTLOOK_REFRESH_TOKEN || '';
-  const refreshToken = rawToken.startsWith('b64:') 
-    ? Buffer.from(rawToken.slice(4), 'base64').toString('utf8')
-    : rawToken;
-
-  const tokenParams = new URLSearchParams({
-    client_id:     process.env.OUTLOOK_CLIENT_ID,
-    refresh_token: refreshToken,
-    grant_type:    'refresh_token',
-    scope:         'https://graph.microsoft.com/Mail.Send'
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS
+    },
+    tls: { ciphers: 'SSLv3' }
   });
 
-  const tokenRes = await new Promise((resolve, reject) => {
-    const body = tokenParams.toString();
-    const opts = {
-      hostname: 'login.microsoftonline.com',
-      path: '/common/oauth2/v2.0/token',
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) }
-    };
-    const req = https.request(opts, (res) => {
-      let d = ''; res.on('data', c => d += c); res.on('end', () => resolve(JSON.parse(d)));
-    });
-    req.on('error', reject); req.write(body); req.end();
-  });
-
-  if (!tokenRes.access_token) throw new Error('Failed to get Outlook token: ' + JSON.stringify(tokenRes));
-
-  // Send via Microsoft Graph
-  const emailPayload = JSON.stringify({
-    message: {
-      subject,
-      body: { contentType: 'Text', content: body },
-      toRecipients: [{ emailAddress: { address: NOTIFY_EMAIL } }]
-    }
-  });
-
-  await new Promise((resolve, reject) => {
-    const opts = {
-      hostname: 'graph.microsoft.com',
-      path: '/v1.0/me/sendMail',
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + tokenRes.access_token,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(emailPayload)
-      }
-    };
-    const req = https.request(opts, (res) => {
-      let d = ''; res.on('data', c => d += c);
-      res.on('end', () => res.statusCode < 300 ? resolve() : reject(new Error('Graph ' + res.statusCode + ': ' + d)));
-    });
-    req.on('error', reject); req.write(emailPayload); req.end();
+  await transporter.sendMail({
+    from: `"San Diego Home Buyers" <${process.env.SMTP_USER}>`,
+    to: NOTIFY_EMAIL,
+    subject,
+    text
   });
 }
 

@@ -584,14 +584,43 @@ function showLetterForm() {
 function submitLetter() {
   const name  = document.getElementById('lfName').value.trim();
   const email = document.getElementById('lfEmail').value.trim();
+  const phone = document.getElementById('lfPhone').value.trim();
   if (!name || !email) {
     if (!name)  document.getElementById('lfName').style.borderColor  = 'var(--teal)';
     if (!email) document.getElementById('lfEmail').style.borderColor = 'var(--teal)';
     return;
   }
+
+  // Show congrats immediately
   document.getElementById('letterForm').style.display = 'none';
   document.getElementById('congratsBox').style.display = 'block';
   window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
+
+  // Fire lead to server (email + SMS to Chuck)
+  const price    = parseInt(document.getElementById('homePrice').value) || 500000;
+  const loanBtn  = document.querySelector('#loanGrid .tile.on');
+  const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
+  const downPct  = parseFloat(document.getElementById('downPayment').value) || 10;
+  const income   = parseFloat(document.getElementById('monthlyIncome').value) || 0;
+  const debt     = parseFloat(document.getElementById('monthlyDebt').value) || 0;
+
+  fetch('https://sandiegohomebuyers.onrender.com/api/lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name, email, phone,
+      callTime: 'Any time',
+      calcData: {
+        homePrice: price,
+        downPayment: Math.round(price * downPct / 100),
+        loanType,
+        totalMonthly: parseFloat(document.getElementById('totalPayment')?.textContent?.replace(/[^0-9.]/g,'')) || 0,
+        annualIncome: income * 12,
+        monthlyDebt: debt,
+        prequalStatus: income > 0 ? 'Qualified' : 'Pending Income Verification'
+      }
+    })
+  }).catch(() => {}); // silent fail — user already sees congrats
 }
 
 // ── MAP ──

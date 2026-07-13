@@ -438,25 +438,43 @@
 
 <script>
 // ── TILE SELECTION ──
+function enforceDownMin() {
+  const loanBtn  = document.querySelector('#loanGrid .tile.on');
+  const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
+  const slider   = document.getElementById('downPayment');
+  const minDown  = loanType === 'va' ? 0 : loanType === 'fha' ? 4 : 3;
+  slider.min = minDown;
+  if (parseInt(slider.value) < minDown) slider.value = minDown;
+}
+
 function selectTile(btn, group) {
   const grid = document.getElementById(group === 'loan' ? 'loanGrid' : 'propGrid');
   grid.querySelectorAll('.tile').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
+  enforceDownMin();
   updateCalc();
 }
 
 // ── MAIN CALC ──
 function updateCalc() {
   const price   = parseInt(document.getElementById('homePrice').value) || 500000;
-  const rawDown = document.getElementById('downPayment').value;
-  const downPct = rawDown === '' ? 0 : parseInt(rawDown);
-  const income  = parseFloat(document.getElementById('monthlyIncome').value) || 0;
-  const debt    = parseFloat(document.getElementById('monthlyDebt').value) || 0;
 
   const loanBtn  = document.querySelector('#loanGrid .tile.on');
   const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
   const propBtn  = document.querySelector('#propGrid .tile.on');
   const propType = propBtn ? propBtn.dataset.val : 'sfr';
+
+  // Enforce down payment minimums per loan type
+  const slider  = document.getElementById('downPayment');
+  const minDown = loanType === 'va' ? 0 : loanType === 'fha' ? 3.5 : 3;
+  const sliderMin = loanType === 'va' ? 0 : loanType === 'fha' ? 4 : 3;
+  slider.min = sliderMin;
+  const rawDown = slider.value;
+  let downPct = rawDown === '' ? minDown : parseFloat(rawDown);
+  if (downPct < minDown) { downPct = minDown; slider.value = sliderMin; }
+
+  const income  = parseFloat(document.getElementById('monthlyIncome').value) || 0;
+  const debt    = parseFloat(document.getElementById('monthlyDebt').value) || 0;
 
   const downAmt = Math.round(price * downPct / 100);
   const loanAmt = price - downAmt;
@@ -589,7 +607,7 @@ function focusPin(i){map.setView([ld[i].lat,ld[i].lng],14,{animate:true});marker
 function toggleFilter(btn){document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
 function doSearch(){const v=document.getElementById('navSearch').value.trim();if(v)document.getElementById('listings').scrollIntoView({behavior:'smooth'});}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const el=document.querySelector(a.getAttribute('href'));if(el)el.scrollIntoView({behavior:'smooth'});});});
-window.addEventListener('load',()=>{initMap();updateCalc();});
+window.addEventListener('load',()=>{initMap();enforceDownMin();updateCalc();});
 </script>
 </body>
 </html>

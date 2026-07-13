@@ -51,6 +51,7 @@ app.post('/api/lead', async (req, res) => {
     console.log('✅ FUB: Lead created');
   } catch (err) {
     console.error('❌ FUB Error:', err.message);
+    results.fubError = err.message;
   }
 
   // --- Email notification ---

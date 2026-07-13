@@ -61,6 +61,15 @@ app.post('/api/lead', async (req, res) => {
     console.error('❌ Email Error:', err.message);
   }
 
+  // --- Telegram notification (fastest) ---
+  try {
+    await sendTelegramNotification({ name, phone, email, callTime, calcData });
+    results.telegram = true;
+    console.log('✅ Telegram: Notification sent');
+  } catch (err) {
+    console.error('❌ Telegram Error:', err.message);
+  }
+
   // --- SMS notification via Twilio ---
   try {
     await sendSMSNotification({ name, phone, email, calcData });

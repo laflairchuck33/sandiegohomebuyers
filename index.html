@@ -449,7 +449,8 @@ function selectTile(btn, group) {
 // ── MAIN CALC ──
 function updateCalc() {
   const price   = parseInt(document.getElementById('homePrice').value) || 500000;
-  const downPct = parseInt(document.getElementById('downPayment').value) || 10;
+  const rawDown = document.getElementById('downPayment').value;
+  const downPct = rawDown === '' ? 0 : parseInt(rawDown);
   const income  = parseFloat(document.getElementById('monthlyIncome').value) || 0;
   const debt    = parseFloat(document.getElementById('monthlyDebt').value) || 0;
 

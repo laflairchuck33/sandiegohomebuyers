@@ -174,7 +174,7 @@ async function sendEmailNotification({ name, phone, email, callTime, calcData })
     },
     body: JSON.stringify({
       personalizations: [{ to: [{ email: NOTIFY_EMAIL }] }],
-      from: { email: 'laflairchuck33@gmail.com', name: 'San Diego Home Buyers' },
+      from: { email: 'chuck@allin-lending.com', name: 'San Diego Home Buyers' },
       subject,
       content: [{ type: 'text/plain', value: text }]
     })

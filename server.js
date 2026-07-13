@@ -166,9 +166,15 @@ All In Lending | SanDiegoHomeBuyers.com
   `.trim();
 
   // Get fresh access token via Microsoft OAuth2
+  // Decode token in case it was base64-encoded for safe storage in env vars
+  const rawToken = process.env.OUTLOOK_REFRESH_TOKEN || '';
+  const refreshToken = rawToken.startsWith('b64:') 
+    ? Buffer.from(rawToken.slice(4), 'base64').toString('utf8')
+    : rawToken;
+
   const tokenParams = new URLSearchParams({
     client_id:     process.env.OUTLOOK_CLIENT_ID,
-    refresh_token: process.env.OUTLOOK_REFRESH_TOKEN,
+    refresh_token: refreshToken,
     grant_type:    'refresh_token',
     scope:         'https://graph.microsoft.com/Mail.Send'
   });

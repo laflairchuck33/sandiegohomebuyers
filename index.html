@@ -252,7 +252,7 @@
 
           <span class="clbl">Down Payment</span>
           <div class="cval" id="downDisplay">10% <span style="font-size:1rem;color:var(--g)">($50,000)</span></div>
-          <input type="range" id="downPayment" min="0" max="99" step="1" value="10" oninput="updateCalc()"/>
+          <input type="range" id="downPayment" min="0" max="99" step="0.5" value="10" oninput="updateCalc()"/>
           <div class="rticks"><span>0%</span><span>20%</span><span>50%</span><span>99%</span></div>
 
           <span class="clbl">Total Monthly Income (All Buyers)</span>
@@ -442,9 +442,9 @@ function enforceDownMin() {
   const loanBtn  = document.querySelector('#loanGrid .tile.on');
   const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
   const slider   = document.getElementById('downPayment');
-  const minDown  = loanType === 'va' ? 0 : loanType === 'fha' ? 4 : 3;
+  const minDown  = loanType === 'va' ? 0 : loanType === 'fha' ? 3.5 : 3;
   slider.min = minDown;
-  if (parseInt(slider.value) < minDown) slider.value = minDown;
+  if (parseFloat(slider.value) < minDown) slider.value = minDown;
 }
 
 function selectTile(btn, group) {
@@ -467,11 +467,10 @@ function updateCalc() {
   // Enforce down payment minimums per loan type
   const slider  = document.getElementById('downPayment');
   const minDown = loanType === 'va' ? 0 : loanType === 'fha' ? 3.5 : 3;
-  const sliderMin = loanType === 'va' ? 0 : loanType === 'fha' ? 4 : 3;
-  slider.min = sliderMin;
+  slider.min = minDown;
   const rawDown = slider.value;
   let downPct = rawDown === '' ? minDown : parseFloat(rawDown);
-  if (downPct < minDown) { downPct = minDown; slider.value = sliderMin; }
+  if (downPct < minDown) { downPct = minDown; slider.value = minDown; }
 
   const income  = parseFloat(document.getElementById('monthlyIncome').value) || 0;
   const debt    = parseFloat(document.getElementById('monthlyDebt').value) || 0;

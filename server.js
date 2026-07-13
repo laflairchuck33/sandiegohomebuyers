@@ -3,7 +3,8 @@
 // Run: node server.js
 
 require('dotenv').config();
-const express = require('express');
+const express    = require('express');
+const nodemailer = require('nodemailer');
 const path = require('path');
 const https = require('https');
 
@@ -165,19 +166,23 @@ Est. Max Purchase Power: $${Math.round(calcData.maxPurchasePrice || 0).toLocaleS
 All In Lending | SanDiegoHomeBuyers.com
   `.trim();
 
-  const emailMsg = `To: ${NOTIFY_EMAIL}\nSubject: ${subject}\nContent-Type: text/plain\n\n${body}`;
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: process.env.GMAIL_USER || 'douglascourtllc@gmail.com',
+      clientId: process.env.GMAIL_CLIENT_ID,
+      clientSecret: process.env.GMAIL_CLIENT_SECRET,
+      refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+    }
+  });
 
-  try {
-    const { exec: execCb } = require('child_process');
-    await new Promise((resolve, reject) => {
-      const child = execCb(`sendmail -t`, (err) => err ? reject(err) : resolve());
-      child.stdin.write(emailMsg);
-      child.stdin.end();
-    });
-  } catch {
-    // sendmail not available — log only (FUB is the primary)
-    console.log('   (sendmail unavailable — configure SMTP for email notifications)');
-  }
+  await transporter.sendMail({
+    from: `"San Diego Home Buyers" <${process.env.GMAIL_USER || 'douglascourtllc@gmail.com'}>`,
+    to: NOTIFY_EMAIL,
+    subject,
+    text: body
+  });
 }
 
 // ===========================

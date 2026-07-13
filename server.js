@@ -3,8 +3,7 @@
 // Run: node server.js
 
 require('dotenv').config();
-const express    = require('express');
-const nodemailer = require('nodemailer');
+const express = require('express');
 const path = require('path');
 const https = require('https');
 
@@ -166,22 +165,56 @@ Est. Max Purchase Power: $${Math.round(calcData.maxPurchasePrice || 0).toLocaleS
 All In Lending | SanDiegoHomeBuyers.com
   `.trim();
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      type: 'OAuth2',
-      user: process.env.GMAIL_USER || 'douglascourtllc@gmail.com',
-      clientId: process.env.GMAIL_CLIENT_ID,
-      clientSecret: process.env.GMAIL_CLIENT_SECRET,
-      refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+  // Get fresh access token via Microsoft OAuth2
+  const tokenParams = new URLSearchParams({
+    client_id:     process.env.OUTLOOK_CLIENT_ID,
+    client_secret: process.env.OUTLOOK_CLIENT_SECRET,
+    refresh_token: process.env.OUTLOOK_REFRESH_TOKEN,
+    grant_type:    'refresh_token',
+    scope:         'https://graph.microsoft.com/Mail.Send'
+  });
+
+  const tokenRes = await new Promise((resolve, reject) => {
+    const body = tokenParams.toString();
+    const opts = {
+      hostname: 'login.microsoftonline.com',
+      path: '/common/oauth2/v2.0/token',
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) }
+    };
+    const req = https.request(opts, (res) => {
+      let d = ''; res.on('data', c => d += c); res.on('end', () => resolve(JSON.parse(d)));
+    });
+    req.on('error', reject); req.write(body); req.end();
+  });
+
+  if (!tokenRes.access_token) throw new Error('Failed to get Outlook token: ' + JSON.stringify(tokenRes));
+
+  // Send via Microsoft Graph
+  const emailPayload = JSON.stringify({
+    message: {
+      subject,
+      body: { contentType: 'Text', content: body },
+      toRecipients: [{ emailAddress: { address: NOTIFY_EMAIL } }]
     }
   });
 
-  await transporter.sendMail({
-    from: `"San Diego Home Buyers" <${process.env.GMAIL_USER || 'douglascourtllc@gmail.com'}>`,
-    to: NOTIFY_EMAIL,
-    subject,
-    text: body
+  await new Promise((resolve, reject) => {
+    const opts = {
+      hostname: 'graph.microsoft.com',
+      path: '/v1.0/me/sendMail',
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + tokenRes.access_token,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(emailPayload)
+      }
+    };
+    const req = https.request(opts, (res) => {
+      let d = ''; res.on('data', c => d += c);
+      res.on('end', () => res.statusCode < 300 ? resolve() : reject(new Error('Graph ' + res.statusCode + ': ' + d)));
+    });
+    req.on('error', reject); req.write(emailPayload); req.end();
   });
 }
 

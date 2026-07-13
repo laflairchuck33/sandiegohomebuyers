@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname)));
 // CONFIG
 // ===========================
 const FUB_API_KEY    = process.env.FUB_API_KEY;
-const NOTIFY_EMAIL   = process.env.NOTIFY_EMAIL   || 'laflairchuck33@gmail.com';
+const NOTIFY_EMAIL   = process.env.NOTIFY_EMAIL   || 'chuck@allin-lending.com';
 const NOTIFY_PHONE   = process.env.NOTIFY_PHONE   || '+16194540917';
 const TWILIO_SID     = process.env.TWILIO_SID;
 const TWILIO_TOKEN   = process.env.TWILIO_TOKEN;

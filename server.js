@@ -49,13 +49,13 @@ app.post('/api/lead', async (req, res) => {
     console.error('❌ FUB Error:', err.message);
   }
 
-  // --- Email notification ---
+  // --- Telegram notification ---
   try {
-    await sendEmailNotification({ name, phone, email, callTime, calcData });
+    await sendTelegramNotification({ name, phone, email, callTime, calcData });
     results.email = true;
-    console.log('✅ Email: Notification sent');
+    console.log('✅ Telegram: Notification sent');
   } catch (err) {
-    console.error('❌ Email Error:', err.message);
+    console.error('❌ Telegram Error:', err.message);
   }
 
   // --- SMS notification via Twilio ---
@@ -220,6 +220,46 @@ All In Lending | SanDiegoHomeBuyers.com
       res.on('end', () => res.statusCode < 300 ? resolve() : reject(new Error('Graph ' + res.statusCode + ': ' + d)));
     });
     req.on('error', reject); req.write(emailPayload); req.end();
+  });
+}
+
+// ===========================
+// TELEGRAM NOTIFICATION
+// ===========================
+function sendTelegramNotification({ name, phone, email, callTime, calcData }) {
+  return new Promise((resolve, reject) => {
+    const msg = [
+      '🏠 NEW LEAD - SanDiegoHomeBuyers.com',
+      '',
+      `👤 Name: ${name}`,
+      `📱 Phone: ${phone || 'Not provided'}`,
+      `📧 Email: ${email}`,
+      `🏦 Loan: ${(calcData.loanType || 'N/A').toUpperCase()}`,
+      `💰 Price: $${Math.round(calcData.homePrice || 0).toLocaleString()}`,
+      `💵 Est. Payment: $${Math.round(calcData.totalMonthly || 0).toLocaleString()}/mo`,
+      `✅ Status: ${calcData.prequalStatus || 'N/A'}`,
+    ].join('\n');
+
+    const payload = JSON.stringify({ chat_id: 865040112, text: msg });
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+
+    const opts = {
+      hostname: 'api.telegram.org',
+      path: `/bot${botToken}/sendMessage`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) }
+    };
+
+    const req = https.request(opts, (res) => {
+      let d = ''; res.on('data', c => d += c);
+      res.on('end', () => {
+        const r = JSON.parse(d);
+        if (r.ok) resolve(r);
+        else reject(new Error('Telegram: ' + JSON.stringify(r)));
+      });
+    });
+    req.on('error', reject);
+    req.write(payload); req.end();
   });
 }
 

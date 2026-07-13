@@ -444,7 +444,9 @@ function enforceDownMin() {
   const slider   = document.getElementById('downPayment');
   const minDown  = loanType === 'va' ? 0 : loanType === 'fha' ? 3.5 : 3;
   slider.min = minDown;
-  if (parseFloat(slider.value) < minDown) slider.value = minDown;
+  slider.step = 0.5;
+  const current = parseFloat(slider.value);
+  if (isNaN(current) || current < minDown) slider.value = minDown;
 }
 
 function selectTile(btn, group) {

@@ -207,7 +207,7 @@ function sendTelegramNotification({ name, phone, email, callTime, calcData }) {
 
     const opts = {
       hostname: 'api.telegram.org',
-      path: `/bot${botToken}/sendMessage`,
+      path: `/bot${encodeURIComponent(botToken)}/sendMessage`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) }
     };

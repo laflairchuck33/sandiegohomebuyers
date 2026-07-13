@@ -168,7 +168,6 @@ All In Lending | SanDiegoHomeBuyers.com
   // Get fresh access token via Microsoft OAuth2
   const tokenParams = new URLSearchParams({
     client_id:     process.env.OUTLOOK_CLIENT_ID,
-    client_secret: process.env.OUTLOOK_CLIENT_SECRET,
     refresh_token: process.env.OUTLOOK_REFRESH_TOKEN,
     grant_type:    'refresh_token',
     scope:         'https://graph.microsoft.com/Mail.Send'

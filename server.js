@@ -166,23 +166,24 @@ async function sendEmailNotification({ name, phone, email, callTime, calcData })
     'San Diego Home Buyers | allin-lending.com'
   ].join('\n');
 
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
+  const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.SENDGRID_API_KEY}`,
+      'Content-Type': 'application/json'
     },
-    tls: { ciphers: 'SSLv3' }
+    body: JSON.stringify({
+      personalizations: [{ to: [{ email: NOTIFY_EMAIL }] }],
+      from: { email: 'chuck@allin-lending.com', name: 'San Diego Home Buyers' },
+      subject,
+      content: [{ type: 'text/plain', value: text }]
+    })
   });
 
-  await transporter.sendMail({
-    from: `"San Diego Home Buyers" <${process.env.SMTP_USER}>`,
-    to: NOTIFY_EMAIL,
-    subject,
-    text
-  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error('SendGrid: ' + err);
+  }
 }
 
 // ===========================

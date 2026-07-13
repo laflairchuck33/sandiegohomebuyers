@@ -67,7 +67,8 @@ app.post('/api/lead', async (req, res) => {
     results.telegram = true;
     console.log('✅ Telegram: Notification sent');
   } catch (err) {
-    console.error('❌ Telegram Error:', err.message);
+    console.error('❌ Telegram Error:', err.message, err.stack);
+    results.telegramError = err.message;
   }
 
   // --- SMS notification via Twilio ---

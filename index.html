@@ -504,29 +504,7 @@
 
           <!-- CTA -->
           <div id="ctaArea">
-            <a href="#step4" style="display:block;text-align:center;margin-bottom:8px;color:#00b4d8;font-size:.8rem;font-weight:600;text-decoration:none">Step 4: Get Your Official Pre-Approval Letter ↓</a>
-          <button class="btnl" id="step4trigger" onclick="showLetterForm()">📄 Get My Pre-Approval Letter</button>
-            <div class="bnote">🔒 Free · No hard credit pull · Takes 2 min</div>
-          </div>
-
-          <!-- LETTER FORM -->
-          <div class="lform" id="letterForm">
-            <div style="font-size:.84rem;font-weight:700;margin-bottom:12px;">Enter your info to get your official letter:</div>
-            <input type="text" id="lfName" placeholder="Full Name *"/>
-            <input type="email" id="lfEmail" placeholder="Email Address *"/>
-            <input type="tel" id="lfPhone" placeholder="Phone Number"/>
-            <button class="btnl" onclick="submitLetter()">Send My Pre-Approval Letter →</button>
-            <div class="bnote" style="margin-top:7px">🔒 Your info is private and never shared.</div>
-          </div>
-
-          <!-- CONGRATS -->
-          <div class="cbox2" id="congratsBox">
-            <div class="em">🎉</div>
-            <h3>Congratulations!</h3>
-            <p>You are Pre-Approved up to</p>
-            <div class="cprice" id="congratsPrice">$500,000</div>
-            <p style="margin-bottom:20px">Complete your official application to lock in your rate and get your pre-approval letter.</p>
-            <button class="btnl" onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')">📝 Complete My Application →</button>
+            <a href="#step4" style="display:block;text-align:center;margin-bottom:8px;color:#00b4d8;font-size:.9rem;font-weight:700;text-decoration:none">Ready? Proceed to Step 4: Get Your Pre-Approval Letter ↓</a>
           </div>
         </div>
       </div>
@@ -535,8 +513,31 @@
   </div>
 </section>
 
-<!-- STEP 4 ANCHOR -->
-<div id="step4"></div>
+<!-- STEP 4: PRE-APPROVAL LETTER -->
+<section id="step4" style="background:var(--bg);padding:80px 40px">
+  <div class="con" style="max-width:600px">
+    <div class="stag">Step 4 of 4</div>
+    <h2 class="sti">📄 Get Your Pre-Approval Letter</h2>
+    <p class="ssu">You're almost there! Enter your info below and we'll send you an official pre-approval letter so you can make offers with confidence.</p>
+    <div style="margin-top:36px;display:flex;flex-direction:column;gap:12px">
+      <div id="ctaArea4">
+        <input type="text" id="lfName" placeholder="Full Name *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
+        <input type="email" id="lfEmail" placeholder="Email Address *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
+        <input type="tel" id="lfPhone" placeholder="Phone Number" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:16px"/>
+        <button onclick="submitLetter()" style="width:100%;background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:1.1rem;font-weight:800;padding:16px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📄 Get My Pre-Approval Letter</button>
+        <p style="text-align:center;color:#666;font-size:.8rem;margin-top:10px">🔒 Free · No hard credit pull · Takes 2 min</p>
+      </div>
+      <div id="congratsBox" style="display:none;text-align:center;background:rgba(0,180,216,.1);border:2px solid #00b4d8;border-radius:10px;padding:36px 24px">
+        <div style="font-size:3rem;margin-bottom:12px">🎉</div>
+        <h3 style="font-size:1.6rem;margin-bottom:8px">Congratulations!</h3>
+        <p style="color:#aaa;margin-bottom:6px">You are Pre-Approved up to</p>
+        <div class="cprice" id="congratsPrice" style="font-size:2rem;font-weight:900;color:#00b4d8;margin-bottom:16px">$500,000</div>
+        <p style="color:#aaa;margin-bottom:24px">Complete your official application to lock in your rate.</p>
+        <button onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')" style="background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- LISTINGS -->
 <section id="listings">
   <div class="con" style="max-width:100%;padding:0 40px">
@@ -779,8 +780,7 @@ function updateCalc() {
 
 // ── LETTER FORM ──
 function showLetterForm() {
-  document.getElementById('ctaArea').style.display = 'none';
-  document.getElementById('letterForm').style.display = 'block';
+  document.getElementById('step4').scrollIntoView({behavior:'smooth'});
 }
 function submitLetter() {
   const name  = document.getElementById('lfName').value.trim();
@@ -793,7 +793,7 @@ function submitLetter() {
   }
 
   // Show congrats immediately
-  document.getElementById('letterForm').style.display = 'none';
+  document.getElementById('ctaArea4').style.display = 'none';
   document.getElementById('congratsBox').style.display = 'block';
   window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
 

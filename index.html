@@ -477,22 +477,8 @@
     </div>
   </div>
   <div class="mlayout">
-    <div class="lside">
-      <div class="lcard" onclick="focusPin(0)">
-        <img class="lim" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Chula Vista"/>
-        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$749,000</div><div class="lad">Chula Vista, CA 91914</div><div class="lme"><span>🛏 4 Beds</span><span>🚿 3 Baths</span><span>📐 2,100 sqft</span></div>
-        <button class="showing-btn" onclick="event.stopPropagation();openShowing('Chula Vista, CA 91914 — $749,000')">🗓 Request a Showing</button></div>
-      </div>
-      <div class="lcard" onclick="focusPin(1)">
-        <img class="lim" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80" alt="Eastlake"/>
-        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$895,000</div><div class="lad">Eastlake, CA 91915</div><div class="lme"><span>🛏 5 Beds</span><span>🚿 3 Baths</span><span>📐 2,650 sqft</span></div>
-        <button class="showing-btn" onclick="event.stopPropagation();openShowing('Eastlake, CA 91915 — $895,000')">🗓 Request a Showing</button></div>
-      </div>
-      <div class="lcard" onclick="focusPin(2)" style="border-bottom:none">
-        <img class="lim" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Otay Ranch"/>
-        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$629,000</div><div class="lad">Otay Ranch, CA 91913</div><div class="lme"><span>🛏 3 Beds</span><span>🚿 2 Baths</span><span>📐 1,750 sqft</span></div>
-        <button class="showing-btn" onclick="event.stopPropagation();openShowing('Otay Ranch, CA 91913 — $629,000')">🗓 Request a Showing</button></div>
-      </div>
+    <div class="lside" id="listingsSide">
+      <div style="padding:40px;color:#555;text-align:center">Loading listings...</div>
     </div>
     <div class="mwrap"><div id="map"></div></div>
   </div>
@@ -761,21 +747,66 @@ function submitLetter() {
 }
 
 // ── MAP ──
-const ld = [
-  {lat:32.6401,lng:-117.0842,price:'$749,000',address:'Chula Vista, CA 91914',beds:4,baths:3},
-  {lat:32.6274,lng:-116.9637,price:'$895,000',address:'Eastlake, CA 91915',beds:5,baths:3},
-  {lat:32.6105,lng:-116.9544,price:'$629,000',address:'Otay Ranch, CA 91913',beds:3,baths:2},
+let map, markers = [], listingsData = [];
+
+const fallbackListings = [
+  {id:1,addr:'Chula Vista, CA 91914',price:'$749,000',beds:4,baths:3,sqft:'2,100',status:'For Sale',img:'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80',lat:32.6401,lng:-117.0842},
+  {id:2,addr:'Eastlake, CA 91915',price:'$895,000',beds:5,baths:3,sqft:'2,650',status:'For Sale',img:'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80',lat:32.6274,lng:-116.9637},
+  {id:3,addr:'Otay Ranch, CA 91913',price:'$629,000',beds:3,baths:2,sqft:'1,750',status:'For Sale',img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80',lat:32.6105,lng:-116.9544},
 ];
-let map, markers = [];
+
+function renderListings(listings) {
+  listingsData = listings;
+  const side = document.getElementById('listingsSide');
+  if (!listings.length) {
+    side.innerHTML = '<div style="padding:60px 40px;color:#555;text-align:center">No listings available right now. Check back soon!</div>';
+    return;
+  }
+  side.innerHTML = listings.map((l, i) => `
+    <div class="lcard" onclick="focusPin(${i})" style="${i===listings.length-1?'border-bottom:none':''}">
+      ${l.img ? `<img class="lim" src="${l.img}" alt="${l.addr}" onerror="this.style.display='none'"/>` : '<div class="lim" style="height:180px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:2rem">🏠</div>'}
+      <div class="lbd">
+        <div class="ltg">${l.status||'For Sale'}</div>
+        <div class="lpr">${l.price}</div>
+        <div class="lad">${l.addr}</div>
+        <div class="lme">
+          ${l.beds?`<span>🛏 ${l.beds} Beds</span>`:''}
+          ${l.baths?`<span>🚿 ${l.baths} Baths</span>`:''}
+          ${l.sqft?`<span>📐 ${l.sqft} sqft</span>`:''}
+        </div>
+        ${l.desc?`<div style="font-size:.78rem;color:#999;margin:6px 0;line-height:1.5">${l.desc}</div>`:''}
+        ${l.mls?`<div style="font-size:.72rem;color:#555;margin-bottom:6px">MLS# ${l.mls}</div>`:''}
+        <button class="showing-btn" onclick="event.stopPropagation();openShowing('${l.addr} — ${l.price}')">🗓 Request a Showing</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Update map pins
+  if (map) {
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+    listings.forEach((l, i) => {
+      if (!l.lat || !l.lng) return;
+      const icon = L.divIcon({className:'',html:`<div style="background:#00c9b1;color:#000;font-weight:800;font-size:11px;padding:5px 9px;border-radius:4px;white-space:nowrap;font-family:Inter,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.4)">${l.price}</div>`,iconAnchor:[38,18]});
+      markers.push(L.marker([l.lat,l.lng],{icon}).addTo(map).bindPopup(`<b>${l.price}</b><br>${l.addr}${l.beds?' | '+l.beds+' bed':''}${l.baths?' · '+l.baths+' bath':''}`));
+    });
+  }
+}
+
 function initMap() {
   map = L.map('map',{zoomControl:true}).setView([32.628,-117.02],12);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
-  ld.forEach((l,i) => {
-    const icon = L.divIcon({className:'',html:`<div style="background:#00c9b1;color:#000;font-weight:800;font-size:11px;padding:5px 9px;border-radius:4px;white-space:nowrap;font-family:Inter,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.4)">${l.price}</div>`,iconAnchor:[38,18]});
-    markers.push(L.marker([l.lat,l.lng],{icon}).addTo(map).bindPopup(`<b>${l.price}</b><br>${l.address}<br>${l.beds} bed · ${l.baths} bath`));
-  });
+  // Load listings from server, fall back to defaults
+  fetch('/api/listings').then(r=>r.json()).then(data=>{
+    const list = (data.listings && data.listings.length) ? data.listings : fallbackListings;
+    renderListings(list);
+  }).catch(()=>renderListings(fallbackListings));
 }
-function focusPin(i){map.setView([ld[i].lat,ld[i].lng],14,{animate:true});markers[i].openPopup();}
+function focusPin(i){
+  const l = listingsData[i];
+  if(l && l.lat && l.lng) map.setView([l.lat,l.lng],14,{animate:true});
+  if(markers[i]) markers[i].openPopup();
+}
 
 // ── MISC ──
 // ── REQUEST A SHOWING ──

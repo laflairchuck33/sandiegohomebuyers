@@ -86,6 +86,32 @@ app.post('/api/lead', async (req, res) => {
 });
 
 // ===========================
+// LISTINGS STORAGE
+// ===========================
+const fs = require('fs');
+const LISTINGS_FILE = path.join(__dirname, 'listings.json');
+
+function readListings() {
+  try { return JSON.parse(fs.readFileSync(LISTINGS_FILE, 'utf8')); }
+  catch { return { listings: [] }; }
+}
+function writeListings(data) {
+  fs.writeFileSync(LISTINGS_FILE, JSON.stringify(data, null, 2));
+}
+
+app.get('/api/listings', (req, res) => {
+  res.json(readListings());
+});
+
+app.post('/api/listings', (req, res) => {
+  const { listings } = req.body;
+  if (!Array.isArray(listings)) return res.status(400).json({ error: 'Invalid' });
+  writeListings({ listings });
+  console.log(`🏠 Listings updated: ${listings.length} total`);
+  res.json({ success: true, count: listings.length });
+});
+
+// ===========================
 // SHOWING REQUEST ENDPOINT
 // ===========================
 app.post('/api/showing', async (req, res) => {

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Listings Admin — San Diego Home Buyers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#0d0d0d;color:#fff;min-height:100vh}
+    nav{background:#0a0a0a;border-bottom:1px solid #222;padding:16px 32px;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1rem;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+    .logo span{color:#00b4d8}
+    .badge{background:#00b4d8;color:#000;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:4px;letter-spacing:1px}
+    .wrap{max-width:960px;margin:0 auto;padding:40px 24px}
+    h2{font-size:1.5rem;margin-bottom:6px}
+    .sub{color:#888;font-size:.85rem;margin-bottom:32px}
+    /* FORM */
+    .card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:28px;margin-bottom:32px}
+    .card h3{font-size:1rem;font-weight:700;margin-bottom:20px;color:#00b4d8}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+    .full{grid-column:1/-1}
+    label{display:block;font-size:.75rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#888;margin-bottom:5px}
+    input,select,textarea{width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#fff;font-family:inherit;font-size:.88rem;outline:none;transition:border .2s}
+    input:focus,select:focus,textarea:focus{border-color:#00b4d8}
+    textarea{resize:vertical;min-height:80px}
+    select option{background:#111}
+    .btn-add{background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:.88rem;font-weight:700;padding:12px 28px;border-radius:4px;cursor:pointer;letter-spacing:.5px;margin-top:8px}
+    .btn-add:hover{opacity:.88}
+    /* LISTINGS */
+    .listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+    .lcard{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden;position:relative}
+    .lcard img{width:100%;height:170px;object-fit:cover;display:block}
+    .lcard .no-img{width:100%;height:170px;background:#222;display:flex;align-items:center;justify-content:center;color:#444;font-size:2rem}
+    .linfo{padding:14px}
+    .ltag{display:inline-block;background:#00b4d8;color:#000;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:3px;margin-bottom:6px;text-transform:uppercase}
+    .lprice{font-size:1.1rem;font-weight:800;margin-bottom:3px}
+    .laddr{color:#aaa;font-size:.8rem;margin-bottom:6px}
+    .lmeta{display:flex;gap:10px;font-size:.75rem;color:#888;margin-bottom:10px}
+    .ldesc{font-size:.78rem;color:#999;margin-bottom:10px;line-height:1.5}
+    .btn-del{background:#c62828;border:none;color:#fff;font-family:inherit;font-size:.72rem;font-weight:700;padding:6px 12px;border-radius:4px;cursor:pointer;width:100%}
+    .btn-del:hover{opacity:.85}
+    .empty{text-align:center;color:#444;padding:60px 20px;font-size:.9rem}
+    .toast{position:fixed;bottom:24px;right:24px;background:#00b4d8;color:#000;font-weight:700;padding:12px 22px;border-radius:6px;font-size:.85rem;display:none;z-index:999}
+    @media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">San Diego <span>Home Buyers</span></div>
+  <div class="badge">ADMIN</div>
+</nav>
+
+<div class="wrap">
+  <h2>Listings Manager</h2>
+  <p class="sub">Add, edit, or remove featured listings. Changes appear on the site instantly.</p>
+
+  <!-- ADD FORM -->
+  <div class="card">
+    <h3>➕ Add New Listing</h3>
+    <div class="grid2">
+      <div>
+        <label>Address *</label>
+        <input id="f-addr" type="text" placeholder="123 Main St, Chula Vista, CA 91914"/>
+      </div>
+      <div>
+        <label>Price *</label>
+        <input id="f-price" type="text" placeholder="$749,000"/>
+      </div>
+    </div>
+    <div class="grid3" style="margin-top:14px">
+      <div>
+        <label>Bedrooms</label>
+        <input id="f-beds" type="number" placeholder="4" min="0"/>
+      </div>
+      <div>
+        <label>Bathrooms</label>
+        <input id="f-baths" type="number" placeholder="3" min="0" step="0.5"/>
+      </div>
+      <div>
+        <label>Sq Ft</label>
+        <input id="f-sqft" type="text" placeholder="2,100"/>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div>
+        <label>Status</label>
+        <select id="f-status">
+          <option value="For Sale">For Sale</option>
+          <option value="Pending">Pending</option>
+          <option value="Sold">Sold</option>
+          <option value="Open House">Open House</option>
+        </select>
+      </div>
+      <div>
+        <label>MLS #</label>
+        <input id="f-mls" type="text" placeholder="OC26123456"/>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label>Photo URL</label>
+      <input id="f-img" type="text" placeholder="https://... (paste image URL or leave blank)"/>
+    </div>
+    <div style="margin-top:14px">
+      <label>Description (optional)</label>
+      <textarea id="f-desc" placeholder="Beautiful 4-bed home in a quiet cul-de-sac..."></textarea>
+    </div>
+    <button class="btn-add" onclick="addListing()">➕ Add Listing</button>
+  </div>
+
+  <!-- LISTINGS GRID -->
+  <h3 style="margin-bottom:16px;font-size:1rem;color:#aaa">CURRENT LISTINGS (<span id="count">0</span>)</h3>
+  <div class="listings-grid" id="listingsGrid">
+    <div class="empty" id="emptyMsg">No listings yet. Add your first one above.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'sdhb_listings';
+
+function getListings() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+}
+function saveListings(arr) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  // Sync to server
+  fetch('/api/listings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ listings: arr })
+  }).catch(() => {});
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+function addListing() {
+  const addr  = document.getElementById('f-addr').value.trim();
+  const price = document.getElementById('f-price').value.trim();
+  if (!addr || !price) { alert('Address and price are required.'); return; }
+
+  const listing = {
+    id:     Date.now(),
+    addr,
+    price,
+    beds:   document.getElementById('f-beds').value || '',
+    baths:  document.getElementById('f-baths').value || '',
+    sqft:   document.getElementById('f-sqft').value || '',
+    status: document.getElementById('f-status').value,
+    mls:    document.getElementById('f-mls').value.trim(),
+    img:    document.getElementById('f-img').value.trim(),
+    desc:   document.getElementById('f-desc').value.trim(),
+  };
+
+  const listings = getListings();
+  listings.unshift(listing);
+  saveListings(listings);
+  renderListings();
+  showToast('✅ Listing added!');
+
+  // Clear form
+  ['f-addr','f-price','f-beds','f-baths','f-sqft','f-mls','f-img','f-desc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-status').selectedIndex = 0;
+}
+
+function deleteListing(id) {
+  if (!confirm('Remove this listing?')) return;
+  const listings = getListings().filter(l => l.id !== id);
+  saveListings(listings);
+  renderListings();
+  showToast('🗑 Listing removed');
+}
+
+function renderListings() {
+  const listings = getListings();
+  const grid = document.getElementById('listingsGrid');
+  const empty = document.getElementById('emptyMsg');
+  document.getElementById('count').textContent = listings.length;
+
+  if (!listings.length) {
+    grid.innerHTML = '<div class="empty" id="emptyMsg">No listings yet. Add your first one above.</div>';
+    return;
+  }
+
+  grid.innerHTML = listings.map(l => `
+    <div class="lcard">
+      ${l.img
+        ? `<img src="${l.img}" alt="${l.addr}" onerror="this.parentElement.querySelector('.no-img') && (this.style.display='none')"/>`
+        : `<div class="no-img">🏠</div>`}
+      <div class="linfo">
+        <div class="ltag">${l.status}</div>
+        <div class="lprice">${l.price}</div>
+        <div class="laddr">${l.addr}</div>
+        <div class="lmeta">
+          ${l.beds ? `<span>🛏 ${l.beds} Beds</span>` : ''}
+          ${l.baths ? `<span>🚿 ${l.baths} Baths</span>` : ''}
+          ${l.sqft ? `<span>📐 ${l.sqft} sqft</span>` : ''}
+        </div>
+        ${l.desc ? `<div class="ldesc">${l.desc}</div>` : ''}
+        ${l.mls ? `<div style="font-size:.72rem;color:#555;margin-bottom:8px">MLS# ${l.mls}</div>` : ''}
+        <button class="btn-del" onclick="deleteListing(${l.id})">🗑 Remove Listing</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Load on start
+renderListings();
+
+// Load from server on start
+fetch('/api/listings').then(r => r.json()).then(data => {
+  if (data.listings && data.listings.length) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data.listings));
+    renderListings();
+  }
+}).catch(() => {});
+</script>
+</body>
+</html>

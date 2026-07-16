@@ -243,16 +243,16 @@
     </div>
   </div>
   <div class="nlinks">
-    <a href="#listings">Listings</a>
-    <a href="https://www.crmls.org/servlet/lDisplayListings?LA=EN" target="_blank" rel="noopener">MLS Search</a>
-    <a href="#prequal">Get Pre-Approved</a>
+    <a href="#step1">🔍 Search MLS</a>
+    <a href="#step2">🏡 Request Showing</a>
+    <a href="#step3">📊 Pre-Qualify</a>
     <a href="#contact">Contact</a>
-    <a href="#prequal" class="ncta">Get Started</a>
+    <a href="#step1" class="ncta">Get Started</a>
   </div>
 </nav>
 
-<!-- MLS SEARCH BAR -->
-<div class="fbar" style="flex-wrap:wrap;gap:8px;padding:14px 24px">
+<!-- MLS SEARCH BAR (hidden on desktop, replaced by step sections) -->
+<div class="fbar" style="display:none">
   <select id="srCity" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
     <option value="">All San Diego</option>
     <option value="Chula Vista">Chula Vista</option>
@@ -324,11 +324,117 @@
   <div class="hcon">
     <div class="htag">San Diego's Trusted Home Buyer Guide</div>
     <h1>Find Your Dream<br/>Home in <span>San Diego</span></h1>
-    <p>Expert guidance, exclusive listings, and personalized support — from your first search to the keys in your hand.</p>
+    <p>Search real MLS listings, request a showing, and get pre-approved — all in one place.</p>
     <div class="hbtns">
-      <a href="#prequal" class="btnp">Get Pre-Approved Free</a>
-      <a href="#listings" class="btno">Browse Listings</a>
-      <a href="https://www.crmls.org/servlet/lDisplayListings?LA=EN" target="_blank" rel="noopener" class="btno">🔍 Search MLS Listings</a>
+      <a href="#step1" class="btnp">🔍 Start Your Search</a>
+      <a href="#step3" class="btno">Get Pre-Qualified</a>
+    </div>
+    <!-- 4-STEP PROGRESS BAR -->
+    <div style="display:flex;gap:0;margin-top:36px;max-width:600px">
+      <div onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:10px 6px;background:rgba(0,180,216,.15);border:1px solid #00b4d8;border-right:none;border-radius:6px 0 0 6px">
+        <div style="font-size:1.1rem">🔍</div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#00b4d8;margin-top:3px">Step 1</div>
+        <div style="font-size:.72rem;color:#ccc;margin-top:2px">Search MLS</div>
+      </div>
+      <div onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:10px 6px;background:rgba(255,255,255,.05);border:1px solid #333;border-right:none">
+        <div style="font-size:1.1rem">🏡</div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#888;margin-top:3px">Step 2</div>
+        <div style="font-size:.72rem;color:#666;margin-top:2px">Request Showing</div>
+      </div>
+      <div onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:10px 6px;background:rgba(255,255,255,.05);border:1px solid #333;border-right:none">
+        <div style="font-size:1.1rem">📊</div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#888;margin-top:3px">Step 3</div>
+        <div style="font-size:.72rem;color:#666;margin-top:2px">Get Pre-Qualified</div>
+      </div>
+      <div onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:10px 6px;background:rgba(255,255,255,.05);border:1px solid #333;border-radius:0 6px 6px 0">
+        <div style="font-size:1.1rem">📄</div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#888;margin-top:3px">Step 4</div>
+        <div style="font-size:.72rem;color:#666;margin-top:2px">Pre-Approval Letter</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 1: SEARCH MLS -->
+<section id="step1" style="background:var(--bg2);padding:70px 40px">
+  <div class="con">
+    <div class="stag">Step 1 of 4</div>
+    <h2 class="sti">🔍 Search MLS Listings</h2>
+    <p class="ssu">Browse real, active San Diego listings on the MLS. Filter by city, price, beds, and more — then come back to request a showing.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:32px;justify-content:center">
+      <select id="srCity" style="background:#111;color:#fff;border:1px solid #333;border-radius:4px;padding:10px 14px;font-family:inherit;font-size:.88rem;cursor:pointer">
+        <option value="">📍 All San Diego</option>
+        <option>Chula Vista</option><option>National City</option><option>El Cajon</option>
+        <option>La Mesa</option><option>Eastlake</option><option>Otay Ranch</option>
+        <option>San Diego</option><option>Escondido</option><option>Carlsbad</option><option>Oceanside</option>
+      </select>
+      <select id="srMinPrice" style="background:#111;color:#fff;border:1px solid #333;border-radius:4px;padding:10px 14px;font-family:inherit;font-size:.88rem;cursor:pointer">
+        <option value="">💰 Min Price</option>
+        <option value="200000">$200,000</option><option value="300000">$300,000</option>
+        <option value="400000">$400,000</option><option value="500000">$500,000</option>
+        <option value="600000">$600,000</option><option value="700000">$700,000</option>
+        <option value="800000">$800,000</option><option value="1000000">$1,000,000</option>
+      </select>
+      <select id="srMaxPrice" style="background:#111;color:#fff;border:1px solid #333;border-radius:4px;padding:10px 14px;font-family:inherit;font-size:.88rem;cursor:pointer">
+        <option value="">💰 Max Price</option>
+        <option value="300000">$300,000</option><option value="400000">$400,000</option>
+        <option value="500000">$500,000</option><option value="600000">$600,000</option>
+        <option value="700000">$700,000</option><option value="800000">$800,000</option>
+        <option value="1000000">$1,000,000</option><option value="1500000">$1,500,000</option>
+        <option value="2000000">$2,000,000+</option>
+      </select>
+      <select id="srBeds" style="background:#111;color:#fff;border:1px solid #333;border-radius:4px;padding:10px 14px;font-family:inherit;font-size:.88rem;cursor:pointer">
+        <option value="">🛏 Any Beds</option>
+        <option value="1">1+ Beds</option><option value="2">2+ Beds</option>
+        <option value="3">3+ Beds</option><option value="4">4+ Beds</option><option value="5">5+ Beds</option>
+      </select>
+      <select id="srBaths" style="background:#111;color:#fff;border:1px solid #333;border-radius:4px;padding:10px 14px;font-family:inherit;font-size:.88rem;cursor:pointer">
+        <option value="">🚿 Any Baths</option>
+        <option value="1">1+ Baths</option><option value="2">2+ Baths</option>
+        <option value="3">3+ Baths</option><option value="4">4+ Baths</option>
+      </select>
+      <select id="srType" style="background:#111;color:#fff;border:1px solid #333;border-radius:4px;padding:10px 14px;font-family:inherit;font-size:.88rem;cursor:pointer">
+        <option value="">🏠 Any Type</option>
+        <option value="SFR">Single Family</option><option value="Condo">Condo/Townhome</option>
+        <option value="Multi">Multi-Unit</option><option value="Land">Land</option>
+      </select>
+      <button onclick="doMLSSearch()" style="background:#00b4d8;color:#000;border:none;border-radius:4px;padding:10px 28px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit">🔍 Search MLS</button>
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <p style="color:#666;font-size:.8rem;margin-bottom:12px">Found a home you love? Come back and complete Step 2 👇</p>
+      <a href="#step2" style="color:#00b4d8;font-size:.85rem;font-weight:600;text-decoration:none">↓ Request a Showing</a>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2: REQUEST A SHOWING -->
+<section id="step2" style="background:var(--bg);padding:70px 40px">
+  <div class="con" style="max-width:600px">
+    <div class="stag">Step 2 of 4</div>
+    <h2 class="sti">🏡 Request a Showing</h2>
+    <p class="ssu">Found a property you want to see? Enter the address and your info — we'll set it up.</p>
+    <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
+      <input id="sh2-addr" type="text" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-name" type="text" placeholder="Your Full Name *" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-phone" type="tel" placeholder="Phone Number *" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-email" type="email" placeholder="Email Address" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <input id="sh2-date" type="date" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#888;font-family:inherit;font-size:.9rem"/>
+        <select id="sh2-time" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#888;font-family:inherit;font-size:.9rem">
+          <option value="">Preferred Time</option>
+          <option>Morning (9AM–12PM)</option>
+          <option>Afternoon (12PM–4PM)</option>
+          <option>Evening (4PM–7PM)</option>
+          <option>Flexible / Any Time</option>
+        </select>
+      </div>
+      <button onclick="submitStep2()" style="background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:pointer">🗓 Request My Showing →</button>
+      <div id="sh2-thanks" style="display:none;text-align:center;background:rgba(0,180,216,.1);border:1px solid #00b4d8;border-radius:6px;padding:20px">
+        <div style="font-size:1.8rem;margin-bottom:8px">✅</div>
+        <h4 style="margin-bottom:6px">Showing Requested!</h4>
+        <p style="color:#888;font-size:.84rem;margin-bottom:14px">We'll contact you shortly to confirm. Ready for the next step?</p>
+        <a href="#step3" style="background:#00b4d8;color:#000;font-weight:700;padding:10px 24px;border-radius:4px;text-decoration:none;font-size:.85rem">Next: Get Pre-Qualified →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -341,11 +447,13 @@
   <div><div class="stn">$0</div><div class="stl">Buyer Agent Fee</div></div>
 </div>
 
+<!-- STEP 3: PRE-QUALIFY -->
+<section id="step3" style="scroll-margin-top:60px">
 <!-- PRE-QUAL CALCULATOR -->
-<section id="prequal">
+<section id="prequal"><div style="background:var(--bg2);padding:16px 40px 0"><div class="stag" style="display:inline-block">Step 3 of 4</div></div>
   <div class="con">
     <div class="stag">Instant Pre-Qualification</div>
-    <h2 class="sti">See What You Qualify For</h2>
+    <h2 class="sti">📊 See What You Qualify For</h2>
     <p class="ssu">No sign-up needed. Adjust the sliders and get your estimated payment and approval amount instantly.</p>
     <div class="pql">
 
@@ -437,7 +545,8 @@
 
           <!-- CTA -->
           <div id="ctaArea">
-            <button class="btnl" onclick="showLetterForm()">🏠 Get My Pre-Approval Letter</button>
+            <a href="#step4" style="display:block;text-align:center;margin-bottom:8px;color:#00b4d8;font-size:.8rem;font-weight:600;text-decoration:none">Step 4: Get Your Official Pre-Approval Letter ↓</a>
+          <button class="btnl" id="step4trigger" onclick="showLetterForm()">📄 Get My Pre-Approval Letter</button>
             <div class="bnote">🔒 Free · No hard credit pull · Takes 2 min</div>
           </div>
 
@@ -467,6 +576,8 @@
   </div>
 </section>
 
+<!-- STEP 4 ANCHOR -->
+<div id="step4"></div>
 <!-- LISTINGS -->
 <section id="listings">
   <div class="con" style="max-width:100%;padding:0 40px">
@@ -809,6 +920,24 @@ function focusPin(i){
 }
 
 // ── MISC ──
+// ── STEP 2: REQUEST A SHOWING (inline form) ──
+function submitStep2(){
+  const addr  = document.getElementById('sh2-addr').value.trim();
+  const name  = document.getElementById('sh2-name').value.trim();
+  const phone = document.getElementById('sh2-phone').value.trim();
+  const email = document.getElementById('sh2-email').value.trim();
+  const date  = document.getElementById('sh2-date').value;
+  const time  = document.getElementById('sh2-time').value;
+  if(!addr||!name||!phone){alert('Please fill in the property address, your name, and phone number.');return;}
+  document.getElementById('sh2-thanks').style.display='block';
+  document.querySelector('#step2 button[onclick]').style.display='none';
+  fetch('https://sandiegohomebuyers.onrender.com/api/showing',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,phone,email,date,time,property:addr})
+  }).catch(()=>{});
+}
+
 // ── REQUEST A SHOWING ──
 function openShowing(property){
   document.getElementById('showingProperty').textContent = property;

@@ -236,18 +236,91 @@
     footer a{color:var(--teal);text-decoration:none}
 
     @media(max-width:768px){
-      nav{padding:13px 16px}
+      /* NAV */
+      nav{padding:12px 16px}
       .nlinks,.nsearch{display:none}
-      .fbar{position:relative;top:auto;padding:10px 14px;margin-top:52px}
-      .hero{padding:40px 18px 56px;margin-top:0}
-      section,#prequal{padding:56px 18px}
-      .stats{gap:32px;padding:32px 18px}
-      .pgrid{grid-template-columns:1fr}
-      .tg3,.tg4{grid-template-columns:1fr 1fr}
+
+      /* HERO */
+      .hero{padding:90px 18px 48px;margin-top:0;min-height:auto}
+      .hero h1{font-size:2.4rem;letter-spacing:-1px}
+      .hbtns{justify-content:center}
+      .btnp,.btno{padding:12px 22px;font-size:.82rem;flex:1;text-align:center}
+
+      /* 4-STEP PROGRESS BAR — stack 2x2 */
+      .hcon > div[style*="display:flex;gap:0;margin-top:50px"]{
+        display:grid!important;
+        grid-template-columns:1fr 1fr!important;
+        gap:3px!important;
+        margin-top:30px!important;
+        width:100%!important;
+      }
+      .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div{
+        padding:24px 10px!important;
+        border:2px solid #444!important;
+        border-radius:8px!important;
+        border-right:2px solid #444!important;
+      }
+      .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div:first-child{
+        border-color:#00b4d8!important;
+      }
+      .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div > div:first-child{font-size:2.4rem!important}
+      .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div > div:nth-child(2){font-size:.75rem!important;margin-top:8px!important}
+      .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div > div:nth-child(3){font-size:1rem!important;margin-top:4px!important}
+
+      /* LISTING VIDEO OVERLAY */
+      #listing-video div > div[style*="position:absolute;bottom"]{
+        left:16px!important;
+        right:16px!important;
+        bottom:16px!important;
+      }
+      #listing-video h2{font-size:1.2rem!important}
+
+      /* STEP 1 */
+      #step1{padding:48px 18px!important}
+      .step-label{font-size:2.4rem!important;letter-spacing:2px!important}
+      .sti{font-size:1.8rem!important}
+      .ssu{font-size:.9rem!important;margin-bottom:28px!important}
+
+      /* STEP 2 */
+      #step2{padding:48px 18px!important}
+      #step2 div[style*="grid-template-columns:1fr 1fr"]{
+        grid-template-columns:1fr!important;
+      }
+
+      /* SECTIONS */
+      section,#prequal{padding:48px 18px!important}
+
+      /* PRE-QUAL */
+      .pql{flex-direction:column;gap:16px}
+      .pq-in,.pq-out{min-width:100%;width:100%}
+      .pq-out{position:static!important;top:auto!important}
+      .cbox,.rbox{padding:20px 16px!important}
+      .tg3{grid-template-columns:1fr!important}
+      .tg4{grid-template-columns:1fr 1fr!important}
+      .pgrid{grid-template-columns:1fr 1fr}
+      .appr-price{font-size:1.6rem!important}
+      .ptv{font-size:1.1rem!important}
+
+      /* LISTINGS MAP */
       .mlayout{flex-direction:column;height:auto}
-      .lside{width:100%;height:300px}
-      .mwrap{height:320px}
-      .pql{gap:24px}
+      .lside{width:100%;height:280px}
+      .mwrap{height:260px}
+
+      /* STATS */
+      .stats{gap:24px 40px;padding:28px 18px;flex-wrap:wrap}
+      .stn{font-size:1.8rem}
+
+      /* TESTIMONIALS */
+      .tgrid{grid-template-columns:1fr!important;gap:2px}
+
+      /* CONTACT */
+      .cgrid{grid-template-columns:1fr 1fr!important;gap:2px}
+
+      /* STEP 4 */
+      #step4{padding:48px 18px!important}
+
+      /* FILTER BAR */
+      .fbar{position:relative;top:auto;padding:10px 14px;margin-top:52px}
     }
   </style>
 </head>

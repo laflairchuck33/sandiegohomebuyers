@@ -379,7 +379,10 @@
     <h2 class="sti">🏡 Request a Showing</h2>
     <p class="ssu">Found a property you want to see? Enter the address and your info — we'll set it up.</p>
     <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
-      <input id="sh2-addr" type="text" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
+      <div style="position:relative;width:100%">
+        <input id="sh2-addr" type="text" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" autocomplete="off" oninput="addrAutocomplete(this.value)" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
+        <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#1a1a1a;border:1px solid #00b4d8;border-top:none;border-radius:0 0 6px 6px;z-index:99;max-height:220px;overflow-y:auto"></div>
+      </div>
       <input id="sh2-name" type="text" placeholder="Your Full Name *" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
       <input id="sh2-phone" type="tel" placeholder="Phone Number *" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
       <input id="sh2-email" type="email" placeholder="Email Address" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
@@ -858,6 +861,34 @@ function focusPin(i){
 }
 
 // ── MISC ──
+// ── ADDRESS AUTOCOMPLETE (Nominatim) ──
+let addrTimer;
+function addrAutocomplete(val) {
+  clearTimeout(addrTimer);
+  const box = document.getElementById('addrSuggestions');
+  if (!val || val.length < 4) { box.style.display='none'; return; }
+  addrTimer = setTimeout(() => {
+    fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(val+', San Diego County, CA')}&format=json&limit=6&addressdetails=1&countrycodes=us`)
+      .then(r => r.json())
+      .then(results => {
+        if (!results.length) { box.style.display='none'; return; }
+        box.innerHTML = results.map(r => {
+          const display = r.display_name.split(',').slice(0,4).join(',');
+          return `<div onclick="selectAddr('${display.replace(/'/g,"&#39;")}')" style="padding:10px 14px;cursor:pointer;font-size:.85rem;color:#ccc;border-bottom:1px solid #222" onmouseover="this.style.background='#222'" onmouseout="this.style.background='transparent'">${display}</div>`;
+        }).join('');
+        box.style.display = 'block';
+      }).catch(() => box.style.display='none');
+  }, 350);
+}
+function selectAddr(addr) {
+  document.getElementById('sh2-addr').value = addr;
+  document.getElementById('addrSuggestions').style.display = 'none';
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#addrSuggestions') && e.target.id !== 'sh2-addr')
+    document.getElementById('addrSuggestions').style.display = 'none';
+});
+
 // ── STEP 2: REQUEST A SHOWING (inline form) ──
 function submitStep2(){
   const addr  = document.getElementById('sh2-addr').value.trim();

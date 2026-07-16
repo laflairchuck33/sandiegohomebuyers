@@ -249,14 +249,68 @@
   </div>
 </nav>
 
-<!-- FILTER BAR -->
-<div class="fbar">
-  <button class="fbtn on" onclick="toggleFilter(this)">For Sale ▾</button>
-  <button class="fbtn" onclick="toggleFilter(this)">Price ▾</button>
-  <button class="fbtn" onclick="toggleFilter(this)">Beds / Baths ▾</button>
-  <button class="fbtn" onclick="toggleFilter(this)">Home Type ▾</button>
-  <button class="fbtn" onclick="toggleFilter(this)">Filters ▾</button>
-  <button class="fsave">💾 Save Search</button>
+<!-- MLS SEARCH BAR -->
+<div class="fbar" style="flex-wrap:wrap;gap:8px;padding:14px 24px">
+  <select id="srCity" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+    <option value="">All San Diego</option>
+    <option value="Chula Vista">Chula Vista</option>
+    <option value="National City">National City</option>
+    <option value="El Cajon">El Cajon</option>
+    <option value="La Mesa">La Mesa</option>
+    <option value="Eastlake">Eastlake</option>
+    <option value="Otay Ranch">Otay Ranch</option>
+    <option value="San Diego">San Diego</option>
+    <option value="Escondido">Escondido</option>
+    <option value="Carlsbad">Carlsbad</option>
+    <option value="Oceanside">Oceanside</option>
+  </select>
+  <select id="srMinPrice" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+    <option value="">Min Price</option>
+    <option value="200000">$200,000</option>
+    <option value="300000">$300,000</option>
+    <option value="400000">$400,000</option>
+    <option value="500000">$500,000</option>
+    <option value="600000">$600,000</option>
+    <option value="700000">$700,000</option>
+    <option value="800000">$800,000</option>
+    <option value="1000000">$1,000,000</option>
+  </select>
+  <select id="srMaxPrice" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+    <option value="">Max Price</option>
+    <option value="300000">$300,000</option>
+    <option value="400000">$400,000</option>
+    <option value="500000">$500,000</option>
+    <option value="600000">$600,000</option>
+    <option value="700000">$700,000</option>
+    <option value="800000">$800,000</option>
+    <option value="1000000">$1,000,000</option>
+    <option value="1500000">$1,500,000</option>
+    <option value="2000000">$2,000,000+</option>
+  </select>
+  <select id="srBeds" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+    <option value="">Any Beds</option>
+    <option value="1">1+ Beds</option>
+    <option value="2">2+ Beds</option>
+    <option value="3">3+ Beds</option>
+    <option value="4">4+ Beds</option>
+    <option value="5">5+ Beds</option>
+  </select>
+  <select id="srBaths" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+    <option value="">Any Baths</option>
+    <option value="1">1+ Baths</option>
+    <option value="2">2+ Baths</option>
+    <option value="3">3+ Baths</option>
+    <option value="4">4+ Baths</option>
+  </select>
+  <select id="srType" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+    <option value="">Any Type</option>
+    <option value="SFR">Single Family</option>
+    <option value="Condo">Condo/Townhome</option>
+    <option value="Multi">Multi-Unit</option>
+    <option value="Land">Land</option>
+  </select>
+  <button onclick="doMLSSearch()" style="background:#00c9b1;color:#000;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit">🔍 Search MLS</button>
+  <button class="fsave" onclick="doMLSSearch()">View All Listings →</button>
 </div>
 
 <!-- HERO -->
@@ -692,8 +746,29 @@ function initMap() {
 function focusPin(i){map.setView([ld[i].lat,ld[i].lng],14,{animate:true});markers[i].openPopup();}
 
 // ── MISC ──
-function toggleFilter(btn){document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
-function doSearch(){const v=document.getElementById('navSearch').value.trim();if(v)document.getElementById('listings').scrollIntoView({behavior:'smooth'});}
+function doMLSSearch(){
+  const city     = document.getElementById('srCity').value;
+  const minPrice = document.getElementById('srMinPrice').value;
+  const maxPrice = document.getElementById('srMaxPrice').value;
+  const beds     = document.getElementById('srBeds').value;
+  const baths    = document.getElementById('srBaths').value;
+  const type     = document.getElementById('srType').value;
+  let url = 'https://www.crmls.org/servlet/lDisplayListings?LA=EN';
+  if(city)     url += '&City=' + encodeURIComponent(city);
+  if(minPrice) url += '&MinPrice=' + minPrice;
+  if(maxPrice) url += '&MaxPrice=' + maxPrice;
+  if(beds)     url += '&MinBeds=' + beds;
+  if(baths)    url += '&MinBaths=' + baths;
+  if(type)     url += '&PropType=' + encodeURIComponent(type);
+  window.open(url, '_blank');
+}
+function doSearch(){
+  const v = document.getElementById('navSearch').value.trim();
+  if(v){
+    const url = 'https://www.crmls.org/servlet/lDisplayListings?LA=EN&City=' + encodeURIComponent(v);
+    window.open(url, '_blank');
+  }
+}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const el=document.querySelector(a.getAttribute('href'));if(el)el.scrollIntoView({behavior:'smooth'});});});
 window.addEventListener('load',()=>{initMap();enforceDownMin();updateCalc();});
 </script>

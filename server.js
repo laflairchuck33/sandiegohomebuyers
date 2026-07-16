@@ -120,19 +120,19 @@ app.post('/api/showing', async (req, res) => {
 
   console.log(`\n🏡 SHOWING REQUEST: ${name} | ${phone} | ${property}`);
 
-  // Telegram notification
-  try {
-    const msg = [
-      '🏡 SHOWING REQUEST - SanDiegoHomeBuyers.com',
-      '',
-      `👤 Name: ${name}`,
-      `📱 Phone: ${phone}`,
-      email ? `📧 Email: ${email}` : '',
-      `🏠 Property: ${property}`,
-      date ? `📅 Preferred Date: ${date}` : '',
-      time ? `🕐 Preferred Time: ${time}` : '',
-    ].filter(Boolean).join('\n');
+  const msg = [
+    '🏡 SHOWING REQUEST - SanDiegoHomeBuyers.com',
+    '',
+    `👤 Name: ${name}`,
+    `📱 Phone: ${phone}`,
+    email ? `📧 Email: ${email}` : '',
+    `🏠 Property: ${property}`,
+    date ? `📅 Preferred Date: ${date}` : '',
+    time ? `🕐 Preferred Time: ${time}` : '',
+  ].filter(Boolean).join('\n');
 
+  // Telegram
+  try {
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
@@ -142,6 +142,25 @@ app.post('/api/showing', async (req, res) => {
     console.log('✅ Telegram: Showing request sent');
   } catch(err) {
     console.error('❌ Telegram Error:', err.message);
+  }
+
+  // Email
+  try {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.office365.com',
+      port: 587,
+      secure: false,
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+    });
+    await transporter.sendMail({
+      from: `"San Diego Home Buyers" <${process.env.SMTP_USER}>`,
+      to: 'chuck@allin-lending.com',
+      subject: `🏡 Showing Request: ${name} — ${property}`,
+      text: msg
+    });
+    console.log('✅ Email: Showing request sent');
+  } catch(err) {
+    console.error('❌ Email Error:', err.message);
   }
 
   res.json({ success: true });

@@ -86,6 +86,42 @@ app.post('/api/lead', async (req, res) => {
 });
 
 // ===========================
+// SHOWING REQUEST ENDPOINT
+// ===========================
+app.post('/api/showing', async (req, res) => {
+  const { name, phone, email, date, time, property } = req.body;
+  if (!name || !phone) return res.status(400).json({ error: 'Missing name or phone' });
+
+  console.log(`\n🏡 SHOWING REQUEST: ${name} | ${phone} | ${property}`);
+
+  // Telegram notification
+  try {
+    const msg = [
+      '🏡 SHOWING REQUEST - SanDiegoHomeBuyers.com',
+      '',
+      `👤 Name: ${name}`,
+      `📱 Phone: ${phone}`,
+      email ? `📧 Email: ${email}` : '',
+      `🏠 Property: ${property}`,
+      date ? `📅 Preferred Date: ${date}` : '',
+      time ? `🕐 Preferred Time: ${time}` : '',
+    ].filter(Boolean).join('\n');
+
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: 865040112, text: msg })
+    });
+    console.log('✅ Telegram: Showing request sent');
+  } catch(err) {
+    console.error('❌ Telegram Error:', err.message);
+  }
+
+  res.json({ success: true });
+});
+
+// ===========================
 // FOLLOW UP BOSS
 // ===========================
 function sendToFUB({ name, phone, email, callTime, calcData }) {

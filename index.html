@@ -209,6 +209,8 @@
     .cc a,.cc span{color:var(--lg);text-decoration:none;font-size:.86rem}
     .cc a:hover{color:var(--teal)}
 
+    .showing-btn{display:block;width:100%;margin-top:12px;background:var(--teal);border:none;color:#000;font-family:inherit;font-size:.78rem;font-weight:700;padding:9px;border-radius:4px;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:opacity .2s}
+    .showing-btn:hover{opacity:.85}
     footer{background:#0a0a0a;border-top:1px solid var(--bd);text-align:center;padding:26px;font-size:.76rem;color:var(--g)}
     footer a{color:var(--teal);text-decoration:none}
 
@@ -478,15 +480,18 @@
     <div class="lside">
       <div class="lcard" onclick="focusPin(0)">
         <img class="lim" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Chula Vista"/>
-        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$749,000</div><div class="lad">Chula Vista, CA 91914</div><div class="lme"><span>🛏 4 Beds</span><span>🚿 3 Baths</span><span>📐 2,100 sqft</span></div></div>
+        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$749,000</div><div class="lad">Chula Vista, CA 91914</div><div class="lme"><span>🛏 4 Beds</span><span>🚿 3 Baths</span><span>📐 2,100 sqft</span></div>
+        <button class="showing-btn" onclick="event.stopPropagation();openShowing('Chula Vista, CA 91914 — $749,000')">🗓 Request a Showing</button></div>
       </div>
       <div class="lcard" onclick="focusPin(1)">
         <img class="lim" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80" alt="Eastlake"/>
-        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$895,000</div><div class="lad">Eastlake, CA 91915</div><div class="lme"><span>🛏 5 Beds</span><span>🚿 3 Baths</span><span>📐 2,650 sqft</span></div></div>
+        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$895,000</div><div class="lad">Eastlake, CA 91915</div><div class="lme"><span>🛏 5 Beds</span><span>🚿 3 Baths</span><span>📐 2,650 sqft</span></div>
+        <button class="showing-btn" onclick="event.stopPropagation();openShowing('Eastlake, CA 91915 — $895,000')">🗓 Request a Showing</button></div>
       </div>
       <div class="lcard" onclick="focusPin(2)" style="border-bottom:none">
         <img class="lim" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Otay Ranch"/>
-        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$629,000</div><div class="lad">Otay Ranch, CA 91913</div><div class="lme"><span>🛏 3 Beds</span><span>🚿 2 Baths</span><span>📐 1,750 sqft</span></div></div>
+        <div class="lbd"><div class="ltg">For Sale</div><div class="lpr">$629,000</div><div class="lad">Otay Ranch, CA 91913</div><div class="lme"><span>🛏 3 Beds</span><span>🚿 2 Baths</span><span>📐 1,750 sqft</span></div>
+        <button class="showing-btn" onclick="event.stopPropagation();openShowing('Otay Ranch, CA 91913 — $629,000')">🗓 Request a Showing</button></div>
       </div>
     </div>
     <div class="mwrap"><div id="map"></div></div>
@@ -536,6 +541,33 @@
     </div>
   </div>
 </section>
+
+<!-- REQUEST A SHOWING MODAL -->
+<div id="showingModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:36px 32px;max-width:460px;width:100%;position:relative">
+    <button onclick="closeShowing()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer">✕</button>
+    <div style="color:#00b4d8;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Schedule a Visit</div>
+    <h3 style="font-size:1.3rem;margin-bottom:4px">Request a Showing</h3>
+    <p id="showingProperty" style="color:#888;font-size:.84rem;margin-bottom:20px"></p>
+    <input id="shName" type="text" placeholder="Full Name *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#fff;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shPhone" type="tel" placeholder="Phone Number *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#fff;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shEmail" type="email" placeholder="Email Address" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#fff;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shDate" type="date" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#888;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <select id="shTime" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#888;font-family:inherit;font-size:.88rem;margin-bottom:16px">
+      <option value="">Preferred Time</option>
+      <option>Morning (9AM–12PM)</option>
+      <option>Afternoon (12PM–4PM)</option>
+      <option>Evening (4PM–7PM)</option>
+      <option>Flexible / Any Time</option>
+    </select>
+    <button onclick="submitShowing()" style="width:100%;background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📅 Request Showing</button>
+    <div id="showingThanks" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:2rem;margin-bottom:10px">✅</div>
+      <h4 style="margin-bottom:6px">Request Sent!</h4>
+      <p style="color:#888;font-size:.84rem">We'll contact you shortly to confirm your showing.</p>
+    </div>
+  </div>
+</div>
 
 <footer>
   <p>© 2026 San Diego Home Buyers &nbsp;·&nbsp; <a href="mailto:info@sandiegohomebuyers.org">info@sandiegohomebuyers.org</a> &nbsp;·&nbsp; All rights reserved.</p>
@@ -746,6 +778,45 @@ function initMap() {
 function focusPin(i){map.setView([ld[i].lat,ld[i].lng],14,{animate:true});markers[i].openPopup();}
 
 // ── MISC ──
+// ── REQUEST A SHOWING ──
+function openShowing(property){
+  document.getElementById('showingProperty').textContent = property;
+  document.getElementById('shName').value='';
+  document.getElementById('shPhone').value='';
+  document.getElementById('shEmail').value='';
+  document.getElementById('shDate').value='';
+  document.getElementById('shTime').selectedIndex=0;
+  document.getElementById('showingThanks').style.display='none';
+  document.querySelector('#showingModal > div > button').style.display='block';
+  document.querySelector('#showingModal h3').style.display='block';
+  document.querySelector('#showingModal input[type="text"]').parentElement.querySelectorAll('input,select,button:last-of-type').forEach(el=>el.style.display='');
+  const modal = document.getElementById('showingModal');
+  modal.style.display='flex';
+}
+function closeShowing(){
+  document.getElementById('showingModal').style.display='none';
+}
+function submitShowing(){
+  const name  = document.getElementById('shName').value.trim();
+  const phone = document.getElementById('shPhone').value.trim();
+  const email = document.getElementById('shEmail').value.trim();
+  const date  = document.getElementById('shDate').value;
+  const time  = document.getElementById('shTime').value;
+  const prop  = document.getElementById('showingProperty').textContent;
+  if(!name||!phone){alert('Please enter your name and phone number.');return;}
+  // Show thanks
+  document.getElementById('showingThanks').style.display='block';
+  document.querySelector('#showingModal button[onclick="submitShowing()"]').style.display='none';
+  // Send to server
+  fetch('https://sandiegohomebuyers.onrender.com/api/showing', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,phone,email,date,time,property:prop})
+  }).catch(()=>{});
+  setTimeout(closeShowing, 3000);
+}
+document.getElementById('showingModal').addEventListener('click',function(e){if(e.target===this)closeShowing();});
+
 function doMLSSearch(){
   const city     = document.getElementById('srCity').value;
   const minPrice = document.getElementById('srMinPrice').value;

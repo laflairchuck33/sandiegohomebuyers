@@ -85,7 +85,7 @@
     .hero{min-height:100vh;display:flex;align-items:center;padding:148px 40px 80px;position:relative;overflow:hidden;background:var(--bg)}
     .hvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;z-index:0}
     .hovl{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,.5),rgba(13,13,13,.75));z-index:1}
-    .hcon{position:relative;z-index:2;max-width:780px}
+    .hcon{position:relative;z-index:2;max-width:960px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center}
     .htag{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-size:.74rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px}
     .htag::before{content:'';display:block;width:26px;height:2px;background:var(--teal)}
     .hero h1{font-size:clamp(2.8rem,5.5vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:18px}
@@ -330,7 +330,7 @@
       <a href="#step3" class="btno">Get Pre-Qualified</a>
     </div>
     <!-- 4-STEP PROGRESS BAR -->
-    <div style="display:flex;gap:0;margin-top:50px;width:100%">
+    <div style="display:flex;gap:0;margin-top:50px;width:100%;max-width:900px;margin-left:auto;margin-right:auto">
       <div onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:40px 12px;background:rgba(0,180,216,.18);border:4px solid #00b4d8;border-right:none;border-radius:14px 0 0 14px">
         <div style="font-size:3.5rem">🔍</div>
         <div style="font-size:1rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#00b4d8;margin-top:14px">Step 1</div>

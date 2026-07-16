@@ -56,6 +56,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <style>
+    .flatpickr-calendar{background:#1a1a1a!important;border:1px solid #00b4d8!important;border-radius:10px!important;box-shadow:0 8px 32px rgba(0,0,0,.6)!important}
+    .flatpickr-day{color:#ccc!important;border-radius:6px!important}
+    .flatpickr-day:hover,.flatpickr-day.selected{background:#00b4d8!important;color:#000!important;border-color:#00b4d8!important}
+    .flatpickr-day.today{border-color:#00b4d8!important;color:#00b4d8!important}
+    .flatpickr-day.flatpickr-disabled{color:#444!important}
+    .flatpickr-months,.flatpickr-weekdays{background:#111!important;border-radius:10px 10px 0 0!important}
+    .flatpickr-month,.flatpickr-weekday{color:#fff!important;fill:#fff!important}
+    .flatpickr-current-month,.numInputWrapper{color:#fff!important}
+    .flatpickr-prev-month svg,.flatpickr-next-month svg{fill:#00b4d8!important}
+    span.flatpickr-weekday{color:#00b4d8!important}
+  </style>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--bg:#0d0d0d;--bg2:#141414;--card:#1e1e1e;--teal:#00b4d8;--w:#fff;--g:#888;--lg:#b0b0b0;--bd:#2a2a2a}
@@ -387,7 +401,7 @@
       <input id="sh2-phone" type="tel" placeholder="Phone Number *" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
       <input id="sh2-email" type="email" placeholder="Email Address" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <input id="sh2-date" type="date" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#888;font-family:inherit;font-size:.9rem"/>
+        <input id="sh2-date" type="text" placeholder="📅 Pick a Date" readonly style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;cursor:pointer"/>
         <select id="sh2-time" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#888;font-family:inherit;font-size:.9rem">
           <option value="">Preferred Time</option>
           <option>Morning (9AM–12PM)</option>
@@ -970,7 +984,21 @@ function doSearch(){
   }
 }
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const el=document.querySelector(a.getAttribute('href'));if(el)el.scrollIntoView({behavior:'smooth'});});});
-window.addEventListener('load',()=>{initMap();enforceDownMin();updateCalc();});
+window.addEventListener('load',()=>{
+  initMap();
+  enforceDownMin();
+  updateCalc();
+  // Calendar picker for showing date
+  flatpickr('#sh2-date', {
+    minDate: 'today',
+    disableMobile: false,
+    dateFormat: 'D, M j, Y',
+    disable: [
+      function(date) { return date.getDay() === 0; } // disable Sundays
+    ],
+    theme: 'dark'
+  });
+});
 </script>
 </body>
 </html>

@@ -20,6 +20,8 @@ app.use(express.static(path.join(__dirname)));
 // ===========================
 const FUB_API_KEY    = process.env.FUB_API_KEY;
 const NOTIFY_EMAIL   = process.env.NOTIFY_EMAIL   || 'chuck@allin-lending.com';
+const TARA_EMAIL     = process.env.TARA_EMAIL      || 'tbalady@clearmortgagecapital.com';
+const JORDY_TOKEN    = process.env.JORDY_BOT_TOKEN;
 const NOTIFY_PHONE   = process.env.NOTIFY_PHONE   || '+16194540917';
 const TWILIO_SID     = process.env.TWILIO_SID;
 const TWILIO_TOKEN   = process.env.TWILIO_TOKEN;
@@ -155,7 +157,8 @@ app.post('/api/showing', async (req, res) => {
     await transporter.sendMail({
       from: `"San Diego Home Buyers" <${process.env.SMTP_USER}>`,
       to: 'chuck@allin-lending.com',
-      subject: `🏡 Showing Request: ${name} — ${property}`,
+      cc: TARA_EMAIL,
+      subject: `Showing Request: ${name} — ${property}`,
       text: msg
     });
     console.log('✅ Email: Showing request sent');
@@ -260,6 +263,7 @@ async function sendEmailNotification({ name, phone, email, callTime, calcData })
   await transporter.sendMail({
     from: `"San Diego Home Buyers" <${process.env.SMTP_USER}>`,
     to: NOTIFY_EMAIL,
+    cc: TARA_EMAIL,
     subject,
     text
   });
@@ -291,6 +295,21 @@ async function sendTelegramNotification({ name, phone, email, callTime, calcData
   });
   const r = await res.json();
   if (!r.ok) throw new Error('Telegram: ' + JSON.stringify(r));
+
+  // Also notify Jordy (Tara's bot) if token + chat ID configured
+  if (JORDY_TOKEN && process.env.TARA_CHAT_ID) {
+    try {
+      await fetch(`https://api.telegram.org/bot${JORDY_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: process.env.TARA_CHAT_ID, text: msg })
+      });
+      console.log('✅ Jordy: Notification sent to Tara');
+    } catch(e) {
+      console.error('❌ Jordy Error:', e.message);
+    }
+  }
+
   return r;
 }
 

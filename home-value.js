@@ -446,31 +446,7 @@ function generatePDF() {
   doc.text(fmt(net), W - 28, y + 22, { align: 'right' });
   y += 44;
 
-  // ── Market Forecast ──────────────────────────────────
-  y += 8;
-  y = sectionLabel('3-Year Market Forecast (San Diego ZIP)', y);
 
-  const yr1 = Math.round(S.estValue * 1.01);
-  const yr2 = Math.round(S.estValue * 1.02);
-  const yr3 = Math.round(S.estValue * 1.04);
-  const foreRows = [
-    ['1 Year Growth', '1%', new Date().getFullYear() + 1, fmt(yr1)],
-    ['2 Year Growth', '2%', new Date().getFullYear() + 2, fmt(yr2)],
-    ['3 Year Growth', '4%', new Date().getFullYear() + 3, fmt(yr3)],
-  ];
-  foreRows.forEach((r, i) => {
-    doc.setFillColor(i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 249 : 255, i % 2 === 0 ? 252 : 255);
-    doc.rect(16, y, W - 32, 22, 'F');
-    doc.setTextColor(...darkGray); doc.setFontSize(9); doc.setFont('helvetica', 'normal');
-    doc.text(r[0], 28, y + 15);
-    doc.setTextColor(...teal); doc.setFont('helvetica', 'bold');
-    doc.text(r[1], 200, y + 15);
-    doc.setTextColor(...darkGray); doc.setFont('helvetica', 'normal');
-    doc.text(String(r[2]), 280, y + 15);
-    doc.setTextColor(...navy); doc.setFont('helvetica', 'bold');
-    doc.text(r[3], W - 28, y + 15, { align: 'right' });
-    y += 22;
-  });
 
   // ── Disclaimer ───────────────────────────────────────
   y += 16;

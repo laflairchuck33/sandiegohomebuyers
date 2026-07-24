@@ -60,7 +60,7 @@ async function suggest(q) {
     const r = await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(q) + '&limit=6&lang=en&countrycode=us&layer=house');
     const data = await r.json();
     list.innerHTML = '';
-    const features = (data.features || []).filter(f => f.properties.country === 'United States of America' || f.properties.countrycode === 'US');
+    const features = (data.features || []).filter(f => f.properties.countrycode === 'US' || (f.properties.country || '').includes('United States'));
     if (!features.length) { list.style.display = 'none'; return; }
     features.forEach(item => {
       const p = item.properties;

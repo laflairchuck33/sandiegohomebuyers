@@ -358,6 +358,42 @@ function sendSMSNotification({ name, phone, email, calcData }) {
 }
 
 // ===========================
+// LO SURVEY
+// ===========================
+app.post('/api/lo-survey', async (req, res) => {
+  const { agentName, company, sentBusiness, closedDeal, dealCount, submittedAt } = req.body;
+  if (!agentName || !company) return res.status(400).json({ error: 'Missing required fields' });
+
+  console.log(`\n📋 LO SURVEY: ${agentName} | ${company} | Sent: ${sentBusiness} | Closed: ${closedDeal} | Deals: ${dealCount}`);
+
+  const msg = [
+    '📋 LO SURVEY — Chuck La Flair',
+    '',
+    `👤 Agent: ${agentName}`,
+    `🏢 Company: ${company}`,
+    `📤 Sent Business: ${sentBusiness}`,
+    `✅ Closed a Deal: ${closedDeal}`,
+    closedDeal === 'Yes' ? `🔢 Deals Closed: ${dealCount}` : '',
+    `🕐 Submitted: ${new Date(submittedAt).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} PT`,
+  ].filter(Boolean).join('\n');
+
+  // Telegram
+  try {
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: 865040112, text: msg })
+    });
+    console.log('✅ Telegram: LO survey sent');
+  } catch(err) {
+    console.error('❌ Telegram Error:', err.message);
+  }
+
+  res.json({ success: true });
+});
+
+// ===========================
 // START
 // ===========================
 app.listen(PORT, () => {

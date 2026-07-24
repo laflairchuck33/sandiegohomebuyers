@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LO Business Check-In</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0d0d0d;
+    color: #f0f0f0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  .card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 40px 36px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(0,0,0,.5);
+  }
+  .logo {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .logo h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #00c9b1;
+    letter-spacing: -0.5px;
+  }
+  .logo p {
+    color: #888;
+    font-size: .88rem;
+    margin-top: 4px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    font-size: .82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: #aaa;
+    margin-bottom: 8px;
+  }
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    background: #111;
+    border: 1.5px solid #333;
+    border-radius: 8px;
+    color: #f0f0f0;
+    font-size: 1rem;
+    padding: 12px 14px;
+    font-family: inherit;
+    transition: border-color .2s;
+    outline: none;
+  }
+  input:focus { border-color: #00c9b1; }
+  .radio-group {
+    display: flex;
+    gap: 10px;
+  }
+  .radio-option {
+    flex: 1;
+    cursor: pointer;
+  }
+  .radio-option input { display: none; }
+  .radio-option span {
+    display: block;
+    text-align: center;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1.5px solid #333;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #888;
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .radio-option input:checked + span {
+    border-color: #00c9b1;
+    background: rgba(0,201,177,.12);
+    color: #00c9b1;
+  }
+  .closed-count {
+    display: none;
+    margin-top: 14px;
+  }
+  .closed-count.visible { display: block; }
+  .submit-btn {
+    width: 100%;
+    background: #00c9b1;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 15px;
+    cursor: pointer;
+    margin-top: 8px;
+    font-family: inherit;
+    letter-spacing: .3px;
+    transition: background .2s;
+  }
+  .submit-btn:hover { background: #00b09b; }
+  .submit-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+  .success {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+  }
+  .success .check { font-size: 3rem; margin-bottom: 12px; }
+  .success h2 { color: #00c9b1; font-size: 1.3rem; margin-bottom: 8px; }
+  .success p { color: #888; font-size: .9rem; }
+  .required { color: #00c9b1; }
+  .divider { border: none; border-top: 1px solid #222; margin: 24px 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <h1>Chuck La Flair — All In Lending</h1>
+    <p>Quick LO Business Check-In</p>
+  </div>
+
+  <form id="surveyForm">
+    <div class="form-group">
+      <label>Your Full Name <span class="required">*</span></label>
+      <input type="text" id="agentName" placeholder="First & Last Name" required>
+    </div>
+
+    <div class="form-group">
+      <label>Your Company / Brokerage <span class="required">*</span></label>
+      <input type="text" id="company" placeholder="e.g. eXp Realty, Coldwell Banker..." required>
+    </div>
+
+    <hr class="divider">
+
+    <div class="form-group">
+      <label>Have you sent business to Chuck? <span class="required">*</span></label>
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="sentBusiness" value="Yes">
+          <span>✅ Yes</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="sentBusiness" value="No">
+          <span>❌ No</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="sentBusiness" value="In Progress">
+          <span>🔄 In Progress</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Have you closed a deal with Chuck? <span class="required">*</span></label>
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="closedDeal" value="Yes" onchange="toggleCount('Yes')">
+          <span>✅ Yes</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="closedDeal" value="No" onchange="toggleCount('No')">
+          <span>❌ No</span>
+        </label>
+      </div>
+      <div class="closed-count" id="closedCount">
+        <label style="margin-top:14px">How many deals closed with Chuck?</label>
+        <input type="number" id="dealCount" placeholder="e.g. 3" min="1">
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">Submit →</button>
+  </form>
+
+  <div class="success" id="successMsg">
+    <div class="check">🎉</div>
+    <h2>Thanks! Got it.</h2>
+    <p>Chuck will follow up with you soon.</p>
+  </div>
+</div>
+
+<script>
+function toggleCount(val) {
+  const box = document.getElementById('closedCount');
+  if (val === 'Yes') {
+    box.classList.add('visible');
+  } else {
+    box.classList.remove('visible');
+    document.getElementById('dealCount').value = '';
+  }
+}
+
+document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const agentName   = document.getElementById('agentName').value.trim();
+  const company     = document.getElementById('company').value.trim();
+  const sentBiz     = document.querySelector('input[name="sentBusiness"]:checked');
+  const closedDeal  = document.querySelector('input[name="closedDeal"]:checked');
+  const dealCount   = document.getElementById('dealCount').value;
+
+  if (!agentName || !company || !sentBiz || !closedDeal) {
+    alert('Please fill out all required fields.');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const payload = {
+    agentName,
+    company,
+    sentBusiness: sentBiz.value,
+    closedDeal: closedDeal.value,
+    dealCount: closedDeal.value === 'Yes' ? (parseInt(dealCount) || 1) : 0,
+    submittedAt: new Date().toISOString()
+  };
+
+  try {
+    await fetchWithRetry('https://sandiegohomebuyers.onrender.com/api/lo-survey', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(err) {
+    // silent — still show success
+  }
+
+  document.getElementById('surveyForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+});
+
+async function fetchWithRetry(url, options, retries = 3, delayMs = 2000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.ok) return res;
+    } catch (e) {
+      if (i < retries - 1) await new Promise(r => setTimeout(r, delayMs));
+    }
+  }
+}
+</script>
+</body>
+</html>

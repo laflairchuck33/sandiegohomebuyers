@@ -7,7 +7,9 @@ let S = {
   estValue: 0, valueLow: 0, valueHigh: 0,
   beds: '', baths: '', sqft: '', yearBuilt: '',
   salePrice: 0, payoff: 0, commission: 5.5, closing: 1.5,
-  first: '', last: '', email: '', phone: ''
+  interestRate: 0,
+  first: '', last: '', email: '', phone: '',
+  comparables: []
 };
 
 // ── Formatting ──────────────────────────────────────────
@@ -132,6 +134,7 @@ async function runValuation() {
     S.estValue = data.price || data.value || 0;
     S.valueLow = data.priceRangeLow || data.valueLow || Math.round(S.estValue * 0.93);
     S.valueHigh = data.priceRangeHigh || data.valueHigh || Math.round(S.estValue * 1.07);
+    S.comparables = (data.comparables || []).slice(0, 8);
 
     document.getElementById('estValue').textContent = fmt(S.estValue);
     document.getElementById('valueRange').textContent = 'Estimated range: ' + fmt(S.valueLow) + ' – ' + fmt(S.valueHigh);
@@ -473,7 +476,122 @@ function generatePDF() {
   const discLines = doc.splitTextToSize(disc, W - 52);
   doc.text(discLines, 28, y + 12);
 
-  pageFooter(1, 1);
+  const totalPages = S.comparables.length > 0 ? 2 : 1;
+  pageFooter(1, totalPages);
+
+  // ══════════════════════════════════════
+  // PAGE 2 — Comparable Sales
+  // ══════════════════════════════════════
+  if (S.comparables.length > 0) {
+    doc.addPage();
+    pageHeader(2);
+
+    let y2 = 68;
+    y2 = sectionLabel('Suggested Comparable Sales (' + S.comparables.length + ' properties)', y2);
+    y2 += 4;
+
+    // Table header
+    const cols = [
+      { label: '#',        x: 18,  w: 18 },
+      { label: 'ADDRESS',  x: 38,  w: 160 },
+      { label: 'DIST',     x: 200, w: 36 },
+      { label: 'STATUS',   x: 238, w: 46 },
+      { label: 'PRICE',    x: 286, w: 74 },
+      { label: 'DATE',     x: 362, w: 58 },
+      { label: 'BED',      x: 422, w: 24 },
+      { label: 'BATH',     x: 448, w: 28 },
+      { label: 'SQFT',     x: 478, w: 50 },
+      { label: '$/SQFT',   x: 530, w: 52 },
+    ];
+
+    doc.setFillColor(...navy);
+    doc.rect(16, y2, W - 32, 18, 'F');
+    cols.forEach(c => {
+      doc.setTextColor(...gold);
+      doc.setFontSize(6.5); doc.setFont('helvetica', 'bold');
+      doc.text(c.label, c.x + 2, y2 + 12);
+    });
+    y2 += 18;
+
+    S.comparables.forEach((comp, i) => {
+      const bg = i % 2 === 0 ? lightGray : white;
+      doc.setFillColor(...bg);
+      doc.rect(16, y2, W - 32, 22, 'F');
+
+      const saleDate = comp.listedDate ? new Date(comp.listedDate).toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'2-digit'}) : '—';
+      const priceSqft = comp.squareFootage && comp.price ? '$' + Math.round(comp.price / comp.squareFootage) : '—';
+      const dist = comp.distance ? comp.distance.toFixed(2) + ' mi' : '—';
+      const status = (comp.status || '').toLowerCase() === 'active' ? 'Active' : 'Sold';
+      const statusColor = status === 'Active' ? [0, 130, 60] : [100, 100, 120];
+      const addrText = (comp.formattedAddress || '').split(',')[0];
+      const cityText = (comp.formattedAddress || '').split(',').slice(1,2).join('').trim();
+
+      doc.setTextColor(...darkGray); doc.setFontSize(7.5); doc.setFont('helvetica', 'normal');
+      doc.text(String(i + 1), cols[0].x + 2, y2 + 9);
+
+      // Address (two lines)
+      doc.setFont('helvetica', 'bold'); doc.setTextColor(...navy);
+      doc.text(addrText.substring(0, 26), cols[1].x + 2, y2 + 9);
+      doc.setFont('helvetica', 'normal'); doc.setTextColor(...midGray); doc.setFontSize(6.5);
+      doc.text(cityText.substring(0, 22), cols[1].x + 2, y2 + 17);
+
+      doc.setFontSize(7.5); doc.setTextColor(...darkGray); doc.setFont('helvetica', 'normal');
+      doc.text(dist, cols[2].x + 2, y2 + 13);
+
+      doc.setTextColor(...statusColor); doc.setFont('helvetica', 'bold');
+      doc.text(status, cols[3].x + 2, y2 + 13);
+
+      doc.setTextColor(...navy); doc.setFont('helvetica', 'bold');
+      doc.text(comp.price ? '$' + (comp.price/1000).toFixed(0)+'K' : '—', cols[4].x + 2, y2 + 13);
+
+      doc.setTextColor(...darkGray); doc.setFont('helvetica', 'normal');
+      doc.text(saleDate, cols[5].x + 2, y2 + 13);
+      doc.text(comp.bedrooms ? String(comp.bedrooms) : '—', cols[6].x + 2, y2 + 13);
+      doc.text(comp.bathrooms ? String(comp.bathrooms) : '—', cols[7].x + 2, y2 + 13);
+      doc.text(comp.squareFootage ? comp.squareFootage.toLocaleString() : '—', cols[8].x + 2, y2 + 13);
+
+      doc.setTextColor(...teal); doc.setFont('helvetica', 'bold');
+      doc.text(priceSqft, cols[9].x + 2, y2 + 13);
+
+      y2 += 22;
+    });
+
+    // Avg price per sqft
+    const validComps = S.comparables.filter(c => c.price && c.squareFootage);
+    if (validComps.length > 0) {
+      const avgPSF = Math.round(validComps.reduce((s, c) => s + c.price / c.squareFootage, 0) / validComps.length);
+      y2 += 8;
+      doc.setFillColor(...navyLight);
+      doc.rect(16, y2, W - 32, 24, 'F');
+      doc.setTextColor(...white); doc.setFontSize(9); doc.setFont('helvetica', 'bold');
+      doc.text('Average Price Per Sq Ft (Comparables)', 28, y2 + 15);
+      doc.setTextColor(...gold);
+      doc.text('$' + avgPSF + '/ft²', W - 28, y2 + 15, { align: 'right' });
+      y2 += 34;
+    }
+
+    // Subject vs comps summary
+    y2 += 8;
+    y2 = sectionLabel('Subject Property vs. Market', y2);
+    const subjectRows = [
+      ['Property Address', addrShort],
+      ['Estimated Value', fmt(S.estValue)],
+      ['Bedrooms', infoBeds], ['Bathrooms', infoBaths],
+      ['Square Feet', infoSqft], ['Year Built', infoYear],
+      ['Comps Analyzed', String(S.comparables.length)],
+    ];
+    subjectRows.forEach((r, i) => {
+      doc.setFillColor(i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 249 : 255, i % 2 === 0 ? 252 : 255);
+      doc.rect(16, y2, W - 32, 20, 'F');
+      doc.setTextColor(...darkGray); doc.setFontSize(8.5); doc.setFont('helvetica', 'normal');
+      doc.text(r[0], 28, y2 + 13);
+      doc.setTextColor(...navy); doc.setFont('helvetica', 'bold');
+      doc.text(r[1] || '—', W - 28, y2 + 13, { align: 'right' });
+      y2 += 20;
+    });
+
+    pageFooter(2, totalPages);
+  }
 
   doc.save('Property-Explorer-' + addrShort.replace(/\s+/g, '-') + '-' + new Date().toISOString().slice(0,10) + '.pdf');
 }

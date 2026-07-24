@@ -118,12 +118,9 @@
           <div class="autocomplete-list" id="autocompleteList" style="display:none"></div>
         </div>
       </div>
-      <div class="two-col">
-        <div class="field" style="margin:0"><label>Bedrooms</label><input type="number" id="beds" placeholder="3" min="0" max="20" /></div>
-        <div class="field" style="margin:0"><label>Bathrooms</label><input type="number" id="baths" placeholder="2" min="0" max="20" step="0.5" /></div>
-      </div>
-      <div class="field" style="margin-top:12px"><label>Square Footage <span style="font-weight:400;text-transform:none;font-size:11px;letter-spacing:0">(optional, improves accuracy)</span></label>
-        <input type="number" id="sqft" placeholder="e.g. 1800" min="0" /></div>
+      <input type="hidden" id="beds" value="" />
+      <input type="hidden" id="baths" value="" />
+      <input type="hidden" id="sqft" value="" />
       <button class="btn" onclick="runValuation()" id="valuateBtn">Get My Home Value →</button>
       <div class="note">🔒 Free · No obligation · Instant estimate · No credit check</div>
     </div>

@@ -136,18 +136,23 @@ async function runValuation() {
     S.valueHigh = data.priceRangeHigh || data.valueHigh || Math.round(S.estValue * 1.07);
     S.comparables = (data.comparables || []).slice(0, 8);
 
+    // Pull property details from subjectProperty or top comparable or user input
+    const sub = data.subjectProperty || {};
+    const topComp = (data.comparables || [])[0] || {};
+    const beds = sub.bedrooms || data.bedrooms || topComp.bedrooms || S.beds || null;
+    const baths = sub.bathrooms || data.bathrooms || topComp.bathrooms || S.baths || null;
+    const sqft = sub.squareFootage || data.squareFootage || topComp.squareFootage || (S.sqft ? parseInt(S.sqft) : null);
+    const yearBuilt = sub.yearBuilt || data.yearBuilt || topComp.yearBuilt || null;
+
+    document.getElementById('infoBeds').textContent = beds || '—';
+    document.getElementById('infoBaths').textContent = baths || '—';
+    document.getElementById('infoSqft').textContent = sqft ? parseInt(sqft).toLocaleString() : '—';
+    document.getElementById('infoYear').textContent = yearBuilt || '—';
+    document.getElementById('propInfo').style.display = 'grid';
+
     document.getElementById('estValue').textContent = fmt(S.estValue);
     document.getElementById('valueRange').textContent = 'Estimated range: ' + fmt(S.valueLow) + ' – ' + fmt(S.valueHigh);
     document.getElementById('step2Addr').textContent = addrVal;
-
-    const hasProp = data.bedrooms || data.bathrooms || data.squareFootage || S.beds;
-    if (hasProp) {
-      document.getElementById('infoBeds').textContent = data.bedrooms || S.beds || '—';
-      document.getElementById('infoBaths').textContent = data.bathrooms || S.baths || '—';
-      document.getElementById('infoSqft').textContent = data.squareFootage ? data.squareFootage.toLocaleString() : (S.sqft ? parseInt(S.sqft).toLocaleString() : '—');
-      document.getElementById('infoYear').textContent = data.yearBuilt || '—';
-      document.getElementById('propInfo').style.display = 'grid';
-    }
 
     document.getElementById('salePrice').value = S.estValue;
     recalc();

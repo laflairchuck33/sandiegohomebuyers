@@ -182,17 +182,19 @@ function calcMonthlyPayment(principal, annualRate, remainingMonths) {
 
 function recalc() {
   const sale = parseFloat(document.getElementById('salePrice').value) || 0;
-  const payoff = parseFloat(document.getElementById('payoff').value) || 0;
+  const principal = parseFloat(document.getElementById('payoff').value) || 0;
   const rate = parseFloat(document.getElementById('interestRate').value) || 0;
-  const years = parseFloat(document.getElementById('remainingYears').value) || 0;
+  const years = parseFloat(document.getElementById('remainingYears').value) || 30;
   const closing = sale * (S.closing / 100);
-  // Use a fixed 5% commission baked in (hidden from UI)
   const comm = sale * 0.055;
-  const net = sale - payoff - comm - closing;
-  S.salePrice = sale; S.payoff = payoff; S.interestRate = rate;
+  // Payoff interest = principal × (annual rate / 12) — one month's interest as payoff penalty estimate
+  const payoffInterest = rate > 0 ? Math.round(principal * (rate / 100) / 12) : 0;
+  const totalPayoff = principal + payoffInterest;
+  const net = sale - totalPayoff - comm - closing;
+  S.salePrice = sale; S.payoff = totalPayoff; S.interestRate = rate;
 
   // Monthly payment estimate
-  const monthly = calcMonthlyPayment(payoff, rate, years * 12);
+  const monthly = calcMonthlyPayment(principal, rate, years * 12);
   const monthlyEl = document.getElementById('ns-monthly');
   if (monthly > 0 && monthlyEl) {
     monthlyEl.textContent = fmt(monthly) + '/mo';
@@ -202,7 +204,17 @@ function recalc() {
   }
 
   document.getElementById('ns-sale').textContent = fmt(sale);
-  document.getElementById('ns-payoff').textContent = payoff > 0 ? ('\u2212' + fmt(payoff)) : fmt(0);
+  document.getElementById('ns-principal').textContent = principal > 0 ? ('\u2212' + fmt(principal)) : fmt(0);
+  // Show/hide payoff interest row
+  const intRow = document.getElementById('ns-interest-row');
+  const intEl = document.getElementById('ns-interest');
+  if (payoffInterest > 0 && intRow && intEl) {
+    intEl.textContent = '\u2212' + fmt(payoffInterest);
+    intRow.style.display = 'flex';
+  } else if (intRow) {
+    intRow.style.display = 'none';
+  }
+  document.getElementById('ns-payoff').textContent = totalPayoff > 0 ? ('\u2212' + fmt(totalPayoff)) : fmt(0);
   document.getElementById('ns-closing').textContent = '\u2212' + fmt(closing);
   document.getElementById('ns-net').textContent = fmt(net);
   document.getElementById('ns-net').style.color = net >= 0 ? 'white' : '#fca5a5';
@@ -419,13 +431,22 @@ function generatePDF() {
   // ── Net Proceeds Section ─────────────────────────────
   y = sectionLabel('Estimated Net Proceeds', y);
 
+  const principal = S.payoff || 0;
+  const payoffInterest = rate > 0 ? Math.round(principal / (1 + rate/100) * (rate/100) / 12) : 0;
+  // Recalc from stored values
+  const storedPrincipal = parseFloat(document.getElementById('payoff').value) || 0;
+  const storedRate = S.interestRate || 0;
+  const calcPayoffInterest = storedRate > 0 ? Math.round(storedPrincipal * (storedRate / 100) / 12) : 0;
+  const totalMortgagePayoff = storedPrincipal + calcPayoffInterest;
   const netRows = [
     { label: 'Estimated Sale Price', val: fmt(sale), color: darkGray, bold: false },
-    { label: 'Mortgage Payoff', val: '− ' + fmt(payoff), color: [180,40,40], bold: false },
-    { label: 'Agent Commission (5.5%)', val: '− ' + fmt(comm), color: [180,40,40], bold: false },
-    { label: 'Seller Closing Costs (' + S.closing + '%)', val: '− ' + fmt(closing), color: [180,40,40], bold: false },
+    { label: 'Current Principal Balance', val: '− ' + fmt(storedPrincipal), color: [180,40,40], bold: false },
   ];
-  if (monthly > 0) netRows.splice(2, 0, { label: 'Current Monthly Payment @ ' + rate + '%', val: fmt(monthly) + '/mo', color: [0,100,160], bold: false });
+  if (calcPayoffInterest > 0) netRows.push({ label: 'Payoff Interest @ ' + storedRate + '%', val: '− ' + fmt(calcPayoffInterest), color: [180,40,40], bold: false });
+  netRows.push({ label: 'Total Mortgage Payoff', val: '− ' + fmt(totalMortgagePayoff), color: [120,30,30], bold: true });
+  if (monthly > 0) netRows.push({ label: 'Current Monthly Payment @ ' + storedRate + '%', val: fmt(monthly) + '/mo', color: [0,100,160], bold: false });
+  netRows.push({ label: 'Agent Commission (5.5%)', val: '− ' + fmt(comm), color: [180,40,40], bold: false });
+  netRows.push({ label: 'Seller Closing Costs (' + S.closing + '%)', val: '− ' + fmt(closing), color: [180,40,40], bold: false });
 
   netRows.forEach((row, i) => {
     doc.setFillColor(i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 249 : 255, i % 2 === 0 ? 252 : 255);

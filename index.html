@@ -72,25 +72,25 @@
     /* CALENDAR PICKER */
     .cal-wrap{position:relative;width:100%}
     .cal-input{width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;user-select:none}
-    .cal-input:hover{border-color:#1500FF}
-    .cal-popup{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:999;background:#f0f0f0;border:2px solid #1500FF;border-radius:10px;padding:16px;width:320px;box-shadow:0 12px 40px rgba(0,0,0,.7)}
+    .cal-input:hover{border-color:#1a6cfe}
+    .cal-popup{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:999;background:#f0f0f0;border:2px solid #1a6cfe;border-radius:10px;padding:16px;width:320px;box-shadow:0 12px 40px rgba(0,0,0,.7)}
     .cal-popup.open{display:block}
     .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .cal-nav{background:none;border:none;color:#1500FF;font-size:1.3rem;cursor:pointer;padding:4px 10px;border-radius:4px}
+    .cal-nav{background:none;border:none;color:#1a6cfe;font-size:1.3rem;cursor:pointer;padding:4px 10px;border-radius:4px}
     .cal-nav:hover{background:rgba(21,0,255,.15)}
     .cal-month{font-weight:800;font-size:1rem;color:#fff}
     .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-    .cal-dow{text-align:center;font-size:.7rem;font-weight:700;color:#1500FF;padding:4px 0;text-transform:uppercase}
+    .cal-dow{text-align:center;font-size:.7rem;font-weight:700;color:#1a6cfe;padding:4px 0;text-transform:uppercase}
     .cal-day{text-align:center;padding:8px 4px;border-radius:6px;font-size:.85rem;cursor:pointer;color:#ccc;transition:background .15s}
-    .cal-day:hover:not(.disabled):not(.empty){background:#1500FF;color:#000;font-weight:700}
-    .cal-day.selected{background:#1500FF;color:#000;font-weight:800}
-    .cal-day.today{border:1px solid #1500FF;color:#1500FF}
+    .cal-day:hover:not(.disabled):not(.empty){background:#1a6cfe;color:#000;font-weight:700}
+    .cal-day.selected{background:#1a6cfe;color:#000;font-weight:800}
+    .cal-day.today{border:1px solid #1a6cfe;color:#1a6cfe}
     .cal-day.disabled{color:#333;cursor:default}
     .cal-day.empty{cursor:default}
   </style>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#ffffff;--bg2:#f5f5f5;--card:#ffffff;--teal:#1500FF;--w:#111;--g:#666;--lg:#444;--bd:#e0e0e0}
+    :root{--bg:#ffffff;--bg2:#f5f5f5;--card:#ffffff;--teal:#1a6cfe;--w:#111;--g:#666;--lg:#444;--bd:#e0e0e0}
     html{scroll-behavior:smooth}
     body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--w);line-height:1.6}
 
@@ -103,9 +103,9 @@
     .nsearch input::placeholder{color:var(--g)}
     .nsearch button{background:var(--teal);border:none;color:#000;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:3px;cursor:pointer;font-family:inherit}
     .nlinks{display:flex;gap:12px;align-items:center}
-    .nlinks a{color:#1500FF;text-decoration:none;font-size:.85rem;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s;border:2px solid #1500FF;border-radius:6px;padding:6px 14px}
-    .nlinks a:hover{background:#1500FF;color:#fff}
-    .ncta{background:#1500FF !important;color:#fff !important;padding:8px 20px !important;border-radius:6px !important;font-weight:900 !important;border:2px solid #1500FF !important}
+    .nlinks a{color:#1a6cfe;text-decoration:none;font-size:.85rem;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s;border:2px solid #1a6cfe;border-radius:6px;padding:6px 14px}
+    .nlinks a:hover{background:#1a6cfe;color:#fff}
+    .ncta{background:#1a6cfe !important;color:#fff !important;padding:8px 20px !important;border-radius:6px !important;font-weight:900 !important;border:2px solid #1a6cfe !important}
 
     /* FILTER BAR */
     .fbar{position:fixed;top:62px;left:0;right:0;z-index:99;background:#f5f5f5;border-bottom:1px solid #e0e0e0;padding:9px 40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -120,14 +120,14 @@
     .hcon{position:relative;z-index:2;max-width:960px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center}
     .htag{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-size:.74rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px}
     .htag::before{content:'';display:block;width:26px;height:2px;background:var(--teal)}
-    .hero h1{font-size:clamp(2.8rem,5.5vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:18px;color:#1500FF}
-    .hero h1 span{color:#1500FF}
+    .hero h1{font-size:clamp(2.8rem,5.5vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:18px;color:#1a6cfe}
+    .hero h1 span{color:#1a6cfe}
     .hero p{font-size:1.05rem;color:var(--lg);max-width:500px;margin-bottom:38px;line-height:1.8}
     .hbtns{display:flex;gap:14px;flex-wrap:wrap}
-    .btnp{background:#fff;color:#1500FF;border:2px solid #1500FF;padding:14px 34px;border-radius:4px;font-weight:800;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
-    .btnp:hover{background:#1500FF;color:#fff}
-    .btno{background:#fff;color:#1500FF;border:2px solid #1500FF;padding:14px 34px;border-radius:4px;font-weight:800;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
-    .btno:hover{background:#1500FF;color:#fff}
+    .btnp{background:#fff;color:#1a6cfe;border:2px solid #1a6cfe;padding:14px 34px;border-radius:4px;font-weight:800;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
+    .btnp:hover{background:#1a6cfe;color:#fff}
+    .btno{background:#fff;color:#1a6cfe;border:2px solid #1a6cfe;padding:14px 34px;border-radius:4px;font-weight:800;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
+    .btno:hover{background:#1a6cfe;color:#fff}
 
     /* STATS */
     .stats{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid #e0e0e0;padding:42px 40px;display:flex;justify-content:center;gap:70px;flex-wrap:wrap}
@@ -273,7 +273,7 @@
         border-right:2px solid #444!important;
       }
       .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div:first-child{
-        border-color:#1500FF!important;
+        border-color:#1a6cfe!important;
       }
       .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div > div:first-child{font-size:2.4rem!important}
       .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div > div:nth-child(2){font-size:.75rem!important;margin-top:8px!important}
@@ -414,7 +414,7 @@
     <option value="Multi">Multi-Unit</option>
     <option value="Land">Land</option>
   </select>
-  <button onclick="doMLSSearch()" style="background:#1500FF;color:#000;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit">🔍 Search MLS</button>
+  <button onclick="doMLSSearch()" style="background:#1a6cfe;color:#000;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit">🔍 Search MLS</button>
   <button class="fsave" onclick="doMLSSearch()">View All Listings →</button>
 </div>
 
@@ -435,25 +435,25 @@
     </div>
     <!-- 4-STEP PROGRESS BAR -->
     <div style="display:flex;gap:0;margin-top:50px;width:100%;max-width:900px;margin-left:auto;margin-right:auto">
-      <div onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:transparent;border:4px solid #1500FF;border-right:none;border-radius:14px 0 0 14px">
-        <img src="https://images.unsplash.com/photo-1606206873764-fd15e242f4c0?w=300&h=120&fit=crop&auto=format" style="width:100%;height:120px;object-fit:cover;object-position:center center;border-radius:8px;border:3px solid #1500FF;display:block" alt="Search" />
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1500FF;margin-top:16px">Step 1</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1500FF;margin-top:8px">Search MLS</div>
+      <div onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:transparent;border:4px solid #1a6cfe;border-right:none;border-radius:14px 0 0 14px">
+        <img src="https://images.unsplash.com/photo-1606206873764-fd15e242f4c0?w=300&h=120&fit=crop&auto=format" style="width:100%;height:120px;object-fit:cover;object-position:center center;border-radius:8px;border:3px solid #1a6cfe;display:block" alt="Search" />
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px">Step 1</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px">Search MLS</div>
       </div>
-      <div onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:transparent;border:4px solid #1500FF;border-right:none">
-        <img src="/house-photo.jpg" style="width:100%;height:160px;object-fit:cover;object-position:center center;border-radius:8px;border:3px solid #1500FF;display:block" alt="House" />
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1500FF;margin-top:16px">Step 2</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1500FF;margin-top:8px">Request Showing</div>
+      <div onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:transparent;border:4px solid #1a6cfe;border-right:none">
+        <img src="/house-photo.jpg" style="width:100%;height:160px;object-fit:cover;object-position:center center;border-radius:8px;border:3px solid #1a6cfe;display:block" alt="House" />
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px">Step 2</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px">Request Showing</div>
       </div>
-      <div onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:transparent;border:4px solid #1500FF;border-right:none">
-        <img src="/lo-photo.jpg" style="width:100%;height:160px;object-fit:contain;object-position:center top;background:#f5f7ff;border-radius:8px;border:3px solid #1500FF;display:block" alt="Loan Officer" />
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1500FF;margin-top:16px">Step 3</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1500FF;margin-top:8px">Get Pre-Qualified</div>
+      <div onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:transparent;border:4px solid #1a6cfe;border-right:none">
+        <img src="/lo-photo.jpg" style="width:100%;height:160px;object-fit:contain;object-position:center top;background:#f5f7ff;border-radius:8px;border:3px solid #1a6cfe;display:block" alt="Loan Officer" />
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px">Step 3</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px">Get Pre-Qualified</div>
       </div>
-      <div onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:transparent;border:4px solid #1500FF;border-radius:0 14px 14px 0">
+      <div onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:transparent;border:4px solid #1a6cfe;border-radius:0 14px 14px 0">
         <div style="font-size:7rem;line-height:1;font-weight:900;color:#39ff14;-webkit-text-stroke:3px #2acc00">✓</div>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1500FF;margin-top:16px">Step 4</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1500FF;margin-top:8px">Pre-Approval Letter</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px">Step 4</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px">Pre-Approval Letter</div>
       </div>
 
     </div>
@@ -470,10 +470,10 @@
     <!-- SOUND TOGGLE -->
     <button id="soundBtn" onclick="toggleSound()" style="position:absolute;top:16px;right:16px;z-index:10;background:rgba(0,0,0,.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer">🔇</button>
     <div style="position:absolute;bottom:32px;left:40px;right:40px;z-index:2">
-      <div style="display:inline-block;background:#1500FF;color:#000;font-size:.72rem;font-weight:800;padding:4px 12px;border-radius:4px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">🎥 Live Listing</div>
+      <div style="display:inline-block;background:#1a6cfe;color:#000;font-size:.72rem;font-weight:800;padding:4px 12px;border-radius:4px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">🎥 Live Listing</div>
       <h2 style="font-size:2.2rem;font-weight:900;margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,.6)">4855 Pine Street, La Mesa, CA 91942</h2>
-      <div style="font-size:1.6rem;font-weight:900;color:#1500FF;margin-bottom:14px">$1,049,000</div>
-      <button onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="background:#1500FF;border:none;color:#000;font-family:inherit;font-size:.95rem;font-weight:800;padding:12px 32px;border-radius:6px;cursor:pointer">🗓 Request a Showing →</button>
+      <div style="font-size:1.6rem;font-weight:900;color:#1a6cfe;margin-bottom:14px">$1,049,000</div>
+      <button onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:.95rem;font-weight:800;padding:12px 32px;border-radius:6px;cursor:pointer">🗓 Request a Showing →</button>
     </div>
   </div>
 </section>
@@ -484,13 +484,13 @@
   <div class="con">
     <div class="step-label">Step 1 of 4</div>
     <h2 style="font-size:2.8rem;font-weight:900;line-height:1.1;margin-bottom:10px;text-align:center">START YOUR SEARCH HERE</h2>
-    <p style="font-size:1.3rem;font-weight:700;color:#1500FF;margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
+    <p style="font-size:1.3rem;font-weight:700;color:#1a6cfe;margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
     <div style="display:flex;justify-content:center;margin-top:32px">
-      <button onclick="doMLSSearch()" style="background:#1500FF;color:#000;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px">🔍 Search MLS Listings</button>
+      <button onclick="doMLSSearch()" style="background:#1a6cfe;color:#000;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px">🔍 Search MLS Listings</button>
     </div>
     <div style="text-align:center;margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:14px">
       <p style="color:#666;font-size:.85rem">Found a home you love? Come back and complete Step 2 👇</p>
-      <a href="#step2" style="color:#1500FF;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
+      <a href="#step2" style="color:#1a6cfe;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
 
     </div>
   </div>
@@ -505,7 +505,7 @@
     <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
       <div style="position:relative;width:100%">
         <input id="sh2-addr" type="text" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" autocomplete="off" oninput="addrAutocomplete(this.value)" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
-        <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#f0f0f0;border:1px solid #1500FF;border-top:none;border-radius:0 0 6px 6px;z-index:99;max-height:220px;overflow-y:auto"></div>
+        <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#f0f0f0;border:1px solid #1a6cfe;border-top:none;border-radius:0 0 6px 6px;z-index:99;max-height:220px;overflow-y:auto"></div>
       </div>
       <input id="sh2-name" type="text" placeholder="Your Full Name *" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
       <input id="sh2-phone" type="tel" placeholder="Phone Number *" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
@@ -514,7 +514,7 @@
         <div class="cal-wrap" id="calWrap">
           <div class="cal-input" onclick="toggleCal()">
             <span id="calDisplay">📅 Pick a Date</span>
-            <span style="color:#1500FF">&#9660;</span>
+            <span style="color:#1a6cfe">&#9660;</span>
           </div>
           <div class="cal-popup" id="calPopup">
             <div class="cal-header">
@@ -534,13 +534,13 @@
           <option>Flexible / Any Time</option>
         </select>
       </div>
-      <button onclick="submitStep2()" style="background:#1500FF;border:none;color:#000;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:pointer">🗓 Request My Showing →</button>
-      <p style="text-align:center;margin-top:14px;color:#888;font-size:.88rem">Want to see if you are pre-qualified? <a href="#step3" style="color:#1500FF;font-weight:700;text-decoration:none">Proceed to Step 3 →</a></p>
-      <div id="sh2-thanks" style="display:none;text-align:center;background:rgba(21,0,255,.1);border:1px solid #1500FF;border-radius:6px;padding:20px">
+      <button onclick="submitStep2()" style="background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:pointer">🗓 Request My Showing →</button>
+      <p style="text-align:center;margin-top:14px;color:#888;font-size:.88rem">Want to see if you are pre-qualified? <a href="#step3" style="color:#1a6cfe;font-weight:700;text-decoration:none">Proceed to Step 3 →</a></p>
+      <div id="sh2-thanks" style="display:none;text-align:center;background:rgba(21,0,255,.1);border:1px solid #1a6cfe;border-radius:6px;padding:20px">
         <div style="font-size:1.8rem;margin-bottom:8px">✅</div>
         <h4 style="margin-bottom:6px">Showing Requested!</h4>
         <p style="color:#888;font-size:.84rem;margin-bottom:14px">We'll contact you shortly to confirm. Ready for the next step?</p>
-        <a href="#step3" style="background:#1500FF;color:#000;font-weight:700;padding:10px 24px;border-radius:4px;text-decoration:none;font-size:.85rem">Next: Get Pre-Qualified →</a>
+        <a href="#step3" style="background:#1a6cfe;color:#000;font-weight:700;padding:10px 24px;border-radius:4px;text-decoration:none;font-size:.85rem">Next: Get Pre-Qualified →</a>
       </div>
     </div>
   </div>
@@ -554,7 +554,7 @@
 <section id="prequal"><div style="background:var(--bg2);padding:16px 40px 0"><div class="step-label">Step 3 of 4</div></div>
   <div class="con">
     <div style="display:flex;align-items:center;gap:32px;margin-bottom:32px;flex-wrap:wrap;justify-content:center">
-      <img src="/lo-photo.jpg" alt="Your Loan Officer" style="width:180px;height:180px;object-fit:cover;border-radius:12px;border:4px solid #1500FF;box-shadow:0 8px 32px rgba(21,0,255,.2);flex-shrink:0" />
+      <img src="/lo-photo.jpg" alt="Your Loan Officer" style="width:180px;height:180px;object-fit:cover;border-radius:12px;border:4px solid #1a6cfe;box-shadow:0 8px 32px rgba(21,0,255,.2);flex-shrink:0" />
       <div>
         <div class="stag">Instant Pre-Qualification</div>
         <h2 class="sti">📊 See What You Qualify For</h2>
@@ -651,7 +651,7 @@
 
           <!-- CTA -->
           <div id="ctaArea">
-            <a href="#step4" style="display:block;text-align:center;margin-bottom:8px;color:#1500FF;font-size:.9rem;font-weight:700;text-decoration:none">Ready? Proceed to Step 4: Get Your Pre-Approval Letter ↓</a>
+            <a href="#step4" style="display:block;text-align:center;margin-bottom:8px;color:#1a6cfe;font-size:.9rem;font-weight:700;text-decoration:none">Ready? Proceed to Step 4: Get Your Pre-Approval Letter ↓</a>
           </div>
         </div>
       </div>
@@ -671,16 +671,16 @@
         <input type="text" id="lfName" placeholder="Full Name *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
         <input type="email" id="lfEmail" placeholder="Email Address *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
         <input type="tel" id="lfPhone" placeholder="Phone Number" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:16px"/>
-        <button onclick="submitLetter()" style="width:100%;background:#1500FF;border:none;color:#000;font-family:inherit;font-size:1.1rem;font-weight:800;padding:16px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📄 Get My Pre-Approval Letter</button>
+        <button onclick="submitLetter()" style="width:100%;background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:1.1rem;font-weight:800;padding:16px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📄 Get My Pre-Approval Letter</button>
         <p style="text-align:center;color:#666;font-size:.8rem;margin-top:10px">🔒 Free · No hard credit pull · Takes 2 min</p>
       </div>
-      <div id="congratsBox" style="display:none;text-align:center;background:rgba(21,0,255,.1);border:2px solid #1500FF;border-radius:10px;padding:36px 24px">
+      <div id="congratsBox" style="display:none;text-align:center;background:rgba(21,0,255,.1);border:2px solid #1a6cfe;border-radius:10px;padding:36px 24px">
         <div style="font-size:3rem;margin-bottom:12px">🎉</div>
         <h3 style="font-size:1.6rem;margin-bottom:8px">Congratulations!</h3>
         <p style="color:#aaa;margin-bottom:6px">You are Pre-Approved up to</p>
-        <div class="cprice" id="congratsPrice" style="font-size:2rem;font-weight:900;color:#1500FF;margin-bottom:16px">$500,000</div>
+        <div class="cprice" id="congratsPrice" style="font-size:2rem;font-weight:900;color:#1a6cfe;margin-bottom:16px">$500,000</div>
         <p style="color:#aaa;margin-bottom:24px">Complete your official application to lock in your rate.</p>
-        <button onclick="trackAndApply()" style="background:#1500FF;border:none;color:#000;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
+        <button onclick="trackAndApply()" style="background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
       </div>
     </div>
   </div>
@@ -727,7 +727,7 @@
 <div id="showingModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px">
   <div style="background:#f0f0f0;border:1px solid #ddd;border-radius:10px;padding:36px 32px;max-width:460px;width:100%;position:relative">
     <button onclick="closeShowing()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer">✕</button>
-    <div style="color:#1500FF;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Schedule a Visit</div>
+    <div style="color:#1a6cfe;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Schedule a Visit</div>
     <h3 style="font-size:1.3rem;margin-bottom:4px">Request a Showing</h3>
     <p id="showingProperty" style="color:#888;font-size:.84rem;margin-bottom:20px"></p>
     <input id="shName" type="text" placeholder="Full Name *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
@@ -741,7 +741,7 @@
       <option>Evening (4PM–7PM)</option>
       <option>Flexible / Any Time</option>
     </select>
-    <button onclick="submitShowing()" style="width:100%;background:#1500FF;border:none;color:#000;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📅 Request Showing</button>
+    <button onclick="submitShowing()" style="width:100%;background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📅 Request Showing</button>
     <div id="showingThanks" style="display:none;text-align:center;padding:20px 0">
       <div style="font-size:2rem;margin-bottom:10px">✅</div>
       <h4 style="margin-bottom:6px">Request Sent!</h4>
@@ -1014,7 +1014,7 @@ function renderListings(listings) {
     markers = [];
     listings.forEach((l, i) => {
       if (!l.lat || !l.lng) return;
-      const icon = L.divIcon({className:'',html:`<div style="background:#1500FF;color:#000;font-weight:800;font-size:11px;padding:5px 9px;border-radius:4px;white-space:nowrap;font-family:Inter,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.4)">${l.price}</div>`,iconAnchor:[38,18]});
+      const icon = L.divIcon({className:'',html:`<div style="background:#1a6cfe;color:#000;font-weight:800;font-size:11px;padding:5px 9px;border-radius:4px;white-space:nowrap;font-family:Inter,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.4)">${l.price}</div>`,iconAnchor:[38,18]});
       markers.push(L.marker([l.lat,l.lng],{icon}).addTo(map).bindPopup(`<b>${l.price}</b><br>${l.addr}${l.beds?' | '+l.beds+' bed':''}${l.baths?' · '+l.baths+' bath':''}`));
     });
   }

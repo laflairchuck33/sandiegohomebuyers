@@ -534,7 +534,7 @@
           <option>Flexible / Any Time</option>
         </select>
       </div>
-      <button onclick="submitStep2()" style="background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:pointer">🗓 Request My Showing →</button>
+      <button onclick="gtag('event','request_showing',{event_category:'conversion',event_label:'Request My Showing'});fbq('track','Lead');submitStep2()" style="background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:pointer">🗓 Request My Showing →</button>
       <p style="text-align:center;margin-top:14px;color:#888;font-size:.88rem">Want to see if you are pre-qualified? <a href="#step3" style="color:#00b4d8;font-weight:700;text-decoration:none">Proceed to Step 3 →</a></p>
       <div id="sh2-thanks" style="display:none;text-align:center;background:rgba(0,180,216,.1);border:1px solid #00b4d8;border-radius:6px;padding:20px">
         <div style="font-size:1.8rem;margin-bottom:8px">✅</div>
@@ -666,7 +666,7 @@
         <input type="text" id="lfName" placeholder="Full Name *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
         <input type="email" id="lfEmail" placeholder="Email Address *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
         <input type="tel" id="lfPhone" placeholder="Phone Number" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:16px"/>
-        <button onclick="submitLetter()" style="width:100%;background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:1.1rem;font-weight:800;padding:16px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📄 Get My Pre-Approval Letter</button>
+        <button onclick="gtag('event','preapproval_letter_request',{event_category:'conversion',event_label:'Get My Pre-Approval Letter'});fbq('track','Lead');submitLetter()" style="width:100%;background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:1.1rem;font-weight:800;padding:16px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📄 Get My Pre-Approval Letter</button>
         <p style="text-align:center;color:#666;font-size:.8rem;margin-top:10px">🔒 Free · No hard credit pull · Takes 2 min</p>
       </div>
       <div id="congratsBox" style="display:none;text-align:center;background:rgba(0,180,216,.1);border:2px solid #00b4d8;border-radius:10px;padding:36px 24px">
@@ -736,7 +736,7 @@
       <option>Evening (4PM–7PM)</option>
       <option>Flexible / Any Time</option>
     </select>
-    <button onclick="submitShowing()" style="width:100%;background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📅 Request Showing</button>
+    <button onclick="gtag('event','request_showing',{event_category:'conversion',event_label:'Request Showing Modal'});fbq('track','Lead');submitShowing()" style="width:100%;background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📅 Request Showing</button>
     <div id="showingThanks" style="display:none;text-align:center;padding:20px 0">
       <div style="font-size:2rem;margin-bottom:10px">✅</div>
       <h4 style="margin-bottom:6px">Request Sent!</h4>

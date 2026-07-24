@@ -223,8 +223,7 @@ async function downloadReport() {
 
   // Notify Chuck + push to FUB
   const addrVal2 = document.getElementById('addressInput').value.trim();
-  try { await notifyChuck(addrVal2); } catch (e) { console.log('Telegram notify failed:', e); }
-  try { await pushToFUB(); } catch (e) { console.log('FUB push failed:', e); }
+  try { await notifyChuck(addrVal2); } catch (e) { console.log('Lead notify failed:', e); }
 
   // Generate PDF
   try {
@@ -240,11 +239,18 @@ async function downloadReport() {
 
 async function notifyChuck(addr) {
   const net = S.salePrice - S.payoff - S.salePrice*0.055 - S.salePrice*(S.closing/100);
-  const msg = `🏠 NEW HOME VALUE LEAD\n\n👤 ${S.first} ${S.last}\n📧 ${S.email}${S.phone ? '\n📱 ' + S.phone : ''}\n\n📍 ${addr}\n💰 Est. Value: ${fmt(S.estValue)}\n🏦 Payoff: ${fmt(S.payoff)}\n✅ Est. Net: ${fmt(net)}\n\nFrom: sandiegohomebuyers.org`;
-  await fetch(`https://api.telegram.org/bot${window.TG_BOT_TOKEN}/sendMessage`, {
+  // Route through server to avoid CORS issues
+  await fetch('/api/home-value-lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: '865040112', text: msg })
+    body: JSON.stringify({
+      firstName: S.first, lastName: S.last,
+      email: S.email, phone: S.phone,
+      address: addr,
+      estValue: fmt(S.estValue),
+      payoff: fmt(S.payoff),
+      estNet: fmt(net)
+    })
   });
 }
 

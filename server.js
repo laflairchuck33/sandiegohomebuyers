@@ -394,6 +394,50 @@ app.post('/api/lo-survey', async (req, res) => {
 });
 
 // ===========================
+// HOME VALUE LEAD NOTIFICATION
+// ===========================
+app.post('/api/home-value-lead', async (req, res) => {
+  const { firstName, lastName, email, phone, address, estValue, payoff, estNet } = req.body;
+  try {
+    // Telegram notify Chuck
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    const msg = `🏠 NEW HOME VALUE LEAD\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n🏦 Principal Balance: ${payoff}\n✅ Est. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: '865040112', text: msg })
+    });
+
+    // Push to FUB
+    await fetch('https://api.followupboss.com/v1/people', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + Buffer.from(process.env.FUB_API_KEY + ':').toString('base64')
+      },
+      body: JSON.stringify({
+        source: 'Home Value Tool - sandiegohomebuyers.org',
+        firstName, lastName,
+        emails: [{ value: email }],
+        phones: phone ? [{ value: phone }] : [],
+        tags: ['Home Value Lead', 'Seller Lead'],
+        customFields: [
+          { label: 'Property Address', value: address },
+          { label: 'Estimated Value', value: estValue },
+          { label: 'Principal Balance', value: payoff },
+          { label: 'Estimated Net', value: estNet }
+        ]
+      })
+    });
+
+    res.json({ ok: true });
+  } catch (e) {
+    console.error('Home value lead error:', e.message);
+    res.json({ ok: false, error: e.message });
+  }
+});
+
+// ===========================
 // START
 // ===========================
 app.listen(PORT, () => {

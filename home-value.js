@@ -91,6 +91,7 @@ function pickFeature(item, label) {
 async function runValuation() {
   const addrVal = document.getElementById('addressInput').value.trim();
   if (!addrVal) { alert('Please enter a property address.'); return; }
+  // Always use whatever is typed — don't require dropdown selection
   if (!S.address) S.address = addrVal;
   S.beds = document.getElementById('beds').value || '';
   S.baths = document.getElementById('baths').value || '';
@@ -103,13 +104,10 @@ async function runValuation() {
   try {
     let data;
     if (RENTCAST_KEY === 'PENDING') {
-      // Demo mode
       data = demoValue(addrVal);
     } else {
-      const params = new URLSearchParams({ address: S.address });
-      if (S.city) params.append('city', S.city);
-      if (S.state) params.append('state', S.state);
-      if (S.zip) params.append('zipCode', S.zip);
+      // Use full typed address as fallback — works well with Rentcast
+      const params = new URLSearchParams({ address: addrVal });
       if (S.beds) params.append('bedrooms', S.beds);
       if (S.baths) params.append('bathrooms', S.baths);
       if (S.sqft) params.append('squareFootage', S.sqft);
@@ -117,7 +115,13 @@ async function runValuation() {
       const resp = await fetch('https://api.rentcast.io/v1/avm/value?' + params, {
         headers: { 'X-Api-Key': RENTCAST_KEY, 'Accept': 'application/json' }
       });
-      data = resp.ok ? await resp.json() : demoValue(addrVal);
+      if (resp.ok) {
+        data = await resp.json();
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        console.warn('Rentcast error:', err);
+        data = demoValue(addrVal);
+      }
     }
 
     S.estValue = data.price || data.value || 0;
@@ -141,11 +145,12 @@ async function runValuation() {
     recalc();
     goStep(2);
   } catch (err) {
+    console.error('Valuation error:', err);
     alert('Could not retrieve value. Please check the address and try again.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Get My Home Value →';
   }
-
-  btn.disabled = false;
-  btn.innerHTML = 'Get My Home Value →';
 }
 
 function demoValue() {

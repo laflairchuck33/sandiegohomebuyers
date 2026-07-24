@@ -51,40 +51,45 @@ function initAutocomplete() {
 
 async function suggest(q) {
   const list = document.getElementById('autocompleteList');
-  if (q.length < 3) { list.style.display = 'none'; return; }
+  if (q.length < 4) { list.style.display = 'none'; return; }
   try {
-    // Use Census Bureau geocoder — completely free, no key, very accurate for US addresses
-    const url = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=' +
-      encodeURIComponent(q) + '&benchmark=2020&format=json';
-    // Also try photon (OSM-based, works well for partials)
-    const r = await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(q) + '&limit=6&lang=en&countrycode=us&layer=house');
+    // Use nominatim with proper headers - reliable US address search
+    const r = await fetch(
+      'https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=7&countrycodes=us&q=' + encodeURIComponent(q),
+      { headers: { 'Accept-Language': 'en-US', 'User-Agent': 'SanDiegoHomeBuyers/1.0' } }
+    );
     const data = await r.json();
     list.innerHTML = '';
-    const features = (data.features || []).filter(f => f.properties.countrycode === 'US' || (f.properties.country || '').includes('United States'));
-    if (!features.length) { list.style.display = 'none'; return; }
-    features.forEach(item => {
-      const p = item.properties;
-      const label = [p.housenumber, p.street, p.city || p.locality, p.state, p.postcode].filter(Boolean).join(', ');
-      if (!p.housenumber) return; // skip non-address results
+    let count = 0;
+    data.forEach(item => {
+      const a = item.address || {};
+      // Only show results with a house number (real street addresses)
+      if (!a.house_number) return;
+      const label = [
+        a.house_number + ' ' + (a.road || ''),
+        a.city || a.town || a.village || a.municipality || '',
+        a.state || '',
+        a.postcode || ''
+      ].filter(Boolean).join(', ');
       const d = document.createElement('div');
       d.className = 'autocomplete-item';
       d.textContent = label;
-      d.onclick = () => pickFeature(item, label);
+      d.onclick = () => {
+        S.address = (a.house_number + ' ' + (a.road || '')).trim();
+        S.city = a.city || a.town || a.village || '';
+        S.state = a.state_code || a.state || 'CA';
+        S.zip = a.postcode || '';
+        document.getElementById('addressInput').value = label;
+        list.style.display = 'none';
+      };
       list.appendChild(d);
+      count++;
     });
-    if (list.children.length) list.style.display = 'block';
-    else list.style.display = 'none';
-  } catch (e) { list.style.display = 'none'; }
-}
-
-function pickFeature(item, label) {
-  const p = item.properties;
-  S.address = [p.housenumber, p.street].filter(Boolean).join(' ');
-  S.city = p.city || p.locality || p.town || '';
-  S.state = p.state || 'CA';
-  S.zip = p.postcode || '';
-  document.getElementById('addressInput').value = label;
-  document.getElementById('autocompleteList').style.display = 'none';
+    list.style.display = count > 0 ? 'block' : 'none';
+  } catch (e) {
+    console.warn('Autocomplete error:', e);
+    list.style.display = 'none';
+  }
 }
 
 // ── Valuation ────────────────────────────────────────────

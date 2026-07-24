@@ -260,130 +260,212 @@ async function pushToFUB() {
 function generatePDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'letter' });
-  const W = 612, navy = [10, 25, 65], gold = [212, 175, 55], white = [255,255,255], lightGray = [248,250,252];
+  const W = 612, H = 792;
+  const navy = [10, 25, 65], navyLight = [20, 45, 100], gold = [212, 175, 55],
+        white = [255,255,255], lightGray = [245, 247, 250], midGray = [180,185,195],
+        darkGray = [60,65,75], teal = [0, 150, 180];
   const addr = document.getElementById('addressInput').value.trim();
+  const addrShort = addr.split(',')[0];
   const sale = S.salePrice || S.estValue;
   const payoff = S.payoff || 0;
-  const comm = sale * (S.commission / 100);
+  const rate = S.interestRate || 0;
   const closing = sale * (S.closing / 100);
+  const comm = sale * 0.055;
   const net = sale - payoff - comm - closing;
+  const monthly = calcMonthlyPayment(payoff, rate, (parseFloat(document.getElementById('remainingYears').value)||30) * 12);
   const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-  // Header bar
-  doc.setFillColor(...navy);
-  doc.rect(0, 0, W, 90, 'F');
-  doc.setTextColor(...white);
-  doc.setFontSize(22); doc.setFont('helvetica', 'bold');
-  doc.text('HOME VALUE REPORT', 40, 38);
-  doc.setFontSize(10); doc.setFont('helvetica', 'normal');
-  doc.text('Prepared by All In Lending | Chuck La Flair | sandiegohomebuyers.org', 40, 56);
-  doc.text('Prepared for: ' + S.first + ' ' + S.last + '   |   Date: ' + today, 40, 72);
-
-  // Gold accent line
-  doc.setFillColor(...gold);
-  doc.rect(0, 90, W, 4, 'F');
-
-  let y = 120;
-
-  // Address
-  doc.setTextColor(...navy);
-  doc.setFontSize(13); doc.setFont('helvetica', 'bold');
-  doc.text('Property Address', 40, y);
-  doc.setFontSize(16); doc.setFont('helvetica', 'bold');
-  y += 18;
-  doc.text(addr, 40, y);
-  y += 30;
-
-  // Estimated value box
-  doc.setFillColor(...navy);
-  doc.roundedRect(40, y, W - 80, 80, 8, 8, 'F');
-  doc.setTextColor(...white);
-  doc.setFontSize(11); doc.setFont('helvetica', 'normal');
-  doc.text('ESTIMATED MARKET VALUE', W/2, y + 22, { align: 'center' });
-  doc.setFontSize(36); doc.setFont('helvetica', 'bold');
-  doc.text(fmt(S.estValue), W/2, y + 56, { align: 'center' });
-  y += 96;
-
-  // Range
-  doc.setTextColor(100, 120, 140);
-  doc.setFontSize(10); doc.setFont('helvetica', 'normal');
-  doc.text('Estimated Range: ' + fmt(S.valueLow) + ' – ' + fmt(S.valueHigh), W/2, y, { align: 'center' });
-  y += 28;
-
-  // Property details (if available)
+  const todayShort = new Date().toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
   const infoBeds = document.getElementById('infoBeds').textContent;
-  if (infoBeds !== '—') {
-    doc.setFillColor(...lightGray);
-    doc.roundedRect(40, y, W - 80, 56, 6, 6, 'F');
-    const cols = [
-      { label: 'BEDROOMS', val: infoBeds },
-      { label: 'BATHROOMS', val: document.getElementById('infoBaths').textContent },
-      { label: 'SQUARE FEET', val: document.getElementById('infoSqft').textContent },
-      { label: 'YEAR BUILT', val: document.getElementById('infoYear').textContent }
-    ];
-    cols.forEach((c, i) => {
-      const cx = 80 + i * 132;
-      doc.setTextColor(130, 140, 155); doc.setFontSize(8); doc.setFont('helvetica', 'bold');
-      doc.text(c.label, cx, y + 20);
-      doc.setTextColor(...navy); doc.setFontSize(13); doc.setFont('helvetica', 'bold');
-      doc.text(c.val || '—', cx, y + 40);
-    });
-    y += 72;
+  const infoBaths = document.getElementById('infoBaths').textContent;
+  const infoSqft = document.getElementById('infoSqft').textContent;
+  const infoYear = document.getElementById('infoYear').textContent;
+
+  // ── Helper: page header ──────────────────────────────
+  function pageHeader(pg) {
+    // Top navy bar
+    doc.setFillColor(...navy);
+    doc.rect(0, 0, W, 52, 'F');
+    // Gold left accent
+    doc.setFillColor(...gold);
+    doc.rect(0, 0, 5, 52, 'F');
+    // PROPERTY EXPLORER label
+    doc.setTextColor(...gold);
+    doc.setFontSize(8); doc.setFont('helvetica', 'bold');
+    doc.text('PROPERTY EXPLORER', W - 40, 20, { align: 'right' });
+    // Address line
+    doc.setTextColor(...white);
+    doc.setFontSize(9); doc.setFont('helvetica', 'normal');
+    doc.text(addr, 16, 20);
+    doc.setFontSize(8);
+    doc.text('County: San Diego County', 16, 34);
+    // Effective date
+    doc.setTextColor(...gold);
+    doc.setFontSize(8);
+    doc.text('Effective Date: ' + todayShort, W - 40, 34, { align: 'right' });
+    // Brand line
+    doc.setTextColor(180, 200, 220);
+    doc.setFontSize(7.5);
+    doc.text('Prepared by All In Lending | Chuck La Flair | sandiegohomebuyers.org', 16, 46);
+    // Bottom gold line
+    doc.setFillColor(...gold);
+    doc.rect(0, 52, W, 2, 'F');
   }
 
-  // Section: Net Proceeds
-  y += 8;
+  // ── Helper: page footer ──────────────────────────────
+  function pageFooter(pg, total) {
+    doc.setFillColor(...navy);
+    doc.rect(0, H - 28, W, 28, 'F');
+    doc.setFillColor(...gold);
+    doc.rect(0, H - 28, W, 2, 'F');
+    doc.setTextColor(...midGray);
+    doc.setFontSize(7.5); doc.setFont('helvetica', 'normal');
+    doc.text('Order Date: ' + todayShort + '   |   Property Explorer powered by All In Lending', 16, H - 10);
+    doc.text('Pg. ' + pg + ' of ' + total, W - 40, H - 10, { align: 'right' });
+  }
+
+  // ── Helper: section label ────────────────────────────
+  function sectionLabel(label, y) {
+    doc.setFillColor(...navyLight);
+    doc.rect(5, y, 3, 14, 'F');
+    doc.setTextColor(...navy);
+    doc.setFontSize(11); doc.setFont('helvetica', 'bold');
+    doc.text(label, 14, y + 11);
+    return y + 22;
+  }
+
+  // ══════════════════════════════════════
+  // PAGE 1 — Value Summary
+  // ══════════════════════════════════════
+  pageHeader(1);
+
+  let y = 70;
+
+  // Property address block
+  doc.setFillColor(...lightGray);
+  doc.rect(16, y, W - 32, 42, 'F');
+  doc.setFillColor(...gold);
+  doc.rect(16, y, 4, 42, 'F');
   doc.setTextColor(...navy);
   doc.setFontSize(14); doc.setFont('helvetica', 'bold');
-  doc.text('Estimated Net Proceeds', 40, y);
-  y += 14;
-
-  const rows = [
-    { label: 'Estimated Sale Price', val: fmt(sale), neg: false },
-    { label: 'Mortgage Payoff', val: '− ' + fmt(payoff), neg: true },
-    { label: 'Agent Commission (' + S.commission + '%)', val: '− ' + fmt(comm), neg: true },
-    { label: 'Seller Closing Costs (' + S.closing + '%)', val: '− ' + fmt(closing), neg: true },
-  ];
-
-  rows.forEach((row, i) => {
-    doc.setFillColor(i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 250 : 255, i % 2 === 0 ? 252 : 255);
-    doc.rect(40, y, W - 80, 26, 'F');
-    doc.setTextColor(row.neg ? 180 : 30, row.neg ? 40 : 40, row.neg ? 40 : 40);
-    doc.setFontSize(11); doc.setFont('helvetica', 'normal');
-    doc.text(row.label, 56, y + 17);
-    doc.setFont('helvetica', 'bold');
-    doc.text(row.val, W - 56, y + 17, { align: 'right' });
-    y += 26;
-  });
-
-  // Total row
-  doc.setFillColor(...navy);
-  doc.rect(40, y, W - 80, 36, 'F');
-  doc.setTextColor(...white);
-  doc.setFontSize(13); doc.setFont('helvetica', 'bold');
-  doc.text('Estimated Net Proceeds', 56, y + 23);
-  doc.setFontSize(18);
-  doc.text(fmt(net), W - 56, y + 24, { align: 'right' });
+  doc.text(addrShort, 28, y + 16);
+  doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(...darkGray);
+  const cityLine = addr.includes(',') ? addr.split(',').slice(1).join(',').trim() : '';
+  doc.text(cityLine, 28, y + 30);
   y += 52;
 
-  // Disclaimer
-  doc.setTextColor(150, 155, 165);
-  doc.setFontSize(8); doc.setFont('helvetica', 'normal');
-  const disclaimer = 'This report is an estimate based on available market data and is not a formal appraisal. Actual sale price and net proceeds may vary. Commission and closing cost figures are estimates. For a precise net sheet, contact All In Lending.';
-  const lines = doc.splitTextToSize(disclaimer, W - 80);
-  doc.text(lines, 40, y);
-  y += lines.length * 12 + 16;
+  // Two-column: Value estimate + Property details
+  const colL = 16, colR = W / 2 + 8, colW = W / 2 - 24;
 
-  // Footer CTA
+  // LEFT: Value box
+  doc.setFillColor(...navy);
+  doc.roundedRect(colL, y, colW, 110, 6, 6, 'F');
+  doc.setTextColor(...gold);
+  doc.setFontSize(8); doc.setFont('helvetica', 'bold');
+  doc.text('ESTIMATED MARKET VALUE', colL + colW/2, y + 18, { align: 'center' });
+  doc.setTextColor(...white);
+  doc.setFontSize(28); doc.setFont('helvetica', 'bold');
+  doc.text(fmt(S.estValue), colL + colW/2, y + 54, { align: 'center' });
   doc.setFillColor(...gold);
-  doc.rect(0, 720, W, 72, 'F');
-  doc.setTextColor(...navy);
-  doc.setFontSize(13); doc.setFont('helvetica', 'bold');
-  doc.text('Ready to make your move? Talk to Chuck La Flair today.', W/2, 748, { align: 'center' });
-  doc.setFontSize(10); doc.setFont('helvetica', 'normal');
-  doc.text('sandiegohomebuyers.org  |  All In Lending  |  Chula Vista, CA 91914', W/2, 766, { align: 'center' });
+  doc.rect(colL + 20, y + 62, colW - 40, 1, 'F');
+  doc.setTextColor(180, 210, 240);
+  doc.setFontSize(8); doc.setFont('helvetica', 'normal');
+  doc.text('Range: ' + fmt(S.valueLow) + ' – ' + fmt(S.valueHigh), colL + colW/2, y + 76, { align: 'center' });
+  doc.setFontSize(7.5);
+  doc.text('Effective Date: ' + todayShort, colL + colW/2, y + 90, { align: 'center' });
+  doc.text('Prepared for: ' + S.first + ' ' + S.last, colL + colW/2, y + 102, { align: 'center' });
 
-  doc.save('Home-Value-Report-' + (addr.split(',')[0].replace(/\s+/g, '-')) + '.pdf');
+  // RIGHT: Property details grid
+  const props = [
+    ['BEDROOMS', infoBeds], ['BATHROOMS', infoBaths],
+    ['SQUARE FEET', infoSqft], ['YEAR BUILT', infoYear]
+  ];
+  const pw = (colW) / 2;
+  props.forEach((p, i) => {
+    const px = colR + (i % 2) * pw;
+    const py = y + Math.floor(i / 2) * 52;
+    doc.setFillColor(i % 2 === 0 ? 240 : 248, 242, 250);
+    doc.rect(px, py, pw - 4, 46, 'F');
+    doc.setTextColor(...midGray); doc.setFontSize(7); doc.setFont('helvetica', 'bold');
+    doc.text(p[0], px + 8, py + 14);
+    doc.setTextColor(...navy); doc.setFontSize(16); doc.setFont('helvetica', 'bold');
+    doc.text(p[1] || '—', px + 8, py + 36);
+  });
+  y += 120;
+
+  // ── Net Proceeds Section ─────────────────────────────
+  y = sectionLabel('Estimated Net Proceeds', y);
+
+  const netRows = [
+    { label: 'Estimated Sale Price', val: fmt(sale), color: darkGray, bold: false },
+    { label: 'Mortgage Payoff', val: '− ' + fmt(payoff), color: [180,40,40], bold: false },
+    { label: 'Agent Commission (5.5%)', val: '− ' + fmt(comm), color: [180,40,40], bold: false },
+    { label: 'Seller Closing Costs (' + S.closing + '%)', val: '− ' + fmt(closing), color: [180,40,40], bold: false },
+  ];
+  if (monthly > 0) netRows.splice(2, 0, { label: 'Current Monthly Payment @ ' + rate + '%', val: fmt(monthly) + '/mo', color: [0,100,160], bold: false });
+
+  netRows.forEach((row, i) => {
+    doc.setFillColor(i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 249 : 255, i % 2 === 0 ? 252 : 255);
+    doc.rect(16, y, W - 32, 24, 'F');
+    doc.setTextColor(...row.color);
+    doc.setFontSize(9.5); doc.setFont('helvetica', row.bold ? 'bold' : 'normal');
+    doc.text(row.label, 28, y + 16);
+    doc.setFont('helvetica', 'bold');
+    doc.text(row.val, W - 28, y + 16, { align: 'right' });
+    y += 24;
+  });
+
+  // Net total bar
+  doc.setFillColor(...navy);
+  doc.rect(16, y, W - 32, 34, 'F');
+  doc.setFillColor(...gold);
+  doc.rect(16, y, 4, 34, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(11); doc.setFont('helvetica', 'bold');
+  doc.text('ESTIMATED NET PROCEEDS', 28, y + 21);
+  doc.setFontSize(16);
+  const netColor = net >= 0 ? white : [255, 100, 100];
+  doc.setTextColor(...netColor);
+  doc.text(fmt(net), W - 28, y + 22, { align: 'right' });
+  y += 44;
+
+  // ── Market Forecast ──────────────────────────────────
+  y += 8;
+  y = sectionLabel('3-Year Market Forecast (San Diego ZIP)', y);
+
+  const yr1 = Math.round(S.estValue * 1.01);
+  const yr2 = Math.round(S.estValue * 1.02);
+  const yr3 = Math.round(S.estValue * 1.04);
+  const foreRows = [
+    ['1 Year Growth', '1%', new Date().getFullYear() + 1, fmt(yr1)],
+    ['2 Year Growth', '2%', new Date().getFullYear() + 2, fmt(yr2)],
+    ['3 Year Growth', '4%', new Date().getFullYear() + 3, fmt(yr3)],
+  ];
+  foreRows.forEach((r, i) => {
+    doc.setFillColor(i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 249 : 255, i % 2 === 0 ? 252 : 255);
+    doc.rect(16, y, W - 32, 22, 'F');
+    doc.setTextColor(...darkGray); doc.setFontSize(9); doc.setFont('helvetica', 'normal');
+    doc.text(r[0], 28, y + 15);
+    doc.setTextColor(...teal); doc.setFont('helvetica', 'bold');
+    doc.text(r[1], 200, y + 15);
+    doc.setTextColor(...darkGray); doc.setFont('helvetica', 'normal');
+    doc.text(String(r[2]), 280, y + 15);
+    doc.setTextColor(...navy); doc.setFont('helvetica', 'bold');
+    doc.text(r[3], W - 28, y + 15, { align: 'right' });
+    y += 22;
+  });
+
+  // ── Disclaimer ───────────────────────────────────────
+  y += 16;
+  doc.setFillColor(245, 245, 240);
+  doc.rect(16, y, W - 32, 52, 'F');
+  doc.setTextColor(...midGray); doc.setFontSize(7); doc.setFont('helvetica', 'italic');
+  const disc = 'This report is provided for general informational purposes only and is not a formal appraisal or offer to lend. Estimated values are based on available market data from Rentcast AVM. Actual sale price, net proceeds, and market conditions may vary. Commission and closing cost figures are estimates only. All In Lending is a licensed mortgage lender; this is not a legal or financial opinion. Contact All In Lending for a complete financial analysis.';
+  const discLines = doc.splitTextToSize(disc, W - 52);
+  doc.text(discLines, 28, y + 12);
+
+  pageFooter(1, 1);
+
+  doc.save('Property-Explorer-' + addrShort.replace(/\s+/g, '-') + '-' + new Date().toISOString().slice(0,10) + '.pdf');
 }
 
 function reDownload() { generatePDF(); }

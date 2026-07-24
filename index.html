@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Meta Pixel Code -->
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '1555648459616578'); fbq('track', 'PageView');</script><noscript><img height="1" width="1" src="https://www.facebook.com/tr?id=1555648459616578&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18336070867"></script>
 <script>
@@ -672,7 +675,7 @@
         <p style="color:#aaa;margin-bottom:6px">You are Pre-Approved up to</p>
         <div class="cprice" id="congratsPrice" style="font-size:2rem;font-weight:900;color:#00b4d8;margin-bottom:16px">$500,000</div>
         <p style="color:#aaa;margin-bottom:24px">Complete your official application to lock in your rate.</p>
-        <button onclick="window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')" style="background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
+        <button onclick="gtag('event','apply_now_click',{event_category:'conversion',event_label:'Complete My Application'});fbq('track','Lead');window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank')" style="background:#00b4d8;border:none;color:#000;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
       </div>
     </div>
   </div>
@@ -913,7 +916,7 @@ function submitLetter() {
   // Show congrats immediately
   document.getElementById('ctaArea4').style.display = 'none';
   document.getElementById('congratsBox').style.display = 'block';
-  window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
+  gtag('event','apply_now_click',{event_category:'conversion',event_label:'Apply Now'});fbq('track','Lead');window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
 
   // Fire lead to server (email + SMS to Chuck)
   const price    = parseInt(document.getElementById('homePrice').value) || 500000;

@@ -163,10 +163,15 @@
         <label>Mortgage Payoff Amount</label>
         <div class="pfx"><span>$</span><input type="number" id="payoff" placeholder="0" oninput="recalc()" /></div>
       </div>
-      <div class="field">
-        <label>Agent Commission: <span id="commPct">5.5%</span></label>
-        <input type="range" id="commSlider" min="1" max="8" step="0.5" value="5.5" oninput="updateComm(this.value)" />
-        <div class="slider-labels"><span>1%</span><span>4.5%</span><span>8%</span></div>
+      <div class="two-col">
+        <div class="field" style="margin:0">
+          <label>Current Interest Rate (%)</label>
+          <input type="number" id="interestRate" placeholder="e.g. 6.5" min="0" max="20" step="0.1" oninput="recalc()" />
+        </div>
+        <div class="field" style="margin:0">
+          <label>Years Remaining on Loan</label>
+          <input type="number" id="remainingYears" placeholder="e.g. 27" min="0" max="30" oninput="recalc()" />
+        </div>
       </div>
       <div class="field">
         <label>Seller Closing Costs: <span id="closingPct">1.5%</span></label>
@@ -176,7 +181,7 @@
       <div class="net-sheet">
         <div class="net-row"><span class="rl">Sale Price</span><span class="rv" id="ns-sale">$—</span></div>
         <div class="net-row"><span class="rl">Mortgage Payoff</span><span class="rv neg" id="ns-payoff">−$—</span></div>
-        <div class="net-row"><span class="rl">Agent Commission</span><span class="rv neg" id="ns-comm">−$—</span></div>
+        <div class="net-row" id="ns-monthly-row" style="display:none"><span class="rl">💳 Est. Monthly Payment (current)</span><span class="rv" id="ns-monthly" style="color:#60a5fa">$—</span></div>
         <div class="net-row"><span class="rl">Closing Costs</span><span class="rv neg" id="ns-closing">−$—</span></div>
         <div class="net-row total"><span class="rl">🏦 Estimated Net Proceeds</span><span class="rv" id="ns-net">$—</span></div>
       </div>

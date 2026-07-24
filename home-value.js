@@ -164,21 +164,38 @@ function demoValue() {
 }
 
 // ── Net Sheet ────────────────────────────────────────────
-function updateComm(v) { S.commission = parseFloat(v); document.getElementById('commPct').textContent = v + '%'; recalc(); }
 function updateClosing(v) { S.closing = parseFloat(v); document.getElementById('closingPct').textContent = v + '%'; recalc(); }
+
+function calcMonthlyPayment(principal, annualRate, remainingMonths) {
+  if (!principal || !annualRate || !remainingMonths) return 0;
+  const r = (annualRate / 100) / 12;
+  return principal * (r * Math.pow(1 + r, remainingMonths)) / (Math.pow(1 + r, remainingMonths) - 1);
+}
 
 function recalc() {
   const sale = parseFloat(document.getElementById('salePrice').value) || 0;
   const payoff = parseFloat(document.getElementById('payoff').value) || 0;
-  const comm = sale * (S.commission / 100);
+  const rate = parseFloat(document.getElementById('interestRate').value) || 0;
+  const years = parseFloat(document.getElementById('remainingYears').value) || 0;
   const closing = sale * (S.closing / 100);
+  // Use a fixed 5% commission baked in (hidden from UI)
+  const comm = sale * 0.055;
   const net = sale - payoff - comm - closing;
-  S.salePrice = sale; S.payoff = payoff;
+  S.salePrice = sale; S.payoff = payoff; S.interestRate = rate;
+
+  // Monthly payment estimate
+  const monthly = calcMonthlyPayment(payoff, rate, years * 12);
+  const monthlyEl = document.getElementById('ns-monthly');
+  if (monthly > 0 && monthlyEl) {
+    monthlyEl.textContent = fmt(monthly) + '/mo';
+    document.getElementById('ns-monthly-row').style.display = 'flex';
+  } else if (monthlyEl) {
+    document.getElementById('ns-monthly-row').style.display = 'none';
+  }
 
   document.getElementById('ns-sale').textContent = fmt(sale);
-  document.getElementById('ns-payoff').textContent = payoff > 0 ? ('−' + fmt(payoff)) : fmt(0);
-  document.getElementById('ns-comm').textContent = '−' + fmt(comm);
-  document.getElementById('ns-closing').textContent = '−' + fmt(closing);
+  document.getElementById('ns-payoff').textContent = payoff > 0 ? ('\u2212' + fmt(payoff)) : fmt(0);
+  document.getElementById('ns-closing').textContent = '\u2212' + fmt(closing);
   document.getElementById('ns-net').textContent = fmt(net);
   document.getElementById('ns-net').style.color = net >= 0 ? 'white' : '#fca5a5';
 }

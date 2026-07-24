@@ -71,9 +71,9 @@
   <style>
     /* CALENDAR PICKER */
     .cal-wrap{position:relative;width:100%}
-    .cal-input{width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;user-select:none}
+    .cal-input{width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;user-select:none}
     .cal-input:hover{border-color:#1500FF}
-    .cal-popup{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:999;background:#1a1a1a;border:2px solid #1500FF;border-radius:10px;padding:16px;width:320px;box-shadow:0 12px 40px rgba(0,0,0,.7)}
+    .cal-popup{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:999;background:#f0f0f0;border:2px solid #1500FF;border-radius:10px;padding:16px;width:320px;box-shadow:0 12px 40px rgba(0,0,0,.7)}
     .cal-popup.open{display:block}
     .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
     .cal-nav{background:none;border:none;color:#1500FF;font-size:1.3rem;cursor:pointer;padding:4px 10px;border-radius:4px}
@@ -90,26 +90,26 @@
   </style>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#0d0d0d;--bg2:#141414;--card:#1e1e1e;--teal:#1500FF;--w:#fff;--g:#888;--lg:#b0b0b0;--bd:#2a2a2a}
+    :root{--bg:#ffffff;--bg2:#f5f5f5;--card:#ffffff;--teal:#1500FF;--w:#111;--g:#666;--lg:#444;--bd:#e0e0e0}
     html{scroll-behavior:smooth}
     body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--w);line-height:1.6}
 
     /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#0a0a0a;border-bottom:1px solid var(--bd);padding:15px 40px;display:flex;align-items:center;justify-content:space-between}
-    .logo{font-size:1rem;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#ffffff;border-bottom:1px solid #e0e0e0;padding:15px 40px;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#111}
     .logo span{color:var(--teal)}
-    .nsearch{display:flex;align-items:center;background:#1a1a1a;border:1px solid var(--bd);border-radius:4px;padding:7px 13px;gap:8px;margin-left:18px}
+    .nsearch{display:flex;align-items:center;background:#f0f0f0;border:1px solid var(--bd);border-radius:4px;padding:7px 13px;gap:8px;margin-left:18px}
     .nsearch input{background:transparent;border:none;outline:none;color:var(--w);font-size:.82rem;font-family:inherit;width:200px}
     .nsearch input::placeholder{color:var(--g)}
     .nsearch button{background:var(--teal);border:none;color:#000;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:3px;cursor:pointer;font-family:inherit}
     .nlinks{display:flex;gap:28px;align-items:center}
-    .nlinks a{color:var(--lg);text-decoration:none;font-size:1rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;transition:color .2s}
+    .nlinks a{color:#111;text-decoration:none;font-size:1rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;transition:color .2s}
     .nlinks a:hover{color:var(--teal)}
     .ncta{background:var(--teal)!important;color:#000!important;padding:9px 20px!important;border-radius:4px!important;font-weight:700!important}
 
     /* FILTER BAR */
-    .fbar{position:fixed;top:62px;left:0;right:0;z-index:99;background:#0f0f0f;border-bottom:1px solid var(--bd);padding:9px 40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .fbtn{background:#1a1a1a;border:1px solid var(--bd);color:var(--lg);font-family:inherit;font-size:.8rem;font-weight:600;padding:7px 13px;border-radius:4px;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .fbar{position:fixed;top:62px;left:0;right:0;z-index:99;background:#f5f5f5;border-bottom:1px solid #e0e0e0;padding:9px 40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .fbtn{background:#f0f0f0;border:1px solid #ddd;color:#444;font-family:inherit;font-size:.8rem;font-weight:600;padding:7px 13px;border-radius:4px;cursor:pointer;transition:all .2s;white-space:nowrap}
     .fbtn:hover,.fbtn.on{border-color:var(--teal);color:var(--teal);background:rgba(21,0,255,.08)}
     .fsave{background:var(--teal);border:none;color:#000;font-family:inherit;font-size:.8rem;font-weight:700;padding:7px 16px;border-radius:4px;cursor:pointer;margin-left:auto}
 
@@ -130,7 +130,7 @@
     .btno:hover{border-color:var(--teal);color:var(--teal)}
 
     /* STATS */
-    .stats{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:42px 40px;display:flex;justify-content:center;gap:70px;flex-wrap:wrap}
+    .stats{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid #e0e0e0;padding:42px 40px;display:flex;justify-content:center;gap:70px;flex-wrap:wrap}
     .stn{font-size:2.5rem;font-weight:900;color:var(--teal);line-height:1;letter-spacing:-1px}
     .stl{font-size:.74rem;color:var(--g);margin-top:5px;font-weight:500;letter-spacing:1px;text-transform:uppercase}
 
@@ -207,8 +207,8 @@
     .lside::-webkit-scrollbar-thumb{background:var(--bd)}
     .mwrap{flex:1}
     #map{width:100%;height:100%}
-    .lcard{cursor:pointer;border-bottom:1px solid var(--bd)}
-    .lcard:hover{background:#1a1a1a}
+    .lcard{cursor:pointer;border-bottom:1px solid #e0e0e0}
+    .lcard:hover{background:#f0f0f0}
     .lim{width:100%;height:190px;object-fit:cover;display:block;filter:brightness(.85)}
     .lbd{padding:16px 18px}
     .ltg{font-size:.67rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
@@ -244,7 +244,7 @@
 
     .showing-btn{display:block;width:100%;margin-top:12px;background:var(--teal);border:none;color:#000;font-family:inherit;font-size:.78rem;font-weight:700;padding:9px;border-radius:4px;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:opacity .2s}
     .showing-btn:hover{opacity:.85}
-    footer{background:#0a0a0a;border-top:1px solid var(--bd);text-align:center;padding:26px;font-size:.76rem;color:var(--g)}
+    footer{background:#f5f5f5;border-top:1px solid var(--bd);text-align:center;padding:26px;font-size:.76rem;color:var(--g)}
     footer a{color:var(--teal);text-decoration:none}
 
     @media(max-width:768px){
@@ -356,7 +356,7 @@
 
 <!-- MLS SEARCH BAR (hidden on desktop, replaced by step sections) -->
 <div class="fbar" style="display:none">
-  <select id="srCity" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+  <select id="srCity" style="background:#f0f0f0;color:#fff;border:1px solid #ddd;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
     <option value="">All San Diego</option>
     <option value="Chula Vista">Chula Vista</option>
     <option value="National City">National City</option>
@@ -369,7 +369,7 @@
     <option value="Carlsbad">Carlsbad</option>
     <option value="Oceanside">Oceanside</option>
   </select>
-  <select id="srMinPrice" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+  <select id="srMinPrice" style="background:#f0f0f0;color:#fff;border:1px solid #ddd;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
     <option value="">Min Price</option>
     <option value="200000">$200,000</option>
     <option value="300000">$300,000</option>
@@ -380,7 +380,7 @@
     <option value="800000">$800,000</option>
     <option value="1000000">$1,000,000</option>
   </select>
-  <select id="srMaxPrice" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+  <select id="srMaxPrice" style="background:#f0f0f0;color:#fff;border:1px solid #ddd;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
     <option value="">Max Price</option>
     <option value="300000">$300,000</option>
     <option value="400000">$400,000</option>
@@ -392,7 +392,7 @@
     <option value="1500000">$1,500,000</option>
     <option value="2000000">$2,000,000+</option>
   </select>
-  <select id="srBeds" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+  <select id="srBeds" style="background:#f0f0f0;color:#fff;border:1px solid #ddd;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
     <option value="">Any Beds</option>
     <option value="1">1+ Beds</option>
     <option value="2">2+ Beds</option>
@@ -400,14 +400,14 @@
     <option value="4">4+ Beds</option>
     <option value="5">5+ Beds</option>
   </select>
-  <select id="srBaths" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+  <select id="srBaths" style="background:#f0f0f0;color:#fff;border:1px solid #ddd;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
     <option value="">Any Baths</option>
     <option value="1">1+ Baths</option>
     <option value="2">2+ Baths</option>
     <option value="3">3+ Baths</option>
     <option value="4">4+ Baths</option>
   </select>
-  <select id="srType" style="background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+  <select id="srType" style="background:#f0f0f0;color:#fff;border:1px solid #ddd;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
     <option value="">Any Type</option>
     <option value="SFR">Single Family</option>
     <option value="Condo">Condo/Townhome</option>
@@ -461,7 +461,7 @@
 </section>
 
 <!-- FEATURED LISTING VIDEO -->
-<section id="listing-video" style="background:#111;padding:40px 20px">
+<section id="listing-video" style="background:#f9f9f9;padding:40px 20px">
   <div style="position:relative;max-width:1000px;margin:0 auto;max-height:600px;overflow:hidden;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6)">
     <video id="listingVid" autoplay muted loop playsinline style="width:100%;max-height:600px;object-fit:cover;display:block">
       <source src="/listing-video.mp4" type="video/mp4"/>
@@ -503,12 +503,12 @@
     <p class="ssu">Found a property you want to see? Enter the address and your info — we'll set it up.</p>
     <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
       <div style="position:relative;width:100%">
-        <input id="sh2-addr" type="text" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" autocomplete="off" oninput="addrAutocomplete(this.value)" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
-        <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#1a1a1a;border:1px solid #1500FF;border-top:none;border-radius:0 0 6px 6px;z-index:99;max-height:220px;overflow-y:auto"></div>
+        <input id="sh2-addr" type="text" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" autocomplete="off" oninput="addrAutocomplete(this.value)" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
+        <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#f0f0f0;border:1px solid #1500FF;border-top:none;border-radius:0 0 6px 6px;z-index:99;max-height:220px;overflow-y:auto"></div>
       </div>
-      <input id="sh2-name" type="text" placeholder="Your Full Name *" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
-      <input id="sh2-phone" type="tel" placeholder="Phone Number *" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
-      <input id="sh2-email" type="email" placeholder="Email Address" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#fff;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-name" type="text" placeholder="Your Full Name *" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-phone" type="tel" placeholder="Phone Number *" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-email" type="email" placeholder="Email Address" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="cal-wrap" id="calWrap">
           <div class="cal-input" onclick="toggleCal()">
@@ -525,7 +525,7 @@
           </div>
         </div>
         <input type="hidden" id="sh2-date"/>
-        <select id="sh2-time" style="background:#111;border:1px solid #333;border-radius:4px;padding:12px 16px;color:#888;font-family:inherit;font-size:.9rem">
+        <select id="sh2-time" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#888;font-family:inherit;font-size:.9rem">
           <option value="">Preferred Time</option>
           <option>Morning (9AM–12PM)</option>
           <option>Afternoon (12PM–4PM)</option>
@@ -662,9 +662,9 @@
     <p class="ssu">You're almost there! Enter your info below and we'll send you an official pre-approval letter so you can make offers with confidence.</p>
     <div style="margin-top:36px;display:flex;flex-direction:column;gap:12px">
       <div id="ctaArea4">
-        <input type="text" id="lfName" placeholder="Full Name *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
-        <input type="email" id="lfEmail" placeholder="Email Address *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
-        <input type="tel" id="lfPhone" placeholder="Phone Number" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:13px 16px;color:#fff;font-family:inherit;font-size:.9rem;margin-bottom:16px"/>
+        <input type="text" id="lfName" placeholder="Full Name *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
+        <input type="email" id="lfEmail" placeholder="Email Address *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
+        <input type="tel" id="lfPhone" placeholder="Phone Number" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:16px"/>
         <button onclick="submitLetter()" style="width:100%;background:#1500FF;border:none;color:#000;font-family:inherit;font-size:1.1rem;font-weight:800;padding:16px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📄 Get My Pre-Approval Letter</button>
         <p style="text-align:center;color:#666;font-size:.8rem;margin-top:10px">🔒 Free · No hard credit pull · Takes 2 min</p>
       </div>
@@ -719,16 +719,16 @@
 
 <!-- REQUEST A SHOWING MODAL -->
 <div id="showingModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px">
-  <div style="background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:36px 32px;max-width:460px;width:100%;position:relative">
+  <div style="background:#f0f0f0;border:1px solid #ddd;border-radius:10px;padding:36px 32px;max-width:460px;width:100%;position:relative">
     <button onclick="closeShowing()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer">✕</button>
     <div style="color:#1500FF;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Schedule a Visit</div>
     <h3 style="font-size:1.3rem;margin-bottom:4px">Request a Showing</h3>
     <p id="showingProperty" style="color:#888;font-size:.84rem;margin-bottom:20px"></p>
-    <input id="shName" type="text" placeholder="Full Name *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#fff;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
-    <input id="shPhone" type="tel" placeholder="Phone Number *" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#fff;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
-    <input id="shEmail" type="email" placeholder="Email Address" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#fff;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
-    <input id="shDate" type="date" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#888;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
-    <select id="shTime" style="width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:10px 14px;color:#888;font-family:inherit;font-size:.88rem;margin-bottom:16px">
+    <input id="shName" type="text" placeholder="Full Name *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shPhone" type="tel" placeholder="Phone Number *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shEmail" type="email" placeholder="Email Address" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shDate" type="date" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#888;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <select id="shTime" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#888;font-family:inherit;font-size:.88rem;margin-bottom:16px">
       <option value="">Preferred Time</option>
       <option>Morning (9AM–12PM)</option>
       <option>Afternoon (12PM–4PM)</option>
@@ -985,7 +985,7 @@ function renderListings(listings) {
   }
   side.innerHTML = listings.map((l, i) => `
     <div class="lcard" onclick="focusPin(${i})" style="${i===listings.length-1?'border-bottom:none':''}">
-      ${l.img ? `<img class="lim" src="${l.img}" alt="${l.addr}" onerror="this.style.display='none'"/>` : '<div class="lim" style="height:180px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:2rem">🏠</div>'}
+      ${l.img ? `<img class="lim" src="${l.img}" alt="${l.addr}" onerror="this.style.display='none'"/>` : '<div class="lim" style="height:180px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:2rem">🏠</div>'}
       <div class="lbd">
         <div class="ltg">${l.status||'For Sale'}</div>
         <div class="lpr">${l.price}</div>

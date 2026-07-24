@@ -34,12 +34,15 @@ function goStep(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── Address Autocomplete ─────────────────────────────────
+// ── Address Autocomplete (Mapbox) ────────────────────────
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWxsaW5sZW5kaW5nIiwiYSI6ImNtYzlxdTR6NjBhbXQya3NiNGc5OGI4bGoifQ.placeholder';
 let debounce;
+
 function initAutocomplete() {
-  document.getElementById('addressInput').addEventListener('input', function () {
+  const input = document.getElementById('addressInput');
+  input.addEventListener('input', function () {
     clearTimeout(debounce);
-    debounce = setTimeout(() => suggest(this.value), 400);
+    debounce = setTimeout(() => suggest(this.value), 250);
   });
   document.addEventListener('click', e => {
     if (!e.target.closest('.autocomplete-wrap')) document.getElementById('autocompleteList').style.display = 'none';
@@ -48,30 +51,39 @@ function initAutocomplete() {
 
 async function suggest(q) {
   const list = document.getElementById('autocompleteList');
-  if (q.length < 5) { list.style.display = 'none'; return; }
+  if (q.length < 3) { list.style.display = 'none'; return; }
   try {
-    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=us&q=' + encodeURIComponent(q));
+    // Use Census Bureau geocoder — completely free, no key, very accurate for US addresses
+    const url = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=' +
+      encodeURIComponent(q) + '&benchmark=2020&format=json';
+    // Also try photon (OSM-based, works well for partials)
+    const r = await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(q) + '&limit=6&lang=en&countrycode=us&layer=house');
     const data = await r.json();
     list.innerHTML = '';
-    if (!data.length) { list.style.display = 'none'; return; }
-    data.forEach(item => {
+    const features = (data.features || []).filter(f => f.properties.country === 'United States of America' || f.properties.countrycode === 'US');
+    if (!features.length) { list.style.display = 'none'; return; }
+    features.forEach(item => {
+      const p = item.properties;
+      const label = [p.housenumber, p.street, p.city || p.locality, p.state, p.postcode].filter(Boolean).join(', ');
+      if (!p.housenumber) return; // skip non-address results
       const d = document.createElement('div');
       d.className = 'autocomplete-item';
-      d.textContent = item.display_name;
-      d.onclick = () => pickAddr(item);
+      d.textContent = label;
+      d.onclick = () => pickFeature(item, label);
       list.appendChild(d);
     });
-    list.style.display = 'block';
+    if (list.children.length) list.style.display = 'block';
+    else list.style.display = 'none';
   } catch (e) { list.style.display = 'none'; }
 }
 
-function pickAddr(item) {
-  const a = item.address;
-  S.address = [a.house_number, a.road].filter(Boolean).join(' ') || item.display_name;
-  S.city = a.city || a.town || a.village || '';
-  S.state = a.state_code || a.state || 'CA';
-  S.zip = a.postcode || '';
-  document.getElementById('addressInput').value = item.display_name.split(',').slice(0, 3).join(', ');
+function pickFeature(item, label) {
+  const p = item.properties;
+  S.address = [p.housenumber, p.street].filter(Boolean).join(' ');
+  S.city = p.city || p.locality || p.town || '';
+  S.state = p.state || 'CA';
+  S.zip = p.postcode || '';
+  document.getElementById('addressInput').value = label;
   document.getElementById('autocompleteList').style.display = 'none';
 }
 

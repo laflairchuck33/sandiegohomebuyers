@@ -396,7 +396,14 @@ app.post('/api/lo-survey', async (req, res) => {
 // ===========================
 // HOME VALUE LEAD NOTIFICATION
 // ===========================
+app.get('/api/home-value-lead', async (req, res) => {
+  req.body = req.query; // remap query params to body
+  return handleHomeValueLead(req, res);
+});
 app.post('/api/home-value-lead', async (req, res) => {
+  return handleHomeValueLead(req, res);
+});
+async function handleHomeValueLead(req, res) {
   const { firstName, lastName, email, phone, address, estValue, payoff, estNet } = req.body;
   try {
     // Telegram notify Chuck
@@ -435,7 +442,7 @@ app.post('/api/home-value-lead', async (req, res) => {
     console.error('Home value lead error:', e.message);
     res.json({ ok: false, error: e.message });
   }
-});
+}
 
 // ===========================
 // START

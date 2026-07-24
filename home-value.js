@@ -251,14 +251,16 @@ async function downloadReport() {
 
 async function notifyChuck(addr) {
   const net = S.salePrice - S.payoff - S.salePrice*0.055 - S.salePrice*(S.closing/100);
-  const msg = encodeURIComponent(
-    `🏠 NEW HOME VALUE LEAD\n\n👤 ${S.first} ${S.last}\n📧 ${S.email}${S.phone ? '\n📱 ' + S.phone : ''}\n\n📍 ${addr}\n💰 Est. Value: ${fmt(S.estValue)}\n🏦 Principal: ${fmt(S.payoff)}\n✅ Est. Net: ${fmt(net)}\n\nsandiegohomebuyers.org`
-  );
-  // Use GET with no-cors to avoid CORS preflight issues
-  await fetch(
-    `https://api.telegram.org/bot${window.TG_BOT_TOKEN}/sendMessage?chat_id=865040112&text=${msg}`,
-    { mode: 'no-cors' }
-  );
+  const params = new URLSearchParams({
+    firstName: S.first, lastName: S.last,
+    email: S.email, phone: S.phone || '',
+    address: addr,
+    estValue: fmt(S.estValue),
+    payoff: fmt(S.payoff),
+    estNet: fmt(net)
+  });
+  // GET request to our own server - no CORS issues
+  await fetch('/api/home-value-lead?' + params.toString());
 }
 
 async function pushToFUB() {

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Home Value Report | San Diego Home Buyers</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#0a1628 0%,#1a3a5c 50%,#0d2137 100%);min-height:100vh;padding:24px 16px}
+    .container{max-width:680px;margin:0 auto}
+    .header{text-align:center;margin-bottom:28px;color:white}
+    .header .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:14px}
+    .header h1{font-size:30px;font-weight:800;line-height:1.2;margin-bottom:8px}
+    .header p{font-size:15px;opacity:.8}
+    .card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.4);margin-bottom:20px}
+    .card-header{background:linear-gradient(135deg,#1a3a5c,#0a1628);padding:20px 28px;color:white}
+    .card-header h2{font-size:16px;font-weight:700}
+    .card-header p{font-size:13px;opacity:.7;margin-top:2px}
+    .card-body{padding:24px 28px}
+    .steps{display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+    .step-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+    .step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:#e5e7eb;color:#9ca3af;transition:all .3s}
+    .step-dot.active{background:#1a3a5c;color:white}
+    .step-dot.done{background:#16a34a;color:white}
+    .step-label{font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+    .step-label.active{color:#1a3a5c}
+    .step-line{width:60px;height:2px;background:#e5e7eb;margin-bottom:18px}
+    .step-line.done{background:#16a34a}
+    .field{margin-bottom:18px}
+    label{display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+    .req{color:#dc2626}
+    input[type=text],input[type=email],input[type=tel],input[type=number]{width:100%;padding:13px 14px;border:2px solid #e5e7eb;border-radius:10px;font-size:15px;color:#111827;background:#f9fafb;transition:border-color .2s}
+    input:focus{outline:none;border-color:#1a3a5c;background:#fff}
+    .pfx{position:relative}
+    .pfx span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:#6b7280;font-weight:600}
+    .pfx input{padding-left:26px}
+    .btn{width:100%;padding:15px;background:linear-gradient(135deg,#1a3a5c,#0a1628);color:white;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .2s;margin-top:8px}
+    .btn:hover{opacity:.9}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .btn.green{background:linear-gradient(135deg,#16a34a,#15803d)}
+    .btn.ghost{background:#f3f4f6;color:#374151}
+    .autocomplete-wrap{position:relative}
+    .autocomplete-list{position:absolute;top:100%;left:0;right:0;z-index:99;background:white;border:2px solid #1a3a5c;border-top:none;border-radius:0 0 10px 10px;max-height:200px;overflow-y:auto;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+    .autocomplete-item{padding:12px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid #f3f4f6}
+    .autocomplete-item:hover{background:#f0f4ff}
+    .value-box{background:linear-gradient(135deg,#0a1628,#1a3a5c);border-radius:14px;padding:28px;color:white;margin-bottom:20px;text-align:center}
+    .value-box .val-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+    .value-box .amount{font-size:44px;font-weight:800;margin-bottom:6px}
+    .value-box .range{font-size:13px;opacity:.75}
+    .prop-grid{background:#f8fafc;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .prop-item .pl{font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px}
+    .prop-item .pv{font-size:15px;font-weight:600;color:#111827;margin-top:2px}
+    .net-sheet{background:#f8fafc;border-radius:14px;overflow:hidden;margin-bottom:20px}
+    .net-row{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid #e5e7eb;font-size:14px}
+    .net-row:last-child{border-bottom:none}
+    .net-row .rl{color:#374151;font-weight:500}
+    .net-row .rv{font-weight:700;color:#111827}
+    .net-row .rv.neg{color:#dc2626}
+    .net-row.total{background:linear-gradient(135deg,#0a1628,#1a3a5c)}
+    .net-row.total .rl{color:rgba(255,255,255,.85);font-weight:700;font-size:15px}
+    .net-row.total .rv{color:white;font-size:18px}
+    input[type=range]{width:100%;height:6px;accent-color:#1a3a5c;margin-top:8px;cursor:pointer}
+    .slider-labels{display:flex;justify-content:space-between;font-size:11px;color:#9ca3af;margin-top:2px}
+    .gate-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px}
+    @media(max-width:480px){.gate-grid{grid-template-columns:1fr}}
+    .step-section{display:none}
+    .step-section.active{display:block}
+    .spinner{display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .note{font-size:11px;color:#9ca3af;text-align:center;line-height:1.5;margin-top:14px}
+    .tag-free{display:inline-block;background:#dcfce7;color:#16a34a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:16px}
+    .success-box{text-align:center;padding:20px 0}
+    .success-box .ico{font-size:56px;margin-bottom:12px}
+    .success-box h2{font-size:22px;font-weight:800;color:#0a1628;margin-bottom:8px}
+    .cta-box{margin-top:20px;padding:18px;background:#f0f9ff;border-radius:12px;text-align:left}
+    .cta-box .ct{font-size:13px;font-weight:700;color:#0a1628;margin-bottom:6px}
+    .cta-box .cb{font-size:13px;color:#374151;margin-bottom:12px}
+    .cta-link{display:block;text-align:center;padding:12px;background:linear-gradient(135deg,#1a3a5c,#0a1628);color:white;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:480px){.two-col{grid-template-columns:1fr}}
+    .footer-note{text-align:center;color:rgba(255,255,255,.4);font-size:12px;padding-bottom:20px}
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="badge">🏠 San Diego Home Buyers</div>
+    <h1>Your Free Home<br>Value Report</h1>
+    <p>Find out what your home is worth — and how much you'd walk away with.</p>
+  </div>
+
+  <div class="card">
+    <!-- Step indicators -->
+    <div class="card-body" style="padding-bottom:0">
+      <div class="steps">
+        <div class="step-item"><div class="step-dot active" id="dot1">1</div><div class="step-label active" id="lbl1">Address</div></div>
+        <div class="step-line" id="line1"></div>
+        <div class="step-item"><div class="step-dot" id="dot2">2</div><div class="step-label" id="lbl2">Value</div></div>
+        <div class="step-line" id="line2"></div>
+        <div class="step-item"><div class="step-dot" id="dot3">3</div><div class="step-label" id="lbl3">Net Sheet</div></div>
+        <div class="step-line" id="line3"></div>
+        <div class="step-item"><div class="step-dot" id="dot4">4</div><div class="step-label" id="lbl4">Report</div></div>
+      </div>
+    </div>
+
+    <!-- STEP 1: Address -->
+    <div class="card-body step-section active" id="step1">
+      <div class="card-header" style="margin:-24px -28px 24px;border-radius:0">
+        <h2>Step 1 — Enter Your Property Address</h2>
+        <p>We'll pull your estimated market value instantly</p>
+      </div>
+      <div class="field">
+        <label>Property Address <span class="req">*</span></label>
+        <div class="autocomplete-wrap">
+          <input type="text" id="addressInput" placeholder="Start typing your address..." autocomplete="off" />
+          <div class="autocomplete-list" id="autocompleteList" style="display:none"></div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="field" style="margin:0"><label>Bedrooms</label><input type="number" id="beds" placeholder="3" min="0" max="20" /></div>
+        <div class="field" style="margin:0"><label>Bathrooms</label><input type="number" id="baths" placeholder="2" min="0" max="20" step="0.5" /></div>
+      </div>
+      <div class="field" style="margin-top:12px"><label>Square Footage <span style="font-weight:400;text-transform:none;font-size:11px;letter-spacing:0">(optional, improves accuracy)</span></label>
+        <input type="number" id="sqft" placeholder="e.g. 1800" min="0" /></div>
+      <button class="btn" onclick="runValuation()" id="valuateBtn">Get My Home Value →</button>
+      <div class="note">🔒 Free · No obligation · Instant estimate · No credit check</div>
+    </div>
+
+    <!-- STEP 2: Value -->
+    <div class="card-body step-section" id="step2">
+      <div class="card-header" style="margin:-24px -28px 24px;border-radius:0">
+        <h2>Step 2 — Your Home's Estimated Value</h2>
+        <p id="step2Addr">Based on current San Diego market data</p>
+      </div>
+      <div class="value-box">
+        <div class="val-label">Estimated Market Value</div>
+        <div class="amount" id="estValue">—</div>
+        <div class="range" id="valueRange">Calculating range...</div>
+      </div>
+      <div class="prop-grid" id="propInfo" style="display:none">
+        <div class="prop-item"><div class="pl">Bedrooms</div><div class="pv" id="infoBeds">—</div></div>
+        <div class="prop-item"><div class="pl">Bathrooms</div><div class="pv" id="infoBaths">—</div></div>
+        <div class="prop-item"><div class="pl">Square Feet</div><div class="pv" id="infoSqft">—</div></div>
+        <div class="prop-item"><div class="pl">Year Built</div><div class="pv" id="infoYear">—</div></div>
+      </div>
+      <button class="btn" onclick="goStep(3)">Calculate My Net Proceeds →</button>
+      <button class="btn ghost" style="margin-top:10px" onclick="goStep(1)">← Try Another Address</button>
+    </div>
+
+    <!-- STEP 3: Net Sheet -->
+    <div class="card-body step-section" id="step3">
+      <div class="card-header" style="margin:-24px -28px 24px;border-radius:0">
+        <h2>Step 3 — Estimate Your Net Proceeds</h2>
+        <p>See how much you'd walk away with after the sale</p>
+      </div>
+      <div class="field">
+        <label>Estimated Sale Price</label>
+        <div class="pfx"><span>$</span><input type="number" id="salePrice" placeholder="0" oninput="recalc()" /></div>
+      </div>
+      <div class="field">
+        <label>Mortgage Payoff Amount</label>
+        <div class="pfx"><span>$</span><input type="number" id="payoff" placeholder="0" oninput="recalc()" /></div>
+      </div>
+      <div class="field">
+        <label>Agent Commission: <span id="commPct">5.5%</span></label>
+        <input type="range" id="commSlider" min="1" max="8" step="0.5" value="5.5" oninput="updateComm(this.value)" />
+        <div class="slider-labels"><span>1%</span><span>4.5%</span><span>8%</span></div>
+      </div>
+      <div class="field">
+        <label>Seller Closing Costs: <span id="closingPct">1.5%</span></label>
+        <input type="range" id="closingSlider" min="0.5" max="3" step="0.25" value="1.5" oninput="updateClosing(this.value)" />
+        <div class="slider-labels"><span>0.5%</span><span>1.5%</span><span>3%</span></div>
+      </div>
+      <div class="net-sheet">
+        <div class="net-row"><span class="rl">Sale Price</span><span class="rv" id="ns-sale">$—</span></div>
+        <div class="net-row"><span class="rl">Mortgage Payoff</span><span class="rv neg" id="ns-payoff">−$—</span></div>
+        <div class="net-row"><span class="rl">Agent Commission</span><span class="rv neg" id="ns-comm">−$—</span></div>
+        <div class="net-row"><span class="rl">Closing Costs</span><span class="rv neg" id="ns-closing">−$—</span></div>
+        <div class="net-row total"><span class="rl">🏦 Estimated Net Proceeds</span><span class="rv" id="ns-net">$—</span></div>
+      </div>
+      <button class="btn" onclick="goStep(4)">Get My Free Report →</button>
+      <button class="btn ghost" style="margin-top:10px" onclick="goStep(2)">← Back</button>
+    </div>
+
+    <!-- STEP 4: Lead Gate -->
+    <div class="card-body step-section" id="step4">
+      <div class="card-header" style="margin:-24px -28px 24px;border-radius:0">
+        <h2>Step 4 — Get Your Free Report</h2>
+        <p>Enter your info and download your personalized PDF instantly</p>
+      </div>
+      <div class="tag-free">✅ 100% Free — Instant Download — No Obligation</div>
+      <div class="gate-grid">
+        <div class="field" style="margin:0"><label>First Name <span class="req">*</span></label><input type="text" id="leadFirst" placeholder="First name" /></div>
+        <div class="field" style="margin:0"><label>Last Name <span class="req">*</span></label><input type="text" id="leadLast" placeholder="Last name" /></div>
+      </div>
+      <div class="field"><label>Email Address <span class="req">*</span></label><input type="email" id="leadEmail" placeholder="your@email.com" /></div>
+      <div class="field"><label>Phone Number <span style="font-weight:400;text-transform:none;font-size:11px;letter-spacing:0">(optional)</span></label><input type="tel" id="leadPhone" placeholder="(619) 555-0000" /></div>
+      <button class="btn green" onclick="downloadReport()" id="downloadBtn">📄 Download My Free Report</button>
+      <button class="btn ghost" style="margin-top:10px" onclick="goStep(3)">← Back</button>
+      <div class="note">By submitting you agree to be contacted by All In Lending regarding your home. We never sell your info.</div>
+    </div>
+
+    <!-- STEP 5: Success -->
+    <div class="card-body step-section" id="step5">
+      <div class="success-box">
+        <div class="ico">🎉</div>
+        <h2>Your Report is Ready!</h2>
+        <p style="color:#6b7280;margin-bottom:16px">Your PDF has been downloaded. Our team will be in touch soon!</p>
+        <button class="btn" style="max-width:280px;margin:0 auto" onclick="reDownload()">📄 Download Again</button>
+        <div class="cta-box">
+          <div class="ct">🏡 Ready to make your move?</div>
+          <div class="cb">Our team can help you sell your current home and get pre-approved for your next one — all in one place.</div>
+          <a class="cta-link" href="https://cmc.my1003app.com/220926/register?time=1772669246583" target="_blank">Get Pre-Approved Now →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">© 2026 San Diego Home Buyers | All In Lending | Chuck La Flair</div>
+</div>
+
+<!-- Rentcast key injected here — swap placeholder when key is ready -->
+<script>window.RENTCAST_API_KEY = '68567fd24bb840ae854a984f2c672f8c';</script>
+<script src="home-value-report.js"></script>
+</body>
+</html>

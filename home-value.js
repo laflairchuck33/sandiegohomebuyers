@@ -213,10 +213,10 @@ async function downloadReport() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Generating your report...';
 
-  // Push to FUB as lead
-  try {
-    await pushToFUB();
-  } catch (e) { console.log('FUB push failed:', e); }
+  // Notify Chuck + push to FUB
+  const addrVal2 = document.getElementById('addressInput').value.trim();
+  try { await notifyChuck(addrVal2); } catch (e) { console.log('Telegram notify failed:', e); }
+  try { await pushToFUB(); } catch (e) { console.log('FUB push failed:', e); }
 
   // Generate PDF
   try {
@@ -228,6 +228,16 @@ async function downloadReport() {
 
   btn.disabled = false;
   btn.innerHTML = 'Download My Free Report';
+}
+
+async function notifyChuck(addr) {
+  const net = S.salePrice - S.payoff - S.salePrice*0.055 - S.salePrice*(S.closing/100);
+  const msg = `🏠 NEW HOME VALUE LEAD\n\n👤 ${S.first} ${S.last}\n📧 ${S.email}${S.phone ? '\n📱 ' + S.phone : ''}\n\n📍 ${addr}\n💰 Est. Value: ${fmt(S.estValue)}\n🏦 Payoff: ${fmt(S.payoff)}\n✅ Est. Net: ${fmt(net)}\n\nFrom: sandiegohomebuyers.org`;
+  await fetch(`https://api.telegram.org/bot${window.TG_BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: '865040112', text: msg })
+  });
 }
 
 async function pushToFUB() {

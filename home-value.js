@@ -465,6 +465,15 @@ function generatePDF() {
   doc.setTextColor(15, 42, 71);
   doc.text('Mauricio Perez-Vazquez', 40, y);
 
+  // DRE Disclaimer
+  y += 10;
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'italic');
+  doc.setTextColor(150, 150, 150);
+  var disclaimer = 'This report is a Comparative Market Analysis (CMA), not an appraisal. All values and net proceeds are estimates only and may vary.';
+  var discLines = doc.splitTextToSize(disclaimer, W - 80);
+  doc.text(discLines, 40, y);
+
   doc.save('Seller-Valuation-Report-' + addrShort.replace(/[^a-zA-Z0-9]/g, '-') + '.pdf');
 }
 

@@ -251,16 +251,18 @@ async function downloadReport() {
 
 async function notifyChuck(addr) {
   const net = S.salePrice - S.payoff - S.salePrice*0.055 - S.salePrice*(S.closing/100);
-  const params = new URLSearchParams({
-    firstName: S.first, lastName: S.last,
-    email: S.email, phone: S.phone || '',
-    address: addr,
-    estValue: fmt(S.estValue),
-    payoff: fmt(S.payoff),
-    estNet: fmt(net)
+  await fetch('/api/home-value-lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: S.first, lastName: S.last,
+      email: S.email, phone: S.phone || '',
+      address: addr,
+      estValue: fmt(S.estValue),
+      payoff: fmt(S.payoff),
+      estNet: fmt(net)
+    })
   });
-  // GET request to our own server - no CORS issues
-  await fetch('/api/home-value-lead?' + params.toString());
 }
 
 async function pushToFUB() {
@@ -346,10 +348,10 @@ function generatePDF() {
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(51, 51, 51);
-  var openPara = 'Thank you for your inquiry on how much net proceeds you would receive if you sold your home at ' + addr + ' for ' + fmt(S.estValue) + '. Below is a breakdown of what it would look like based on current market data.';
+  var openPara = 'Thank you for your inquiry on how much net proceeds you would receive if you sold your home at ' + addr + ' for ' + fmt(S.estValue) + '. Below is a breakdown of what that would look like based on current market data.';
   var openLines = doc.splitTextToSize(openPara, W - 80);
   doc.text(openLines, 40, y);
-  y += openLines.length * 13 + 10;
+  y += openLines.length * 14 + 10;
 
   // Green divider
   doc.setDrawColor(46, 139, 87);
@@ -449,25 +451,26 @@ function generatePDF() {
   y += 12;
 
   // Next steps paragraph
-  doc.setFontSize(9.5);
+  doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(51, 51, 51);
   var nextPara = 'The next step, if you would like to have a more serious conversation, is for us to schedule a call or consultation to discuss your selling goals. I will make sure to answer all of your questions and guide you through every step of the process.';
   var nextLines = doc.splitTextToSize(nextPara, W - 80);
   doc.text(nextLines, 40, y);
-  y += nextLines.length * 13 + 10;
+  y += nextLines.length * 14 + 10;
 
   // Closing
-  doc.setFontSize(9.5);
+  doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(51, 51, 51);
   doc.text('Thank you so much for your inquiry — I will be in touch soon!', 40, y);
   y += 16;
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(15, 42, 71);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(51, 51, 51);
   doc.text('Warm regards,', 40, y);
   y += 13;
-  doc.setTextColor(46, 139, 87);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 42, 71);
   doc.text('Mauricio Perez-Vazquez', 40, y);
 
   doc.save('Seller-Valuation-Report-' + addrShort.replace(/[^a-zA-Z0-9]/g, '-') + '.pdf');

@@ -437,6 +437,35 @@ async function handleHomeValueLead(req, res) {
       })
     });
 
+    // Email client their report
+    if (email) {
+      try {
+        const transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST || 'smtp.gmail.com',
+          port: parseInt(process.env.SMTP_PORT || '587'),
+          secure: false,
+          auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+        });
+        await transporter.sendMail({
+          from: `"San Diego Home Buyers" <${process.env.SMTP_USER}>`,
+          to: email,
+          subject: `Your Home Valuation Report – ${address}`,
+          html: `<p>Dear ${firstName},</p>
+<p>Thank you for your inquiry! As discussed, here is a summary of your home valuation for <strong>${address}</strong>.</p>
+<ul>
+  <li><strong>Estimated Market Value:</strong> ${estValue}</li>
+  <li><strong>Mortgage Payoff:</strong> ${payoff}</li>
+  <li><strong>Estimated Net Proceeds:</strong> ${estNet}</li>
+</ul>
+<p>The next step, if you would like to have a more serious conversation, is for us to schedule a call or consultation to discuss your selling goals. I will make sure to answer all of your questions.</p>
+<p>Thank you so much for your inquiry — I will be in touch soon!</p>
+<p><strong>Mauricio Perez-Vazquez</strong><br>Founding Partner | Broker Associate<br>Realty of America<br>📞 619.813.5903</p>`
+        });
+      } catch (emailErr) {
+        console.error('Client email error:', emailErr.message);
+      }
+    }
+
     res.json({ ok: true });
   } catch (e) {
     console.error('Home value lead error:', e.message);

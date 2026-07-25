@@ -202,7 +202,7 @@ function recalc() {
 }
 
 // ── PDF Report ───────────────────────────────────────────
-// Step 3: save contact info and go to step 4 (no notification yet)
+// Step 3: save contact info, notify Chuck, go to step 4
 async function downloadReport() {
   const first = document.getElementById('leadFirst').value.trim();
   const last = document.getElementById('leadLast').value.trim();
@@ -210,6 +210,10 @@ async function downloadReport() {
   const phone = document.getElementById('leadPhone').value.trim();
   if (!first || !last || !email) { alert('Please fill in your name and email.'); return; }
   S.first = first; S.last = last; S.email = email; S.phone = phone;
+
+  // Notify Chuck immediately when they submit contact info
+  const addrVal2 = document.getElementById('addressInput').value.trim();
+  notifyChuck(addrVal2).catch(e => console.log('Lead notify failed:', e));
   // Populate step 4 net proceeds
   const sale4 = S.estValue;
   const net4 = sale4 - S.payoff;
@@ -227,9 +231,6 @@ async function downloadReport() {
 async function doDownload() {
   const btn = document.getElementById('downloadBtn4');
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generating...'; }
-  // Notify Chuck first — before PDF so it always fires
-  const addrVal2 = document.getElementById('addressInput').value.trim();
-  notifyChuck(addrVal2).catch(e => console.log('Lead notify failed:', e));
   try {
     generatePDF();
     goStep(5);

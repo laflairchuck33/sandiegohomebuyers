@@ -227,11 +227,11 @@ async function downloadReport() {
 async function doDownload() {
   const btn = document.getElementById('downloadBtn4');
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generating...'; }
+  // Notify Chuck first — before PDF so it always fires
+  const addrVal2 = document.getElementById('addressInput').value.trim();
+  notifyChuck(addrVal2).catch(e => console.log('Lead notify failed:', e));
   try {
     generatePDF();
-    // Notify Chuck now that they actually downloaded
-    const addrVal2 = document.getElementById('addressInput').value.trim();
-    notifyChuck(addrVal2).catch(e => console.log('Lead notify failed:', e));
     goStep(5);
   } catch (e) {
     console.error('PDF generation error:', e);

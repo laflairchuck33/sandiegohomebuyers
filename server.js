@@ -104,7 +104,6 @@ app.post('/api/lead', async (req, res) => {
 // ===========================
 // LISTINGS STORAGE
 // ===========================
-const fs = require('fs');
 const LISTINGS_FILE = path.join(__dirname, 'listings.json');
 
 function readListings() {

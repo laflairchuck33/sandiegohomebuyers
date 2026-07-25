@@ -210,6 +210,16 @@ async function downloadReport() {
   const phone = document.getElementById('leadPhone').value.trim();
   if (!first || !last || !email) { alert('Please fill in your name and email.'); return; }
   S.first = first; S.last = last; S.email = email; S.phone = phone;
+  // Populate step 4 net proceeds
+  const sale4 = S.estValue;
+  const net4 = sale4 - S.payoff;
+  const s4sale = document.getElementById('s4-sale');
+  const s4payoff = document.getElementById('s4-payoff');
+  const s4net = document.getElementById('s4-net');
+  if (s4sale) s4sale.textContent = fmt(sale4);
+  if (s4payoff) s4payoff.textContent = S.payoff > 0 ? '(' + fmt(S.payoff) + ')' : '$—';
+  if (s4net) { s4net.textContent = fmt(net4); s4net.style.color = net4 >= 0 ? 'white' : '#fca5a5'; }
+
   goStep(4); // go to value display + download
 }
 

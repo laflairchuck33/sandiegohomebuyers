@@ -362,9 +362,7 @@ function generatePDF() {
     // REALTY OF AMERICA tagline
     doc.setTextColor(255,255,255);
     doc.setFontSize(7); doc.setFont('helvetica', 'normal');
-    doc.setCharSpace(2);
     doc.text('REALTY OF AMERICA', 30, 72);
-    doc.setCharSpace(0);
 
     // Vertical green divider line
     doc.setDrawColor(46,139,87);
@@ -374,9 +372,7 @@ function generatePDF() {
     // SELLER title (green)
     doc.setTextColor(46,139,87);
     doc.setFontSize(11); doc.setFont('helvetica', 'bold');
-    doc.setCharSpace(3);
     doc.text('SELLER', 162, 40);
-    doc.setCharSpace(0);
 
     // VALUATION REPORT (navy/white on dark bg)
     doc.setTextColor(255,255,255);
@@ -480,9 +476,7 @@ function generatePDF() {
 
   doc.setTextColor(46,139,87);
   doc.setFontSize(9); doc.setFont('helvetica', 'bold');
-  doc.setCharSpace(2);
   doc.text('ESTIMATED MARKET VALUE', W/2, y + 20, { align:'center' });
-  doc.setCharSpace(0);
 
   doc.setTextColor(255,255,255);
   doc.setFontSize(34); doc.setFont('helvetica', 'bold');
@@ -511,9 +505,7 @@ function generatePDF() {
     doc.rect(dx, y, dw - 3, 3, 'F');
     doc.setTextColor(120,120,120);
     doc.setFontSize(6.5); doc.setFont('helvetica', 'bold');
-    doc.setCharSpace(1);
     doc.text(d[0], dx + dw/2 - 3, y + 16, { align:'center' });
-    doc.setCharSpace(0);
     doc.setTextColor(21,35,64);
     doc.setFontSize(16); doc.setFont('helvetica', 'bold');
     doc.text(d[1] || '—', dx + dw/2 - 3, y + 36, { align:'center' });
@@ -528,9 +520,7 @@ function generatePDF() {
   doc.rect(20, y, 4, 24, 'F');
   doc.setTextColor(255,255,255);
   doc.setFontSize(10); doc.setFont('helvetica', 'bold');
-  doc.setCharSpace(1);
   doc.text('ESTIMATED NET PROCEEDS', 32, y + 16);
-  doc.setCharSpace(0);
   y += 24;
 
   const netRows = [

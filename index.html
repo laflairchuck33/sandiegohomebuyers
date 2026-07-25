@@ -511,12 +511,12 @@
     <p class="ssu">Found a property you want to see? Enter the address and your info — we'll set it up.</p>
     <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
       <div style="position:relative;width:100%">
-        <input id="sh2-addr" type="text" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" autocomplete="off" oninput="addrAutocomplete(this.value)" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
+        <input id="sh2-addr" type="text" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" autocomplete="off" oninput="addrAutocomplete(this.value);checkStep2()" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
         <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#f0f0f0;border:1px solid #1a6cfe;border-top:none;border-radius:0 0 6px 6px;z-index:99;max-height:220px;overflow-y:auto"></div>
       </div>
-      <input id="sh2-name" type="text" placeholder="Your Full Name *" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
-      <input id="sh2-phone" type="tel" placeholder="Phone Number *" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
-      <input id="sh2-email" type="email" placeholder="Email Address" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-name" type="text" placeholder="Your Full Name *" oninput="checkStep2()" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-phone" type="tel" placeholder="Phone Number *" oninput="checkStep2()" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
+      <input id="sh2-email" type="email" placeholder="Email Address" oninput="checkStep2()" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="cal-wrap" id="calWrap">
           <div class="cal-input" onclick="toggleCal()">
@@ -541,7 +541,8 @@
           <option>Flexible / Any Time</option>
         </select>
       </div>
-      <button onclick="submitStep2()" style="background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:pointer">🗓 Request My Showing →</button>
+      <button id="sh2-btn" onclick="submitStep2()" disabled style="background:#ccc;border:none;color:#666;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:not-allowed;transition:background .2s,color .2s">🗓 Request My Showing →</button>
+      <p id="sh2-hint" style="text-align:center;color:#aaa;font-size:.8rem;margin-top:8px">Fill in address, name &amp; phone to continue</p>
       <p style="text-align:center;margin-top:14px;color:#888;font-size:.88rem">Want to see if you are pre-qualified? <a href="#step3" style="color:#1a6cfe;font-weight:700;text-decoration:none">Proceed to Step 3 →</a></p>
       <div id="sh2-thanks" style="display:none;text-align:center;background:rgba(21,0,255,.1);border:1px solid #1a6cfe;border-radius:6px;padding:20px">
         <div style="font-size:1.8rem;margin-bottom:8px">✅</div>
@@ -761,9 +762,9 @@
     <div style="color:#1a6cfe;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Schedule a Visit</div>
     <h3 style="font-size:1.3rem;margin-bottom:4px">Request a Showing</h3>
     <p id="showingProperty" style="color:#888;font-size:.84rem;margin-bottom:20px"></p>
-    <input id="shName" type="text" placeholder="Full Name *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
-    <input id="shPhone" type="tel" placeholder="Phone Number *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
-    <input id="shEmail" type="email" placeholder="Email Address" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shName" type="text" placeholder="Full Name *" oninput="checkShowing()" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shPhone" type="tel" placeholder="Phone Number *" oninput="checkShowing()" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
+    <input id="shEmail" type="email" placeholder="Email Address" oninput="checkShowing()" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#111;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
     <input id="shDate" type="date" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#888;font-family:inherit;font-size:.88rem;margin-bottom:10px"/>
     <select id="shTime" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:10px 14px;color:#888;font-family:inherit;font-size:.88rem;margin-bottom:16px">
       <option value="">Preferred Time</option>
@@ -772,7 +773,8 @@
       <option>Evening (4PM–7PM)</option>
       <option>Flexible / Any Time</option>
     </select>
-    <button onclick="submitShowing()" style="width:100%;background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📅 Request Showing</button>
+    <button id="shBtn" onclick="submitShowing()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:not-allowed;letter-spacing:.5px;transition:background .2s,color .2s">📅 Request Showing</button>
+    <p id="shHint" style="text-align:center;color:#aaa;font-size:.78rem;margin-top:6px">Fill in name &amp; phone to continue</p>
     <div id="showingThanks" style="display:none;text-align:center;padding:20px 0">
       <div style="font-size:2rem;margin-bottom:10px">✅</div>
       <h4 style="margin-bottom:6px">Request Sent!</h4>
@@ -1154,6 +1156,20 @@ document.addEventListener('click', e => {
 });
 
 // ── STEP 2: REQUEST A SHOWING (inline form) ──
+function checkStep2() {
+  const addr  = document.getElementById('sh2-addr').value.trim();
+  const name  = document.getElementById('sh2-name').value.trim();
+  const phone = document.getElementById('sh2-phone').value.trim();
+  const btn   = document.getElementById('sh2-btn');
+  const hint  = document.getElementById('sh2-hint');
+  const ready = addr.length > 5 && name.length > 1 && phone.length > 6;
+  btn.disabled         = !ready;
+  btn.style.background = ready ? '#1a6cfe' : '#ccc';
+  btn.style.color      = ready ? '#000'    : '#666';
+  btn.style.cursor     = ready ? 'pointer' : 'not-allowed';
+  hint.style.display   = ready ? 'none'   : 'block';
+}
+
 function submitStep2(){
   const addr  = document.getElementById('sh2-addr').value.trim();
   const name  = document.getElementById('sh2-name').value.trim();
@@ -1183,6 +1199,10 @@ function openShowing(property){
   document.getElementById('shDate').value='';
   document.getElementById('shTime').selectedIndex=0;
   document.getElementById('showingThanks').style.display='none';
+  // Reset button to disabled state
+  const shBtn = document.getElementById('shBtn');
+  shBtn.disabled=true; shBtn.style.background='#ccc'; shBtn.style.color='#666'; shBtn.style.cursor='not-allowed';
+  document.getElementById('shHint').style.display='block';
   document.querySelector('#showingModal > div > button').style.display='block';
   document.querySelector('#showingModal h3').style.display='block';
   document.querySelector('#showingModal input[type="text"]').parentElement.querySelectorAll('input,select,button:last-of-type').forEach(el=>el.style.display='');
@@ -1192,6 +1212,19 @@ function openShowing(property){
 function closeShowing(){
   document.getElementById('showingModal').style.display='none';
 }
+function checkShowing() {
+  const name  = document.getElementById('shName').value.trim();
+  const phone = document.getElementById('shPhone').value.trim();
+  const btn   = document.getElementById('shBtn');
+  const hint  = document.getElementById('shHint');
+  const ready = name.length > 1 && phone.length > 6;
+  btn.disabled         = !ready;
+  btn.style.background = ready ? '#1a6cfe' : '#ccc';
+  btn.style.color      = ready ? '#000'    : '#666';
+  btn.style.cursor     = ready ? 'pointer' : 'not-allowed';
+  hint.style.display   = ready ? 'none'   : 'block';
+}
+
 function submitShowing(){
   const name  = document.getElementById('shName').value.trim();
   const phone = document.getElementById('shPhone').value.trim();

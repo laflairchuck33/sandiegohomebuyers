@@ -527,10 +527,25 @@ async function handleHomeValueLead(req, res) {
 }
 
 // ===========================
+// KEEP-ALIVE (prevent Render cold starts)
+// ===========================
+const SELF_URL = process.env.RENDER_EXTERNAL_URL || 'https://sandiegohomebuyers.onrender.com';
+function keepAlive() {
+  fetch(`${SELF_URL}/api/ping`).catch(() => {});
+}
+// Ping self every 10 minutes
+setInterval(keepAlive, 10 * 60 * 1000);
+
+app.get('/api/ping', (req, res) => res.json({ ok: true, ts: Date.now() }));
+
+// ===========================
 // START
 // ===========================
 app.listen(PORT, () => {
   console.log(`\n🏡 SanDiegoHomeBuyers.com server running on http://localhost:${PORT}`);
   console.log(`   FUB API: ${FUB_API_KEY ? '✅ configured' : '❌ missing'}`);
-  console.log(`   Notify Email: ${NOTIFY_EMAIL}\n`);
+  console.log(`   Notify Email: ${NOTIFY_EMAIL}`);
+  console.log(`   Keep-alive: pinging ${SELF_URL} every 10 min\n`);
+  // First ping after 1 min to confirm startup
+  setTimeout(keepAlive, 60 * 1000);
 });

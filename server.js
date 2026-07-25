@@ -439,6 +439,30 @@ async function handleHomeValueLead(req, res) {
       })
     });
 
+    // Email Chuck the lead
+    try {
+      const chuckTransporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || 'smtp.gmail.com',
+        port: parseInt(process.env.SMTP_PORT || '587'),
+        secure: false,
+        auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+      });
+      const chuckSubject = consultationRequest
+        ? `📅 Consultation Request — ${firstName} ${lastName}`
+        : `🏠 New Home Value Lead — ${firstName} ${lastName}`;
+      const chuckHtml = consultationRequest
+        ? `<h2>📅 Consultation Request</h2><p><strong>${firstName} ${lastName}</strong> wants to schedule a consultation.</p><ul><li><strong>Email:</strong> ${email}</li>${phone ? '<li><strong>Phone:</strong> ' + phone + '</li>' : ''}<li><strong>Address:</strong> ${address}</li><li><strong>Est. Value:</strong> ${estValue}</li></ul><p>⚠️ Reach out ASAP!</p>`
+        : `<h2>🏠 New Home Value Lead</h2><ul><li><strong>Name:</strong> ${firstName} ${lastName}</li><li><strong>Email:</strong> ${email}</li>${phone ? '<li><strong>Phone:</strong> ' + phone + '</li>' : ''}<li><strong>Address:</strong> ${address}</li><li><strong>Est. Value:</strong> ${estValue}</li><li><strong>Principal Balance:</strong> ${payoff}</li><li><strong>Est. Net:</strong> ${estNet}</li></ul><p>From: sandiegohomebuyers.org/home-value.html</p>`;
+      await chuckTransporter.sendMail({
+        from: `"San Diego Home Buyers" <${process.env.SMTP_USER}>`,
+        to: 'chuck@allin-lending.com',
+        subject: chuckSubject,
+        html: chuckHtml
+      });
+    } catch(emailErr) {
+      console.error('Chuck email error:', emailErr.message);
+    }
+
     // Email client their report
     if (email) {
       try {

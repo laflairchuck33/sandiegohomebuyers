@@ -300,6 +300,10 @@ function generatePDF() {
   const W = 612, H = 792;
 
   // Draw ROA template as background
+  if (typeof ROA_TEMPLATE_B64 === 'undefined') {
+    alert('Template not loaded. Please do a hard refresh (Ctrl+Shift+R) and try again.');
+    return;
+  }
   doc.addImage(ROA_TEMPLATE_B64, 'PNG', 0, 0, W, H);
 
   // Data

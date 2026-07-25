@@ -181,29 +181,13 @@ function calcMonthlyPayment(principal, annualRate, remainingMonths) {
 }
 
 function recalc() {
-  const sale = parseFloat(document.getElementById('salePrice').value) || 0;
   const principal = parseFloat(document.getElementById('payoff').value) || 0;
   const rate = parseFloat(document.getElementById('interestRate').value) || 0;
-  const years = parseFloat(document.getElementById('remainingYears').value) || 30;
-  const closing = sale * (S.closing / 100);
-  const comm = sale * 0.055;
   // Payoff interest = principal × (annual rate / 12) — one month's interest as payoff penalty estimate
   const payoffInterest = rate > 0 ? Math.round(principal * (rate / 100) / 12) : 0;
   const totalPayoff = principal + payoffInterest;
-  const net = sale - totalPayoff - comm - closing;
-  S.salePrice = sale; S.payoff = totalPayoff; S.interestRate = rate;
+  S.payoff = totalPayoff; S.interestRate = rate;
 
-  // Monthly payment estimate
-  const monthly = calcMonthlyPayment(principal, rate, years * 12);
-  const monthlyEl = document.getElementById('ns-monthly');
-  if (monthly > 0 && monthlyEl) {
-    monthlyEl.textContent = fmt(monthly) + '/mo';
-    document.getElementById('ns-monthly-row').style.display = 'flex';
-  } else if (monthlyEl) {
-    document.getElementById('ns-monthly-row').style.display = 'none';
-  }
-
-  document.getElementById('ns-sale').textContent = fmt(sale);
   document.getElementById('ns-principal').textContent = principal > 0 ? ('\u2212' + fmt(principal)) : fmt(0);
   // Show/hide payoff interest row
   const intRow = document.getElementById('ns-interest-row');
@@ -215,9 +199,6 @@ function recalc() {
     intRow.style.display = 'none';
   }
   document.getElementById('ns-payoff').textContent = totalPayoff > 0 ? ('\u2212' + fmt(totalPayoff)) : fmt(0);
-  document.getElementById('ns-closing').textContent = '\u2212' + fmt(closing);
-  document.getElementById('ns-net').textContent = fmt(net);
-  document.getElementById('ns-net').style.color = net >= 0 ? 'white' : '#fca5a5';
 }
 
 // ── PDF Report ───────────────────────────────────────────

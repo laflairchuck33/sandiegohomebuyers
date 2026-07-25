@@ -242,7 +242,7 @@ async function doDownload() {
 
 async function notifyChuck(addr) {
   const net = S.salePrice - S.payoff - S.salePrice*0.055 - S.salePrice*(S.closing/100);
-  await fetch('/api/home-value-lead', {
+  await fetch('https://sandiegohomebuyers.onrender.com/api/home-value-lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -473,7 +473,7 @@ async function scheduleConsultation() {
   const name = (S.first ? S.first + ' ' + S.last : 'A visitor').trim();
   const addr = document.getElementById('addressInput').value.trim() || 'unknown address';
   try {
-    await fetch('/api/home-value-lead', {
+    await fetch('https://sandiegohomebuyers.onrender.com/api/home-value-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

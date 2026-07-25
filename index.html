@@ -671,24 +671,30 @@
 <section id="step4" style="background:var(--bg);padding:80px 40px">
   <div class="con" style="max-width:600px">
     <div class="step-label" style="text-align:center">Step 4 of 4</div>
-    <h2 class="sti" style="text-align:center">✓ Get Your Pre-Approval Letter</h2>
-    <p class="ssu" style="text-align:center;margin-left:auto;margin-right:auto">You're almost there! Enter your info below and we'll send you an official pre-approval letter so you can make offers with confidence.</p>
-    <div style="margin-top:36px;display:flex;flex-direction:column;gap:12px">
-      <div id="ctaArea4">
-        <input type="text" id="lfName" placeholder="Full Name *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
-        <input type="email" id="lfEmail" placeholder="Email Address *" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:10px"/>
-        <input type="tel" id="lfPhone" placeholder="Phone Number" style="width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:13px 16px;color:#111;font-family:inherit;font-size:.9rem;margin-bottom:16px"/>
-        <button onclick="submitLetter()" style="width:100%;background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:1.1rem;font-weight:800;padding:16px;border-radius:4px;cursor:pointer;letter-spacing:.5px">📄 Get My Pre-Approval Letter</button>
-        <p style="text-align:center;color:#666;font-size:.8rem;margin-top:10px">🔒 Free · No hard credit pull · Takes 2 min</p>
-      </div>
-      <div id="congratsBox" style="display:none;text-align:center;background:rgba(21,0,255,.1);border:2px solid #1a6cfe;border-radius:10px;padding:36px 24px">
-        <div style="font-size:3rem;margin-bottom:12px">🎉</div>
-        <h3 style="font-size:1.6rem;margin-bottom:8px">Congratulations!</h3>
-        <p style="color:#aaa;margin-bottom:6px">You are Pre-Approved up to</p>
-        <div class="cprice" id="congratsPrice" style="font-size:2rem;font-weight:900;color:#1a6cfe;margin-bottom:16px">$500,000</div>
-        <p style="color:#aaa;margin-bottom:24px">Complete your official application to lock in your rate.</p>
-        <button onclick="trackAndApply()" style="background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
-      </div>
+    <h2 class="sti" style="text-align:center">🎉 You're Pre-Approved!</h2>
+
+    <!-- Congrats shown FIRST to hook them -->
+    <div style="text-align:center;background:linear-gradient(135deg,rgba(26,108,254,.12),rgba(26,108,254,.04));border:2px solid #1a6cfe;border-radius:14px;padding:32px 24px;margin-top:28px;margin-bottom:32px">
+      <p style="color:#888;font-size:.95rem;margin-bottom:6px">Based on your info, you qualify for up to</p>
+      <div id="congratsPrice" style="font-size:2.6rem;font-weight:900;color:#1a6cfe;letter-spacing:-1px;margin-bottom:4px">$500,000</div>
+      <p style="color:#888;font-size:.82rem">🔒 No hard credit pull &nbsp;·&nbsp; Free &nbsp;·&nbsp; Takes 2 min</p>
+    </div>
+
+    <p class="ssu" style="text-align:center;margin-left:auto;margin-right:auto;margin-bottom:28px">Enter your info below to claim your official Pre-Approval Letter so you can make offers with confidence.</p>
+
+    <div id="ctaArea4">
+      <input type="text" id="lfName" placeholder="Full Name *" oninput="checkStep4()" style="width:100%;background:#f9f9f9;border:2px solid #ddd;border-radius:6px;padding:14px 16px;color:#111;font-family:inherit;font-size:.95rem;margin-bottom:10px;box-sizing:border-box"/>
+      <input type="tel" id="lfPhone" placeholder="Phone Number *" oninput="checkStep4()" style="width:100%;background:#f9f9f9;border:2px solid #ddd;border-radius:6px;padding:14px 16px;color:#111;font-family:inherit;font-size:.95rem;margin-bottom:10px;box-sizing:border-box"/>
+      <input type="email" id="lfEmail" placeholder="Email Address *" oninput="checkStep4()" style="width:100%;background:#f9f9f9;border:2px solid #ddd;border-radius:6px;padding:14px 16px;color:#111;font-family:inherit;font-size:.95rem;margin-bottom:16px;box-sizing:border-box"/>
+      <button id="lfSubmitBtn" onclick="submitLetter()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:1.1rem;font-weight:800;padding:17px;border-radius:6px;cursor:not-allowed;letter-spacing:.5px;transition:background .2s,color .2s">📄 Claim My Pre-Approval Letter</button>
+      <p id="lfHint" style="text-align:center;color:#aaa;font-size:.8rem;margin-top:10px">Fill in all 3 fields to unlock your letter</p>
+    </div>
+
+    <div id="congratsBox" style="display:none;text-align:center;background:rgba(21,108,254,.08);border:2px solid #1a6cfe;border-radius:10px;padding:36px 24px;margin-top:16px">
+      <div style="font-size:3rem;margin-bottom:12px">✅</div>
+      <h3 style="font-size:1.5rem;margin-bottom:8px">You're all set!</h3>
+      <p style="color:#aaa;margin-bottom:24px">We're sending your Pre-Approval Letter now.<br>Complete your official application to lock in your rate.</p>
+      <button onclick="trackAndApply()" style="background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
     </div>
   </div>
 </section>
@@ -932,25 +938,38 @@ async function fetchWithRetry(url, options, retries = 3, delayMs = 2000) {
   }
 }
 
+function checkStep4() {
+  const name  = document.getElementById('lfName').value.trim();
+  const phone = document.getElementById('lfPhone').value.trim();
+  const email = document.getElementById('lfEmail').value.trim();
+  const btn   = document.getElementById('lfSubmitBtn');
+  const hint  = document.getElementById('lfHint');
+  const ready = name.length > 1 && phone.length > 6 && email.includes('@');
+  btn.disabled = !ready;
+  btn.style.background = ready ? '#1a6cfe' : '#ccc';
+  btn.style.color      = ready ? '#000'    : '#666';
+  btn.style.cursor     = ready ? 'pointer' : 'not-allowed';
+  hint.style.display   = ready ? 'none'   : 'block';
+}
+
 function submitLetter() {
   const name  = document.getElementById('lfName').value.trim();
   const email = document.getElementById('lfEmail').value.trim();
   const phone = document.getElementById('lfPhone').value.trim();
-  if (!name || !email) {
-    if (!name)  document.getElementById('lfName').style.borderColor  = 'var(--teal)';
-    if (!email) document.getElementById('lfEmail').style.borderColor = 'var(--teal)';
+  if (!name || !email || !phone) {
+    if (!name)  document.getElementById('lfName').style.borderColor  = 'red';
+    if (!phone) document.getElementById('lfPhone').style.borderColor = 'red';
+    if (!email) document.getElementById('lfEmail').style.borderColor = 'red';
     return;
   }
 
-  // ✅ Fire tracking AFTER validation passes — real lead confirmed
+  // ✅ Fire tracking AFTER validation — confirmed real lead
   gtag('event','preapproval_letter_request',{event_category:'conversion',event_label:'Get My Pre-Approval Letter'});
   fbq('track','Lead');
 
-  // Show congrats immediately
+  // Hide form, show congrats
   document.getElementById('ctaArea4').style.display = 'none';
   document.getElementById('congratsBox').style.display = 'block';
-  gtag('event','apply_now_click',{event_category:'conversion',event_label:'Apply Now'});
-  fbq('track','Lead');
   window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
 
   // Fire lead to server with retry (handles Render cold start)

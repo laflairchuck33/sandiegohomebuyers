@@ -324,7 +324,7 @@ function generatePDF() {
   const infoSqft = document.getElementById('infoSqft').textContent;
   const infoYear = document.getElementById('infoYear').textContent;
 
-  // Content starts below header (~y=195pt)
+  // Content zone: header ends ~195pt, footer starts ~640pt
   let y = 195;
   const firstName = S.first || 'Homeowner';
 
@@ -349,7 +349,7 @@ function generatePDF() {
   var openPara = 'Thank you for your inquiry on how much net proceeds you would receive if you sold your home at ' + addr + ' for ' + fmt(S.estValue) + '. Below is a breakdown of what it would look like based on current market data.';
   var openLines = doc.splitTextToSize(openPara, W - 80);
   doc.text(openLines, 40, y);
-  y += openLines.length * 14 + 14;
+  y += openLines.length * 13 + 10;
 
   // Green divider
   doc.setDrawColor(46, 139, 87);
@@ -446,34 +446,29 @@ function generatePDF() {
   doc.setDrawColor(46, 139, 87);
   doc.setLineWidth(1);
   doc.line(40, y, W - 40, y);
-  y += 16;
+  y += 12;
 
   // Next steps paragraph
-  doc.setFontSize(10);
+  doc.setFontSize(9.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(51, 51, 51);
   var nextPara = 'The next step, if you would like to have a more serious conversation, is for us to schedule a call or consultation to discuss your selling goals. I will make sure to answer all of your questions and guide you through every step of the process.';
   var nextLines = doc.splitTextToSize(nextPara, W - 80);
   doc.text(nextLines, 40, y);
-  y += nextLines.length * 14 + 14;
+  y += nextLines.length * 13 + 10;
 
   // Closing
-  doc.setFontSize(10);
+  doc.setFontSize(9.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(51, 51, 51);
   doc.text('Thank you so much for your inquiry — I will be in touch soon!', 40, y);
-  y += 20;
+  y += 16;
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(15, 42, 71);
   doc.text('Warm regards,', 40, y);
-  y += 14;
+  y += 13;
   doc.setTextColor(46, 139, 87);
   doc.text('Mauricio Perez-Vazquez', 40, y);
-  y += 12;
-  doc.setFontSize(8.5);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(120, 120, 120);
-  doc.text('Founding Partner | Broker Associate | Realty of America', 40, y);
 
   doc.save('Seller-Valuation-Report-' + addrShort.replace(/[^a-zA-Z0-9]/g, '-') + '.pdf');
 }

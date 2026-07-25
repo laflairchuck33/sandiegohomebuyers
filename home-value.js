@@ -233,21 +233,20 @@ async function downloadReport() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Generating your report...';
 
-  // Notify Chuck + push to FUB
+  // Notify Chuck + push to FUB (fire and forget — never block PDF)
   const addrVal2 = document.getElementById('addressInput').value.trim();
-  try { await notifyChuck(addrVal2); } catch (e) { console.log('Lead notify failed:', e); }
+  notifyChuck(addrVal2).catch(e => console.log('Lead notify failed:', e));
 
   // Generate PDF
+  btn.disabled = false;
+  btn.innerHTML = 'Download My Free Report';
   try {
     generatePDF();
     goStep(5);
   } catch (e) {
     console.error('PDF generation error:', e);
-    alert('Error generating report: ' + e.message);
+    alert('Error generating report: ' + (e && e.message ? e.message : String(e)));
   }
-
-  btn.disabled = false;
-  btn.innerHTML = 'Download My Free Report';
 }
 
 async function notifyChuck(addr) {
@@ -345,8 +344,7 @@ function generatePDF() {
     // Simulate diagonal: left side deeper, right side cuts up
     // We'll use lines approach: draw a filled polygon for the angled white cutaway
     doc.setFillColor(...white);
-    // Triangle: (W*0.3, 88), (W, 88), (W, 82)
-    doc.triangle(W * 0.25, 88, W, 88, W, 82, 'F');
+    doc.lines([[W*0.75, 0],[0, 6],[-W*0.75, -6]], W*0.25, 82, [1,1], 'F', true);
 
     // ROA Logo text
     doc.setTextColor(...white);
@@ -359,7 +357,7 @@ function generatePDF() {
 
     // Green triangle in the A — approximate with a small filled rect
     doc.setFillColor(...green);
-    doc.triangle(74, 48, 87, 48, 80, 32, 'F');
+    doc.lines([[13, 0],[-7, -16],[-6, 16]], 74, 48, [1,1], 'F', true);
 
     // REALTY OF AMERICA tagline
     doc.setTextColor(...white);
@@ -405,12 +403,12 @@ function generatePDF() {
         // Circular clip visual — draw white ring
         doc.setDrawColor(...green);
         doc.setLineWidth(2);
-        doc.circle(photoX + photoSize/2, photoY + photoSize/2, photoSize/2 + 2, 'S');
+        doc.ellipse(photoX + photoSize/2, photoY + photoSize/2, photoSize/2 + 2, photoSize/2 + 2, 'S');
       }
     } catch(e) {
       // Fallback: gray circle
       doc.setFillColor(200, 200, 200);
-      doc.circle(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 'F');
+      doc.ellipse(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, photoSize/2, 'F');
     }
 
     // Agent name

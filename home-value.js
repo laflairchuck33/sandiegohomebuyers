@@ -329,8 +329,8 @@ function generatePDF() {
   const firstName = S.first || 'Homeowner';
 
   // Date
-  doc.setTextColor(120, 120, 120);
-  doc.setFontSize(9);
+  doc.setTextColor(51, 51, 51);
+  doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.text(today, 40, y);
   y += 20;

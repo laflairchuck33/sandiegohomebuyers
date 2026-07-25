@@ -144,15 +144,15 @@ async function runValuation() {
     const sqft = sub.squareFootage || data.squareFootage || topComp.squareFootage || (S.sqft ? parseInt(S.sqft) : null);
     const yearBuilt = sub.yearBuilt || data.yearBuilt || topComp.yearBuilt || null;
 
-    document.getElementById('infoBeds').textContent = beds || '—';
-    document.getElementById('infoBaths').textContent = baths || '—';
-    document.getElementById('infoSqft').textContent = sqft ? parseInt(sqft).toLocaleString() : '—';
-    document.getElementById('infoYear').textContent = yearBuilt || '—';
-    document.getElementById('propInfo').style.display = 'grid';
+    document.getElementById('infoBeds4').textContent = beds || '—';
+    document.getElementById('infoBaths4').textContent = baths || '—';
+    document.getElementById('infoSqft4').textContent = sqft ? parseInt(sqft).toLocaleString() : '—';
+    document.getElementById('infoYear4').textContent = yearBuilt || '—';
+    document.getElementById('propInfo4').style.display = 'grid';
 
-    document.getElementById('estValue').textContent = fmt(S.estValue);
-    document.getElementById('valueRange').textContent = 'Estimated range: ' + fmt(S.valueLow) + ' – ' + fmt(S.valueHigh);
-    document.getElementById('step2Addr').textContent = addrVal;
+    document.getElementById('estValue4').textContent = fmt(S.estValue);
+    document.getElementById('valueRange4').textContent = 'Estimated range: ' + fmt(S.valueLow) + ' – ' + fmt(S.valueHigh);
+    document.getElementById('step4Addr').textContent = addrVal;
 
     document.getElementById('salePrice').value = S.estValue;
     recalc();
@@ -221,6 +221,7 @@ function recalc() {
 }
 
 // ── PDF Report ───────────────────────────────────────────
+// Step 3: save contact info and go to step 4
 async function downloadReport() {
   const first = document.getElementById('leadFirst').value.trim();
   const last = document.getElementById('leadLast').value.trim();
@@ -229,17 +230,17 @@ async function downloadReport() {
   if (!first || !last || !email) { alert('Please fill in your name and email.'); return; }
   S.first = first; S.last = last; S.email = email; S.phone = phone;
 
-  const btn = document.getElementById('downloadBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Generating your report...';
-
-  // Notify Chuck + push to FUB (fire and forget — never block PDF)
+  // Notify Chuck (fire and forget)
   const addrVal2 = document.getElementById('addressInput').value.trim();
   notifyChuck(addrVal2).catch(e => console.log('Lead notify failed:', e));
 
-  // Generate PDF
-  btn.disabled = false;
-  btn.innerHTML = 'Download My Free Report';
+  goStep(4); // go to value display + download
+}
+
+// Step 4: generate PDF and go to success
+function doDownload() {
+  const btn = document.getElementById('downloadBtn4');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generating...'; }
   try {
     generatePDF();
     goStep(5);
@@ -247,6 +248,7 @@ async function downloadReport() {
     console.error('PDF generation error:', e);
     alert('Error generating report: ' + (e && e.message ? e.message : String(e)));
   }
+  if (btn) { btn.disabled = false; btn.innerHTML = '📄 Download My Free Report'; }
 }
 
 async function notifyChuck(addr) {
@@ -321,10 +323,10 @@ function generatePDF() {
   const closing = sale * (S.closing / 100);
   const net = sale - totalPayoff - comm - closing;
   const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  const infoBeds = document.getElementById('infoBeds').textContent;
-  const infoBaths = document.getElementById('infoBaths').textContent;
-  const infoSqft = document.getElementById('infoSqft').textContent;
-  const infoYear = document.getElementById('infoYear').textContent;
+  const infoBeds = document.getElementById('infoBeds4').textContent;
+  const infoBaths = document.getElementById('infoBaths4').textContent;
+  const infoSqft = document.getElementById('infoSqft4').textContent;
+  const infoYear = document.getElementById('infoYear4').textContent;
 
   // Content zone: header ends ~195pt, footer starts ~640pt
   let y = 195;
@@ -476,7 +478,7 @@ function generatePDF() {
   doc.save('Seller-Valuation-Report-' + addrShort.replace(/[^a-zA-Z0-9]/g, '-') + '.pdf');
 }
 
-function reDownload() { generatePDF(); }
+function reDownload() { doDownload(); }
 
 // Init
 document.addEventListener('DOMContentLoaded', initAutocomplete);

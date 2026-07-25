@@ -242,7 +242,8 @@ async function downloadReport() {
     generatePDF();
     goStep(5);
   } catch (e) {
-    alert('Error generating report. Please try again.');
+    console.error('PDF generation error:', e);
+    alert('Error generating report: ' + e.message);
   }
 
   btn.disabled = false;

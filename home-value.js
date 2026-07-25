@@ -336,8 +336,8 @@ function generatePDF() {
   y += 20;
 
   // Salutation
-  doc.setTextColor(21, 35, 64);
-  doc.setFontSize(11);
+  doc.setTextColor(51, 51, 51);
+  doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.text('Dear ' + firstName + ',', 40, y);
   y += 18;
@@ -359,20 +359,20 @@ function generatePDF() {
 
   // Estimated value box
   doc.setFillColor(15, 42, 71);
-  doc.rect(40, y, W - 80, 64, 'F');
+  doc.rect(40, y, W - 80, 52, 'F');
   doc.setTextColor(46, 139, 87);
-  doc.setFontSize(8);
+  doc.setFontSize(7);
   doc.setFont('helvetica', 'bold');
-  doc.text('ESTIMATED MARKET VALUE', W / 2, y + 14, { align: 'center' });
+  doc.text('ESTIMATED MARKET VALUE', W / 2, y + 12, { align: 'center' });
   doc.setTextColor(255, 255, 255);
-  doc.setFontSize(28);
+  doc.setFontSize(22);
   doc.setFont('helvetica', 'bold');
-  doc.text(fmt(S.estValue), W / 2, y + 42, { align: 'center' });
+  doc.text(fmt(S.estValue), W / 2, y + 33, { align: 'center' });
   doc.setTextColor(180, 220, 200);
-  doc.setFontSize(8);
+  doc.setFontSize(7.5);
   doc.setFont('helvetica', 'normal');
-  doc.text('Estimated Range: ' + fmt(S.valueLow) + ' – ' + fmt(S.valueHigh), W / 2, y + 56, { align: 'center' });
-  y += 76;
+  doc.text('Estimated Range: ' + fmt(S.valueLow) + ' – ' + fmt(S.valueHigh), W / 2, y + 46, { align: 'center' });
+  y += 60;
 
   // Property details row
   var details = [
@@ -385,19 +385,19 @@ function generatePDF() {
   details.forEach(function(d, i) {
     var dx = 40 + i * dw;
     doc.setFillColor(i % 2 === 0 ? 245 : 250, 248, 252);
-    doc.rect(dx, y, dw - 2, 38, 'F');
+    doc.rect(dx, y, dw - 2, 30, 'F');
     doc.setFillColor(46, 139, 87);
     doc.rect(dx, y, dw - 2, 2, 'F');
     doc.setTextColor(120, 120, 120);
     doc.setFontSize(6);
     doc.setFont('helvetica', 'bold');
-    doc.text(d[0], dx + (dw - 2) / 2, y + 13, { align: 'center' });
+    doc.text(d[0], dx + (dw - 2) / 2, y + 11, { align: 'center' });
     doc.setTextColor(21, 35, 64);
-    doc.setFontSize(13);
+    doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.text(d[1], dx + (dw - 2) / 2, y + 30, { align: 'center' });
+    doc.text(d[1], dx + (dw - 2) / 2, y + 24, { align: 'center' });
   });
-  y += 48;
+  y += 38;
 
   // Net proceeds header
   doc.setFillColor(15, 42, 71);
@@ -413,19 +413,19 @@ function generatePDF() {
   var rows = [
     { label: 'Estimated Sale Price', val: fmt(sale), r: 21, g: 35, b: 64 },
     { label: 'Mortgage Payoff', val: '(' + fmt(totalPayoff) + ')', r: 180, g: 40, b: 40 },
-    { label: 'Agent Commission (5.5%)', val: '(' + fmt(comm) + ')', r: 180, g: 40, b: 40 },
-    { label: 'Seller Closing Costs (' + S.closing + '%)', val: '(' + fmt(closing) + ')', r: 180, g: 40, b: 40 }
+    { label: 'Agent Commission', val: 'TBD', r: 51, g: 51, b: 51 },
+    { label: 'Seller Closing Costs', val: 'TBD', r: 51, g: 51, b: 51 }
   ];
   rows.forEach(function(row, i) {
     doc.setFillColor(i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 250 : 255, i % 2 === 0 ? 248 : 255);
-    doc.rect(40, y, W - 80, 18, 'F');
+    doc.rect(40, y, W - 80, 16, 'F');
     doc.setTextColor(row.r, row.g, row.b);
-    doc.setFontSize(9);
+    doc.setFontSize(8.5);
     doc.setFont('helvetica', 'normal');
-    doc.text(row.label, 48, y + 13);
+    doc.text(row.label, 48, y + 11);
     doc.setFont('helvetica', 'bold');
-    doc.text(row.val, W - 48, y + 13, { align: 'right' });
-    y += 18;
+    doc.text(row.val, W - 48, y + 11, { align: 'right' });
+    y += 16;
   });
 
   // Net total

@@ -461,5 +461,28 @@ function generatePDF() {
 
 function reDownload() { doDownload(); }
 
+async function scheduleConsultation() {
+  const name = (S.first ? S.first + ' ' + S.last : 'A visitor').trim();
+  const addr = document.getElementById('addressInput').value.trim() || 'unknown address';
+  try {
+    await fetch('/api/home-value-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: S.first || 'Unknown',
+        lastName: S.last || '',
+        email: S.email || '',
+        phone: S.phone || '',
+        address: addr,
+        estValue: fmt(S.estValue),
+        payoff: fmt(S.payoff),
+        estNet: fmt(S.estValue - S.payoff),
+        consultationRequest: true
+      })
+    });
+  } catch(e) { console.log('Consultation notify failed:', e); }
+  goStep(6);
+}
+
 // Init
 document.addEventListener('DOMContentLoaded', initAutocomplete);

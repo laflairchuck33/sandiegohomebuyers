@@ -404,11 +404,13 @@ app.post('/api/home-value-lead', async (req, res) => {
   return handleHomeValueLead(req, res);
 });
 async function handleHomeValueLead(req, res) {
-  const { firstName, lastName, email, phone, address, estValue, payoff, estNet } = req.body;
+  const { firstName, lastName, email, phone, address, estValue, payoff, estNet, consultationRequest } = req.body;
   try {
     // Telegram notify Chuck
     const botToken = process.env.TELEGRAM_BOT_TOKEN || '8446603163:AAGfzkQ7eT8ZiBnw6Bq6E2n4vz5AHDF9OjI';
-    const msg = `🏠 NEW HOME VALUE LEAD\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n🏦 Principal Balance: ${payoff}\n✅ Est. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;
+    const msg = consultationRequest
+      ? `📅 CONSULTATION REQUEST\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n\n❗️ This person wants to schedule a consultation!\n\nFrom: sandiegohomebuyers.org/home-value.html`
+      : `🏠 NEW HOME VALUE LEAD\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n🏦 Principal Balance: ${payoff}\n✅ Est. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

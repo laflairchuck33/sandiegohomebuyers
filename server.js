@@ -22,11 +22,22 @@ const FUB_API_KEY    = process.env.FUB_API_KEY;
 const NOTIFY_EMAIL   = process.env.NOTIFY_EMAIL   || 'chuck@allin-lending.com';
 const TARA_EMAIL     = process.env.TARA_EMAIL      || 'tbalady@clearmortgagecapital.com';
 const JORDY_TOKEN    = process.env.JORDY_BOT_TOKEN;
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const NOTIFY_PHONE   = process.env.NOTIFY_PHONE   || '+16194540917';
 const TWILIO_SID     = process.env.TWILIO_SID;
 const TWILIO_TOKEN   = process.env.TWILIO_TOKEN;
 const TWILIO_FROM    = process.env.TWILIO_FROM    || '+16192573708';
 const PORT           = process.env.PORT           || 3000;
+
+// Lead log (append-only, survives restarts on Render disk)
+const fs = require('fs');
+const LEADS_LOG = '/tmp/leads.jsonl';
+function logLead(type, data) {
+  try {
+    const entry = JSON.stringify({ type, ts: new Date().toISOString(), ...data }) + '\n';
+    fs.appendFileSync(LEADS_LOG, entry);
+  } catch(e) { /* non-fatal */ }
+}
 
 // ===========================
 // LEAD ENDPOINT
@@ -43,6 +54,9 @@ app.post('/api/lead', async (req, res) => {
   console.log(`   Est. Payment: $${Math.round(calcData.totalMonthly || 0).toLocaleString()}/mo`);
   console.log(`   Pre-Qual: ${calcData.prequalStatus}`);
   console.log(`   Best Time: ${callTime}`);
+
+  // Log lead immediately so we never lose it
+  logLead('lead', { name, phone, email, callTime, calcData });
 
   const results = { fub: false, email: false };
 
@@ -101,6 +115,17 @@ function writeListings(data) {
   fs.writeFileSync(LISTINGS_FILE, JSON.stringify(data, null, 2));
 }
 
+// View captured leads log
+app.get('/api/leads', (req, res) => {
+  try {
+    const raw = fs.existsSync(LEADS_LOG) ? fs.readFileSync(LEADS_LOG, 'utf8') : '';
+    const leads = raw.trim().split('\n').filter(Boolean).map(l => JSON.parse(l));
+    res.json({ total: leads.length, leads: leads.reverse() });
+  } catch(e) {
+    res.json({ total: 0, leads: [], error: e.message });
+  }
+});
+
 app.get('/api/listings', (req, res) => {
   res.json(readListings());
 });
@@ -121,6 +146,7 @@ app.post('/api/showing', async (req, res) => {
   if (!name || !phone) return res.status(400).json({ error: 'Missing name or phone' });
 
   console.log(`\n🏡 SHOWING REQUEST: ${name} | ${phone} | ${property}`);
+  logLead('showing', { name, phone, email, date, time, property });
 
   const msg = [
     '🏡 SHOWING REQUEST - SanDiegoHomeBuyers.com',
@@ -135,7 +161,7 @@ app.post('/api/showing', async (req, res) => {
 
   // Telegram
   try {
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    const botToken = TELEGRAM_BOT_TOKEN;
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -285,7 +311,7 @@ async function sendTelegramNotification({ name, phone, email, callTime, calcData
     `✅ Status: ${calcData.prequalStatus || 'N/A'}`,
   ].join('\n');
 
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const botToken = TELEGRAM_BOT_TOKEN;
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
   const res = await fetch(url, {
@@ -379,7 +405,7 @@ app.post('/api/lo-survey', async (req, res) => {
 
   // Telegram
   try {
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    const botToken = TELEGRAM_BOT_TOKEN;
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -407,7 +433,7 @@ async function handleHomeValueLead(req, res) {
   const { firstName, lastName, email, phone, address, estValue, payoff, estNet, consultationRequest } = req.body;
   try {
     // Telegram notify Chuck
-    const botToken = process.env.TELEGRAM_BOT_TOKEN || '8446603163:AAGfzkQ7eT8ZiBnw6Bq6E2n4vz5AHDF9OjI';
+    const botToken = TELEGRAM_BOT_TOKEN;
     const msg = consultationRequest
       ? `📅 CONSULTATION REQUEST\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n\n❗️ This person wants to schedule a consultation!\n\nFrom: sandiegohomebuyers.org/home-value.html`
       : `🏠 NEW HOME VALUE LEAD\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n🏦 Principal Balance: ${payoff}\n✅ Est. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;

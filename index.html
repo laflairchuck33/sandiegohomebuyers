@@ -737,6 +737,24 @@
 </section>
 
 <!-- REQUEST A SHOWING MODAL -->
+<!-- PRE-APPLY CAPTURE MODAL -->
+<div id="preApplyModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.8);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:14px;padding:36px 32px;max-width:440px;width:100%;position:relative">
+    <button onclick="closePreApply()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer">✕</button>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:2.2rem">🏠</div>
+      <h3 style="font-size:1.4rem;font-weight:900;color:#0d1f3c;margin:8px 0 4px">One Quick Step!</h3>
+      <p style="color:#666;font-size:.9rem">Enter your info and we'll send you to the full application — plus notify your loan officer so they can help right away.</p>
+    </div>
+    <input type="text" id="paName" placeholder="Full Name *" oninput="checkPreApply()" style="width:100%;border:2px solid #ddd;border-radius:6px;padding:13px 16px;font-family:inherit;font-size:.95rem;margin-bottom:10px;box-sizing:border-box;color:#111"/>
+    <input type="tel" id="paPhone" placeholder="Phone Number *" oninput="checkPreApply()" style="width:100%;border:2px solid #ddd;border-radius:6px;padding:13px 16px;font-family:inherit;font-size:.95rem;margin-bottom:10px;box-sizing:border-box;color:#111"/>
+    <input type="email" id="paEmail" placeholder="Email Address *" oninput="checkPreApply()" style="width:100%;border:2px solid #ddd;border-radius:6px;padding:13px 16px;font-family:inherit;font-size:.95rem;margin-bottom:16px;box-sizing:border-box;color:#111"/>
+    <button id="paSubmitBtn" onclick="submitPreApply()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:1rem;font-weight:800;padding:15px;border-radius:6px;cursor:not-allowed;transition:background .2s,color .2s">📝 Continue to Application →</button>
+    <p id="paHint" style="text-align:center;color:#aaa;font-size:.78rem;margin-top:8px">Fill in all 3 fields to continue</p>
+    <p style="text-align:center;color:#bbb;font-size:.75rem;margin-top:6px">🔒 No credit pull &nbsp;·&nbsp; Free &nbsp;·&nbsp; Takes 2 min</p>
+  </div>
+</div>
+
 <div id="showingModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px">
   <div style="background:#f0f0f0;border:1px solid #ddd;border-radius:10px;padding:36px 32px;max-width:460px;width:100%;position:relative">
     <button onclick="closeShowing()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer">✕</button>
@@ -922,9 +940,46 @@ function showLetterForm() {
   document.getElementById('step4').scrollIntoView({behavior:'smooth'});
 }
 function trackAndApply() {
+  // Show lead capture modal before sending to 1003app
+  document.getElementById('preApplyModal').style.display = 'flex';
+  document.getElementById('paName').focus();
+}
+function closePreApply() {
+  document.getElementById('preApplyModal').style.display = 'none';
+}
+function checkPreApply() {
+  const name  = document.getElementById('paName').value.trim();
+  const phone = document.getElementById('paPhone').value.trim();
+  const email = document.getElementById('paEmail').value.trim();
+  const btn   = document.getElementById('paSubmitBtn');
+  const hint  = document.getElementById('paHint');
+  const ready = name.length > 1 && phone.length > 6 && email.includes('@');
+  btn.disabled        = !ready;
+  btn.style.background = ready ? '#1a6cfe' : '#ccc';
+  btn.style.color      = ready ? '#000'    : '#666';
+  btn.style.cursor     = ready ? 'pointer' : 'not-allowed';
+  hint.style.display   = ready ? 'none'    : 'block';
+}
+async function submitPreApply() {
+  const name  = document.getElementById('paName').value.trim();
+  const phone = document.getElementById('paPhone').value.trim();
+  const email = document.getElementById('paEmail').value.trim();
+  if (!name || !phone || !email) return;
+
+  // Track
   gtag('event','apply_now_click',{event_category:'conversion',event_label:'Complete My Application'});
   fbq('track','Lead');
-  window.open('https://cmc.my1003app.com/220926/register?time=1772669246583','_blank');
+
+  // Send lead to server (Telegram + FUB)
+  fetchWithRetry('https://sandiegohomebuyers.onrender.com/api/lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, phone, email, callTime: 'Any time', calcData: { prequalStatus: 'Apply Now Click' } })
+  });
+
+  // Close modal and open 1003app
+  closePreApply();
+  window.open('https://cmc.my1003app.com/220926/register?time=1772669246583', '_blank');
 }
 
 async function fetchWithRetry(url, options, retries = 3, delayMs = 2000) {
@@ -1160,6 +1215,7 @@ function submitShowing(){
   setTimeout(closeShowing, 3000);
 }
 document.getElementById('showingModal').addEventListener('click',function(e){if(e.target===this)closeShowing();});
+document.getElementById('preApplyModal').addEventListener('click',function(e){if(e.target===this)closePreApply();});
 
 function doMLSSearch(){
   const city     = document.getElementById('srCity').value;

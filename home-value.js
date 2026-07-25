@@ -291,6 +291,7 @@ async function pushToFUB() {
 }
 
 function generatePDF() {
+  if (!window.jspdf || !window.jspdf.jsPDF) { alert('PDF library not loaded. Please refresh the page and try again.'); return; }
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'letter' });
   const W = 612, H = 792;

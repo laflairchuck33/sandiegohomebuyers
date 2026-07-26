@@ -3,7 +3,7 @@
 const RENTCAST_KEY = window.RENTCAST_API_KEY || 'PENDING';
 
 let S = {
-  address: '', city: '', state: 'CA', zip: '',
+  address: '', city: '', state: 'CA', zip: '', addressConfirmed: false,
   estValue: 0, valueLow: 0, valueHigh: 0,
   beds: '', baths: '', sqft: '', yearBuilt: '',
   salePrice: 0, payoff: 0, commission: 5.5, closing: 1.5,
@@ -43,6 +43,7 @@ let debounce;
 function initAutocomplete() {
   const input = document.getElementById('addressInput');
   input.addEventListener('input', function () {
+    S.addressConfirmed = false;
     clearTimeout(debounce);
     debounce = setTimeout(() => suggest(this.value), 250);
   });
@@ -81,6 +82,7 @@ async function suggest(q) {
         S.city = a.city || a.town || a.village || '';
         S.state = a.state_code || a.state || 'CA';
         S.zip = a.postcode || '';
+        S.addressConfirmed = true;
         document.getElementById('addressInput').value = label;
         list.style.display = 'none';
       };
@@ -98,15 +100,11 @@ async function suggest(q) {
 async function runValuation() {
   const addrVal = document.getElementById('addressInput').value.trim();
   if (!addrVal) { alert('Please enter a property address.'); return; }
-  // Require a full address: must have a street number AND city/state/zip
-  const hasNumber = /\d/.test(addrVal);
-  const hasCity = addrVal.split(',').length >= 2;
-  if (!hasNumber || !hasCity) {
-    alert('Please enter your full address including street number, city, and state (e.g. 123 Main St, San Diego, CA 92101). Select from the dropdown suggestions for best results.');
+  if (!S.addressConfirmed) {
+    alert('Please select your address from the dropdown suggestions to ensure accuracy.');
+    document.getElementById('addressInput').focus();
     return;
   }
-  // Always use whatever is typed — don't require dropdown selection
-  if (!S.address) S.address = addrVal;
   S.beds = document.getElementById('beds').value || '';
   S.baths = document.getElementById('baths').value || '';
   S.sqft = document.getElementById('sqft').value || '';

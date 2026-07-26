@@ -209,6 +209,7 @@ async function downloadReport() {
   const email = document.getElementById('leadEmail').value.trim();
   const phone = document.getElementById('leadPhone').value.trim();
   if (!first || !last || !email) { alert('Please fill in your name and email.'); return; }
+  if (!phone) { alert('Please enter your phone number.'); return; }
   S.first = first; S.last = last; S.email = email; S.phone = phone;
 
   // Notify Chuck immediately when they submit contact info

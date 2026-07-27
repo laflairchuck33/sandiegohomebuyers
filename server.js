@@ -445,7 +445,7 @@ async function handleHomeValueLead(req, res) {
     const botToken = TELEGRAM_BOT_TOKEN;
     const msg = consultationRequest
       ? `📅 CONSULTATION REQUEST\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n\n❗️ This person wants to schedule a consultation!\n\nFrom: sandiegohomebuyers.org/home-value.html`
-      : `🏠 NEW HOME VALUE LEAD\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n🏦 Principal Balance: ${payoff}\n✅ Est. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;
+      : `📄 DOWNLOAD FREE REPORT LEAD\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n🏦 Principal Balance: ${payoff}\n✅ Est. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;
     try {
       if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN env var not set');
       const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -506,7 +506,7 @@ async function handleHomeValueLead(req, res) {
         : `🏠 New Home Value Lead — ${firstName} ${lastName}`;
       const chuckText = consultationRequest
         ? `CONSULTATION REQUEST\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nAddress: ${address}\nEst. Value: ${estValue}\n\nReach out ASAP!`
-        : `NEW HOME VALUE LEAD\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nAddress: ${address}\nEst. Value: ${estValue}\nPrincipal Balance: ${payoff}\nEst. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;
+        : `DOWNLOAD FREE REPORT LEAD\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nAddress: ${address}\nEst. Value: ${estValue}\nPrincipal Balance: ${payoff}\nEst. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;
       await chuckTransporter.sendMail({
         from: `"San Diego Home Buyers" <${process.env.SMTP_USER}>`,
         to: 'chuck@allin-lending.com',

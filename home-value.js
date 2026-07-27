@@ -41,7 +41,7 @@ function notifyAction(label) {
 function trackApply() {
   try { if (typeof gtag === 'function') gtag('event','apply_now_click',{event_category:'conversion',event_label:'Home Value - Get Pre-Approved'}); } catch(e){}
   try { if (typeof fbq === 'function') fbq('track','Lead'); } catch(e){}
-  notifyAction('🔥 Clicked GET PRE-APPROVED after Home Value report');
+  notifyAction('🔥 PRE APPROVAL REQUEST — from Home Value report');
 }
 
 function toggleNoMortgage() {
@@ -309,7 +309,7 @@ async function fetchRetry(url, options, retries = 4, delayMs = 2500) {
 }
 
 async function notifyChuck(addr) {
-  const net = S.salePrice - S.payoff - S.salePrice*0.055 - S.salePrice*(S.closing/100);
+  const net = S.estValue - S.payoff; // net before commission & closing (Option A)
   await fetchRetry('https://sandiegohomebuyers.onrender.com/api/home-value-lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -351,7 +351,7 @@ function generatePDF() {
   const totalPayoff = principal + payoffInterest;
   const comm = sale * 0.055;
   const closing = sale * (S.closing / 100);
-  const net = sale - totalPayoff - comm - closing;
+  const net = sale - totalPayoff; // Option A: net before commission & closing (rows show TBD)
   const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const infoBeds = document.getElementById('infoBeds4').textContent;
   const infoBaths = document.getElementById('infoBaths4').textContent;
@@ -474,7 +474,14 @@ function generatePDF() {
   doc.setTextColor(net >= 0 ? 150 : 255, net >= 0 ? 255 : 120, net >= 0 ? 180 : 120);
   doc.setFontSize(12);
   doc.text(fmt(net), W - 48, y + 18, { align: 'right' });
-  y += 36;
+  y += 30;
+
+  // Option A footnote: net shown before commission & closing
+  doc.setTextColor(120, 120, 120);
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'italic');
+  doc.text('*Net shown before agent commission and seller closing costs, which vary by transaction.', 40, y);
+  y += 14;
 
   // Sanity note when payoff exceeds estimated value
   if (totalPayoff > sale && sale > 0) {

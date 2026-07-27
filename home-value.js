@@ -19,26 +19,29 @@ function fmt(n) {
   return (r < 0 ? '−$' : '$') + Math.abs(r).toLocaleString();
 }
 
-let applyNotified = false;
+// ── Post-contact click alerts: every button after contact info fires a lead ──
+const notifiedActions = {};
+function notifyAction(label) {
+  if (!S.first || !S.phone || notifiedActions[label]) return; // need contact info; one alert per action per session
+  notifiedActions[label] = true;
+  const addr = (document.getElementById('addressInput') || {value:''}).value.trim();
+  fetchRetry('https://sandiegohomebuyers.onrender.com/api/lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: (S.first + ' ' + (S.last || '')).trim(),
+      phone: S.phone,
+      email: S.email || '',
+      callTime: 'Any time',
+      calcData: { prequalStatus: label + (addr ? ' — ' + addr : '') }
+    })
+  });
+}
+
 function trackApply() {
   try { if (typeof gtag === 'function') gtag('event','apply_now_click',{event_category:'conversion',event_label:'Home Value - Get Pre-Approved'}); } catch(e){}
   try { if (typeof fbq === 'function') fbq('track','Lead'); } catch(e){}
-  // High-intent alert: seller clicked Get Pre-Approved after their report
-  if (!applyNotified && S.first && S.phone) {
-    applyNotified = true;
-    const addr = (document.getElementById('addressInput') || {value:''}).value.trim();
-    fetchRetry('https://sandiegohomebuyers.onrender.com/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: (S.first + ' ' + (S.last || '')).trim(),
-        phone: S.phone,
-        email: S.email || '',
-        callTime: 'Any time',
-        calcData: { prequalStatus: '🔥 Home Value seller clicked GET PRE-APPROVED — ' + addr }
-      })
-    });
-  }
+  notifyAction('🔥 Clicked GET PRE-APPROVED after Home Value report');
 }
 
 function toggleNoMortgage() {
@@ -281,6 +284,7 @@ async function downloadReport() {
 
 // Step 4: generate PDF, notify Chuck, go to success
 async function doDownload() {
+  notifyAction('📄 Downloaded Home Value Report PDF');
   const btn = document.getElementById('downloadBtn4');
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generating...'; }
   try {

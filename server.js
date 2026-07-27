@@ -305,9 +305,20 @@ async function sendEmailNotification({ name, phone, email, callTime, calcData })
 // ===========================
 // TELEGRAM NOTIFICATION
 // ===========================
+// Title the alert by the action taken, so Chuck knows intent at a glance
+function leadTitle(calcData) {
+  const s = ((calcData && calcData.prequalStatus) || '').toUpperCase();
+  if (s.includes('PRE APPROVAL REQUEST') || s.includes('PRE-APPROV') || s.includes('APPLY NOW')) return '🔥 PRE APPROVAL REQUEST - SanDiegoHomeBuyers.com';
+  if (s.includes('CONSULTATION')) return '📅 CONSULTATION REQUEST - SanDiegoHomeBuyers.com';
+  if (s.includes('DOWNLOAD')) return '📄 DOWNLOADED REPORT - SanDiegoHomeBuyers.com';
+  if (s.includes('HOT LISTINGS')) return '🔥 HOT LISTINGS SIGNUP - SanDiegoHomeBuyers.com';
+  if (s.includes('EXIT INTENT')) return '🚪 EXIT-INTENT LEAD - SanDiegoHomeBuyers.com';
+  return '🏠 NEW LEAD - SanDiegoHomeBuyers.com';
+}
+
 async function sendTelegramNotification({ name, phone, email, callTime, calcData }) {
   const msg = [
-    '🏠 NEW LEAD - SanDiegoHomeBuyers.com',
+    leadTitle(calcData),
     '',
     `👤 Name: ${name}`,
     `📱 Phone: ${phone || 'Not provided'}`,
@@ -352,7 +363,7 @@ async function sendTelegramNotification({ name, phone, email, callTime, calcData
 function sendSMSNotification({ name, phone, email, calcData }) {
   return new Promise((resolve, reject) => {
     const msg = [
-      `🏡 NEW LEAD - SanDiegoHomeBuyers.com`,
+      leadTitle(calcData),
       `Name: ${name}`,
       `Phone: ${phone}`,
       `Email: ${email}`,

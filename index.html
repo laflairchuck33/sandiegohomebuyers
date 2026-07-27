@@ -429,11 +429,14 @@
 
 <!-- HERO -->
 <section class="hero">
-  <video id="heroVid" class="hvid" autoplay muted loop playsinline>
+  <!-- Hero tap-to-play overlay -->
+  <div id="heroOverlay" onclick="startHeroVideo()" style="position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;cursor:pointer">
+    <div style="background:rgba(0,0,0,0.55);border:3px solid #fff;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:2.2rem">▶️</div>
+  </div>
+  <video id="heroVid" class="hvid" loop playsinline style="object-fit:cover">
     <source src="/hero-video.mp4" type="video/mp4"/>
   </video>
-  <!-- Hero sound toggle -->
-  <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Tap for sound">🔇</button>
+  <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center">🔊</button>
   <div class="hovl"></div>
   <div class="hcon">
     <div class="htag">San Diego's Trusted Home Buyer Guide</div>
@@ -1134,18 +1137,28 @@ function focusPin(i){
 
 // ── MISC ──
 // ── SOUND TOGGLE ──
+function startHeroVideo() {
+  const vid = document.getElementById('heroVid');
+  const overlay = document.getElementById('heroOverlay');
+  const btn = document.getElementById('heroSoundBtn');
+  vid.muted = false;
+  vid.volume = 1;
+  vid.play().then(() => {
+    overlay.style.display = 'none';
+    btn.style.display = 'flex';
+  }).catch(() => {
+    vid.muted = true;
+    vid.play();
+    overlay.style.display = 'none';
+    btn.textContent = '🔇';
+    btn.style.display = 'flex';
+  });
+}
 function toggleHeroSound() {
   const vid = document.getElementById('heroVid');
   const btn = document.getElementById('heroSoundBtn');
-  if (vid.muted) {
-    vid.muted = false;
-    vid.volume = 1;
-    vid.play().catch(() => { vid.muted = true; btn.textContent = '🔇'; });
-    btn.textContent = '🔊';
-  } else {
-    vid.muted = true;
-    btn.textContent = '🔇';
-  }
+  vid.muted = !vid.muted;
+  btn.textContent = vid.muted ? '🔇' : '🔊';
 }
 function startVideo() {
   const vid = document.getElementById('listingVid');

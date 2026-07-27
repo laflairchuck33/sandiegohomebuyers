@@ -429,9 +429,11 @@
 
 <!-- HERO -->
 <section class="hero">
-  <video class="hvid" autoplay muted loop playsinline>
+  <video id="heroVid" class="hvid" autoplay muted loop playsinline>
     <source src="/hero-video.mp4" type="video/mp4"/>
   </video>
+  <!-- Hero sound toggle -->
+  <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Tap for sound">🔇</button>
   <div class="hovl"></div>
   <div class="hcon">
     <div class="htag">San Diego's Trusted Home Buyer Guide</div>
@@ -1132,6 +1134,19 @@ function focusPin(i){
 
 // ── MISC ──
 // ── SOUND TOGGLE ──
+function toggleHeroSound() {
+  const vid = document.getElementById('heroVid');
+  const btn = document.getElementById('heroSoundBtn');
+  if (vid.muted) {
+    vid.muted = false;
+    vid.volume = 1;
+    vid.play().catch(() => { vid.muted = true; btn.textContent = '🔇'; });
+    btn.textContent = '🔊';
+  } else {
+    vid.muted = true;
+    btn.textContent = '🔇';
+  }
+}
 function startVideo() {
   const vid = document.getElementById('listingVid');
   const overlay = document.getElementById('vidOverlay');

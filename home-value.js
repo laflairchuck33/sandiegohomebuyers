@@ -486,6 +486,11 @@ function generatePDF() {
 function reDownload() { doDownload(); }
 
 async function scheduleConsultation() {
+  if (!S.first || !S.email || !S.phone) {
+    alert('Please complete your contact info (Step 3) before scheduling a consultation.');
+    goStep(3);
+    return;
+  }
   const name = (S.first ? S.first + ' ' + S.last : 'A visitor').trim();
   const addr = document.getElementById('addressInput').value.trim() || 'unknown address';
   try {

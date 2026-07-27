@@ -19,9 +19,26 @@ function fmt(n) {
   return (r < 0 ? '−$' : '$') + Math.abs(r).toLocaleString();
 }
 
+let applyNotified = false;
 function trackApply() {
   try { if (typeof gtag === 'function') gtag('event','apply_now_click',{event_category:'conversion',event_label:'Home Value - Get Pre-Approved'}); } catch(e){}
   try { if (typeof fbq === 'function') fbq('track','Lead'); } catch(e){}
+  // High-intent alert: seller clicked Get Pre-Approved after their report
+  if (!applyNotified && S.first && S.phone) {
+    applyNotified = true;
+    const addr = (document.getElementById('addressInput') || {value:''}).value.trim();
+    fetchRetry('https://sandiegohomebuyers.onrender.com/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: (S.first + ' ' + (S.last || '')).trim(),
+        phone: S.phone,
+        email: S.email || '',
+        callTime: 'Any time',
+        calcData: { prequalStatus: '🔥 Home Value seller clicked GET PRE-APPROVED — ' + addr }
+      })
+    });
+  }
 }
 
 function toggleNoMortgage() {

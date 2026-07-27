@@ -19,6 +19,11 @@ function fmt(n) {
   return (r < 0 ? '−$' : '$') + Math.abs(r).toLocaleString();
 }
 
+function trackApply() {
+  try { if (typeof gtag === 'function') gtag('event','apply_now_click',{event_category:'conversion',event_label:'Home Value - Get Pre-Approved'}); } catch(e){}
+  try { if (typeof fbq === 'function') fbq('track','Lead'); } catch(e){}
+}
+
 function toggleNoMortgage() {
   const on = document.getElementById('noMortgage').checked;
   const p = document.getElementById('payoff');

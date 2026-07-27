@@ -276,9 +276,20 @@ async function doDownload() {
   if (btn) { btn.disabled = false; btn.innerHTML = '📄 Download My Free Report'; }
 }
 
+async function fetchRetry(url, options, retries = 4, delayMs = 2500) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.ok) return res;
+    } catch (e) { /* network error — retry */ }
+    if (i < retries - 1) await new Promise(r => setTimeout(r, delayMs));
+  }
+  return null;
+}
+
 async function notifyChuck(addr) {
   const net = S.salePrice - S.payoff - S.salePrice*0.055 - S.salePrice*(S.closing/100);
-  await fetch('https://sandiegohomebuyers.onrender.com/api/home-value-lead', {
+  await fetchRetry('https://sandiegohomebuyers.onrender.com/api/home-value-lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -505,7 +516,7 @@ async function scheduleConsultation() {
   const name = (S.first ? S.first + ' ' + S.last : 'A visitor').trim();
   const addr = document.getElementById('addressInput').value.trim() || 'unknown address';
   try {
-    await fetch('https://sandiegohomebuyers.onrender.com/api/home-value-lead', {
+    await fetchRetry('https://sandiegohomebuyers.onrender.com/api/home-value-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

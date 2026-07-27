@@ -1181,6 +1181,17 @@ function focusPin(i){
   if(markers[i]) markers[i].openPopup();
 }
 
+// ── DYNAMIC ANCHOR OFFSET — always clears the nav no matter the screen size ──
+function setScrollOffsets(){
+  const nav = document.querySelector('nav');
+  if(!nav) return;
+  const off = Math.round(nav.getBoundingClientRect().height) + 24;
+  document.querySelectorAll('#listing-video,#quickcap,#step1,#step2,#step3,#step4,#prequal,#testi,#contact').forEach(el=>{ el.style.scrollMarginTop = off + 'px'; });
+}
+window.addEventListener('load', setScrollOffsets);
+window.addEventListener('resize', setScrollOffsets);
+setScrollOffsets();
+
 // ── QUICK CAPTURE STRIP ──
 function submitQuickCap(){
   const name = document.getElementById('qc-name').value.trim();

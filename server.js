@@ -45,7 +45,7 @@ function logLead(type, data) {
 app.post('/api/lead', async (req, res) => {
   const { name, phone, email, callTime, calcData = {} } = req.body;
 
-  if (!name || !phone || !email) {
+  if (!name || !phone) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -221,7 +221,7 @@ function sendToFUB({ name, phone, email, callTime, calcData }) {
       source: 'SanDiegoHomeBuyers.com',
       firstName,
       lastName,
-      emails: [{ value: email, type: 'personal' }],
+      emails: email ? [{ value: email, type: 'personal' }] : [],
       phones: [{ value: phone, type: 'mobile' }],
       tags: ['san-diego-homebuyer', 'website-lead', calcData.prequalStatus || 'unknown'],
     });

@@ -263,33 +263,6 @@ async function notifyChuck(addr) {
   });
 }
 
-async function pushToFUB() {
-  const addr = document.getElementById('addressInput').value.trim();
-  const body = {
-    source: 'Home Value Tool - sandiegohomebuyers.org',
-    firstName: S.first,
-    lastName: S.last,
-    emails: [{ value: S.email }],
-    phones: S.phone ? [{ value: S.phone }] : [],
-    tags: ['Home Value Lead', 'Seller Lead'],
-    customFields: [
-      { label: 'Property Address', value: addr },
-      { label: 'Estimated Value', value: fmt(S.estValue) },
-      { label: 'Loan Payoff', value: fmt(S.payoff) },
-      { label: 'Estimated Net', value: fmt(S.salePrice - S.payoff - S.salePrice*(S.commission/100) - S.salePrice*(S.closing/100)) }
-    ]
-  };
-
-  await fetch('https://api.followupboss.com/v1/people', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa('fka_078GYityEvI1PUsA99FQDNmbdwUeBB8IBC:')
-    },
-    body: JSON.stringify(body)
-  });
-}
-
 function generatePDF() {
   if (!window.jspdf || !window.jspdf.jsPDF) {
     alert('PDF library not loaded. Please refresh and try again.');

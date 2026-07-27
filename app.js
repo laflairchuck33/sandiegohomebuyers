@@ -2,8 +2,7 @@
 // CONFIG — Update these
 // ===========================
 const CONFIG = {
-  // Follow Up Boss
-  fubApiKey: 'fka_078GYityEvI1PUsA99FQDNmbdwUeBB8IBC',
+  // Follow Up Boss — handled server-side (Render env var). Never put the API key here.
   fubWebhookUrl: '', // OR use a webhook URL if preferred
 
   // Lead notification email (your email)
@@ -11,7 +10,7 @@ const CONFIG = {
 
   // Your name/team shown to leads
   agentName: 'Chuck La Flair',
-  agentPhone: '(619) 555-0100', // update with real number
+  agentPhone: '(858) 342-5615',
 };
 
 // ===========================

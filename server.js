@@ -438,20 +438,34 @@ app.post('/api/home-value-lead', async (req, res) => {
 });
 async function handleHomeValueLead(req, res) {
   const { firstName, lastName, email, phone, address, estValue, payoff, estNet, consultationRequest } = req.body;
+  const results = {};
+  logLead(consultationRequest ? 'home-value-consult' : 'home-value', { firstName, lastName, email, phone, address, estValue, payoff, estNet });
   try {
     // Telegram notify Chuck
     const botToken = TELEGRAM_BOT_TOKEN;
     const msg = consultationRequest
       ? `📅 CONSULTATION REQUEST\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n\n❗️ This person wants to schedule a consultation!\n\nFrom: sandiegohomebuyers.org/home-value.html`
       : `🏠 NEW HOME VALUE LEAD\n\n👤 ${firstName} ${lastName}\n📧 ${email}${phone ? '\n📱 ' + phone : ''}\n\n📍 ${address}\n💰 Est. Value: ${estValue}\n🏦 Principal Balance: ${payoff}\n✅ Est. Net: ${estNet}\n\nFrom: sandiegohomebuyers.org/home-value.html`;
-    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: '865040112', text: msg })
-    });
+    try {
+      if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN env var not set');
+      const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: '865040112', text: msg })
+      });
+      const tgJson = await tgRes.json();
+      results.telegram = tgJson.ok === true;
+      if (!tgJson.ok) results.telegramError = JSON.stringify(tgJson);
+    } catch (tgErr) {
+      results.telegram = false;
+      results.telegramError = tgErr.message;
+      console.error('❌ Home-value Telegram Error:', tgErr.message);
+    }
 
     // Push to FUB
-    await fetch('https://api.followupboss.com/v1/people', {
+    try {
+    if (!process.env.FUB_API_KEY) throw new Error('FUB_API_KEY env var not set');
+    const fubRes = await fetch('https://api.followupboss.com/v1/people', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -471,6 +485,13 @@ async function handleHomeValueLead(req, res) {
         ]
       })
     });
+    results.fub = fubRes.ok;
+    if (!fubRes.ok) results.fubError = 'FUB status ' + fubRes.status;
+    } catch (fubErr) {
+      results.fub = false;
+      results.fubError = fubErr.message;
+      console.error('❌ Home-value FUB Error:', fubErr.message);
+    }
 
     // Email Chuck the lead (using same Office365 setup as main site)
     try {
@@ -493,7 +514,10 @@ async function handleHomeValueLead(req, res) {
         text: chuckText
       });
       console.log('✅ Email: Home value lead sent to Chuck');
+      results.emailChuck = true;
     } catch(emailErr) {
+      results.emailChuck = false;
+      results.emailChuckError = emailErr.message;
       console.error('Chuck email error:', emailErr.message);
     }
 
@@ -526,10 +550,10 @@ async function handleHomeValueLead(req, res) {
       }
     }
 
-    res.json({ ok: true });
+    res.json({ ok: true, results });
   } catch (e) {
     console.error('Home value lead error:', e.message);
-    res.json({ ok: false, error: e.message });
+    res.json({ ok: false, error: e.message, results });
   }
 }
 

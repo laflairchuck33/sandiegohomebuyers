@@ -526,6 +526,29 @@ async function handleHomeValueLead(req, res) {
 }
 
 // ===========================
+// RENTCAST PROXY (keeps API key server-side)
+// ===========================
+app.get('/api/rentcast/value', async (req, res) => {
+  const key = process.env.RENTCAST_API_KEY;
+  if (!key) return res.status(503).json({ error: 'Rentcast not configured' });
+  const { address, bedrooms, bathrooms, squareFootage } = req.query;
+  if (!address) return res.status(400).json({ error: 'address required' });
+  const params = new URLSearchParams({ address });
+  if (bedrooms) params.append('bedrooms', bedrooms);
+  if (bathrooms) params.append('bathrooms', bathrooms);
+  if (squareFootage) params.append('squareFootage', squareFootage);
+  try {
+    const r = await fetch('https://api.rentcast.io/v1/avm/value?' + params, {
+      headers: { 'X-Api-Key': key, 'Accept': 'application/json' }
+    });
+    const j = await r.json();
+    res.status(r.status).json(j);
+  } catch (e) {
+    res.status(502).json({ error: e.message });
+  }
+});
+
+// ===========================
 // KEEP-ALIVE (prevent Render cold starts)
 // ===========================
 const SELF_URL = process.env.RENDER_EXTERNAL_URL || 'https://sandiegohomebuyers.onrender.com';

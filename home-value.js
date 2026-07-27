@@ -124,9 +124,13 @@ async function runValuation() {
       if (S.baths) params.append('bathrooms', S.baths);
       if (S.sqft) params.append('squareFootage', S.sqft);
 
-      const resp = await fetch('https://api.rentcast.io/v1/avm/value?' + params, {
-        headers: { 'X-Api-Key': RENTCAST_KEY, 'Accept': 'application/json' }
-      });
+      // Try server proxy first (keeps API key private); fall back to direct call
+      let resp = await fetch('https://sandiegohomebuyers.onrender.com/api/rentcast/value?' + params).catch(() => null);
+      if (!resp || !resp.ok) {
+        resp = await fetch('https://api.rentcast.io/v1/avm/value?' + params, {
+          headers: { 'X-Api-Key': RENTCAST_KEY, 'Accept': 'application/json' }
+        });
+      }
       if (resp.ok) {
         data = await resp.json();
       } else {
@@ -220,6 +224,9 @@ async function downloadReport() {
   // Notify Chuck immediately when they submit contact info
   const addrVal2 = document.getElementById('addressInput').value.trim();
   notifyChuck(addrVal2).catch(e => console.log('Lead notify failed:', e));
+  // Conversion tracking
+  try { if (typeof gtag === 'function') gtag('event','home_value_lead',{event_category:'conversion',event_label:'Home Value Report Lead'}); } catch(e){}
+  try { if (typeof fbq === 'function') fbq('track','Lead'); } catch(e){}
   // Populate step 4 net proceeds
   const sale4 = S.estValue;
   const net4 = sale4 - S.payoff;
@@ -483,6 +490,8 @@ async function scheduleConsultation() {
       })
     });
   } catch(e) { console.log('Consultation notify failed:', e); }
+  try { if (typeof gtag === 'function') gtag('event','consultation_request',{event_category:'conversion',event_label:'Seller Consultation Request'}); } catch(e){}
+  try { if (typeof fbq === 'function') fbq('track','Schedule'); } catch(e){}
   goStep(6);
 }
 

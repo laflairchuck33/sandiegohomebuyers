@@ -78,14 +78,14 @@
     .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
     .cal-nav{background:none;border:none;color:#1a6cfe;font-size:1.3rem;cursor:pointer;padding:4px 10px;border-radius:4px}
     .cal-nav:hover{background:rgba(21,0,255,.15)}
-    .cal-month{font-weight:800;font-size:1rem;color:#fff}
+    .cal-month{font-weight:800;font-size:1rem;color:#111}
     .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
     .cal-dow{text-align:center;font-size:.7rem;font-weight:700;color:#1a6cfe;padding:4px 0;text-transform:uppercase}
-    .cal-day{text-align:center;padding:8px 4px;border-radius:6px;font-size:.85rem;cursor:pointer;color:#ccc;transition:background .15s}
-    .cal-day:hover:not(.disabled):not(.empty){background:#1a6cfe;color:#000;font-weight:700}
-    .cal-day.selected{background:#1a6cfe;color:#000;font-weight:800}
+    .cal-day{text-align:center;padding:8px 4px;border-radius:6px;font-size:.85rem;cursor:pointer;color:#111;transition:background .15s}
+    .cal-day:hover:not(.disabled):not(.empty){background:#1a6cfe;color:#fff;font-weight:700}
+    .cal-day.selected{background:#1a6cfe;color:#fff;font-weight:800}
     .cal-day.today{border:1px solid #1a6cfe;color:#1a6cfe}
-    .cal-day.disabled{color:#333;cursor:default}
+    .cal-day.disabled{color:#ccc;cursor:default}
     .cal-day.empty{cursor:default}
   </style>
   <style>
@@ -1422,11 +1422,10 @@ function renderCal() {
   for (let d=1; d<=days; d++) {
     const dt = new Date(y,m,d);
     const isPast = dt < today;
-    const isSun = dt.getDay() === 0;
     const isSel = calSelected && dt.toDateString()===calSelected.toDateString();
     const isToday = dt.toDateString()===today.toDateString();
-    const cls = [isPast||isSun?'disabled':'', isSel?'selected':'', isToday&&!isSel?'today':''].join(' ');
-    const click = (!isPast && !isSun) ? `onclick="selectCalDay(${y},${m},${d})"` : '';
+    const cls = [isPast?'disabled':'', isSel?'selected':'', isToday&&!isSel?'today':''].join(' ');
+    const click = !isPast ? `onclick="selectCalDay(${y},${m},${d})"` : '';
     html += `<div class="cal-day ${cls}" ${click}>${d}</div>`;
   }
   document.getElementById('calGrid').innerHTML = html;

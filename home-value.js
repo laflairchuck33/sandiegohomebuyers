@@ -444,6 +444,15 @@ function generatePDF() {
   doc.text(fmt(net), W - 48, y + 18, { align: 'right' });
   y += 36;
 
+  // Sanity note when payoff exceeds estimated value
+  if (totalPayoff > sale && sale > 0) {
+    doc.setTextColor(146, 64, 14);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'italic');
+    doc.text('Note: The loan balance entered exceeds the estimated market value. Please verify your payoff amount — we are happy to review your options together.', 40, y, { maxWidth: W - 80 });
+    y += 20;
+  }
+
   // Green divider
   doc.setDrawColor(46, 139, 87);
   doc.setLineWidth(1);

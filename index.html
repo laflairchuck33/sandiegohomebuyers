@@ -130,6 +130,8 @@
     .btno:hover{background:#1a6cfe;color:#fff}
     .btnbig{display:inline-block;background:#1a6cfe;color:#fff;border:2px solid #1a6cfe;padding:18px 46px;border-radius:8px;font-weight:900;font-size:1.05rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 24px rgba(26,108,254,.35);transition:all .2s}
     .btnbig:hover{background:#0d55d8;border-color:#0d55d8;transform:translateY(-1px)}
+    /* ANCHOR SCROLL OFFSET — clears the fixed nav */
+    #listing-video,#quickcap,#step1,#step2,#step3,#step4,#prequal,#testi,#contact{scroll-margin-top:200px}
     /* MOBILE STICKY CTA BAR */
     #stickyBar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:#fff;border-top:1px solid #ddd;box-shadow:0 -4px 16px rgba(0,0,0,.12);padding:10px 12px;gap:10px}
     #stickyBar a{flex:1;text-align:center;padding:13px 8px;border-radius:8px;font-weight:800;font-size:.9rem;text-decoration:none;font-family:inherit}
@@ -257,8 +259,10 @@
 
     @media(max-width:768px){
       /* NAV */
-      nav{padding:12px 16px}
+      nav{padding:10px 16px}
+      .logo{font-size:1.4rem;letter-spacing:1px}
       .nlinks,.nsearch{display:none}
+      #listing-video,#quickcap,#step1,#step2,#step3,#step4,#prequal,#testi,#contact{scroll-margin-top:60px}
 
       /* HERO */
       .hero{padding:90px 18px 48px;margin-top:0;min-height:auto}
@@ -596,7 +600,7 @@
 
 
 <!-- STEP 3: PRE-QUALIFY -->
-<section id="step3" style="scroll-margin-top:60px">
+<section id="step3">
 <!-- PRE-QUAL CALCULATOR -->
 <section id="prequal"><div style="background:var(--bg2);padding:16px 40px 0"><div class="step-label">Step 3 of 4</div></div>
   <div class="con">

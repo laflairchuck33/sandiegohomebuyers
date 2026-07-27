@@ -478,12 +478,16 @@
 <!-- FEATURED LISTING VIDEO -->
 <section id="listing-video" style="background:#f9f9f9;padding:40px 20px">
   <div style="position:relative;max-width:1000px;margin:0 auto;max-height:600px;overflow:hidden;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6)">
-    <video id="listingVid" autoplay muted loop playsinline style="width:100%;max-height:600px;object-fit:cover;object-position:center center;display:block">
+    <!-- Tap-to-play overlay so mobile users get sound -->
+    <div id="vidOverlay" onclick="startVideo()" style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(0,0,0,0.3)">
+      <div style="background:rgba(0,0,0,0.7);border:3px solid #fff;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:2.2rem">▶️</div>
+    </div>
+    <video id="listingVid" loop playsinline style="width:100%;max-height:600px;object-fit:cover;object-position:center center;display:block">
       <source src="/listing-video.mp4" type="video/mp4"/>
     </video>
-    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 40%,rgba(0,0,0,.85));pointer-events:none"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 40%,rgba(0,0,0,.85));pointer-events:none;z-index:1"></div>
     <!-- SOUND TOGGLE -->
-    <button id="soundBtn" onclick="toggleSound()" style="position:absolute;top:16px;right:16px;z-index:10;background:rgba(0,0,0,.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer" title="Tap to unmute">🔇</button>
+    <button id="soundBtn" onclick="toggleSound()" style="position:absolute;top:16px;right:16px;z-index:10;display:none;background:rgba(0,0,0,.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer" title="Mute">🔊</button>
     <div style="position:absolute;bottom:32px;left:40px;right:40px;z-index:2">
       <div style="display:inline-block;background:#1a6cfe;color:#000;font-size:.72rem;font-weight:800;padding:4px 12px;border-radius:4px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">🎥 Live Listing</div>
       <h2 style="font-size:2.2rem;font-weight:900;margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,.6)">4855 Pine Street, La Mesa, CA 91942</h2>
@@ -1128,19 +1132,31 @@ function focusPin(i){
 
 // ── MISC ──
 // ── SOUND TOGGLE ──
+function startVideo() {
+  const vid = document.getElementById('listingVid');
+  const overlay = document.getElementById('vidOverlay');
+  const btn = document.getElementById('soundBtn');
+  vid.muted = false;
+  vid.volume = 1;
+  vid.play().then(() => {
+    overlay.style.display = 'none';
+    btn.style.display = 'flex';
+    btn.style.alignItems = 'center';
+    btn.style.justifyContent = 'center';
+  }).catch(() => {
+    // Fallback: play muted if browser blocks
+    vid.muted = true;
+    vid.play();
+    overlay.style.display = 'none';
+    btn.textContent = '🔇';
+    btn.style.display = 'flex';
+  });
+}
 function toggleSound() {
   const vid = document.getElementById('listingVid');
   const btn = document.getElementById('soundBtn');
-  if (vid.muted) {
-    vid.muted = false;
-    vid.volume = 1;
-    // On mobile, must call play() after unmuting
-    vid.play().catch(() => { vid.muted = true; btn.textContent = '🔇'; });
-    btn.textContent = '🔊';
-  } else {
-    vid.muted = true;
-    btn.textContent = '🔇';
-  }
+  vid.muted = !vid.muted;
+  btn.textContent = vid.muted ? '🔇' : '🔊';
 }
 
 // ── ADDRESS AUTOCOMPLETE (Nominatim) ──

@@ -15,7 +15,18 @@ let S = {
 // ── Formatting ──────────────────────────────────────────
 function fmt(n) {
   if (!n && n !== 0) return '$—';
-  return '$' + Math.round(n).toLocaleString();
+  const r = Math.round(n);
+  return (r < 0 ? '−$' : '$') + Math.abs(r).toLocaleString();
+}
+
+function toggleNoMortgage() {
+  const on = document.getElementById('noMortgage').checked;
+  const p = document.getElementById('payoff');
+  const i = document.getElementById('interestRate');
+  if (on) { p.value = ''; i.value = ''; }
+  p.disabled = on; i.disabled = on;
+  p.style.opacity = i.style.opacity = on ? '.4' : '1';
+  recalc();
 }
 
 // ── Steps ────────────────────────────────────────────────
@@ -190,7 +201,8 @@ function calcMonthlyPayment(principal, annualRate, remainingMonths) {
 }
 
 function recalc() {
-  const principal = parseFloat(document.getElementById('payoff').value) || 0;
+  const noMtg = document.getElementById('noMortgage') && document.getElementById('noMortgage').checked;
+  const principal = noMtg ? 0 : (parseFloat(document.getElementById('payoff').value) || 0);
   const rate = parseFloat(document.getElementById('interestRate').value) || 0;
   // Payoff interest = principal × (annual rate / 12) — one month's interest as payoff penalty estimate
   const payoffInterest = rate > 0 ? Math.round(principal * (rate / 100) / 12) : 0;
@@ -207,7 +219,10 @@ function recalc() {
   } else if (intRow) {
     intRow.style.display = 'none';
   }
-  document.getElementById('ns-payoff').textContent = totalPayoff > 0 ? ('\u2212' + fmt(totalPayoff)) : fmt(0);
+  const nsp = document.getElementById('ns-payoff');
+  nsp.textContent = totalPayoff > 0 ? ('\u2212' + fmt(totalPayoff)) : fmt(0);
+  nsp.style.color = totalPayoff > 0 ? '' : '#94a3b8';
+  document.getElementById('ns-principal').style.color = principal > 0 ? '' : '#94a3b8';
 }
 
 // ── PDF Report ───────────────────────────────────────────
@@ -236,6 +251,8 @@ async function downloadReport() {
   if (s4sale) s4sale.textContent = fmt(sale4);
   if (s4payoff) s4payoff.textContent = S.payoff > 0 ? '(' + fmt(S.payoff) + ')' : '$—';
   if (s4net) { s4net.textContent = fmt(net4); s4net.style.color = net4 >= 0 ? 'white' : '#fca5a5'; }
+  const warn = document.getElementById('s4-warn');
+  if (warn) warn.style.display = (S.payoff > S.estValue && S.estValue > 0) ? 'block' : 'none';
 
   goStep(4); // go to value display + download
 }

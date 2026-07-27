@@ -29,6 +29,14 @@ const TWILIO_TOKEN   = process.env.TWILIO_TOKEN;
 const TWILIO_FROM    = process.env.TWILIO_FROM    || '+16192573708';
 const PORT           = process.env.PORT           || 3000;
 
+// Admin auth — set ADMIN_KEY env var in Render to enable admin endpoints
+const ADMIN_KEY = process.env.ADMIN_KEY;
+function requireAdmin(req, res, next) {
+  if (!ADMIN_KEY) return res.status(503).json({ error: 'Admin access not configured (set ADMIN_KEY)' });
+  if (req.headers['x-admin-key'] !== ADMIN_KEY) return res.status(403).json({ error: 'Forbidden' });
+  next();
+}
+
 // Lead log (append-only, survives restarts on Render disk)
 const fs = require('fs');
 const LEADS_LOG = '/tmp/leads.jsonl';
@@ -114,8 +122,8 @@ function writeListings(data) {
   fs.writeFileSync(LISTINGS_FILE, JSON.stringify(data, null, 2));
 }
 
-// View captured leads log
-app.get('/api/leads', (req, res) => {
+// View captured leads log (admin only — contains PII)
+app.get('/api/leads', requireAdmin, (req, res) => {
   try {
     const raw = fs.existsSync(LEADS_LOG) ? fs.readFileSync(LEADS_LOG, 'utf8') : '';
     const leads = raw.trim().split('\n').filter(Boolean).map(l => JSON.parse(l));
@@ -129,7 +137,7 @@ app.get('/api/listings', (req, res) => {
   res.json(readListings());
 });
 
-app.post('/api/listings', (req, res) => {
+app.post('/api/listings', requireAdmin, (req, res) => {
   const { listings } = req.body;
   if (!Array.isArray(listings)) return res.status(400).json({ error: 'Invalid' });
   writeListings({ listings });

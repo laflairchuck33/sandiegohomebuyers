@@ -346,6 +346,7 @@
       /* FILTER BAR */
       .fbar{position:relative;top:auto;padding:10px 14px;margin-top:52px}
     }
+  @keyframes pulse{0%,100%{box-shadow:0 4px 24px rgba(0,0,0,.5);}50%{box-shadow:0 4px 32px rgba(255,255,255,.4),0 0 0 8px rgba(255,255,255,.1);}}
   </style>
 </head>
 <body>
@@ -433,7 +434,7 @@
 <!-- HERO -->
 <section class="hero">
   <!-- Agent video hero (autoplays muted; pill enables sound) -->
-  <div id="heroOverlay" onclick="startHeroSound()" style="position:absolute;top:80px;left:50%;transform:translateX(-50%);z-index:10;display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:rgba(0,0,0,0.6);border:2px solid #fff;border-radius:50px;padding:9px 20px;color:#fff;font-weight:700;font-size:.88rem;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.3)">🔊 Tap for Sound</div>
+  <div id="heroOverlay" onclick="startHeroSound()" style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:20;display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:rgba(0,0,0,0.8);border:2px solid #fff;border-radius:50px;padding:14px 28px;color:#fff;font-weight:800;font-size:1rem;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.5);animation:pulse 2s infinite;">🔊 Tap for Sound</div>
   <video id="heroVid" class="hvid" autoplay muted loop playsinline poster="/agent-poster.jpg" style="object-fit:cover">
     <source src="/agent-video.mp4" type="video/mp4"/>
   </video>

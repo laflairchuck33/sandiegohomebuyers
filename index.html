@@ -455,8 +455,10 @@
     <!-- PROMO VIDEO -->
     <div style="width:100%;max-width:900px;margin:36px auto 0;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative">
       <div style="position:relative;padding-bottom:56.25%;height:0">
-        <iframe loading="lazy" src="https://www.youtube.com/embed/BMBCJnWTvWM?autoplay=1&mute=1&loop=1&playlist=BMBCJnWTvWM&controls=0&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1" style="position:absolute;top:-80px;left:-2px;width:calc(100% + 4px);height:calc(100% + 160px);border:none;pointer-events:none" allow="autoplay; encrypted-media"></iframe>
+        <iframe id="promoVid" loading="lazy" src="https://www.youtube.com/embed/BMBCJnWTvWM?autoplay=1&mute=1&loop=1&playlist=BMBCJnWTvWM&controls=0&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&enablejsapi=1" style="position:absolute;top:-80px;left:-2px;width:calc(100% + 4px);height:calc(100% + 160px);border:none;pointer-events:none" allow="autoplay; encrypted-media"></iframe>
       </div>
+      <!-- Sound toggle for promo video -->
+      <button id="promoSoundBtn" onclick="togglePromoSound()" style="position:absolute;bottom:14px;right:14px;z-index:30;background:rgba(0,0,0,0.75);border:2px solid #fff;color:#fff;border-radius:50px;padding:8px 18px;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">🔇 Tap for Sound</button>
     </div>
     <!-- 4-STEP PROGRESS BAR -->
     <div style="display:flex;gap:0;margin-top:50px;width:100%;max-width:900px;margin-left:auto;margin-right:auto">
@@ -1205,6 +1207,23 @@ document.getElementById('exitModal').addEventListener('click',function(e){if(e.t
 
 // ── MISC ──
 // ── HERO AGENT VIDEO SOUND ──
+// Promo video sound toggle
+let promoMuted = true;
+function togglePromoSound() {
+  const btn = document.getElementById('promoSoundBtn');
+  const iframe = document.getElementById('promoVid');
+  promoMuted = !promoMuted;
+  const src = iframe.src;
+  if (promoMuted) {
+    iframe.src = src.replace('mute=0','mute=1');
+    btn.textContent = '🔇 Tap for Sound';
+  } else {
+    iframe.src = src.replace('mute=1','mute=0');
+    btn.innerHTML = '🔊 Sound On';
+    btn.style.background = 'rgba(26,108,254,0.9)';
+  }
+}
+
 function startHeroSound() {
   const vid = document.getElementById('heroVid');
   const overlay = document.getElementById('heroOverlay');

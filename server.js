@@ -51,7 +51,7 @@ function logLead(type, data) {
 // LEAD ENDPOINT
 // ===========================
 app.post('/api/lead', async (req, res) => {
-  const { name, phone, email, callTime, calcData = {} } = req.body;
+  const { name, phone, email, callTime, calcData = {}, utmData = {} } = req.body;
 
   if (!name || !phone) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -64,7 +64,7 @@ app.post('/api/lead', async (req, res) => {
   console.log(`   Best Time: ${callTime}`);
 
   // Log lead immediately so we never lose it
-  logLead('lead', { name, phone, email, callTime, calcData });
+  logLead('lead', { name, phone, email, callTime, calcData, utmData });
 
   const results = { fub: false, email: false };
 
@@ -89,7 +89,7 @@ app.post('/api/lead', async (req, res) => {
 
   // --- Telegram notification (fastest) ---
   try {
-    await sendTelegramNotification({ name, phone, email, callTime, calcData });
+    await sendTelegramNotification({ name, phone, email, callTime, calcData, utmData });
     results.telegram = true;
     console.log('✅ Telegram: Notification sent');
   } catch (err) {
@@ -316,7 +316,10 @@ function leadTitle(calcData) {
   return '🏠 NEW LEAD - SanDiegoHomeBuyers.com';
 }
 
-async function sendTelegramNotification({ name, phone, email, callTime, calcData }) {
+async function sendTelegramNotification({ name, phone, email, callTime, calcData, utmData = {} }) {
+  const sourceLabel = utmData.utm_source
+    ? `${utmData.utm_source}${utmData.utm_medium ? ' / ' + utmData.utm_medium : ''}${utmData.utm_campaign ? ' — ' + utmData.utm_campaign : ''}`
+    : 'Direct / Organic';
   const msg = [
     leadTitle(calcData),
     '',
@@ -327,6 +330,7 @@ async function sendTelegramNotification({ name, phone, email, callTime, calcData
     `💰 Price: $${Math.round(calcData.homePrice || 0).toLocaleString()}`,
     `💵 Est. Payment: $${Math.round(calcData.totalMonthly || 0).toLocaleString()}/mo`,
     `✅ Status: ${calcData.prequalStatus || 'N/A'}`,
+    `📣 Source: ${sourceLabel}`,
   ].join('\n');
 
   const botToken = TELEGRAM_BOT_TOKEN;

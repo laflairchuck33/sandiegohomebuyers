@@ -203,6 +203,21 @@ function closeModal(event) {
 }
 
 // ===========================
+// UTM CAPTURE
+// ===========================
+(function captureUTM() {
+  const params = new URLSearchParams(window.location.search);
+  const utm = {};
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => {
+    const v = params.get(k);
+    if (v) utm[k] = v;
+  });
+  if (Object.keys(utm).length) {
+    sessionStorage.setItem('utm_data', JSON.stringify(utm));
+  }
+})();
+
+// ===========================
 // SUBMIT LEAD
 // ===========================
 async function submitLead(event) {
@@ -213,6 +228,7 @@ async function submitLead(event) {
   const email = document.getElementById('leadEmail').value;
   const callTime = document.getElementById('leadTime').value;
   const calcData = window.lastCalcData || {};
+  const utmData = JSON.parse(sessionStorage.getItem('utm_data') || '{}');
 
   const btn = event.target.querySelector('button[type=submit]');
   btn.textContent = 'Sending...';
@@ -223,7 +239,7 @@ async function submitLead(event) {
     const res = await fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, email, callTime, calcData })
+      body: JSON.stringify({ name, phone, email, callTime, calcData, utmData })
     });
 
     if (res.ok) {

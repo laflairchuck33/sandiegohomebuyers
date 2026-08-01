@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin.html
 
-Sitemap: https://www.sandiegohomebuyers.org/sitemap.xml
+Sitemap: https://sandiegohomebuyers.org/sitemap.xml

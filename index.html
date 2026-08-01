@@ -40,30 +40,107 @@
 
   <!-- Local Business Schema -->
   <script type="application/ld+json">
+  [
   {
     "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
+    "@type": ["RealEstateAgent", "FinancialService", "LocalBusiness"],
     "name": "San Diego Home Buyers",
     "url": "https://www.sandiegohomebuyers.org",
     "logo": "https://www.sandiegohomebuyers.org/preview.png",
-    "description": "Find homes for sale in San Diego County. FHA, VA and Conventional financing available. Serving Chula Vista, National City, El Cajon, La Mesa and all of San Diego.",
+    "image": "https://www.sandiegohomebuyers.org/preview.png",
+    "description": "San Diego Home Buyers helps first-time and repeat buyers find and finance homes in San Diego County. We offer FHA, VA, and Conventional loans with same-day pre-approvals. Serving Chula Vista, National City, El Cajon, La Mesa, Spring Valley, Lemon Grove, and all of San Diego.",
     "telephone": "+1-858-342-5615",
     "email": "info@sandiegohomebuyers.org",
+    "priceRange": "Free consultation",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "2434 Fenton Street, Suite 310",
       "addressLocality": "Chula Vista",
       "addressRegion": "CA",
       "postalCode": "91914",
       "addressCountry": "US"
     },
-    "openingHours": "Mo,Tu,We,Th,Fr,Sa,Su 08:00-19:00",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 32.6135,
+      "longitude": -116.9739
+    },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "08:00", "closes": "19:00" }
+    ],
     "sameAs": [
       "https://www.sandiegohomebuyers.org"
     ],
     "areaServed": [
-      "San Diego", "Chula Vista", "National City", "El Cajon", "La Mesa", "Spring Valley", "Lemon Grove"
+      { "@type": "City", "name": "San Diego" },
+      { "@type": "City", "name": "Chula Vista" },
+      { "@type": "City", "name": "National City" },
+      { "@type": "City", "name": "El Cajon" },
+      { "@type": "City", "name": "La Mesa" },
+      { "@type": "City", "name": "Spring Valley" },
+      { "@type": "City", "name": "Lemon Grove" },
+      { "@type": "City", "name": "Bonita" },
+      { "@type": "City", "name": "Santee" },
+      { "@type": "City", "name": "Escondido" }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Home Loan Programs",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "FHA Loans", "description": "FHA home loans with as little as 3.5% down for San Diego buyers" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "VA Loans", "description": "Zero down payment VA home loans for veterans and active military in San Diego" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Conventional Loans", "description": "Conventional mortgage loans for San Diego home buyers" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pre-Approval", "description": "Same-day mortgage pre-approval for San Diego home buyers" } }
+      ]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I buy a home in San Diego with no down payment?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Veterans and active military can buy a home in San Diego with zero down payment using a VA loan. Non-veterans may qualify for down payment assistance programs. San Diego Home Buyers specializes in VA and FHA loans and can help you find the right program. Call us at 858-342-5615 or visit sandiegohomebuyers.org to get started." }
+      },
+      {
+        "@type": "Question",
+        "name": "What credit score do I need to buy a home in San Diego?",
+        "acceptedAnswer": { "@type": "Answer", "text": "For an FHA loan in San Diego, you typically need a minimum credit score of 580 with 3.5% down, or 500 with 10% down. For a VA loan, most lenders look for 580 or higher. Conventional loans generally require 620 or above. San Diego Home Buyers works with buyers across all credit profiles and can help you find the best loan option." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much do I need to buy a home in Chula Vista?",
+        "acceptedAnswer": { "@type": "Answer", "text": "In Chula Vista, CA, the median home price is around $700,000-$750,000. With an FHA loan you could put as little as 3.5% down (around $24,500-$26,250). VA-eligible buyers can purchase with zero down. Use our free mortgage calculator at sandiegohomebuyers.org to see your estimated monthly payment." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best mortgage lender in San Diego?",
+        "acceptedAnswer": { "@type": "Answer", "text": "San Diego Home Buyers, powered by Clear Mortgage Capital, is a top-rated mortgage and real estate team serving all of San Diego County. We offer FHA, VA, and Conventional loans with same-day pre-approvals, expert guidance, and local market knowledge. Visit sandiegohomebuyers.org or call 858-342-5615." }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does it take to get pre-approved for a mortgage in San Diego?",
+        "acceptedAnswer": { "@type": "Answer", "text": "San Diego Home Buyers offers same-day pre-approvals. The process typically takes as little as 1-2 hours once you submit your basic financial information. A pre-approval letter shows sellers you are a serious buyer and strengthens your offer. Get started at sandiegohomebuyers.org." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I get an FHA loan in San Diego?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. FHA loans are available throughout San Diego County including Chula Vista, National City, El Cajon, and La Mesa. The 2024 FHA loan limit for San Diego County is $977,500. You need as little as 3.5% down and a 580+ credit score. San Diego Home Buyers specializes in FHA loans — visit sandiegohomebuyers.org to apply." }
+      },
+      {
+        "@type": "Question",
+        "name": "Are VA loans available in Chula Vista and National City?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. VA loans are available throughout San Diego County with no down payment required for eligible veterans and active military. Chula Vista and National City are popular areas for VA buyers due to their proximity to Naval Base San Diego and other military installations. San Diego Home Buyers is experienced with VA loans — call 858-342-5615." }
+      },
+      {
+        "@type": "Question",
+        "name": "What are homes for sale in San Diego under $500,000?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Homes under $500,000 in San Diego County can be found in areas like El Cajon, Lemon Grove, Spring Valley, and parts of National City. These are typically condos or smaller single-family homes. San Diego Home Buyers can search the full MLS for you and help you get pre-approved. Visit sandiegohomebuyers.org to browse current listings." }
+      }
     ]
   }
+  ]
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />

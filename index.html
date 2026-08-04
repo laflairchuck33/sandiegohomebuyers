@@ -426,6 +426,61 @@
     }
   @keyframes pulse{0%,100%{box-shadow:0 4px 24px rgba(0,0,0,.5);}50%{box-shadow:0 4px 32px rgba(255,255,255,.4),0 0 0 8px rgba(255,255,255,.1);}}
   </style>
+  <script>
+  var currentLang='en';
+  var translations={
+    en:{
+      'nav-search':'Search MLS','nav-showing':'Request Showing','nav-prequal':'Pre-Qualify','nav-worth':"What's My Home Worth?",'nav-contact':'Contact','nav-cta':'Get Started','lang-btn':'🌐 Español',
+      'hero-tag':'San Diego Real Estate','hero-h1':'Find Your Dream Home in San Diego','hero-p':'Browse homes for sale across San Diego County. FHA, VA & Conventional financing available. Let us guide you home.',
+      'btn-search':'Search Listings','btn-apply':'Apply Now','btn-showing':'Request a Showing',
+      'stat1-n':'500+','stat1-l':'Families Helped','stat2-n':'$2B+','stat2-l':'In Home Sales','stat3-n':'15+','stat3-l':'Years Experience','stat4-n':'5★','stat4-l':'Client Rating',
+      'step1-tag':'Step 1','step1-title':'Search Available Homes','step1-sub':'Browse real MLS listings across San Diego County — Chula Vista, National City, El Cajon, La Mesa and more.',
+      'step2-tag':'Step 2','step2-title':'Request a Showing','step2-sub':'See any home in person. Our agents are available 7 days a week to schedule showings at your convenience.',
+      'step3-tag':'Step 3','step3-title':'Get Pre-Qualified','step3-sub':'Know your budget before you fall in love with a home. Get pre-qualified in minutes.',
+      'step4-tag':'Step 4','step4-title':'Pre-Approval Letter','step4-sub':'We handle the paperwork so you can focus on moving into your new home.',
+      'how-tag':'How It Works','how-title':'Your Path to Homeownership','how-sub':'Four simple steps to get you into the home of your dreams.',
+      's1-title':'Search Listings','s1-p':'Browse hundreds of MLS listings updated daily across all of San Diego County.',
+      's2-title':'Request a Showing','s2-p':'Schedule an in-person tour with one of our experienced local agents.',
+      's3-title':'Get Pre-Approved','s3-p':'Complete a quick application and get your pre-approval letter within 24 hours.',
+      's4-title':'Close on Your Home','s4-p':'Our team guides you through the entire closing process from offer to keys.',
+      'testi-tag':'Reviews','testi-title':'What Our Clients Say',
+      'contact-tag':'Contact Us','contact-title':'Ready to Find Your Home?','contact-sub':'Get in touch with our team today.',
+      'footer':'© 2026 San Diego Home Buyers · All rights reserved.'
+    },
+    es:{
+      'nav-search':'Buscar MLS','nav-showing':'Solicitar Visita','nav-prequal':'Pre-Calificar','nav-worth':'¿Cuánto Vale Mi Casa?','nav-contact':'Contacto','nav-cta':'Comenzar','lang-btn':'🌐 English',
+      'hero-tag':'Bienes Raíces en San Diego','hero-h1':'Encuentra Tu Hogar Soñado en San Diego','hero-p':'Explora casas en venta en todo el Condado de San Diego. Financiamiento FHA, VA y Convencional disponible. Déjanos guiarte a tu nuevo hogar.',
+      'btn-search':'Ver Propiedades','btn-apply':'Aplicar Ahora','btn-showing':'Solicitar una Visita',
+      'stat1-n':'500+','stat1-l':'Familias Ayudadas','stat2-n':'$2B+','stat2-l':'En Ventas de Casas','stat3-n':'15+','stat3-l':'Años de Experiencia','stat4-n':'5★','stat4-l':'Calificación de Clientes',
+      'step1-tag':'Paso 1','step1-title':'Busca Casas Disponibles','step1-sub':'Explora listados MLS reales en todo el Condado de San Diego — Chula Vista, National City, El Cajon, La Mesa y más.',
+      'step2-tag':'Paso 2','step2-title':'Solicita una Visita','step2-sub':'Ve cualquier casa en persona. Nuestros agentes están disponibles 7 días a la semana para programar visitas.',
+      'step3-tag':'Paso 3','step3-title':'Obtén Pre-Calificación','step3-sub':'Conoce tu presupuesto antes de enamorarte de una casa. Pre-califícate en minutos.',
+      'step4-tag':'Paso 4','step4-title':'Carta de Pre-Aprobación','step4-sub':'Nosotros manejamos el papeleo para que puedas enfocarte en mudarte a tu nuevo hogar.',
+      'how-tag':'Cómo Funciona','how-title':'Tu Camino a la Casa Propia','how-sub':'Cuatro pasos simples para llevarte a la casa de tus sueños.',
+      's1-title':'Buscar Propiedades','s1-p':'Explora cientos de listados MLS actualizados diariamente en todo el Condado de San Diego.',
+      's2-title':'Solicitar una Visita','s2-p':'Programa un recorrido en persona con uno de nuestros agentes locales experimentados.',
+      's3-title':'Obtén Pre-Aprobación','s3-p':'Completa una solicitud rápida y obtén tu carta de pre-aprobación en 24 horas.',
+      's4-title':'Cierra Tu Casa','s4-p':'Nuestro equipo te guía durante todo el proceso de cierre desde la oferta hasta las llaves.',
+      'testi-tag':'Reseñas','testi-title':'Lo Que Dicen Nuestros Clientes',
+      'contact-tag':'Contáctanos','contact-title':'¿Listo para Encontrar Tu Hogar?','contact-sub':'Comunícate con nuestro equipo hoy.',
+      'footer':'© 2026 San Diego Home Buyers · Todos los derechos reservados.'
+    }
+  };
+  function toggleLang(){
+    currentLang=(currentLang==='en')?'es':'en';
+    applyLang();
+  }
+  function applyLang(){
+    var t=translations[currentLang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key=el.getAttribute('data-i18n');
+      if(t[key]!==undefined) el.innerHTML=t[key];
+    });
+    var btn=document.getElementById('langToggle');
+    if(btn) btn.textContent=t['lang-btn'];
+    document.documentElement.lang=currentLang;
+  }
+  </script>
 </head>
 <body>
 
@@ -436,12 +491,13 @@
 
   </div>
   <div class="nlinks">
-    <a href="#step1">Search MLS</a>
-    <a href="#step2">Request Showing</a>
-    <a href="#step3">Pre-Qualify</a>
-    <a href="/home-value.html">What's My Home Worth?</a>
-    <a href="#contact">Contact</a>
-    <a href="#step1" class="ncta">Get Started</a>
+    <a href="#step1" data-i18n="nav-search">Search MLS</a>
+    <a href="#step2" data-i18n="nav-showing">Request Showing</a>
+    <a href="#step3" data-i18n="nav-prequal">Pre-Qualify</a>
+    <a href="/home-value.html" data-i18n="nav-worth">What's My Home Worth?</a>
+    <a href="#contact" data-i18n="nav-contact">Contact</a>
+    <a href="#step1" class="ncta" data-i18n="nav-cta">Get Started</a>
+    <button id="langToggle" onclick="toggleLang()" style="margin-left:8px;background:#fff;color:#1a6cfe;border:2px solid #1a6cfe;border-radius:6px;padding:6px 14px;font-weight:900;font-size:.82rem;letter-spacing:1px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='#1a6cfe';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#1a6cfe'">🌐 Español</button>
   </div>
 </nav>
 
@@ -519,9 +575,9 @@
   <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center">🔊</button>
   <div class="hovl"></div>
   <div class="hcon">
-    <div class="htag">San Diego's Trusted Home Buyer Guide</div>
-    <h1>Find Your Dream<br/>Home in <span>San Diego</span></h1>
-    <p>Search real MLS listings, request a showing, and get pre-approved — all in one place.</p>
+    <div class="htag" data-i18n="hero-tag">San Diego's Trusted Home Buyer Guide</div>
+    <h1 data-i18n="hero-h1">Find Your Dream<br/>Home in <span>San Diego</span></h1>
+    <p data-i18n="hero-p">Search real MLS listings, request a showing, and get pre-approved — all in one place.</p>
     <div class="hbtns" style="flex-direction:column;align-items:center;gap:10px">
       <a href="#step3" class="btnbig">📊 See What You Qualify For →</a>
       <div style="font-size:.8rem;color:#333;font-weight:700">2 minutes &nbsp;·&nbsp; Free &nbsp;·&nbsp; No credit pull</div>
@@ -542,23 +598,23 @@
     <div style="display:flex;gap:0;margin-top:50px;width:100%;max-width:900px;margin-left:auto;margin-right:auto">
       <div onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(255,255,255,0.92);border:4px solid #1a6cfe;border-right:none;border-radius:14px 0 0 14px">
         <div style="height:160px;display:flex;align-items:center;justify-content:center;background:#fff"><img src="/magnifying-glass.jpg" style="max-width:100%;max-height:140px;object-fit:contain;display:block" alt="Magnifying Glass" /></div>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px">Step 1</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px">Search MLS</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px" data-i18n="step1-tag">Step 1</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px" data-i18n="nav-search">Search MLS</div>
       </div>
       <div onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(255,255,255,0.92);border:4px solid #1a6cfe;border-right:none">
         <img src="/house-photo.jpg" style="width:100%;height:160px;object-fit:cover;object-position:center center;display:block" alt="House" />
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px">Step 2</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px">Request Showing</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px" data-i18n="step2-tag">Step 2</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px" data-i18n="nav-showing">Request Showing</div>
       </div>
       <div onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(255,255,255,0.92);border:4px solid #1a6cfe;border-right:none">
         <img src="/lo-photo.jpg" style="width:100%;height:160px;object-fit:cover;object-position:center center;display:block" alt="Loan Officer" />
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px">Step 3</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px">Get Pre-Qualified</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px" data-i18n="step3-tag">Step 3</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px" data-i18n="nav-prequal">Get Pre-Qualified</div>
       </div>
       <div onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(255,255,255,0.92);border:4px solid #1a6cfe;border-radius:0 14px 14px 0">
         <div style="height:160px;display:flex;align-items:center;justify-content:center"><div style="font-size:7rem;line-height:1;font-weight:900;color:#39ff14;-webkit-text-stroke:2px #2acc00">✓</div></div>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px">Step 4</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px">Pre-Approval Letter</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px" data-i18n="step4-tag">Step 4</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px" data-i18n="step4-title">Pre-Approval Letter</div>
       </div>
 
     </div>
@@ -898,7 +954,7 @@
 </div>
 
 <footer>
-  <p>© 2026 San Diego Home Buyers &nbsp;·&nbsp; All rights reserved.</p>
+  <p data-i18n="footer">© 2026 San Diego Home Buyers &nbsp;·&nbsp; All rights reserved.</p>
   <p>
     <a href="/privacy.html">Privacy Policy</a> &nbsp;·&nbsp;
     <a href="/terms.html">Terms of Use</a>

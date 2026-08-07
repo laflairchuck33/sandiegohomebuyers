@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="metaTitle">Property Details — San Diego Home Buyers</title>
+  <meta name="description" id="metaDesc" content="View property details, photos, and schedule a showing with San Diego Home Buyers."/>
+  <link rel="icon" href="/sdhb-logo-square.jpg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#fff;color:#111;min-height:100vh}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;border-bottom:1px solid #e0e0e0;padding:14px 40px;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:.95rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;text-decoration:none}
+    .nav-back{display:flex;align-items:center;gap:6px;color:#1a6cfe;font-size:.85rem;font-weight:600;text-decoration:none;border:1px solid #dbe4ff;padding:7px 16px;border-radius:6px}
+    .nav-back:hover{background:#f0f4ff}
+    .wrap{max-width:1060px;margin:0 auto;padding:100px 24px 60px}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-radius:14px;overflow:hidden;margin-bottom:36px;cursor:pointer}
+    .gallery .main-img{grid-row:span 2}
+    .gallery img{width:100%;height:250px;object-fit:cover;display:block;transition:opacity .2s}
+    .gallery .main-img img{height:100%}
+    .gallery img:hover{opacity:.92}
+    .gallery-more{position:relative}
+    .gallery-more::after{content:attr(data-more);position:absolute;inset:0;background:rgba(0,0,0,.5);color:#fff;font-weight:800;font-size:1.2rem;display:flex;align-items:center;justify-content:center}
+
+    /* Content grid */
+    .content{display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start}
+    .left{}
+    .right{position:sticky;top:88px}
+
+    /* Listing header */
+    .prop-status{display:inline-block;background:#1a6cfe;color:#fff;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+    .prop-price{font-size:2.4rem;font-weight:900;color:#111;letter-spacing:-1px;margin-bottom:6px}
+    .prop-addr{font-size:1rem;color:#555;margin-bottom:16px}
+    .prop-specs{display:flex;gap:24px;flex-wrap:wrap;padding:16px 0;border-top:1px solid #eee;border-bottom:1px solid #eee;margin-bottom:24px}
+    .spec{text-align:center}
+    .spec-val{font-size:1.3rem;font-weight:800;color:#111}
+    .spec-label{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+    /* Description */
+    .section-title{font-size:1rem;font-weight:800;margin-bottom:12px;color:#111}
+    .desc-text{font-size:.9rem;color:#555;line-height:1.8;margin-bottom:28px}
+
+    /* Details grid */
+    .details-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+    .detail-item{background:#f8f9ff;border-radius:8px;padding:12px 16px}
+    .detail-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:3px}
+    .detail-val{font-size:.9rem;font-weight:600;color:#111}
+
+    /* Map */
+    #propMap{height:240px;border-radius:12px;margin-bottom:28px;overflow:hidden}
+
+    /* Similar */
+    .similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+    .sim-card{border:1px solid #eee;border-radius:10px;overflow:hidden;text-decoration:none;color:inherit;transition:box-shadow .2s}
+    .sim-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1)}
+    .sim-card img{width:100%;height:130px;object-fit:cover;display:block}
+    .sim-info{padding:12px}
+    .sim-price{font-size:.95rem;font-weight:800;margin-bottom:2px}
+    .sim-addr{font-size:.75rem;color:#888}
+    .sim-meta{font-size:.72rem;color:#aaa;margin-top:4px}
+
+    /* Share */
+    .share-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+    .share-btn{display:flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;padding:8px 16px;border-radius:8px;border:1px solid #eee;cursor:pointer;background:#fff;color:#333;transition:all .15s}
+    .share-btn:hover{background:#f8f9ff}
+    .share-btn.wa{background:#25d366;color:#fff;border-color:#25d366}
+    .share-btn.wa:hover{opacity:.9}
+
+    /* CTA Card */
+    .cta-card{background:#fff;border:1px solid #e0e0e0;border-radius:14px;padding:24px;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+    .cta-card h3{font-size:1.05rem;font-weight:800;margin-bottom:4px}
+    .cta-card p{font-size:.82rem;color:#888;margin-bottom:18px}
+    .btn-blue{display:block;text-align:center;background:#1a6cfe;color:#fff;font-weight:800;font-size:.9rem;padding:13px;border-radius:8px;border:none;cursor:pointer;text-decoration:none;margin-bottom:10px;transition:opacity .2s}
+    .btn-blue:hover{opacity:.88}
+    .btn-outline{display:block;text-align:center;background:#fff;color:#1a6cfe;font-weight:700;font-size:.9rem;padding:12px;border-radius:8px;border:2px solid #1a6cfe;cursor:pointer;text-decoration:none;transition:all .2s}
+    .btn-outline:hover{background:#f0f4ff}
+    .agent-row{display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:18px;border-top:1px solid #eee}
+    .agent-photo{width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0}
+    .agent-name{font-size:.88rem;font-weight:700}
+    .agent-title{font-size:.75rem;color:#888}
+    .agent-phone{font-size:.8rem;color:#1a6cfe;font-weight:600;text-decoration:none;display:block;margin-top:2px}
+
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.open{display:flex}
+    .modal{background:#fff;border-radius:14px;padding:32px;max-width:440px;width:100%;position:relative;max-height:90vh;overflow-y:auto}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#888}
+    .modal h3{font-size:1.15rem;font-weight:800;margin-bottom:4px}
+    .modal p{font-size:.83rem;color:#888;margin-bottom:20px}
+    .form-group{margin-bottom:14px}
+    .form-group label{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:5px}
+    .form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid #ddd;border-radius:6px;padding:10px 14px;font-family:inherit;font-size:.88rem;color:#111;outline:none;transition:border .2s}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#1a6cfe}
+    .form-group textarea{min-height:80px;resize:vertical}
+    .success-msg{text-align:center;padding:20px 0}
+    .success-msg .si{font-size:3rem;margin-bottom:12px}
+    .success-msg h4{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+    .success-msg p{font-size:.85rem;color:#888}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:400;display:none;align-items:center;justify-content:center}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px}
+    .lb-close{position:absolute;top:20px;right:24px;color:#fff;font-size:2rem;cursor:pointer;background:none;border:none}
+
+    @media(max-width:760px){
+      .gallery{grid-template-columns:1fr}
+      .gallery .main-img{grid-row:span 1}
+      .gallery img{height:200px}
+      .content{grid-template-columns:1fr}
+      .right{position:static}
+      nav{padding:12px 16px}
+      .wrap{padding:80px 16px 40px}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="logo">SDHB</a>
+  <a href="/index.html" class="nav-back">← Back to Listings</a>
+</nav>
+
+<div class="wrap">
+  <!-- Gallery -->
+  <div class="gallery" id="gallery" onclick="openLightbox(0)"></div>
+
+  <div class="content">
+    <div class="left">
+      <!-- Header -->
+      <div class="prop-status" id="propStatus">For Sale</div>
+      <div class="prop-price" id="propPrice">$—</div>
+      <div class="prop-addr" id="propAddr">Loading…</div>
+      <div class="prop-specs" id="propSpecs"></div>
+
+      <!-- Share -->
+      <div class="section-title">Share This Property</div>
+      <div class="share-bar">
+        <button class="share-btn wa" onclick="shareWA()">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" height="18"/> WhatsApp
+        </button>
+        <button class="share-btn" onclick="copyLink()">🔗 Copy Link</button>
+        <button class="share-btn" onclick="shareSMS()">💬 Text</button>
+      </div>
+
+      <!-- Description -->
+      <div class="section-title">About This Home</div>
+      <div class="desc-text" id="propDesc">—</div>
+
+      <!-- Details -->
+      <div class="section-title">Property Details</div>
+      <div class="details-grid" id="propDetails"></div>
+
+      <!-- Map -->
+      <div class="section-title">Location</div>
+      <div id="propMap"></div>
+
+      <!-- Similar -->
+      <div class="section-title">Similar Listings</div>
+      <div class="similar-grid" id="similarGrid"></div>
+    </div>
+
+    <div class="right">
+      <div class="cta-card">
+        <h3>Interested in this home?</h3>
+        <p>Schedule a private showing or get pre-approved today.</p>
+        <button class="btn-blue" onclick="openModal('showing')">📅 Schedule a Showing</button>
+        <a href="https://cmc.my1003app.com/220926/register?time=1772669246583" target="_blank" class="btn-outline">✅ Get Pre-Approved</a>
+        <div class="agent-row">
+          <img src="/lo-photo.jpg" class="agent-photo" onerror="this.style.display='none'"/>
+          <div>
+            <div class="agent-name">Chuck La Flair</div>
+            <div class="agent-title">Mortgage Advisor · All In Lending</div>
+            <a href="tel:+18583425615" class="agent-phone">📞 (858) 342-5615</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Showing Modal -->
+<div class="modal-overlay" id="showingModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('showing')">✕</button>
+    <h3>Schedule a Showing</h3>
+    <p id="showingPropLabel">Request a private tour of this property.</p>
+    <div id="showingForm">
+      <div class="form-group"><label>Full Name *</label><input id="sv-name" type="text" placeholder="Your name"/></div>
+      <div class="form-group"><label>Phone *</label><input id="sv-phone" type="tel" placeholder="(619) 555-0000"/></div>
+      <div class="form-group"><label>Email</label><input id="sv-email" type="email" placeholder="you@email.com"/></div>
+      <div class="form-group"><label>Preferred Date</label><input id="sv-date" type="date"/></div>
+      <div class="form-group"><label>Preferred Time</label>
+        <select id="sv-time">
+          <option value="">Any time</option>
+          <option>Morning (9am–12pm)</option>
+          <option>Afternoon (12pm–4pm)</option>
+          <option>Evening (4pm–7pm)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea id="sv-msg" placeholder="Any questions about the property?"></textarea></div>
+      <button class="btn-blue" onclick="submitShowing()" style="margin-top:4px">Request Showing →</button>
+    </div>
+    <div class="success-msg" id="showingSuccess" style="display:none">
+      <div class="si">🎉</div>
+      <h4>Request Sent!</h4>
+      <p>We'll reach out within 1 hour to confirm your showing time.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lbImg" src="" alt="Property photo"/>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const propId = params.get('id');
+let propData = null;
+let allListings = [];
+
+async function loadProperty() {
+  try {
+    const r = await fetch('/api/listings');
+    const d = await r.json();
+    allListings = d.listings || [];
+    propData = allListings.find(l => String(l.id) === String(propId)) || allListings[0];
+    if (!propData) { document.querySelector('.wrap').innerHTML = '<div style="text-align:center;padding:80px 20px;color:#888"><h2>Property not found</h2><a href="/index.html">← Back to listings</a></div>'; return; }
+    renderProperty();
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+function renderProperty() {
+  const p = propData;
+  document.title = `${p.price} — ${p.addr||p.address} | San Diego Home Buyers`;
+  document.getElementById('metaTitle').textContent = document.title;
+
+  // Gallery
+  const photos = p.photos || (p.photo ? [p.photo] : []);
+  const gallery = document.getElementById('gallery');
+  if (photos.length === 0) {
+    gallery.innerHTML = `<div style="background:#f0f4ff;height:300px;display:flex;align-items:center;justify-content:center;font-size:3rem;border-radius:14px;grid-column:1/-1">🏠</div>`;
+  } else {
+    gallery.innerHTML = `<div class="main-img"><img src="${photos[0]}" alt="Main photo"/></div>`;
+    photos.slice(1, 4).forEach((ph, i) => {
+      const isLast = i === 2 && photos.length > 4;
+      gallery.innerHTML += `<div class="${isLast?'gallery-more':''}" ${isLast?`data-more="+${photos.length-4} more"`:''}>
+        <img src="${ph}" alt="Photo ${i+2}"/>
+      </div>`;
+    });
+  }
+
+  // Header
+  document.getElementById('propStatus').textContent = p.status || 'For Sale';
+  document.getElementById('propPrice').textContent = p.price || '—';
+  document.getElementById('propAddr').textContent = p.addr || p.address || '—';
+  document.getElementById('showingPropLabel').textContent = `Request a tour of ${p.addr||p.address}`;
+
+  // Specs
+  const specs = [
+    p.beds ? { val: p.beds, label: 'Beds' } : null,
+    p.baths ? { val: p.baths, label: 'Baths' } : null,
+    p.sqft ? { val: p.sqft, label: 'Sq Ft' } : null,
+    p.lot ? { val: p.lot, label: 'Lot Size' } : null,
+  ].filter(Boolean);
+  document.getElementById('propSpecs').innerHTML = specs.map(s => `<div class="spec"><div class="spec-val">${s.val}</div><div class="spec-label">${s.label}</div></div>`).join('');
+
+  // Description
+  document.getElementById('propDesc').textContent = p.desc || 'Contact us for more details about this property.';
+
+  // Details grid
+  const details = [
+    ['MLS #', p.mls],
+    ['Type', p.type],
+    ['Status', p.status],
+    ['Year Built', p.year],
+    ['Garage', p.garage],
+    ['HOA', p.hoa],
+    ['Lot Size', p.lot],
+    ['Listed', p.listed ? new Date(p.listed).toLocaleDateString() : null],
+  ].filter(([,v]) => v);
+  document.getElementById('propDetails').innerHTML = details.map(([l,v]) => `<div class="detail-item"><div class="detail-label">${l}</div><div class="detail-val">${v}</div></div>`).join('');
+
+  // Map
+  const lat = p.lat || 32.7157;
+  const lng = p.lng || -117.1611;
+  const map = L.map('propMap').setView([lat, lng], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  L.marker([lat, lng]).addTo(map).bindPopup(`<b>${p.price}</b><br>${p.addr||p.address}`).openPopup();
+
+  // Similar listings
+  const similar = allListings.filter(l => l.id !== p.id).slice(0, 4);
+  const sg = document.getElementById('similarGrid');
+  if (!similar.length) { sg.style.display = 'none'; }
+  else {
+    sg.innerHTML = similar.map(l => `
+      <a href="/property.html?id=${l.id}" class="sim-card">
+        ${l.photo ? `<img src="${l.photo}" alt="${l.addr||l.address}"/>` : `<div style="height:130px;background:#f0f4ff;display:flex;align-items:center;justify-content:center;font-size:2rem">🏠</div>`}
+        <div class="sim-info">
+          <div class="sim-price">${l.price}</div>
+          <div class="sim-addr">${l.addr||l.address||'—'}</div>
+          <div class="sim-meta">${[l.beds?l.beds+'bd':'',l.baths?l.baths+'ba':'',l.sqft?l.sqft+' sqft':''].filter(Boolean).join(' · ')}</div>
+        </div>
+      </a>`).join('');
+  }
+}
+
+// Share
+function shareWA() {
+  const txt = `Check out this property: ${propData?.price} — ${propData?.addr||propData?.address}\n${location.href}`;
+  window.open('https://wa.me/?text='+encodeURIComponent(txt), '_blank');
+}
+function shareSMS() {
+  const txt = `Check out this property: ${propData?.price} — ${propData?.addr||propData?.address}\n${location.href}`;
+  window.open('sms:?body='+encodeURIComponent(txt));
+}
+function copyLink() {
+  navigator.clipboard.writeText(location.href).then(() => {
+    const btn = document.querySelector('.share-btn:nth-child(2)');
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '🔗 Copy Link', 2000);
+  });
+}
+
+// Lightbox
+function openLightbox(i) { document.getElementById('lightbox').classList.add('open'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+// Modal
+function openModal(t) { document.getElementById(t+'Modal').classList.add('open'); }
+function closeModal(t) {
+  document.getElementById(t+'Modal').classList.remove('open');
+  document.getElementById(t+'Success').style.display = 'none';
+  document.getElementById(t+'Form').style.display = 'block';
+}
+
+async function submitShowing() {
+  const name = document.getElementById('sv-name').value.trim();
+  const phone = document.getElementById('sv-phone').value.trim();
+  if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
+  try {
+    await fetch('/api/showing', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, phone,
+        email: document.getElementById('sv-email').value,
+        date: document.getElementById('sv-date').value,
+        time: document.getElementById('sv-time').value,
+        property: propData?.addr || propData?.address || 'Unknown',
+        message: document.getElementById('sv-msg').value
+      })
+    });
+  } catch(e) {}
+  document.getElementById('showingForm').style.display = 'none';
+  document.getElementById('showingSuccess').style.display = 'block';
+}
+
+loadProperty();
+</script>
+</body>
+</html>

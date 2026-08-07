@@ -87,6 +87,17 @@ app.post('/api/lead', async (req, res) => {
     console.error('❌ Email Error:', err.message);
   }
 
+  // --- Auto-response to lead ---
+  if (email) {
+    try {
+      await sendAutoResponse({ name, email, calcData });
+      results.autoResponse = true;
+      console.log('✅ Auto-response sent to lead');
+    } catch (err) {
+      console.error('❌ Auto-response Error:', err.message);
+    }
+  }
+
   // --- Telegram notification (fastest) ---
   try {
     await sendTelegramNotification({ name, phone, email, callTime, calcData, utmData });
@@ -108,6 +119,42 @@ app.post('/api/lead', async (req, res) => {
 
   res.json({ success: true, results });
 });
+
+// ===========================
+// AUTO-RESPONSE EMAIL TO LEAD
+// ===========================
+async function sendAutoResponse({ name, email, calcData }) {
+  const firstName = (name || '').split(' ')[0] || 'there';
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: false,
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  });
+  await transporter.sendMail({
+    from: `"Chuck La Flair — San Diego Home Buyers" <${process.env.SMTP_USER}>`,
+    to: email,
+    subject: `Thanks for reaching out, ${firstName}! 🏡`,
+    html: `
+<div style="font-family:Inter,sans-serif;max-width:560px;margin:0 auto;color:#111">
+  <div style="background:#1a6cfe;padding:28px 32px;border-radius:10px 10px 0 0">
+    <h2 style="color:#fff;margin:0;font-size:1.4rem">Thanks, ${firstName}! 🏡</h2>
+  </div>
+  <div style="background:#fff;padding:28px 32px;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 10px 10px">
+    <p style="font-size:.95rem;line-height:1.7;margin-bottom:16px">We received your information and I'll be reaching out shortly to discuss your home buying goals.</p>
+    ${calcData?.prequalStatus ? `<div style="background:#f0f4ff;border-left:4px solid #1a6cfe;padding:14px 18px;border-radius:4px;margin-bottom:16px"><strong>Your Pre-Qual Status:</strong> ${calcData.prequalStatus}</div>` : ''}
+    ${calcData?.homePrice ? `<p style="font-size:.88rem;color:#555">Estimated home price: <strong>$${Math.round(calcData.homePrice).toLocaleString()}</strong>${calcData.totalMonthly ? ` · Est. monthly payment: <strong>$${Math.round(calcData.totalMonthly).toLocaleString()}/mo</strong>` : ''}</p>` : ''}
+    <p style="font-size:.88rem;color:#555;margin-top:16px">In the meantime, feel free to browse our listings or get started with your pre-approval:</p>
+    <div style="margin-top:20px">
+      <a href="https://sandiegohomebuyers.org" style="display:inline-block;background:#1a6cfe;color:#fff;font-weight:700;padding:12px 24px;border-radius:6px;text-decoration:none;margin-right:10px">Browse Listings</a>
+      <a href="https://cmc.my1003app.com/220926/register?time=1772669246583" style="display:inline-block;background:#fff;color:#1a6cfe;font-weight:700;padding:12px 24px;border-radius:6px;text-decoration:none;border:2px solid #1a6cfe">Apply Now</a>
+    </div>
+    <hr style="border:none;border-top:1px solid #eee;margin:24px 0"/>
+    <p style="font-size:.82rem;color:#888">Chuck La Flair · All In Lending<br>📞 (858) 342-5615 · <a href="mailto:chuck@allin-lending.com" style="color:#1a6cfe">chuck@allin-lending.com</a></p>
+  </div>
+</div>`
+  });
+}
 
 // ===========================
 // LISTINGS STORAGE

@@ -1243,7 +1243,7 @@ function renderListings(listings) {
     return;
   }
   side.innerHTML = listings.map((l, i) => `
-    <div class="lcard" onclick="focusPin(${i})" style="${i===listings.length-1?'border-bottom:none':''}">
+    <div class="lcard" onclick="window.location.href='/property.html?id='+${l.id||i}" style="${i===listings.length-1?'border-bottom:none':''}">
       ${l.img ? `<img class="lim" src="${l.img}" alt="${l.addr}" onerror="this.style.display='none'"/>` : '<div class="lim" style="height:180px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:2rem">🏠</div>'}
       <div class="lbd">
         <div class="ltg">${l.status||'For Sale'}</div>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — San Diego Home Buyers</title>
+  <meta name="description" content="San Diego Home Buyers helps families find homes across San Diego County with FHA, VA & Conventional financing. Meet Chuck La Flair and the team."/>
+  <link rel="icon" href="/sdhb-logo-square.jpg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#fff;color:#111}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;border-bottom:1px solid #e0e0e0;padding:14px 40px;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:.95rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;text-decoration:none}
+    .nav-links{display:flex;gap:24px;align-items:center}
+    .nav-links a{color:#333;text-decoration:none;font-size:.85rem;font-weight:500}
+    .nav-links a:hover{color:#1a6cfe}
+    .nav-cta{background:#1a6cfe;color:#fff!important;padding:8px 18px;border-radius:6px;font-weight:700!important}
+
+    .hero{padding:140px 40px 80px;background:linear-gradient(135deg,#f0f4ff 0%,#fff 60%);text-align:center}
+    .hero-tag{display:inline-block;background:#e8f0ff;color:#1a6cfe;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:6px 14px;border-radius:20px;margin-bottom:18px}
+    .hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px}
+    .hero p{font-size:1rem;color:#555;max-width:580px;margin:0 auto;line-height:1.8}
+
+    .wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+    section{padding:72px 0}
+
+    /* Mission */
+    .mission{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+    .mission img{width:100%;border-radius:16px;object-fit:cover;height:380px}
+    .mission h2{font-size:1.8rem;font-weight:900;letter-spacing:-.5px;margin-bottom:16px}
+    .mission p{font-size:.92rem;color:#555;line-height:1.8;margin-bottom:12px}
+
+    /* Stats */
+    .stats{background:#1a6cfe;border-radius:20px;padding:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;margin-bottom:72px}
+    .stat-val{font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:6px}
+    .stat-label{font-size:.78rem;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+
+    /* Team */
+    .section-tag{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#1a6cfe;margin-bottom:10px}
+    .section-title{font-size:1.8rem;font-weight:900;letter-spacing:-.5px;margin-bottom:8px}
+    .section-sub{font-size:.9rem;color:#888;margin-bottom:48px}
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:28px}
+    .team-card{text-align:center}
+    .team-card img{width:120px;height:120px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid #e8f0ff}
+    .team-name{font-size:1rem;font-weight:800;margin-bottom:2px}
+    .team-title{font-size:.78rem;color:#888;margin-bottom:8px}
+    .team-bio{font-size:.8rem;color:#666;line-height:1.6}
+
+    /* Values */
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .value-card{background:#f8f9ff;border-radius:14px;padding:28px}
+    .value-icon{font-size:2rem;margin-bottom:14px}
+    .value-title{font-size:1rem;font-weight:800;margin-bottom:8px}
+    .value-text{font-size:.84rem;color:#666;line-height:1.7}
+
+    /* CTA */
+    .cta-section{background:#111;border-radius:20px;padding:60px;text-align:center;margin-bottom:72px}
+    .cta-section h2{font-size:2rem;font-weight:900;color:#fff;margin-bottom:12px}
+    .cta-section p{color:#aaa;font-size:.92rem;margin-bottom:28px}
+    .cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .btn-white{background:#fff;color:#111;font-weight:800;padding:14px 28px;border-radius:8px;text-decoration:none;font-size:.9rem}
+    .btn-blue{background:#1a6cfe;color:#fff;font-weight:800;padding:14px 28px;border-radius:8px;text-decoration:none;font-size:.9rem}
+
+    footer{background:#f5f5f5;border-top:1px solid #eee;text-align:center;padding:24px;font-size:.76rem;color:#888}
+    footer a{color:#1a6cfe;text-decoration:none}
+
+    @media(max-width:760px){
+      nav{padding:12px 16px}
+      .nav-links{display:none}
+      .hero{padding:100px 20px 60px}
+      .mission{grid-template-columns:1fr}
+      .mission img{height:240px}
+      .stats{grid-template-columns:1fr 1fr;gap:16px;padding:28px}
+      .values-grid{grid-template-columns:1fr}
+      .cta-section{padding:36px 20px}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="logo">San Diego Home Buyers</a>
+  <div class="nav-links">
+    <a href="/index.html">Listings</a>
+    <a href="/index.html#contact">Contact</a>
+    <a href="https://cmc.my1003app.com/220926/register?time=1772669246583" class="nav-cta" target="_blank">Apply Now</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">About Us</div>
+  <h1>Helping San Diego Families<br>Find Their Dream Home</h1>
+  <p>We combine deep local expertise with FHA, VA & Conventional financing know-how to guide buyers through every step of the homeownership journey.</p>
+</div>
+
+<div class="wrap">
+
+  <!-- Mission -->
+  <section class="mission">
+    <img src="/hero-poster.jpg" alt="San Diego Home Buyers team" onerror="this.src='/house-photo.jpg'"/>
+    <div>
+      <div class="section-tag">Our Mission</div>
+      <h2>Real Expertise.<br>Real Results.</h2>
+      <p>San Diego Home Buyers was built on one simple belief: every family deserves a trusted guide through the home buying process — not just a transaction.</p>
+      <p>We specialize in helping first-time buyers, veterans, and move-up buyers navigate San Diego's competitive market with confidence. From pre-approval to closing, we're with you every step of the way.</p>
+      <p>Whether you're looking in Chula Vista, National City, El Cajon, or anywhere across San Diego County, we know the neighborhoods, the market, and how to get your offer accepted.</p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div><div class="stat-val">500+</div><div class="stat-label">Families Helped</div></div>
+    <div><div class="stat-val">$200M+</div><div class="stat-label">In Closed Loans</div></div>
+    <div><div class="stat-val">15+</div><div class="stat-label">Years Experience</div></div>
+    <div><div class="stat-val">4.9★</div><div class="stat-label">Client Rating</div></div>
+  </div>
+
+  <!-- Team -->
+  <section>
+    <div class="section-tag">The Team</div>
+    <div class="section-title">People You Can Trust</div>
+    <div class="section-sub">Experienced professionals committed to your homeownership goals.</div>
+    <div class="team-grid">
+      <div class="team-card">
+        <img src="/lo-photo.jpg" alt="Chuck La Flair" onerror="this.src='/lo-photo-backup.jpg'"/>
+        <div class="team-name">Chuck La Flair</div>
+        <div class="team-title">Mortgage Advisor · All In Lending</div>
+        <div class="team-bio">Specializes in FHA, VA & Conventional loans across San Diego County. Committed to fast, transparent closings.</div>
+      </div>
+      <div class="team-card">
+        <img src="/mauricio-headshot.jpg" alt="Mauricio Perez-Vazquez"/>
+        <div class="team-name">Mauricio Perez-Vazquez</div>
+        <div class="team-title">Broker Associate · Realty of America</div>
+        <div class="team-bio">Founding Partner with deep knowledge of San Diego's neighborhoods. Expert negotiator with hundreds of closings.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section>
+    <div class="section-tag">Why Choose Us</div>
+    <div class="section-title">What Sets Us Apart</div>
+    <div class="section-sub" style="margin-bottom:36px">We do things differently — and our clients feel the difference.</div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">🏡</div>
+        <div class="value-title">Local Expertise</div>
+        <div class="value-text">We know every neighborhood in San Diego County — pricing trends, schools, commutes, and what makes each area unique.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⚡</div>
+        <div class="value-title">Fast Pre-Approvals</div>
+        <div class="value-text">Get pre-approved in as little as 24 hours. We move fast so you can make competitive offers with confidence.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🎖️</div>
+        <div class="value-title">VA Loan Specialists</div>
+        <div class="value-text">Proud to serve our military community. We specialize in VA loans with $0 down for eligible veterans and active duty.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <div class="value-title">First-Time Buyer Focus</div>
+        <div class="value-text">We walk first-time buyers through every step, from explaining loan types to negotiating your first offer.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">📱</div>
+        <div class="value-title">Always Reachable</div>
+        <div class="value-text">Call, text, or WhatsApp us any time. We believe in real communication — not voicemail black holes.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">💰</div>
+        <div class="value-title">Best Rate Guarantee</div>
+        <div class="value-text">We shop multiple lenders to get you the most competitive rate and terms available for your situation.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Ready to Find Your Home?</h2>
+    <p>Let's start with a quick pre-approval and browse listings together.</p>
+    <div class="cta-btns">
+      <a href="/index.html" class="btn-white">Browse Listings</a>
+      <a href="https://cmc.my1003app.com/220926/register?time=1772669246583" target="_blank" class="btn-blue">Get Pre-Approved →</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 San Diego Home Buyers · All In Lending · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms</a> · <a href="/about.html">About</a></p>
+  <p style="margin-top:6px">📞 (858) 342-5615 · <a href="mailto:chuck@allin-lending.com">chuck@allin-lending.com</a></p>
+</footer>
+
+</body>
+</html>

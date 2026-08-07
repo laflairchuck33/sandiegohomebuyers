@@ -561,8 +561,14 @@
     <option value="Multi">Multi-Unit</option>
     <option value="Land">Land</option>
   </select>
-  <button onclick="doMLSSearch()" style="background:#1a6cfe;color:#000;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit">🔍 Search MLS</button>
-  <button class="fsave" onclick="doMLSSearch()">View All Listings →</button>
+  <select id="srSort" style="background:#f0f0f0;color:#333;border:1px solid #ddd;border-radius:4px;padding:7px 12px;font-family:inherit;font-size:.82rem;cursor:pointer">
+    <option value="">Sort: Relevance</option>
+    <option value="price_asc">Price: Low to High</option>
+    <option value="price_desc">Price: High to Low</option>
+    <option value="newest">Newest First</option>
+  </select>
+  <button onclick="doMLSSearch()" style="background:#1a6cfe;color:#fff;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit">🔍 Search</button>
+  <button class="fsave" onclick="doMLSSearch()">View All →</button>
 </div>
 
 <!-- HERO -->
@@ -956,6 +962,7 @@
 <footer>
   <p data-i18n="footer">© 2026 San Diego Home Buyers &nbsp;·&nbsp; All rights reserved.</p>
   <p>
+    <a href="/about.html">About Us</a> &nbsp;·&nbsp;
     <a href="/privacy.html">Privacy Policy</a> &nbsp;·&nbsp;
     <a href="/terms.html">Terms of Use</a>
   </p>
@@ -1278,9 +1285,9 @@ function initMap() {
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
   // Load listings from server, fall back to defaults
   fetch('/api/listings').then(r=>r.json()).then(data=>{
-    const list = (data.listings && data.listings.length) ? data.listings : fallbackListings;
-    renderListings(list);
-  }).catch(()=>renderListings(fallbackListings));
+    allListingsData = (data.listings && data.listings.length) ? data.listings : fallbackListings;
+    renderListingPage();
+  }).catch(()=>{ allListingsData = fallbackListings; renderListingPage(); });
 }
 function focusPin(i){
   const l = listingsData[i];
@@ -1571,7 +1578,79 @@ window.addEventListener('load',()=>{
   initMap();
   enforceDownMin();
   updateCalc();
+  initCookieBanner();
 });
+
+// ── SORT LISTINGS ──
+function sortListings(listings) {
+  const sort = document.getElementById('srSort')?.value || '';
+  const parsed = listings.map(l => ({ ...l, _price: parseInt((l.price||'0').replace(/[^0-9]/g,'')) || 0 }));
+  if (sort === 'price_asc') return parsed.sort((a,b) => a._price - b._price);
+  if (sort === 'price_desc') return parsed.sort((a,b) => b._price - a._price);
+  if (sort === 'newest') return parsed.sort((a,b) => (b.id||0) - (a.id||0));
+  return parsed;
+}
+
+// ── PAGINATION ──
+const LISTINGS_PER_PAGE = 9;
+let currentListingsPage = 1;
+let allListingsData = [];
+
+function renderListingPage() {
+  const sorted = sortListings(allListingsData);
+  const total = sorted.length;
+  const pages = Math.ceil(total / LISTINGS_PER_PAGE) || 1;
+  if (currentListingsPage > pages) currentListingsPage = 1;
+  const slice = sorted.slice((currentListingsPage-1)*LISTINGS_PER_PAGE, currentListingsPage*LISTINGS_PER_PAGE);
+  renderListings(slice);
+  renderPagination(pages);
+}
+
+function renderPagination(pages) {
+  let pag = document.getElementById('listingsPagination');
+  if (!pag) {
+    pag = document.createElement('div');
+    pag.id = 'listingsPagination';
+    pag.style.cssText = 'display:flex;gap:8px;justify-content:center;padding:16px 0;flex-wrap:wrap';
+    const side = document.getElementById('listingsSide');
+    if (side) side.after(pag);
+  }
+  if (pages <= 1) { pag.innerHTML = ''; return; }
+  pag.innerHTML = '';
+  for (let i=1; i<=pages; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    btn.style.cssText = `padding:6px 14px;border-radius:6px;border:1px solid #ddd;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:${i===currentListingsPage?'800':'500'};background:${i===currentListingsPage?'#1a6cfe':'#fff'};color:${i===currentListingsPage?'#fff':'#333'}`;
+    btn.onclick = () => { currentListingsPage = i; renderListingPage(); document.getElementById('listings')?.scrollIntoView({behavior:'smooth'}); };
+    pag.appendChild(btn);
+  }
+}
+
+// Hook sort change
+document.getElementById('srSort')?.addEventListener('change', () => { currentListingsPage = 1; renderListingPage(); });
+
+// ── COOKIE CONSENT BANNER ──
+function initCookieBanner() {
+  if (localStorage.getItem('cookie_consent')) return;
+  const banner = document.createElement('div');
+  banner.id = 'cookieBanner';
+  banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#111;color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.82rem;border-top:2px solid #1a6cfe';
+  banner.innerHTML = `
+    <span>🍪 We use cookies to improve your experience and track analytics. <a href="/privacy.html" style="color:#00b4d8;text-decoration:none">Learn more</a></span>
+    <div style="display:flex;gap:10px;flex-shrink:0">
+      <button onclick="acceptCookies()" style="background:#1a6cfe;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-weight:700;cursor:pointer;font-family:inherit">Accept All</button>
+      <button onclick="declineCookies()" style="background:transparent;color:#aaa;border:1px solid #444;padding:8px 16px;border-radius:6px;cursor:pointer;font-family:inherit">Decline</button>
+    </div>`;
+  document.body.appendChild(banner);
+}
+function acceptCookies() {
+  localStorage.setItem('cookie_consent', 'accepted');
+  document.getElementById('cookieBanner')?.remove();
+}
+function declineCookies() {
+  localStorage.setItem('cookie_consent', 'declined');
+  document.getElementById('cookieBanner')?.remove();
+}
 </script>
 </body>
 </html>

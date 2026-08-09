@@ -536,15 +536,10 @@ async function handleHomeValueLead(req, res) {
       body: JSON.stringify({
         source: 'Home Value Tool - sandiegohomebuyers.org',
         firstName, lastName,
-        emails: [{ value: email }],
-        phones: phone ? [{ value: phone }] : [],
-        tags: ['Home Value Lead', 'Seller Lead'],
-        customFields: [
-          { label: 'Property Address', value: address },
-          { label: 'Estimated Value', value: estValue },
-          { label: 'Principal Balance', value: payoff },
-          { label: 'Estimated Net', value: estNet }
-        ]
+        emails: email ? [{ value: email, type: 'personal' }] : [],
+        phones: phone ? [{ value: phone, type: 'mobile' }] : [],
+        tags: ['home-value-lead', 'seller-lead', 'san-diego-homebuyer'],
+        note: `Property: ${address}\nEst. Value: ${estValue}\nPrincipal Balance: ${payoff}\nEst. Net: ${estNet}\nSource: sandiegohomebuyers.org/home-value.html`
       })
     });
     results.fub = fubRes.ok;

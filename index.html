@@ -1035,6 +1035,107 @@ window.addEventListener('load', function(){
 </footer>
 
 <script defer src="/app.js"></script>
+<!-- ═══════════════════════════════════════════
+     CONVERSION BOOSTERS — Added by Simmily Aug 2026
+     ═══════════════════════════════════════════ -->
+
+<!-- EXIT INTENT POPUP -->
+<div id="exitPopup" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:16px;padding:40px 36px;max-width:460px;width:90%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4)">
+    <button onclick="closeExitPopup()" style="position:absolute;top:14px;right:18px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#aaa">✕</button>
+    <div style="font-size:2.5rem;margin-bottom:12px">🏡</div>
+    <h2 style="font-size:1.5rem;font-weight:900;color:#1a1a2e;margin-bottom:8px">Wait — Don't Miss Out!</h2>
+    <p style="color:#666;margin-bottom:6px;font-size:0.95rem">Get your <strong>FREE same-day pre-approval</strong> before you go.</p>
+    <p style="color:#1a6cfe;font-weight:700;font-size:0.85rem;margin-bottom:24px">⚡ Takes 2 minutes. No hard credit pull.</p>
+    <input id="epName" type="text" placeholder="Your Name" style="width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;margin-bottom:10px;box-sizing:border-box">
+    <input id="epPhone" type="tel" placeholder="Phone Number" style="width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;margin-bottom:14px;box-sizing:border-box">
+    <button onclick="submitExitPopup()" style="width:100%;background:#1a6cfe;color:#fff;border:none;padding:15px;border-radius:8px;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.5px">📄 Get My Free Pre-Approval →</button>
+    <p style="font-size:0.75rem;color:#aaa;margin-top:10px">🔒 No spam. No hard pull. Just results.</p>
+  </div>
+</div>
+
+<!-- STICKY BOTTOM CTA BAR (mobile) -->
+<div id="mobileStickyBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:#1a6cfe;padding:14px 20px;flex-direction:row;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 -4px 20px rgba(0,0,0,0.2)">
+  <span style="color:#fff;font-size:0.85rem;font-weight:700">⚡ Same-Day Pre-Approval</span>
+  <a href="#step1" onclick="document.getElementById('mobileStickyBar').style.display='none'" style="background:#fff;color:#1a6cfe;padding:10px 20px;border-radius:6px;font-weight:800;font-size:0.85rem;text-decoration:none;white-space:nowrap">Get Pre-Approved →</a>
+</div>
+
+<!-- SOCIAL PROOF NOTIFICATION (toast) -->
+<div id="socialProofToast" style="display:none;position:fixed;bottom:80px;left:20px;z-index:998;background:#fff;border-left:4px solid #1a6cfe;border-radius:8px;padding:14px 18px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:280px;animation:fadeInUp 0.4s ease">
+  <div style="font-size:0.8rem;font-weight:700;color:#1a1a2e" id="toastName">Maria S. from Chula Vista</div>
+  <div style="font-size:0.75rem;color:#666;margin-top:2px" id="toastAction">just got pre-approved for $485,000 🏡</div>
+</div>
+
+<style>
+@keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+</style>
+
+<script>
+// ── EXIT INTENT ──
+let exitShown = false;
+document.addEventListener('mouseleave', function(e) {
+  if (e.clientY < 10 && !exitShown && !sessionStorage.getItem('exitShown')) {
+    exitShown = true;
+    sessionStorage.setItem('exitShown','1');
+    document.getElementById('exitPopup').style.display = 'flex';
+  }
+});
+function closeExitPopup() { document.getElementById('exitPopup').style.display = 'none'; }
+function submitExitPopup() {
+  const name = document.getElementById('epName').value;
+  const phone = document.getElementById('epPhone').value;
+  if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
+  if (typeof gtag !== 'undefined') gtag('event', 'conversion', {'send_to': 'AW-18336070867/yggCCLD8o9McENP5qKdE'});
+  if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+  closeExitPopup();
+  window.location.href = 'https://cmc.my1003app.com/220926/register?time=1772669246583';
+}
+
+// ── MOBILE STICKY BAR ──
+function checkMobileStickyBar() {
+  if (window.innerWidth <= 768) {
+    const bar = document.getElementById('mobileStickyBar');
+    if (window.scrollY > 400) {
+      bar.style.display = 'flex';
+    } else {
+      bar.style.display = 'none';
+    }
+  }
+}
+window.addEventListener('scroll', checkMobileStickyBar);
+window.addEventListener('resize', checkMobileStickyBar);
+
+// ── SOCIAL PROOF TOASTS ──
+const proofData = [
+  { name: 'Maria S. from Chula Vista', action: 'just got pre-approved for $485,000 🏡' },
+  { name: 'James & Lisa from Eastlake', action: 'just closed on their dream home! 🎉' },
+  { name: 'David R. from National City', action: 'just got pre-approved for $390,000 🏡' },
+  { name: 'Sandra M. from El Cajon', action: 'just started their home search 🔍' },
+  { name: 'Kevin T. from La Mesa', action: 'just got pre-approved for $520,000 🏡' },
+  { name: 'Priya & Jay from Bonita', action: 'just made an offer on a home! ✍️' },
+  { name: 'Carlos F. from Spring Valley', action: 'just got pre-approved for $445,000 🏡' },
+  { name: 'Ashley W. from Lemon Grove', action: 'just completed their application 📝' },
+];
+let toastIndex = 0;
+function showNextToast() {
+  const toast = document.getElementById('socialProofToast');
+  const item = proofData[toastIndex % proofData.length];
+  document.getElementById('toastName').textContent = item.name;
+  document.getElementById('toastAction').textContent = item.action;
+  toast.style.display = 'block';
+  toast.style.animation = 'none';
+  toast.offsetHeight; // reflow
+  toast.style.animation = 'fadeInUp 0.4s ease';
+  toastIndex++;
+  setTimeout(() => { toast.style.display = 'none'; }, 5000);
+}
+// Show first toast after 12 seconds, then every 25 seconds
+setTimeout(() => {
+  showNextToast();
+  setInterval(showNextToast, 25000);
+}, 12000);
+</script>
+
 </body>
 </html>
 <!-- deploy 1784942916 -->

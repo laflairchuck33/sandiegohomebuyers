@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FHA &amp; VA Condo Approval Checker | San Diego Home Buyers</title>
+  <meta name="description" content="Instantly check if a condo is FHA or VA approved in San Diego. Free lookup tool — search by condo name and zip code. Find out in seconds." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.sandiegohomebuyers.org/condo-check" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Is Your Condo FHA or VA Approved? Check Now — Free" />
+  <meta property="og:description" content="Search any condo in San Diego County and instantly find out if it qualifies for FHA or VA financing. No sign-up required." />
+  <meta property="og:url" content="https://www.sandiegohomebuyers.org/condo-check" />
+  <meta property="og:image" content="https://www.sandiegohomebuyers.org/preview.png" />
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=AW-18336070867"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18336070867');
+    gtag('config', 'G-7N9WEF7X4P');
+  </script>
+  <script>
+  window.addEventListener('load', function(){
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1555648459616578'); fbq('track', 'PageView');
+  });
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--blue:#0057FF;--blue-dark:#003FCC;--blue-light:#EBF0FF;--gold:#F5A623;--dark:#0F1423;--mid:#2D3452;--gray:#6B7280;--light:#F8F9FC;--white:#FFFFFF;--border:#E5E7EB;--success:#10B981;--danger:#EF4444;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,.08);--shadow-lg:0 12px 48px rgba(0,0,0,.14)}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;color:var(--dark);background:var(--light);line-height:1.6}
+    .nav{background:var(--dark);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo-icon{width:36px;height:36px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+    .nav-logo-text{font-weight:700;font-size:1rem;color:var(--white);line-height:1.2}
+    .nav-logo-text span{color:var(--gold)}
+    .nav-cta{background:var(--blue);color:var(--white);padding:9px 18px;border-radius:8px;font-weight:600;font-size:.85rem;text-decoration:none;transition:background .2s}
+    .nav-cta:hover{background:var(--blue-dark)}
+    .hero{background:linear-gradient(135deg,var(--dark) 0%,var(--mid) 100%);padding:60px 24px 50px;text-align:center}
+    .hero-badge{display:inline-block;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.4);color:var(--gold);padding:6px 16px;border-radius:100px;font-size:.8rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px}
+    .hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--white);line-height:1.2;margin-bottom:14px}
+    .hero h1 span{color:var(--gold)}
+    .hero p{color:rgba(255,255,255,.7);font-size:1rem;max-width:520px;margin:0 auto 10px}
+    .hero-trust{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:20px;flex-wrap:wrap}
+    .hero-trust-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.6);font-size:.82rem}
+    .hero-trust-item .dot{color:var(--success);font-size:1rem}
+    .container{max-width:720px;margin:0 auto;padding:0 16px}
+    .search-card{background:var(--white);border-radius:16px;box-shadow:var(--shadow-lg);padding:36px 32px;margin:-28px auto 40px;position:relative;z-index:10}
+    .search-card h2{font-size:1.15rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+    .search-card .subtitle{color:var(--gray);font-size:.88rem;margin-bottom:24px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+    .form-full{grid-column:1/-1}
+    .form-group{display:flex;flex-direction:column;gap:6px}
+    .form-group label{font-size:.82rem;font-weight:600;color:var(--mid)}
+    .form-group input,.form-group select{padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.92rem;font-family:'Inter',sans-serif;color:var(--dark);transition:border-color .2s;background:var(--white)}
+    .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,87,255,.1)}
+    .form-group input::placeholder{color:#aaa}
+    .form-hint{font-size:.78rem;color:var(--gray);margin-bottom:20px}
+    .btn-search{width:100%;background:var(--blue);color:var(--white);border:none;padding:15px 24px;border-radius:10px;font-size:1rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-search:hover{background:var(--blue-dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,87,255,.3)}
+    .btn-search:disabled{background:#94a3b8;cursor:not-allowed;transform:none;box-shadow:none}
+    .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #results{margin-top:28px;display:none}
+    .results-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1.5px solid var(--border)}
+    .results-header h3{font-size:1rem;font-weight:700;color:var(--dark)}
+    .results-query{font-size:.8rem;color:var(--gray);margin-left:auto}
+    .approval-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+    .approval-card{border-radius:12px;padding:18px 20px;border:2px solid}
+    .approval-card.approved{background:#F0FDF4;border-color:#86EFAC}
+    .approval-card.not-approved{background:#FFF1F2;border-color:#FCA5A5}
+    .approval-card.unknown{background:#FFFBEB;border-color:#FCD34D}
+    .approval-label{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .approval-icon{font-size:1.3rem}
+    .approval-type{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid)}
+    .approval-status{font-size:1rem;font-weight:700;margin-bottom:4px}
+    .approval-card.approved .approval-status{color:#16A34A}
+    .approval-card.not-approved .approval-status{color:#DC2626}
+    .approval-card.unknown .approval-status{color:#B45309}
+    .approval-detail{font-size:.78rem;color:var(--gray);line-height:1.5}
+    .approval-detail strong{color:var(--mid)}
+    .projects-section{margin-bottom:0}
+    .projects-title{font-size:.82rem;font-weight:600;color:var(--mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+    .project-item{background:var(--light);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+    .project-item-name{font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+    .project-meta{display:flex;flex-wrap:wrap;gap:6px 16px}
+    .project-meta-item{font-size:.78rem;color:var(--gray)}
+    .project-meta-item strong{color:var(--mid)}
+    .project-badge{display:inline-block;padding:2px 8px;border-radius:100px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-right:6px}
+    .badge-fha{background:#DBEAFE;color:#1D4ED8}
+    .badge-va{background:#D1FAE5;color:#065F46}
+    .lead-capture{background:var(--light);border:1.5px solid var(--border);border-radius:12px;padding:22px 20px;margin-top:20px}
+    .lead-capture h4{font-size:.95rem;font-weight:700;margin-bottom:6px}
+    .lead-capture p{font-size:.83rem;color:var(--gray);margin-bottom:16px}
+    .lead-row{display:flex;gap:10px}
+    .lead-row input{flex:1;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.88rem;font-family:'Inter',sans-serif}
+    .lead-row input:focus{outline:none;border-color:var(--blue)}
+    .btn-lead{background:var(--blue);color:var(--white);border:none;padding:11px 20px;border-radius:8px;font-weight:700;font-size:.88rem;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;transition:background .2s}
+    .btn-lead:hover{background:var(--blue-dark)}
+    .cta-card{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);border-radius:14px;padding:28px 26px;text-align:center;margin-top:20px}
+    .cta-card h3{color:var(--white);font-size:1.1rem;font-weight:700;margin-bottom:8px}
+    .cta-card p{color:rgba(255,255,255,.8);font-size:.88rem;margin-bottom:20px}
+    .cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn-cta-primary{background:var(--gold);color:var(--dark);padding:12px 22px;border-radius:8px;font-weight:700;font-size:.9rem;text-decoration:none;transition:all .2s}
+    .btn-cta-primary:hover{background:#e8940f;transform:translateY(-1px)}
+    .btn-cta-secondary{background:rgba(255,255,255,.15);color:var(--white);padding:12px 22px;border-radius:8px;font-weight:600;font-size:.9rem;text-decoration:none;border:1.5px solid rgba(255,255,255,.3);transition:all .2s}
+    .btn-cta-secondary:hover{background:rgba(255,255,255,.25)}
+    .how-section{padding:50px 24px;text-align:center}
+    .how-section h2{font-size:1.5rem;font-weight:800;margin-bottom:8px}
+    .how-section .subtitle{color:var(--gray);font-size:.9rem;margin-bottom:36px}
+    .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:680px;margin:0 auto}
+    .how-item{text-align:center}
+    .how-icon{width:52px;height:52px;background:var(--blue-light);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 12px}
+    .how-item h3{font-size:.9rem;font-weight:700;margin-bottom:6px}
+    .how-item p{font-size:.82rem;color:var(--gray);line-height:1.5}
+    .faq-section{padding:0 24px 60px;max-width:720px;margin:0 auto}
+    .faq-section h2{font-size:1.3rem;font-weight:700;margin-bottom:20px}
+    .faq-item{border-top:1px solid var(--border);padding:16px 0}
+    .faq-item:last-child{border-bottom:1px solid var(--border)}
+    .faq-q{font-weight:600;font-size:.92rem;color:var(--dark);margin-bottom:8px}
+    .faq-a{font-size:.85rem;color:var(--gray);line-height:1.6}
+    .faq-a a{color:var(--blue)}
+    .footer{background:var(--dark);padding:28px 24px;text-align:center;color:rgba(255,255,255,.5);font-size:.8rem}
+    .footer a{color:rgba(255,255,255,.6);text-decoration:none}
+    .footer-links{display:flex;gap:18px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+    .error-msg{background:#FFF1F2;border:1.5px solid #FCA5A5;border-radius:10px;padding:14px 18px;color:#DC2626;font-size:.88rem;margin-top:16px;display:none}
+    .float-call{position:fixed;bottom:24px;right:20px;background:var(--success);color:var(--white);width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;text-decoration:none;box-shadow:0 4px 20px rgba(16,185,129,.5);z-index:100;transition:transform .2s}
+    .float-call:hover{transform:scale(1.1)}
+    @media(max-width:500px){.form-row{grid-template-columns:1fr}.search-card{padding:24px 18px}.approval-grid{grid-template-columns:1fr}.how-grid{grid-template-columns:1fr}.lead-row{flex-direction:column}}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">🏠</div>
+    <div class="nav-logo-text">San Diego <span>Home Buyers</span></div>
+  </a>
+  <a href="https://cmc.my1003app.com/220926/register?time=1772669246583" class="nav-cta" target="_blank" rel="noopener">Get Pre-Approved</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">Free Instant Lookup</div>
+  <h1>Is Your Condo<br><span>FHA or VA Approved?</span></h1>
+  <p>Search any condo project in California and instantly see its FHA and VA approval status — no sign-up needed.</p>
+  <div class="hero-trust">
+    <div class="hero-trust-item"><span class="dot">●</span> Live HUD + VA Data</div>
+    <div class="hero-trust-item"><span class="dot">●</span> Free, No Sign-Up</div>
+    <div class="hero-trust-item"><span class="dot">●</span> Results in Seconds</div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="search-card">
+    <h2>Search Condo Approval Status</h2>
+    <p class="subtitle">Enter the condo complex name and ZIP code to check FHA &amp; VA eligibility</p>
+
+    <div class="form-row">
+      <div class="form-group form-full">
+        <label for="condoName">Condo Complex Name</label>
+        <input type="text" id="condoName" placeholder="e.g. College Park, Emerald Crest, The Palms..." autocomplete="off" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="zip">ZIP Code</label>
+        <input type="text" id="zip" placeholder="e.g. 92115" maxlength="5" inputmode="numeric" />
+      </div>
+      <div class="form-group">
+        <label for="city">City (for VA lookup)</label>
+        <input type="text" id="city" placeholder="e.g. San Diego" />
+      </div>
+    </div>
+    <p class="form-hint">💡 Tip: Partial names work great — try "Park" or "Vista" to find all matching complexes.</p>
+
+    <button class="btn-search" id="searchBtn" onclick="doSearch()">
+      <span id="searchBtnText">🔍 Check Approval Status</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div id="results">
+      <div class="results-header">
+        <h3>Results</h3>
+        <span class="results-query" id="resultsQuery"></span>
+      </div>
+      <div class="approval-grid" id="approvalGrid"></div>
+      <div class="projects-section" id="projectsSection"></div>
+      <div class="lead-capture" id="leadCapture">
+        <h4>🏡 Ready to move forward?</h4>
+        <p>Get a free same-day pre-approval and see exactly what you qualify for with this condo.</p>
+        <div class="lead-row">
+          <input type="tel" id="leadPhone" placeholder="Your phone number" inputmode="tel" />
+          <button class="btn-lead" onclick="submitCondoLead()">Get Pre-Approved →</button>
+        </div>
+        <p id="leadThanks" style="color:#10B981;font-size:.85rem;font-weight:600;display:none;margin-top:10px;">✅ Got it! Chuck will call you shortly.</p>
+      </div>
+      <div class="cta-card">
+        <h3>Know your approval status. Know your options.</h3>
+        <p>Our team specializes in FHA, VA, and Conventional loans for San Diego condos. Same-day pre-approvals available.</p>
+        <div class="cta-buttons">
+          <a href="https://cmc.my1003app.com/220926/register?time=1772669246583" class="btn-cta-primary" target="_blank" rel="noopener" onclick="trackApplyClick()">Apply Now — Free</a>
+          <a href="tel:+18583425615" class="btn-cta-secondary">📞 (858) 342-5615</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="how-section">
+  <h2>How It Works</h2>
+  <p class="subtitle">Three steps to know if your condo qualifies for FHA or VA financing</p>
+  <div class="how-grid">
+    <div class="how-item">
+      <div class="how-icon">🔍</div>
+      <h3>Search</h3>
+      <p>Enter the condo name and ZIP. We search HUD and VA databases simultaneously.</p>
+    </div>
+    <div class="how-item">
+      <div class="how-icon">⚡</div>
+      <h3>Instant Results</h3>
+      <p>Get real-time approval status, project IDs, and expiration dates in seconds.</p>
+    </div>
+    <div class="how-item">
+      <div class="how-icon">🏡</div>
+      <h3>Move Forward</h3>
+      <p>Know your options before you make an offer. Get pre-approved same day.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <h2>Common Questions</h2>
+  <div class="faq-item">
+    <div class="faq-q">What does FHA approval mean for a condo?</div>
+    <div class="faq-a">An FHA-approved condo means you can buy it with as little as 3.5% down. The complex must meet HUD guidelines around owner-occupancy ratios, reserves, and insurance. Not all condos qualify — that's why this tool matters.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What does VA approval mean?</div>
+    <div class="faq-a">VA-approved condos can be purchased by eligible veterans and active military with zero down payment. The VA maintains its own separate approval list — a condo can be FHA-approved but not VA-approved, or vice versa.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What if my condo isn't approved?</div>
+    <div class="faq-a">Don't give up. Condos can be spot-approved for FHA loans, and the VA has a spot approval process too. We've helped buyers get non-approved condos financed. <a href="tel:+18583425615">Call us</a> and we'll explore every option.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How current is this data?</div>
+    <div class="faq-a">This tool pulls live from HUD's official condo lookup and the VA's LGY Hub — both authoritative government sources. Approval statuses and expiration dates are real-time.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I use a conventional loan on a non-approved condo?</div>
+    <div class="faq-a">Yes! Conventional loans have their own approval process and often more flexibility. If FHA/VA don't work, conventional may still be an option. <a href="https://cmc.my1003app.com/220926/register?time=1772669246583" target="_blank" rel="noopener">Start your pre-approval</a> and we'll run all scenarios.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/#listings">Listings</a>
+    <a href="/home-value.html">Home Value</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+  <p>© 2026 San Diego Home Buyers · Chuck La Flair NMLS #220926 · All In Lending · (858) 342-5615</p>
+</footer>
+
+<a href="tel:+18583425615" class="float-call" aria-label="Call us">📞</a>
+
+<script>
+let lastSearchName = '';
+let lastSearchZip = '';
+
+async function doSearch() {
+  const condoName = document.getElementById('condoName').value.trim();
+  const zip = document.getElementById('zip').value.trim();
+  const city = document.getElementById('city').value.trim();
+
+  if (!condoName && !zip && !city) {
+    showError('Please enter a condo name, ZIP code, or city to search.');
+    return;
+  }
+
+  lastSearchName = condoName;
+  lastSearchZip = zip;
+
+  setLoading(true);
+  hideError();
+  document.getElementById('results').style.display = 'none';
+
+  try {
+    const resp = await fetch('/api/condo-check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ condoName, zip, city, state: 'CA' })
+    });
+
+    if (!resp.ok) throw new Error('Server error — please try again.');
+    const data = await resp.json();
+    renderResults(data, condoName, zip, city);
+
+    // GA4 event
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'condo_check', { condo_name: condoName, zip: zip });
+    }
+  } catch (err) {
+    showError('Something went wrong: ' + err.message + '. Try again or call (858) 342-5615.');
+  } finally {
+    setLoading(false);
+  }
+}
+
+function renderResults(data, condoName, zip, city) {
+  const label = [condoName, zip, city].filter(Boolean).join(' · ');
+  document.getElementById('resultsQuery').textContent = label;
+
+  // FHA card
+  const fha = data.fha;
+  const va = data.va;
+  const approvalGrid = document.getElementById('approvalGrid');
+
+  approvalGrid.innerHTML = `
+    ${approvalCard('FHA', fha)}
+    ${approvalCard('VA', va)}
+  `;
+
+  // Matched projects
+  const projectsEl = document.getElementById('projectsSection');
+  const fhaProjects = fha && fha.results ? fha.results : [];
+  const vaProjects = va && va.results ? va.results : [];
+
+  let projectsHtml = '';
+
+  if (fhaProjects.length) {
+    projectsHtml += `<p class="projects-title">FHA Approved Projects (${fhaProjects.length})</p>`;
+    fhaProjects.forEach(p => {
+      projectsHtml += `
+        <div class="project-item">
+          <div class="project-item-name"><span class="project-badge badge-fha">FHA</span>${p.name}</div>
+          <div class="project-meta">
+            ${p.id ? `<span class="project-meta-item"><strong>ID:</strong> ${p.id}</span>` : ''}
+            ${p.address ? `<span class="project-meta-item"><strong>Address:</strong> ${p.address}</span>` : ''}
+            ${p.statusDate ? `<span class="project-meta-item"><strong>Approved:</strong> ${p.statusDate}</span>` : ''}
+            ${p.expiry ? `<span class="project-meta-item"><strong>Expires:</strong> ${p.expiry}</span>` : ''}
+          </div>
+        </div>`;
+    });
+  }
+
+  if (vaProjects.length) {
+    projectsHtml += `<p class="projects-title" style="margin-top:${fhaProjects.length ? '20px' : '0'}">VA Approved Projects (${vaProjects.length})</p>`;
+    vaProjects.forEach(p => {
+      projectsHtml += `
+        <div class="project-item">
+          <div class="project-item-name"><span class="project-badge badge-va">VA</span>${p.name}</div>
+          <div class="project-meta">
+            ${p.id ? `<span class="project-meta-item"><strong>VA ID:</strong> ${p.id}</span>` : ''}
+          </div>
+        </div>`;
+    });
+  }
+
+  projectsEl.innerHTML = projectsHtml;
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function approvalCard(type, data) {
+  if (!data) {
+    return `
+      <div class="approval-card unknown">
+        <div class="approval-label"><span class="approval-icon">⚠️</span><span class="approval-type">${type} Loan</span></div>
+        <div class="approval-status">Unable to Check</div>
+        <div class="approval-detail">Search timed out. Try again or call us.</div>
+      </div>`;
+  }
+
+  if (data.found) {
+    const count = (data.results || []).length;
+    const first = data.results && data.results[0];
+    const detail = type === 'FHA'
+      ? (first ? `${count} project(s) found${first.expiry ? ' · Expires ' + first.expiry : ''}` : `${count} approved project(s) found`)
+      : (first ? `${count} match(es) · VA ID: ${first.id}` : `${count} approved project(s) found`);
+    return `
+      <div class="approval-card approved">
+        <div class="approval-label"><span class="approval-icon">✅</span><span class="approval-type">${type} Loan</span></div>
+        <div class="approval-status">Approved</div>
+        <div class="approval-detail">${detail}</div>
+      </div>`;
+  }
+
+  return `
+    <div class="approval-card not-approved">
+      <div class="approval-label"><span class="approval-icon">❌</span><span class="approval-type">${type} Loan</span></div>
+      <div class="approval-status">Not Approved</div>
+      <div class="approval-detail">Not found in the ${type} approved list${data.totalInCity ? ` (${data.totalInCity} other approved projects in area)` : ''}. Ask us about spot approval options.</div>
+    </div>`;
+}
+
+function setLoading(on) {
+  const btn = document.getElementById('searchBtn');
+  const txt = document.getElementById('searchBtnText');
+  const sp  = document.getElementById('spinner');
+  btn.disabled = on;
+  txt.textContent = on ? 'Checking...' : '🔍 Check Approval Status';
+  sp.style.display = on ? 'block' : 'none';
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function hideError() {
+  document.getElementById('errorMsg').style.display = 'none';
+}
+
+async function submitCondoLead() {
+  const phone = document.getElementById('leadPhone').value.trim();
+  if (!phone) { document.getElementById('leadPhone').focus(); return; }
+  try {
+    await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Condo Checker Lead',
+        phone,
+        calcData: {
+          prequalStatus: 'Condo Approval Lookup — ' + [lastSearchName, lastSearchZip].filter(Boolean).join(' '),
+          loanType: 'fha/va'
+        },
+        utmData: { utm_source: 'condo-check-tool', utm_medium: 'organic' }
+      })
+    });
+    document.getElementById('leadCapture').querySelector('.lead-row').style.display = 'none';
+    document.getElementById('leadThanks').style.display = 'block';
+    if (typeof gtag !== 'undefined') gtag('event', 'qualify_lead', { method: 'condo_checker' });
+  } catch(e) { alert('Error — please call (858) 342-5615 directly.'); }
+}
+
+function trackApplyClick() {
+  if (typeof gtag !== 'undefined') gtag('event', 'apply_now_click', { source: 'condo_checker' });
+}
+
+// Allow Enter key to trigger search
+document.addEventListener('DOMContentLoaded', function() {
+  ['condoName','zip','city'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') doSearch(); });
+  });
+});
+</script>
+</body>
+</html>

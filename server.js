@@ -638,6 +638,54 @@ app.get('/api/rentcast/value', async (req, res) => {
 });
 
 // ===========================
+// CONDO APPROVAL LOOKUP
+// ===========================
+app.post('/api/condo-check', async (req, res) => {
+  const { condoName = '', zip = '', city = '', state = 'CA' } = req.body;
+
+  if (!condoName && !zip && !city) {
+    return res.status(400).json({ error: 'Provide at least one search field' });
+  }
+
+  let fhaResult = null;
+  let vaResult = null;
+
+  // Run FHA and VA lookups in parallel
+  const [fhaErr, vaErr] = await Promise.all([
+    (async () => {
+      try {
+        const { lookupFHACondo } = require('./scripts/hud-condo.js');
+        fhaResult = await lookupFHACondo({ condoName, zip, city, state });
+      } catch (e) {
+        console.error('FHA lookup error:', e.message);
+      }
+    })(),
+    (async () => {
+      try {
+        if (city || zip) {
+          const { lookupVACondo } = require('./scripts/va-condo.js');
+          // VA lookup needs city; if only zip, skip VA gracefully
+          if (city) {
+            vaResult = await lookupVACondo({ condoName, state, city });
+          }
+        }
+      } catch (e) {
+        console.error('VA lookup error:', e.message);
+      }
+    })()
+  ]);
+
+  // Log the search (non-PII — just query terms)
+  console.log(`🏠 CONDO CHECK: "${condoName}" | ZIP: ${zip} | City: ${city} | FHA: ${fhaResult?.found} | VA: ${vaResult?.found}`);
+
+  res.json({
+    fha: fhaResult,
+    va: vaResult,
+    query: { condoName, zip, city, state }
+  });
+});
+
+// ===========================
 // KEEP-ALIVE (prevent Render cold starts)
 // ===========================
 const SELF_URL = process.env.RENDER_EXTERNAL_URL || 'https://sandiegohomebuyers.onrender.com';

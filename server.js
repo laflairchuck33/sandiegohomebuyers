@@ -637,6 +637,9 @@ app.get('/api/rentcast/value', async (req, res) => {
   }
 });
 
+// Clean URL redirect for condo checker
+app.get('/condo-check', (req, res) => res.redirect(301, '/condo-check.html'));
+
 // ===========================
 // CONDO APPROVAL LOOKUP
 // ===========================

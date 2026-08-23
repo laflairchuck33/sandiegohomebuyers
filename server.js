@@ -719,7 +719,7 @@ app.post('/api/lo-lead', async (req, res) => {
       `📍 *Market:* ${market || 'N/A'}\n` +
       `📊 *Volume:* ${volume || 'N/A'}\n` +
       `📣 *Source:* ${source}`;
-    await fetch(\`https://api.telegram.org/bot\${TELEGRAM_BOT_TOKEN}/sendMessage\`, {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: '865040112', text: msg, parse_mode: 'Markdown' })
@@ -738,13 +738,13 @@ app.post('/api/lo-lead', async (req, res) => {
       from: process.env.SMTP_USER,
       to: 'chuck@allin-lending.com',
       subject: `🔥 New LO Lead: ${name} — ${market || 'Unknown Market'}`,
-      html: \`<h2>New LO Recruiting Lead</h2>
-        <p><b>Name:</b> \${name}</p>
-        <p><b>Phone:</b> \${phone}</p>
-        <p><b>Email:</b> \${email || 'N/A'}</p>
-        <p><b>Market:</b> \${market || 'N/A'}</p>
-        <p><b>Volume:</b> \${volume || 'N/A'}</p>
-        <p><b>Source:</b> \${source}</p>\`
+      html: `<h2>New LO Recruiting Lead</h2>
+        <p><b>Name:</b> ${name}</p>
+        <p><b>Phone:</b> ${phone}</p>
+        <p><b>Email:</b> ${email || 'N/A'}</p>
+        <p><b>Market:</b> ${market || 'N/A'}</p>
+        <p><b>Volume:</b> ${volume || 'N/A'}</p>
+        <p><b>Source:</b> ${source}</p>`
     });
     console.log('✅ Email LO lead sent');
   } catch(e) { console.error('❌ Email LO lead error:', e.message); }

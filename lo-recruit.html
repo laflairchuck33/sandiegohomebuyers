@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Join All In Lending | LO Opportunity</title>
+<!-- Google Ads Tag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18336070867"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18336070867');
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -227,6 +235,9 @@ async function submitLOLead() {
 
   document.getElementById('lo-form').style.display = 'none';
   document.getElementById('lo-success').style.display = 'block';
+
+  // Fire Google Ads conversion
+  gtag('event', 'conversion', { 'send_to': 'AW-18336070867/yggCCLD8o9McENP5qKdE' });
 }
 </script>
 </body>

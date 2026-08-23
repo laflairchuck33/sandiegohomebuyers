@@ -701,6 +701,62 @@ setInterval(keepAlive, 10 * 60 * 1000);
 app.get('/api/ping', (req, res) => res.json({ ok: true, ts: Date.now() }));
 
 // ===========================
+// LO RECRUITING LEAD
+// ===========================
+app.post('/api/lo-lead', async (req, res) => {
+  const { name, phone, email, market, volume, source = 'LO Recruiting Page' } = req.body;
+  if (!name || !phone) return res.status(400).json({ error: 'Missing required fields' });
+
+  console.log(`\n🔥 NEW LO LEAD: ${name} | ${phone} | ${market} | ${volume}`);
+  logLead('lo-lead', { name, phone, email, market, volume, source });
+
+  // Telegram notification
+  try {
+    const msg = `🔥 *NEW LO RECRUITING LEAD*\n\n` +
+      `👤 *Name:* ${name}\n` +
+      `📞 *Phone:* ${phone}\n` +
+      `📧 *Email:* ${email || 'N/A'}\n` +
+      `📍 *Market:* ${market || 'N/A'}\n` +
+      `📊 *Volume:* ${volume || 'N/A'}\n` +
+      `📣 *Source:* ${source}`;
+    await fetch(\`https://api.telegram.org/bot\${TELEGRAM_BOT_TOKEN}/sendMessage\`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: '865040112', text: msg, parse_mode: 'Markdown' })
+    });
+    console.log('✅ Telegram LO lead sent');
+  } catch(e) { console.error('❌ Telegram LO lead error:', e.message); }
+
+  // Email notification
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: 587, secure: false,
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+    });
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: 'chuck@allin-lending.com',
+      subject: `🔥 New LO Lead: ${name} — ${market || 'Unknown Market'}`,
+      html: \`<h2>New LO Recruiting Lead</h2>
+        <p><b>Name:</b> \${name}</p>
+        <p><b>Phone:</b> \${phone}</p>
+        <p><b>Email:</b> \${email || 'N/A'}</p>
+        <p><b>Market:</b> \${market || 'N/A'}</p>
+        <p><b>Volume:</b> \${volume || 'N/A'}</p>
+        <p><b>Source:</b> \${source}</p>\`
+    });
+    console.log('✅ Email LO lead sent');
+  } catch(e) { console.error('❌ Email LO lead error:', e.message); }
+
+  res.json({ success: true });
+});
+
+// Serve LO recruit page
+app.get('/lo', (req, res) => res.redirect(301, '/lo-recruit.html'));
+app.get('/grow', (req, res) => res.redirect(301, '/lo-recruit.html'));
+
+// ===========================
 // START
 // ===========================
 app.listen(PORT, () => {

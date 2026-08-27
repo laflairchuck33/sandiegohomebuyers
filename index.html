@@ -152,8 +152,8 @@ window.addEventListener('load', function(){
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Poppins:wght@100;200;300;400;700;800;900&display=swap&font-display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Poppins:wght@100;200;300;400;700;800;900&display=swap&font-display=swap" rel="stylesheet" /></noscript>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Poppins:wght@100;200;300;400;700;800;900&family=Lora:ital@1&display=swap&font-display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Poppins:wght@100;200;300;400;700;800;900&family=Lora:ital@1&display=swap&font-display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /></noscript>
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -799,12 +799,20 @@ window.addEventListener('load', function(){
 
 <!-- STEP 1: SEARCH MLS -->
 <section id="step1" style="background:var(--bg2);padding:0 0 70px">
-  <!-- Photo collage header -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;height:200px;border-bottom:4px solid #168C84;overflow:hidden">
-    <img src="/house-search.jpg" alt="" style="width:100%;height:100%;object-fit:cover">
-    <img src="/showing-calendar.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
-    <img src="/prequalified.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
-    <img src="/preapproval.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
+  <!-- Step banner header -->
+  <div style="position:relative;width:100%;height:200px;overflow:hidden;border-bottom:4px solid #168C84">
+    <img src="/house-search.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.35)">
+    <div style="position:absolute;inset:0;background:rgba(17,38,58,0.55)"></div>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="display:inline-block;width:50px;height:1.5px;background:#168C84"></span>
+        <span style="color:#168C84;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px">01</span>
+        <span style="color:#168C84;font-size:.7rem">&#9679;</span>
+        <span style="color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase">The Search</span>
+        <span style="display:inline-block;width:50px;height:1.5px;background:#168C84"></span>
+      </div>
+      <p style="color:#fff;font-family:'Lora',serif;font-style:italic;font-size:1.15rem;margin:0;opacity:.9">Find the home that feels right.</p>
+    </div>
   </div>
   <!-- Step content -->
   <div class="con" style="padding-top:48px;text-align:center">
@@ -828,12 +836,20 @@ window.addEventListener('load', function(){
 
 <!-- STEP 2: REQUEST A SHOWING -->
 <section id="step2" style="background:var(--bg);padding:0 0 70px">
-  <!-- Photo collage header -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;height:200px;border-bottom:4px solid #168C84;overflow:hidden">
-    <img src="/house-search.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%)">
-    <img src="/showing-calendar.jpg" alt="" style="width:100%;height:100%;object-fit:cover;border-left:2px solid #17324D">
-    <img src="/prequalified.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
-    <img src="/preapproval.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
+  <!-- Step banner header -->
+  <div style="position:relative;width:100%;height:200px;overflow:hidden;border-bottom:4px solid #168C84">
+    <img src="/showing-calendar.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.35)">
+    <div style="position:absolute;inset:0;background:rgba(17,38,58,0.55)"></div>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="display:inline-block;width:50px;height:1.5px;background:#168C84"></span>
+        <span style="color:#168C84;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px">02</span>
+        <span style="color:#168C84;font-size:.7rem">&#9679;</span>
+        <span style="color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase">The Showing</span>
+        <span style="display:inline-block;width:50px;height:1.5px;background:#168C84"></span>
+      </div>
+      <p style="color:#fff;font-family:'Lora',serif;font-style:italic;font-size:1.15rem;margin:0;opacity:.9">See it in person before you decide.</p>
+    </div>
   </div>
   <!-- Step content -->
   <div class="con" style="max-width:600px;padding-top:48px;text-align:center">
@@ -904,12 +920,20 @@ window.addEventListener('load', function(){
 
 <!-- STEP 3: PRE-QUALIFY -->
 <section id="step3">
-  <!-- Photo collage header -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;height:200px;border-bottom:4px solid #168C84;overflow:hidden">
-    <img src="/house-search.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%)">
-    <img src="/showing-calendar.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
-    <img src="/prequalified.jpg" alt="" style="width:100%;height:100%;object-fit:cover;border-left:2px solid #17324D">
-    <img src="/preapproval.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
+  <!-- Step banner header -->
+  <div style="position:relative;width:100%;height:200px;overflow:hidden;border-bottom:4px solid #168C84">
+    <img src="/prequalified.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.35)">
+    <div style="position:absolute;inset:0;background:rgba(17,38,58,0.55)"></div>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="display:inline-block;width:50px;height:1.5px;background:#168C84"></span>
+        <span style="color:#168C84;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px">03</span>
+        <span style="color:#168C84;font-size:.7rem">&#9679;</span>
+        <span style="color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase">Pre-Qualify</span>
+        <span style="display:inline-block;width:50px;height:1.5px;background:#168C84"></span>
+      </div>
+      <p style="color:#fff;font-family:'Lora',serif;font-style:italic;font-size:1.15rem;margin:0;opacity:.9">Know your budget before you fall in love.</p>
+    </div>
   </div>
 <!-- PRE-QUAL CALCULATOR -->
 <section id="prequal"><div style="background:var(--bg2);padding:48px 40px 0;text-align:center">
@@ -1041,12 +1065,20 @@ window.addEventListener('load', function(){
 </div></section>
 <!-- STEP 4: PRE-APPROVAL LETTER -->
 <section id="step4" style="background:var(--bg);padding:0 0 80px">
-  <!-- Photo collage header -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;height:200px;border-bottom:4px solid #168C84;overflow:hidden">
-    <img src="/house-search.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%)">
-    <img src="/showing-calendar.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
-    <img src="/prequalified.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.2) grayscale(80%);border-left:2px solid #17324D">
-    <img src="/preapproval.jpg" alt="" style="width:100%;height:100%;object-fit:cover;border-left:2px solid #17324D">
+  <!-- Step banner header -->
+  <div style="position:relative;width:100%;height:200px;overflow:hidden;border-bottom:4px solid #168C84">
+    <img src="/preapproval.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.35)">
+    <div style="position:absolute;inset:0;background:rgba(17,38,58,0.55)"></div>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="display:inline-block;width:50px;height:1.5px;background:#168C84"></span>
+        <span style="color:#168C84;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px">04</span>
+        <span style="color:#168C84;font-size:.7rem">&#9679;</span>
+        <span style="color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase">Pre-Approval</span>
+        <span style="display:inline-block;width:50px;height:1.5px;background:#168C84"></span>
+      </div>
+      <p style="color:#fff;font-family:'Lora',serif;font-style:italic;font-size:1.15rem;margin:0;opacity:.9">Make offers with confidence.</p>
+    </div>
   </div>
   <div class="con" style="max-width:600px;padding-top:48px;text-align:center">
     <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px">

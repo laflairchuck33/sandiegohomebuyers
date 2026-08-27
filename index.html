@@ -799,34 +799,55 @@ window.addEventListener('load', function(){
 
 <!-- STEP 1: SEARCH MLS -->
 <section id="step1" style="background:var(--bg2);padding:0 0 70px">
-  <div style="position:relative;width:100%;height:180px;margin-bottom:40px;overflow:hidden">
-    <img src="/house-search.jpg" alt="Search MLS" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.75)">
-    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(23,50,77,0.35) 0%,rgba(23,50,77,0.65) 100%)"></div>
+  <!-- Photo collage header -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;height:200px;border-bottom:4px solid #168C84;overflow:hidden">
+    <img src="/house-search.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8)">
+    <img src="/house-photo.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8);border-left:3px solid #17324D;border-right:3px solid #17324D">
+    <img src="/search-photo.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8)">
   </div>
-  <div class="con">
-    <div class="step-label">Step 1 of 4</div>
-    <h2 style="font-size:2.8rem;font-weight:900;line-height:1.1;margin-bottom:10px;text-align:center">START YOUR SEARCH HERE</h2>
-    <p style="font-size:1.3rem;font-weight:700;color:#E8DFD1;margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
-    <div style="display:flex;justify-content:center;margin-top:32px">
-      <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px">Search MLS Listings</button>
+  <!-- Step content -->
+  <div class="con" style="padding-top:48px;text-align:center">
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px">
+      <span style="width:36px;height:36px;border-radius:50%;background:#168C84;color:#fff;font-weight:900;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">01</span>
+      <span style="width:60px;height:2px;background:#168C84;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">02</span>
+      <span style="width:60px;height:2px;background:#ccc;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">03</span>
+      <span style="width:60px;height:2px;background:#ccc;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">04</span>
     </div>
-    <div style="text-align:center;margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:14px">
-      <p style="color:#666;font-size:.85rem">Found a home you love? Come back and complete Step 2</p>
-      <a href="#step2" style="color:#168C84;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
-    </div>
+    <p style="color:#168C84;font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">01 / THE SEARCH</p>
+    <h2 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;color:#17324D;line-height:1.05;margin-bottom:12px;letter-spacing:-1px">LET'S FIND YOUR HOME.</h2>
+    <div style="width:48px;height:3px;background:#168C84;margin:0 auto 20px"></div>
+    <p style="color:#68737C;font-size:1rem;max-width:480px;margin:0 auto 32px;line-height:1.7">Your home search starts here. Explore MLS listings that match your lifestyle, budget, and goals.</p>
+    <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:4px;padding:16px 40px;font-weight:800;font-size:.9rem;cursor:pointer;font-family:inherit;letter-spacing:1.5px;text-transform:uppercase">Start My Home Search &rarr;</button>
+    <div style="margin-top:24px"><a href="#step2" style="color:#168C84;font-size:.85rem;font-weight:700;text-decoration:none">↓ Next: Request a Showing</a></div>
   </div>
 </section>
 
 <!-- STEP 2: REQUEST A SHOWING -->
 <section id="step2" style="background:var(--bg);padding:0 0 70px">
-  <div style="position:relative;width:100%;height:180px;margin-bottom:40px;overflow:hidden">
-    <img src="/showing-calendar.jpg" alt="Request a Showing" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.75)">
-    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(23,50,77,0.35) 0%,rgba(23,50,77,0.65) 100%)"></div>
+  <!-- Photo collage header -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;height:200px;border-bottom:4px solid #168C84;overflow:hidden">
+    <img src="/showing-calendar.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8)">
+    <img src="/house-search.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8);border-left:3px solid #17324D;border-right:3px solid #17324D">
+    <img src="/house-photo.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8)">
   </div>
-  <div class="con" style="max-width:600px">
-    <div class="step-label">Step 2 of 4</div>
-    <h2 class="sti"> Request a Showing</h2>
-    <p class="ssu">Found a property you want to see? Enter the address and your info — we'll set it up.</p>
+  <!-- Step content -->
+  <div class="con" style="max-width:600px;padding-top:48px;text-align:center">
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px">
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">01</span>
+      <span style="width:60px;height:2px;background:#168C84;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;background:#168C84;color:#fff;font-weight:900;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">02</span>
+      <span style="width:60px;height:2px;background:#ccc;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">03</span>
+      <span style="width:60px;height:2px;background:#ccc;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">04</span>
+    </div>
+    <p style="color:#168C84;font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">02 / THE SHOWING</p>
+    <h2 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;color:#17324D;line-height:1.05;margin-bottom:12px;letter-spacing:-1px">SEE IT IN PERSON.</h2>
+    <div style="width:48px;height:3px;background:#168C84;margin:0 auto 20px"></div>
+    <p style="color:#68737C;font-size:1rem;max-width:480px;margin:0 auto 32px;line-height:1.7">Found a property you want to see? Enter the address and your info — we'll set it up.</p>
     <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
       <div style="position:relative;width:100%">
         <label for="sh2-addr" class="sr-only">Property Address</label>
@@ -881,12 +902,28 @@ window.addEventListener('load', function(){
 
 <!-- STEP 3: PRE-QUALIFY -->
 <section id="step3">
-  <div style="position:relative;width:100%;height:180px;overflow:hidden">
-    <img src="/prequalified.jpg" alt="Get Pre-Qualified" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.75)">
-    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(23,50,77,0.35) 0%,rgba(23,50,77,0.65) 100%)"></div>
+  <!-- Photo collage header -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;height:200px;border-bottom:4px solid #168C84;overflow:hidden">
+    <img src="/prequalified.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8)">
+    <img src="/preapproval.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8);border-left:3px solid #17324D;border-right:3px solid #17324D">
+    <img src="/house-photo.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8)">
   </div>
 <!-- PRE-QUAL CALCULATOR -->
-<section id="prequal"><div style="background:var(--bg2);padding:16px 40px 0"><div class="step-label">Step 3 of 4</div></div>
+<section id="prequal"><div style="background:var(--bg2);padding:48px 40px 0;text-align:center">
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px">
+    <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">01</span>
+    <span style="width:60px;height:2px;background:#168C84;display:inline-block"></span>
+    <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">02</span>
+    <span style="width:60px;height:2px;background:#168C84;display:inline-block"></span>
+    <span style="width:36px;height:36px;border-radius:50%;background:#168C84;color:#fff;font-weight:900;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">03</span>
+    <span style="width:60px;height:2px;background:#ccc;display:inline-block"></span>
+    <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">04</span>
+  </div>
+  <p style="color:#168C84;font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">03 / PRE-QUALIFY</p>
+  <h2 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;color:#17324D;line-height:1.05;margin-bottom:12px;letter-spacing:-1px">SEE WHAT YOU QUALIFY FOR.</h2>
+  <div style="width:48px;height:3px;background:#168C84;margin:0 auto 20px"></div>
+  <p style="color:#68737C;font-size:1rem;max-width:480px;margin:0 auto 32px;line-height:1.7">No sign-up needed. Adjust the sliders and get your estimated payment and approval amount instantly.</p>
+</div>
   <div class="con">
     <div style="display:flex;align-items:center;gap:32px;margin-bottom:32px;flex-wrap:wrap;justify-content:center">
       <div style="display:flex;gap:12px;flex-shrink:0">
@@ -1001,13 +1038,25 @@ window.addEventListener('load', function(){
 </div></section>
 <!-- STEP 4: PRE-APPROVAL LETTER -->
 <section id="step4" style="background:var(--bg);padding:0 0 80px">
-  <div style="position:relative;width:100%;height:180px;margin-bottom:40px;overflow:hidden">
-    <img src="/preapproval.jpg" alt="Pre-Approval Letter" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.75)">
-    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(23,50,77,0.35) 0%,rgba(23,50,77,0.65) 100%)"></div>
+  <!-- Photo collage header -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;height:200px;border-bottom:4px solid #168C84;overflow:hidden">
+    <img src="/preapproval.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8)">
+    <img src="/prequalified.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8);border-left:3px solid #17324D;border-right:3px solid #17324D">
+    <img src="/showing-calendar.jpg" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.8)">
   </div>
-  <div class="con" style="max-width:600px">
-    <div class="step-label" style="text-align:center">Step 4 of 4</div>
-    <h2 class="sti" style="text-align:center"> You're Pre-Approved!</h2>
+  <div class="con" style="max-width:600px;padding-top:48px;text-align:center">
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px">
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">01</span>
+      <span style="width:60px;height:2px;background:#168C84;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">02</span>
+      <span style="width:60px;height:2px;background:#168C84;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;border:2px solid #ccc;color:#aaa;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">03</span>
+      <span style="width:60px;height:2px;background:#168C84;display:inline-block"></span>
+      <span style="width:36px;height:36px;border-radius:50%;background:#168C84;color:#fff;font-weight:900;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center">04</span>
+    </div>
+    <p style="color:#168C84;font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">04 / PRE-APPROVAL</p>
+    <h2 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;color:#17324D;line-height:1.05;margin-bottom:12px;letter-spacing:-1px">YOU'RE PRE-APPROVED.</h2>
+    <div style="width:48px;height:3px;background:#168C84;margin:0 auto 20px"></div>
 
     <!-- Congrats shown FIRST to hook them -->
     <div style="text-align:center;background:linear-gradient(135deg,rgba(22,140,132,.12),rgba(22,140,132,.04));border:2px solid #168C84;border-radius:14px;padding:32px 24px;margin-top:28px;margin-bottom:32px">

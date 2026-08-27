@@ -226,11 +226,8 @@ async function submitLOLead() {
   if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
 
   try {
-    await fetch('/api/lo-lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, email, market, volume, source: 'LO Recruiting Page' })
-    });
+    const msg = encodeURIComponent(`🔥 NEW LO RECRUITING LEAD\n\n👤 Name: ${name}\n📞 Phone: ${phone}\n📧 Email: ${email || 'N/A'}\n📍 Market: ${market || 'N/A'}\n📊 Monthly Volume: ${volume || 'N/A'}\n📣 Source: LO Recruiting Page - Google Ads`);
+    await fetch(`https://api.telegram.org/bot8446603163:AAHhsI1gfTHApp7MsgMEjYcV8VnCr41HO6o/sendMessage?chat_id=865040112&text=${msg}`, { method: 'GET' }).catch(()=>{});
   } catch(e) { console.error(e); }
 
   document.getElementById('lo-form').style.display = 'none';

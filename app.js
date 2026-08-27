@@ -20,8 +20,20 @@ function selectTile(btn, group) {
 }
 
 // ── MAIN CALC ──
+function updateSliderFill(el) {
+  const min = parseFloat(el.min) || 0;
+  const max = parseFloat(el.max) || 100;
+  const val = parseFloat(el.value) || 0;
+  const pct = ((val - min) / (max - min)) * 100;
+  el.style.setProperty('--val', pct.toFixed(2) + '%');
+}
+
 function updateCalc() {
-  const price   = parseInt(document.getElementById('homePrice').value) || 500000;
+  const priceEl = document.getElementById('homePrice');
+  const downEl  = document.getElementById('downPayment');
+  updateSliderFill(priceEl);
+  updateSliderFill(downEl);
+  const price   = parseInt(priceEl.value) || 500000;
 
   const loanBtn  = document.querySelector('#loanGrid .tile.on');
   const loanType = loanBtn ? loanBtn.dataset.val : 'conventional';
@@ -327,7 +339,13 @@ function setScrollOffsets(){
   const off = Math.round(nav.getBoundingClientRect().height) + 24;
   document.querySelectorAll('#quickcap,#step1,#step2,#step3,#step4,#prequal,#testi,#contact').forEach(el=>{ el.style.scrollMarginTop = off + 'px'; });
 }
-window.addEventListener('load', setScrollOffsets);
+window.addEventListener('load', () => {
+  setScrollOffsets();
+  const priceEl = document.getElementById('homePrice');
+  const downEl  = document.getElementById('downPayment');
+  if (priceEl) updateSliderFill(priceEl);
+  if (downEl)  updateSliderFill(downEl);
+});
 window.addEventListener('resize', setScrollOffsets);
 setScrollOffsets();
 

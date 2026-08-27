@@ -623,7 +623,11 @@ window.addEventListener('load', function(){
   <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center"></button>
   <div class="hovl"></div>
   <div class="hcon">
-    <!-- PROMO VIDEO — front and center -->
+    <!-- HEADLINE (above video) -->
+    <div class="htag" data-i18n="hero-tag">San Diego's Trusted Home Buyer Guide</div>
+    <h1 data-i18n="hero-h1" style="margin-top:12px">Find Your Dream<br/>Home in <span>San Diego</span></h1>
+    <p data-i18n="hero-p" style="margin-bottom:28px">Search real MLS listings, request a showing, and get pre-approved — all in one place.</p>
+    <!-- PROMO VIDEO -->
     <div style="width:100%;max-width:860px;margin:0 auto 28px;border-radius:14px;overflow:visible;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative">
       <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden">
         <video id="promoVid" autoplay muted loop playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:14px">
@@ -633,10 +637,7 @@ window.addEventListener('load', function(){
       <!-- Sound toggle -->
       <button id="promoSoundBtn" onclick="togglePromoSound()" style="position:absolute;bottom:14px;right:14px;z-index:30;background:rgba(0,0,0,0.75);border:2px solid #fff;color:#fff;border-radius:50px;padding:8px 18px;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">🔇 Tap for Sound</button>
     </div>
-    <!-- HEADLINE + CTA (below video) -->
-    <div class="htag" data-i18n="hero-tag" style="margin-top:28px">San Diego's Trusted Home Buyer Guide</div>
-    <h1 data-i18n="hero-h1" style="margin-top:12px">Find Your Dream<br/>Home in <span>San Diego</span></h1>
-    <p data-i18n="hero-p">Search real MLS listings, request a showing, and get pre-approved — all in one place.</p>
+    <!-- CTA (below video) -->
     <div class="hbtns" style="flex-direction:column;align-items:center;gap:10px;margin-top:18px">
       <a href="#step3" class="btnbig">See What You Qualify For →</a>
       <div style="font-size:.88rem;color:rgba(247,244,238,.7);font-weight:500;font-family:'Poppins',sans-serif;letter-spacing:.3px">2 minutes &nbsp;·&nbsp; Free &nbsp;·&nbsp; No credit pull</div>

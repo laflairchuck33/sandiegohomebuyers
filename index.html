@@ -247,7 +247,7 @@ window.addEventListener('load', function(){
     .con{max-width:1100px;margin:0 auto}
     .stag{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--navy);font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
     .stag::before{content:'';display:block;width:18px;height:2px;background:var(--teal)}
-    .step-label{display:block;color:#fff;font-size:3.6rem;font-weight:900;letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;line-height:1;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.4)
+    .step-label{display:block;color:var(--navy);font-size:3.6rem;font-weight:900;letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;line-height:1;text-align:center}
     .sti{font-size:clamp(1.8rem,3vw,2.7rem);font-weight:900;color:var(--w);letter-spacing:-1px;margin-bottom:12px;line-height:1.1;text-align:center}
     .ssu{font-size:.97rem;color:var(--lg);max-width:500px;margin-bottom:48px;line-height:1.8;text-align:center;margin-left:auto;margin-right:auto}
 
@@ -798,23 +798,25 @@ window.addEventListener('load', function(){
 </section>
 
 <!-- STEP 1: SEARCH MLS -->
-<section id="step1" style="background:url('/house-search.jpg') center/cover no-repeat;padding:70px 40px;position:relative"><div style="position:absolute;inset:0;background:rgba(23,50,77,0.72);z-index:0"></div><div style="position:relative;z-index:1">
+<section id="step1" style="background:var(--bg2);padding:0 0 70px">
+  <img src="/house-search.jpg" alt="Search MLS" style="width:100%;height:260px;object-fit:cover;display:block;margin-bottom:40px">
   <div class="con">
     <div class="step-label">Step 1 of 4</div>
-    <h2 style="font-size:2.8rem;font-weight:900;line-height:1.1;margin-bottom:10px;text-align:center;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)">START YOUR SEARCH HERE</h2>
-    <p style="font-size:1.3rem;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
+    <h2 style="font-size:2.8rem;font-weight:900;line-height:1.1;margin-bottom:10px;text-align:center">START YOUR SEARCH HERE</h2>
+    <p style="font-size:1.3rem;font-weight:700;color:#E8DFD1;margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
     <div style="display:flex;justify-content:center;margin-top:32px">
       <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px">Search MLS Listings</button>
     </div>
     <div style="text-align:center;margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:14px">
-      <p style="color:rgba(255,255,255,.7);font-size:.85rem">Found a home you love? Come back and complete Step 2</p>
-      <a href="#step2" style="color:#5ECEC8;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
+      <p style="color:#666;font-size:.85rem">Found a home you love? Come back and complete Step 2</p>
+      <a href="#step2" style="color:#168C84;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
     </div>
-  </div></div>
+  </div>
 </section>
 
 <!-- STEP 2: REQUEST A SHOWING -->
-<section id="step2" style="background:url('/showing-calendar.jpg') center/cover no-repeat;padding:70px 40px;position:relative"><div style="position:absolute;inset:0;background:rgba(23,50,77,0.72);z-index:0"></div><div style="position:relative;z-index:1">
+<section id="step2" style="background:var(--bg);padding:0 0 70px">
+  <img src="/showing-calendar.jpg" alt="Request a Showing" style="width:100%;height:260px;object-fit:cover;display:block;margin-bottom:40px">
   <div class="con" style="max-width:600px">
     <div class="step-label">Step 2 of 4</div>
     <h2 class="sti"> Request a Showing</h2>
@@ -866,15 +868,16 @@ window.addEventListener('load', function(){
         <a href="#step3" style="background:#168C84;color:#fff;font-weight:700;padding:10px 24px;border-radius:4px;text-decoration:none;font-size:.85rem">Next: Get Pre-Qualified →</a>
       </div>
     </div>
-  </div></div>
+  </div>
 </section>
 
 
 
 <!-- STEP 3: PRE-QUALIFY -->
-<section id="step3" style="background:url('/prequalified.jpg') center/cover no-repeat;position:relative"><div style="position:absolute;inset:0;background:rgba(23,50,77,0.72);z-index:0"></div><div style="position:relative;z-index:1">
+<section id="step3">
+  <img src="/prequalified.jpg" alt="Get Pre-Qualified" style="width:100%;height:260px;object-fit:cover;display:block">
 <!-- PRE-QUAL CALCULATOR -->
-<section id="prequal"><div style="background:transparent;padding:16px 40px 0"><div class="step-label">Step 3 of 4</div></div>
+<section id="prequal"><div style="background:var(--bg2);padding:16px 40px 0"><div class="step-label">Step 3 of 4</div></div>
   <div class="con">
     <div style="display:flex;align-items:center;gap:32px;margin-bottom:32px;flex-wrap:wrap;justify-content:center">
       <div style="display:flex;gap:12px;flex-shrink:0">
@@ -988,10 +991,11 @@ window.addEventListener('load', function(){
 
 </div></section>
 <!-- STEP 4: PRE-APPROVAL LETTER -->
-<section id="step4" style="background:url('/preapproval.jpg') center/cover no-repeat;padding:80px 40px;position:relative"><div style="position:absolute;inset:0;background:rgba(23,50,77,0.72);z-index:0"></div><div style="position:relative;z-index:1">
+<section id="step4" style="background:var(--bg);padding:0 0 80px">
+  <img src="/preapproval.jpg" alt="Pre-Approval Letter" style="width:100%;height:260px;object-fit:cover;display:block;margin-bottom:40px">
   <div class="con" style="max-width:600px">
     <div class="step-label" style="text-align:center">Step 4 of 4</div>
-    <h2 class="sti" style="text-align:center;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)"> You're Pre-Approved!</h2>
+    <h2 class="sti" style="text-align:center"> You're Pre-Approved!</h2>
 
     <!-- Congrats shown FIRST to hook them -->
     <div style="text-align:center;background:linear-gradient(135deg,rgba(22,140,132,.12),rgba(22,140,132,.04));border:2px solid #168C84;border-radius:14px;padding:32px 24px;margin-top:28px;margin-bottom:32px">
@@ -1020,7 +1024,6 @@ window.addEventListener('load', function(){
       <button onclick="trackAndApply()" style="background:#17324D;border:none;color:#fff;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer"> Complete My Application →</button>
     </div>
   </div>
-  </div></div>
 </section>
 
 

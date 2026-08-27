@@ -626,40 +626,12 @@ window.addEventListener('load', function(){
     <!-- PROMO VIDEO — front and center -->
     <div style="width:100%;max-width:860px;margin:0 auto 28px;border-radius:14px;overflow:visible;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative">
       <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden">
-        <div id="ytPlayer"></div>
+        <video id="promoVid" autoplay muted loop playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:14px">
+          <source src="/promo-video.mp4" type="video/mp4" />
+        </video>
       </div>
-      <!-- Sound toggle for promo video -->
+      <!-- Sound toggle -->
       <button id="promoSoundBtn" onclick="togglePromoSound()" style="position:absolute;bottom:14px;right:14px;z-index:30;background:rgba(0,0,0,0.75);border:2px solid #fff;color:#fff;border-radius:50px;padding:8px 18px;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">🔇 Tap for Sound</button>
-      <script>
-      var ytPlayerObj;
-      function onYouTubeIframeAPIReady() {
-        ytPlayerObj = new YT.Player('ytPlayer', {
-          videoId: 'BMBCJnWTvWM',
-          playerVars: { autoplay:1, mute:1, loop:1, playlist:'BMBCJnWTvWM', controls:0, rel:0, modestbranding:1, playsinline:1, iv_load_policy:3, disablekb:1, fs:0 },
-          events: { onReady: function(e){ e.target.playVideo(); } }
-        });
-        // size the iframe to fill+crop
-        var el = document.getElementById('ytPlayer');
-        if(el){ el.style.cssText='position:absolute;top:-80px;left:-2px;width:calc(100% + 4px);height:calc(100% + 160px);border:none;pointer-events:none'; }
-      }
-      function togglePromoSound() {
-        var btn = document.getElementById('promoSoundBtn');
-        if (!ytPlayerObj) return;
-        if (ytPlayerObj.isMuted()) {
-          ytPlayerObj.unMute();
-          ytPlayerObj.setVolume(100);
-          if (btn) btn.innerHTML = '🔊 Sound On';
-        } else {
-          ytPlayerObj.mute();
-          if (btn) btn.innerHTML = '🔇 Tap for Sound';
-        }
-      }
-      window.addEventListener('load', function(){
-        var tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        document.head.appendChild(tag);
-      });
-      </script>
     </div>
     <!-- HEADLINE + CTA (below video) -->
     <div class="htag" data-i18n="hero-tag" style="margin-top:28px">San Diego's Trusted Home Buyer Guide</div>
@@ -1165,7 +1137,13 @@ function toggleHeroSound() {
   v.muted = !v.muted;
   if (overlay) overlay.innerHTML = v.muted ? '🔇 Tap for Sound' : '🔊 Sound On';
 }
-// togglePromoSound handled inline via YouTube IFrame API
+function togglePromoSound() {
+  var v = document.getElementById('promoVid');
+  var btn = document.getElementById('promoSoundBtn');
+  if (!v) return;
+  v.muted = !v.muted;
+  if (btn) btn.innerHTML = v.muted ? '🔇 Tap for Sound' : '🔊 Sound On';
+}
 </script>
 <!-- ═══════════════════════════════════════════
      CONVERSION BOOSTERS — Added by Simmily Aug 2026

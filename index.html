@@ -287,21 +287,25 @@ window.addEventListener('load', function(){
     .td{font-size:.69rem;color:var(--g);line-height:1.45}
 
     /* RESULT */
-    .rbox{background:var(--card);border:1px solid var(--bd);padding:32px}
-    .rbox h3{font-size:.95rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:20px}
-    .appr{text-align:center;background:rgba(22,140,132,.06);border:1px solid rgba(22,140,132,.3);padding:18px;margin-bottom:18px}
-    .appr-lbl{font-size:.7rem;font-weight:700;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
-    .appr-price{font-size:2.3rem;font-weight:900;letter-spacing:-1px}
-    .appr-sales-lbl{font-size:.9rem;font-weight:800;color:var(--teal);letter-spacing:2px;text-transform:uppercase;display:inline;margin-left:6px}
-    #dtiLabel{font-size:.7rem;margin-top:5px;color:var(--g)}
-    .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}
-    .pi{background:var(--bg2);border:1px solid var(--bd);padding:11px 13px}
-    .pil{font-size:.67rem;font-weight:700;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
-    .piv{font-size:.98rem;font-weight:900}
-    .ptot{background:rgba(22,140,132,.08);border:1px solid var(--teal);padding:13px 15px;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-    .ptl{font-size:.7rem;font-weight:700;color:var(--teal);letter-spacing:1px;text-transform:uppercase}
-    .ptv{font-size:1.45rem;font-weight:900}
-    .pnote{font-size:.67rem;color:var(--g);text-align:center;margin-bottom:18px}
+    .rbox{background:#fff;border:1px solid #e2e8e2;border-radius:16px;padding:28px;box-shadow:0 2px 20px rgba(0,0,0,.08)}
+    .rbox h3{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#17324D;margin-bottom:6px}
+    .rbox-bar{width:36px;height:3px;background:#168C84;border-radius:2px;margin-bottom:20px}
+    .appr{background:linear-gradient(135deg,rgba(22,140,132,.08),rgba(22,140,132,.02));border:1px solid rgba(22,140,132,.18);border-radius:12px;padding:20px 18px;margin-bottom:12px}
+    .appr-lbl{font-size:.62rem;font-weight:700;color:#68737C;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+    .appr-price{font-size:2.4rem;font-weight:900;letter-spacing:-1.5px;color:#17324D;line-height:1.05}
+    .appr-sales-lbl{font-size:.68rem;font-weight:800;color:#168C84;letter-spacing:2px;text-transform:uppercase;display:inline;margin-left:8px;vertical-align:middle}
+    #dtiLabel{font-size:.72rem;margin-top:8px;color:var(--g);line-height:1.4}
+    .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+    .pi{background:#fff;border:1px solid #e2e8e2;border-radius:10px;padding:12px 13px;display:flex;align-items:center;gap:10px}
+    .pi-icon{width:32px;height:32px;border-radius:50%;background:rgba(22,140,132,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .pil{font-size:.6rem;font-weight:700;color:#68737C;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+    .piv{font-size:.98rem;font-weight:900;color:#17324D}
+    .ptot{background:#168C84;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:6px}
+    .ptot-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .ptot-div{width:1px;height:26px;background:rgba(255,255,255,.3);flex-shrink:0}
+    .ptl{font-size:.62rem;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1.5px;text-transform:uppercase;flex:1}
+    .ptv{font-size:1.5rem;font-weight:900;color:#fff}
+    .pnote{font-size:.64rem;color:#aaa;text-align:center;margin-bottom:16px}
     .btnl{width:100%;background:var(--teal);color:#fff;border:none;padding:15px;font-size:.86rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:opacity .2s}
     .btnl:hover{opacity:.85}
     .bnote{font-size:.7rem;color:var(--g);text-align:center;margin-top:7px}
@@ -1044,6 +1048,7 @@ window.addEventListener('load', function(){
       <div class="pq-out">
         <div class="rbox">
           <h3>Your Estimate</h3>
+          <div class="rbox-bar"></div>
 
           <div class="appr">
             <div class="appr-lbl">Pre-Approved Up To</div>
@@ -1052,14 +1057,31 @@ window.addEventListener('load', function(){
           </div>
 
           <div class="pgrid">
-            <div class="pi"><div class="pil">Principal &amp; Interest</div><div class="piv" id="piDisplay">—</div></div>
-            <div class="pi"><div class="pil">Property Tax</div><div class="piv" id="taxDisplay">—</div></div>
-            <div class="pi"><div class="pil">Home Insurance</div><div class="piv" id="insDisplay">$150/mo</div></div>
-            <div class="pi"><div class="pil">PMI</div><div class="piv" id="pmiDisplay">—</div></div>
-            <div class="pi" id="hoaRow" style="display:none"><div class="pil">HOA (est.)</div><div class="piv" id="hoaDisplay">$450/mo</div></div>
+            <div class="pi">
+              <div class="pi-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#168C84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M16 10v11M12 10v11"/></svg></div>
+              <div><div class="pil">Principal &amp; Interest</div><div class="piv" id="piDisplay">—</div></div>
+            </div>
+            <div class="pi">
+              <div class="pi-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#168C84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
+              <div><div class="pil">Property Tax</div><div class="piv" id="taxDisplay">—</div></div>
+            </div>
+            <div class="pi">
+              <div class="pi-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#168C84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+              <div><div class="pil">Home Insurance</div><div class="piv" id="insDisplay">$150/mo</div></div>
+            </div>
+            <div class="pi">
+              <div class="pi-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#168C84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div><div class="pil">PMI</div><div class="piv" id="pmiDisplay">—</div></div>
+            </div>
+            <div class="pi" id="hoaRow" style="display:none">
+              <div class="pi-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#168C84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+              <div><div class="pil">HOA (est.)</div><div class="piv" id="hoaDisplay">$450/mo</div></div>
+            </div>
           </div>
 
           <div class="ptot">
+            <div class="ptot-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+            <div class="ptot-div"></div>
             <div class="ptl">Est. Monthly Payment</div>
             <div class="ptv" id="totalDisplay">—</div>
           </div>

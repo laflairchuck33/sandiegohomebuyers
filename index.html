@@ -598,7 +598,6 @@ window.addEventListener('load', function(){
 <!-- HERO -->
 <section class="hero">
   <!-- Agent video hero (autoplays muted; pill enables sound) -->
-  <div id="heroOverlay" onclick="startHeroSound()" style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:20;display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:rgba(0,0,0,0.8);border:2px solid #fff;border-radius:50px;padding:14px 28px;color:#fff;font-weight:800;font-size:1rem;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.5);animation:pulse 2s infinite;">🔇 Tap for Sound</div>
   <!-- Mobile: static poster image (no video = fast load) -->
   <picture>
     <source srcset="/agent-poster.webp" type="image/webp" />
@@ -621,7 +620,6 @@ window.addEventListener('load', function(){
     }, {once:true});
   })();
   </script>
-  <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center"></button>
   <div class="hovl"></div>
   <div class="hcon">
     <!-- HEADLINE (above video) -->

@@ -1129,20 +1129,18 @@ window.addEventListener('load', function(){
 function startHeroSound() {
   var v = document.getElementById('heroVid');
   var overlay = document.getElementById('heroOverlay');
-  var btn = document.getElementById('heroSoundBtn');
   if (!v) return;
-  v.muted = false;
+  v.muted = !v.muted;
   v.volume = 1;
   v.play();
-  if (overlay) overlay.style.display = 'none';
-  if (btn) { btn.style.display = 'flex'; }
+  if (overlay) overlay.innerHTML = v.muted ? '🔇 Tap for Sound' : '🔊 Sound On';
 }
 function toggleHeroSound() {
   var v = document.getElementById('heroVid');
-  var btn = document.getElementById('heroSoundBtn');
+  var overlay = document.getElementById('heroOverlay');
   if (!v) return;
   v.muted = !v.muted;
-  if (btn) btn.textContent = v.muted ? '🔇' : '🔊';
+  if (overlay) overlay.innerHTML = v.muted ? '🔇 Tap for Sound' : '🔊 Sound On';
 }
 function togglePromoSound() {
   var v = document.getElementById('promoVid');

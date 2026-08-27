@@ -648,29 +648,101 @@ window.addEventListener('load', function(){
       <!-- Sound toggle for promo video -->
       <button id="promoSoundBtn" onclick="togglePromoSound()" style="position:absolute;bottom:14px;right:14px;z-index:30;background:rgba(0,0,0,0.75);border:2px solid #fff;color:#fff;border-radius:50px;padding:8px 18px;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">🔇 Tap for Sound</button>
     </div>
-    <!-- 4-STEP PROGRESS BAR -->
-    <div style="display:flex;gap:0;margin-top:50px;width:100%;max-width:900px;margin-left:auto;margin-right:auto">
-      <div onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(247,244,238,0.92);border:4px solid #17324D;border-right:none;border-radius:14px 0 0 14px">
-        <div style="height:160px;display:flex;align-items:center;justify-content:center;background:#fff"><picture><source srcset="/magnifying-glass.webp" type="image/webp" /><img src="/magnifying-glass.jpg" style="max-width:100%;max-height:140px;object-fit:contain;display:block" alt="Search for homes" width="140" height="140" /></picture></div>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#17324D;margin-top:16px" data-i18n="step1-tag">Step 1</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#17324D;margin-top:8px" data-i18n="nav-search">Search MLS</div>
-      </div>
-      <div onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(247,244,238,0.92);border:4px solid #17324D;border-right:none">
-        <picture><source srcset="/house-photo.webp" type="image/webp" /><img src="/house-photo.jpg" style="width:100%;height:160px;object-fit:cover;object-position:center center;display:block" alt="House" width="282" height="188" /></picture>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#17324D;margin-top:16px" data-i18n="step2-tag">Step 2</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#17324D;margin-top:8px" data-i18n="nav-showing">Request Showing</div>
-      </div>
-      <div onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(247,244,238,0.92);border:4px solid #17324D;border-right:none">
-        <picture><source srcset="/lo-photo.webp" type="image/webp" /><img src="/lo-photo.jpg" style="width:100%;height:160px;object-fit:cover;object-position:center center;display:block" alt="Loan Officer" width="568" height="537" /></picture>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#17324D;margin-top:16px" data-i18n="step3-tag">Step 3</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#17324D;margin-top:8px" data-i18n="nav-prequal">Get Pre-Qualified</div>
-      </div>
-      <div onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(247,244,238,0.92);border:4px solid #17324D;border-radius:0 14px 14px 0">
-        <div style="height:160px;display:flex;align-items:center;justify-content:center"><div style="font-size:7rem;line-height:1;font-weight:900;color:#39ff14;-webkit-text-stroke:2px #2acc00">✓</div></div>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#17324D;margin-top:16px" data-i18n="step4-tag">Step 4</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#17324D;margin-top:8px" data-i18n="step4-title">Pre-Approval Letter</div>
-      </div>
+    <!-- 4-STEP CIRCULAR JOURNEY -->
+    <div style="margin-top:56px;width:100%;max-width:860px;margin-left:auto;margin-right:auto">
+      <style>
+        .journey-wrap{position:relative;width:100%;padding-bottom:0}
+        .journey-grid{display:grid;grid-template-columns:1fr 220px 1fr;grid-template-rows:1fr 1fr;gap:0;align-items:center;justify-items:center}
+        .journey-center{grid-column:2;grid-row:1/3;text-align:center;padding:10px 0}
+        .journey-step{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .2s}
+        .journey-step:hover{transform:scale(1.04)}
+        .journey-circle{width:130px;height:130px;border-radius:50%;background:rgba(247,244,238,0.95);border:3px solid #168C84;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;box-shadow:0 4px 20px rgba(0,0,0,0.18)}
+        .journey-num{position:absolute;top:-10px;right:-2px;width:26px;height:26px;background:#168C84;color:#fff;border-radius:50%;font-size:.72rem;font-weight:900;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+        .journey-icon{font-size:2rem;line-height:1;margin-bottom:2px}
+        .journey-label{font-size:.72rem;font-weight:800;color:#17324D;letter-spacing:.5px;text-align:center;margin-top:8px;line-height:1.3}
+        .journey-sub{font-size:.64rem;color:rgba(247,244,238,.65);text-align:center;margin-top:3px;line-height:1.4;max-width:120px}
+        /* arrows */
+        .journey-arrow{position:absolute;pointer-events:none}
+        /* Mobile: 2x2 grid */
+        @media(max-width:600px){
+          .journey-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto;gap:16px 8px}
+          .journey-center{grid-column:1/3;grid-row:1;margin-bottom:8px}
+          .journey-step-tl{grid-column:1;grid-row:2}
+          .journey-step-tr{grid-column:2;grid-row:2}
+          .journey-step-bl{grid-column:1;grid-row:3}
+          .journey-step-br{grid-column:2;grid-row:3}
+          .journey-svg-arrows{display:none}
+        }
+      </style>
 
+      <!-- SVG circular arrows + grid -->
+      <div style="position:relative">
+        <!-- Background SVG arrows -->
+        <svg class="journey-svg-arrows" viewBox="0 0 860 420" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible" xmlns="http://www.w3.org/2000/svg">
+          <!-- top arc: step1 → step2 -->
+          <path d="M 215 110 Q 430 30 645 110" fill="none" stroke="rgba(22,140,132,0.5)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+          <!-- right arc: step2 → step3 -->
+          <path d="M 680 160 Q 780 210 680 270" fill="none" stroke="rgba(22,140,132,0.5)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+          <!-- bottom arc: step3 → step4 -->
+          <path d="M 645 310 Q 430 390 215 310" fill="none" stroke="rgba(22,140,132,0.5)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+          <!-- left arc: step4 → step1 (lighter, completion) -->
+          <path d="M 180 270 Q 80 210 180 160" fill="none" stroke="rgba(22,140,132,0.3)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="rgba(22,140,132,0.7)"/>
+            </marker>
+          </defs>
+        </svg>
+
+        <div class="journey-grid">
+          <!-- Step 1 — top left -->
+          <div class="journey-step journey-step-tl" onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="justify-self:end;padding-right:20px">
+            <div class="journey-circle">
+              <span class="journey-num">1</span>
+              <span class="journey-icon">🔍</span>
+            </div>
+            <div class="journey-label" data-i18n="nav-search">Search MLS</div>
+            <div class="journey-sub">Browse all active listings in San Diego.</div>
+          </div>
+
+          <!-- Center -->
+          <div class="journey-center">
+            <div style="font-size:.62rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#168C84;margin-bottom:8px">— Simple. Fast. Local. —</div>
+            <div style="font-size:clamp(1.3rem,2.5vw,1.7rem);font-weight:900;line-height:1.15;color:#fff">Your Journey<br>to Finding the<br>Right Home</div>
+            <div style="font-size:.72rem;color:rgba(247,244,238,.6);margin-top:10px;line-height:1.5">We make it easy to go from<br>searching to pre-approved<br>in just 4 simple steps.</div>
+          </div>
+
+          <!-- Step 2 — top right -->
+          <div class="journey-step journey-step-tr" onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="justify-self:start;padding-left:20px">
+            <div class="journey-circle">
+              <span class="journey-num">2</span>
+              <span class="journey-icon">📅</span>
+            </div>
+            <div class="journey-label" data-i18n="nav-showing">Request Showing</div>
+            <div class="journey-sub">See the homes you love with a local expert.</div>
+          </div>
+
+          <!-- Step 4 — bottom left -->
+          <div class="journey-step journey-step-bl" onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})" style="justify-self:end;padding-right:20px;margin-top:40px">
+            <div class="journey-circle">
+              <span class="journey-num">4</span>
+              <span class="journey-icon">📄</span>
+            </div>
+            <div class="journey-label" data-i18n="step4-title">Pre-Approval Letter</div>
+            <div class="journey-sub">Receive your pre-approval letter with confidence.</div>
+          </div>
+
+          <!-- Step 3 — bottom right -->
+          <div class="journey-step journey-step-br" onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})" style="justify-self:start;padding-left:20px;margin-top:40px">
+            <div class="journey-circle">
+              <span class="journey-num">3</span>
+              <span class="journey-icon">👤</span>
+            </div>
+            <div class="journey-label" data-i18n="nav-prequal">Get Pre-Qualified</div>
+            <div class="journey-sub">Find out what you qualify for in minutes.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

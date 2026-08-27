@@ -630,9 +630,23 @@ window.addEventListener('load', function(){
     <!-- PROMO VIDEO -->
     <div style="width:100%;max-width:860px;margin:0 auto 28px;border-radius:14px;overflow:visible;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative">
       <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden">
-        <video id="promoVid" autoplay muted loop playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:14px">
+        <video id="promoVid" autoplay muted loop playsinline preload="auto" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:14px">
           <source src="/promo-video.mp4" type="video/mp4" />
         </video>
+        <script>
+        (function(){
+          var v = document.getElementById('promoVid');
+          if(!v) return;
+          v.muted = true;
+          var p = v.play();
+          if(p && p.catch) p.catch(function(){});
+          document.addEventListener('touchstart', function tryPlay(){
+            v.muted = true;
+            v.play().catch(function(){});
+            document.removeEventListener('touchstart', tryPlay);
+          }, {once:true});
+        })();
+        </script>
       </div>
       <!-- Sound toggle -->
       <button id="promoSoundBtn" onclick="togglePromoSound()" style="position:absolute;bottom:14px;right:14px;z-index:30;background:rgba(0,0,0,0.75);border:2px solid #fff;color:#fff;border-radius:50px;padding:8px 18px;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">🔇 Tap for Sound</button>

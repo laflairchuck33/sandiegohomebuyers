@@ -161,95 +161,95 @@ window.addEventListener('load', function(){
     /* CALENDAR PICKER */
     .cal-wrap{position:relative;width:100%}
     .cal-input{width:100%;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;user-select:none}
-    .cal-input:hover{border-color:#1a6cfe}
-    .cal-popup{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:999;background:#f0f0f0;border:2px solid #1a6cfe;border-radius:10px;padding:16px;width:320px;box-shadow:0 12px 40px rgba(0,0,0,.7)}
+    .cal-input:hover{border-color:#168C84}
+    .cal-popup{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:999;background:#f0f0f0;border:2px solid #168C84;border-radius:10px;padding:16px;width:320px;box-shadow:0 12px 40px rgba(0,0,0,.7)}
     .cal-popup.open{display:block}
     .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .cal-nav{background:none;border:none;color:#1a6cfe;font-size:1.3rem;cursor:pointer;padding:4px 10px;border-radius:4px}
-    .cal-nav:hover{background:rgba(21,0,255,.15)}
+    .cal-nav{background:none;border:none;color:#168C84;font-size:1.3rem;cursor:pointer;padding:4px 10px;border-radius:4px}
+    .cal-nav:hover{background:rgba(22,140,132,.15)}
     .cal-month{font-weight:800;font-size:1rem;color:#111}
     .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-    .cal-dow{text-align:center;font-size:.7rem;font-weight:700;color:#1a6cfe;padding:4px 0;text-transform:uppercase}
+    .cal-dow{text-align:center;font-size:.7rem;font-weight:700;color:#168C84;padding:4px 0;text-transform:uppercase}
     .cal-day{text-align:center;padding:8px 4px;border-radius:6px;font-size:.85rem;cursor:pointer;color:#111;transition:background .15s}
-    .cal-day:hover:not(.disabled):not(.empty){background:#1a6cfe;color:#fff;font-weight:700}
-    .cal-day.selected{background:#1a6cfe;color:#fff;font-weight:800}
-    .cal-day.today{border:1px solid #1a6cfe;color:#1a6cfe}
+    .cal-day:hover:not(.disabled):not(.empty){background:#168C84;color:#fff;font-weight:700}
+    .cal-day.selected{background:#168C84;color:#fff;font-weight:800}
+    .cal-day.today{border:1px solid #168C84;color:#168C84}
     .cal-day.disabled{color:#ccc;cursor:default}
     .cal-day.empty{cursor:default}
   </style>
   <style>
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#ffffff;--bg2:#f5f5f5;--card:#ffffff;--teal:#1a6cfe;--w:#111;--g:#666;--lg:#444;--bd:#e0e0e0}
+    :root{--bg:#F7F4EE;--bg2:#E8DFD1;--card:#ffffff;--teal:#168C84;--navy:#17324D;--charcoal:#202B35;--slate:#68737C;--w:#202B35;--g:#68737C;--lg:#202B35;--bd:#d4c8b8}
     html{scroll-behavior:smooth}
     body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--w);line-height:1.6}
 
     /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#ffffff !important;border-bottom:1px solid #e0e0e0;padding:15px 40px;display:flex;align-items:center;justify-content:space-between}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#ffffff !important;border-bottom:1px solid #d4c8b8;padding:15px 40px;display:flex;align-items:center;justify-content:space-between}
     nav a, nav button{font-family:'Poppins',sans-serif !important;}
     .nlinks a{font-weight:300 !important;letter-spacing:2px !important;}
     .nlinks a.ncta{font-weight:800 !important;}
     .nsearch button{font-weight:800 !important;}
-    .logo{font-size:clamp(1.3rem,2.6vw,3rem);font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#111;white-space:nowrap}
+    .logo{font-size:clamp(1.3rem,2.6vw,3rem);font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--navy);white-space:nowrap}
     nav{gap:12px}
     .logo span{color:var(--teal)}
     .nsearch{display:flex;align-items:center;background:#f0f0f0;border:1px solid var(--bd);border-radius:4px;padding:7px 13px;gap:8px;margin-left:18px}
     .nsearch input{background:transparent;border:none;outline:none;color:var(--w);font-size:.82rem;font-family:'Poppins',sans-serif;width:200px}
     .nsearch input::placeholder{color:var(--g)}
-    .nsearch button{background:var(--teal);border:none;color:#000;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:3px;cursor:pointer;font-family:'Poppins',sans-serif}
+    .nsearch button{background:var(--teal);border:none;color:#fff;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:3px;cursor:pointer;font-family:'Poppins',sans-serif}
     .nlinks{display:flex;gap:12px;align-items:center}
-    .nlinks a{color:#111;text-decoration:none;font-size:.85rem;font-weight:300;letter-spacing:1px;transition:all .2s;border:2px solid #111;border-radius:6px;padding:6px 14px;font-family:'Poppins',sans-serif !important;}
-    .nlinks a:hover{background:#111;color:#fff}
-    .nlinks a.ncta{color:#1a6cfe !important;border-color:#1a6cfe !important;font-weight:800 !important;}
-    .nlinks a.ncta:hover{background:#1a6cfe !important;color:#fff !important;}
-    .ncta{background:#1a6cfe !important;color:#fff !important;padding:8px 20px !important;border-radius:6px !important;font-weight:900 !important;border:2px solid #1a6cfe !important}
+    .nlinks a{color:var(--navy);text-decoration:none;font-size:.85rem;font-weight:300;letter-spacing:1px;transition:all .2s;border:2px solid var(--navy);border-radius:6px;padding:6px 14px;font-family:'Poppins',sans-serif !important;}
+    .nlinks a:hover{background:var(--navy);color:#fff}
+    .nlinks a.ncta{color:var(--teal) !important;border-color:var(--teal) !important;font-weight:800 !important;}
+    .nlinks a.ncta:hover{background:var(--teal) !important;color:#fff !important;}
+    .ncta{background:var(--teal) !important;color:#fff !important;padding:8px 20px !important;border-radius:6px !important;font-weight:900 !important;border:2px solid var(--teal) !important}
 
     /* FILTER BAR */
-    .fbar{position:fixed;top:62px;left:0;right:0;z-index:99;background:#f5f5f5;border-bottom:1px solid #e0e0e0;padding:9px 40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .fbtn{background:#f0f0f0;border:1px solid #ddd;color:#444;font-family:inherit;font-size:.8rem;font-weight:600;padding:7px 13px;border-radius:4px;cursor:pointer;transition:all .2s;white-space:nowrap}
-    .fbtn:hover,.fbtn.on{border-color:var(--teal);color:var(--teal);background:rgba(21,0,255,.08)}
-    .fsave{background:var(--teal);border:none;color:#000;font-family:inherit;font-size:.8rem;font-weight:700;padding:7px 16px;border-radius:4px;cursor:pointer;margin-left:auto}
+    .fbar{position:fixed;top:62px;left:0;right:0;z-index:99;background:#E8DFD1;border-bottom:1px solid #d4c8b8;padding:9px 40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .fbtn{background:#F7F4EE;border:1px solid #d4c8b8;color:var(--charcoal);font-family:inherit;font-size:.8rem;font-weight:600;padding:7px 13px;border-radius:4px;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .fbtn:hover,.fbtn.on{border-color:var(--teal);color:var(--teal);background:rgba(22,140,132,.1)}
+    .fsave{background:var(--teal);border:none;color:#fff;font-family:inherit;font-size:.8rem;font-weight:700;padding:7px 16px;border-radius:4px;cursor:pointer;margin-left:auto}
 
     /* HERO */
-    .hero{min-height:100vh;display:flex;align-items:center;padding:148px 40px 80px;position:relative;overflow:hidden;background:var(--bg)}
+    .hero{min-height:100vh;display:flex;align-items:center;padding:148px 40px 80px;position:relative;overflow:hidden;background:var(--navy)}
     .hvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;z-index:0}
     /* On mobile: hide video, show poster image instead for fast LCP */
     @media(max-width:768px){.hvid{display:none!important}.hero-mobile-bg{display:block!important}}
     .hero-mobile-bg{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;z-index:0}
-    .hovl{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,.2),rgba(13,13,13,.55));z-index:1}
+    .hovl{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(23,50,77,.3),rgba(23,50,77,.65));z-index:1}
     .hcon{position:relative;z-index:2;max-width:960px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center}
     .htag{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-size:.74rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px}
     .htag::before{content:'';display:block;width:26px;height:2px;background:var(--teal)}
-    .hero h1{font-size:clamp(2.8rem,5.5vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:18px;color:#1a6cfe}
-    .hero h1 span{color:#1a6cfe}
-    .hero p{font-size:1.05rem;color:var(--lg);max-width:500px;margin-bottom:38px;line-height:1.8}
+    .hero h1{font-size:clamp(2.8rem,5.5vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:18px;color:#ffffff}
+    .hero h1 span{color:#ffffff}
+    .hero p{font-size:1.05rem;color:rgba(247,244,238,.85);max-width:500px;margin-bottom:38px;line-height:1.8}
     .hbtns{display:flex;gap:14px;flex-wrap:wrap}
-    .btnp{background:#fff;color:#1a6cfe;border:2px solid #1a6cfe;padding:14px 34px;border-radius:4px;font-weight:800;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
-    .btnp:hover{background:#1a6cfe;color:#fff}
-    .btno{background:#fff;color:#1a6cfe;border:2px solid #1a6cfe;padding:14px 34px;border-radius:4px;font-weight:800;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
-    .btno:hover{background:#1a6cfe;color:#fff}
-    .btnbig{display:inline-block;background:#1a6cfe;color:#fff;border:2px solid #1a6cfe;padding:18px 46px;border-radius:8px;font-weight:900;font-size:1.05rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 24px rgba(26,108,254,.35);transition:all .2s}
-    .btnbig:hover{background:#0d55d8;border-color:#0d55d8;transform:translateY(-1px)}
+    .btnp{background:var(--teal);color:#fff;border:2px solid var(--teal);padding:14px 34px;border-radius:4px;font-weight:800;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
+    .btnp:hover{background:#0f6b65;border-color:#0f6b65;color:#fff}
+    .btno{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.6);padding:14px 34px;border-radius:4px;font-weight:800;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s}
+    .btno:hover{background:rgba(255,255,255,.15);border-color:#fff}
+    .btnbig{display:inline-block;background:var(--teal);color:#fff;border:2px solid var(--teal);padding:18px 46px;border-radius:8px;font-weight:900;font-size:1.05rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 24px rgba(22,140,132,.4);transition:all .2s}
+    .btnbig:hover{background:#0f6b65;border-color:#0f6b65;transform:translateY(-1px)}
     /* ANCHOR SCROLL OFFSET — clears the fixed nav */
     #quickcap,#step1,#step2,#step3,#step4,#prequal,#testi,#contact{scroll-margin-top:200px}
     /* MOBILE STICKY CTA BAR */
     #stickyBar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:#fff;border-top:1px solid #ddd;box-shadow:0 -4px 16px rgba(0,0,0,.12);padding:10px 12px;gap:10px}
     #stickyBar a{flex:1;text-align:center;padding:13px 8px;border-radius:8px;font-weight:800;font-size:.9rem;text-decoration:none;font-family:inherit}
-    #stickyBar a.sb-call{border:2px solid #1a6cfe;color:#1a6cfe;background:#fff}
-    #stickyBar a.sb-cta{background:#1a6cfe;color:#fff;border:2px solid #1a6cfe}
+    #stickyBar a.sb-call{border:2px solid var(--navy);color:var(--navy);background:#fff}
+    #stickyBar a.sb-cta{background:var(--teal);color:#fff;border:2px solid var(--teal)}
     @media(max-width:768px){#stickyBar{display:flex}body{padding-bottom:70px}}
 
     /* STATS */
     .stats{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid #e0e0e0;padding:42px 40px;display:flex;justify-content:center;gap:70px;flex-wrap:wrap}
-    .stn{font-size:2.5rem;font-weight:900;color:var(--teal);line-height:1;letter-spacing:-1px}
+    .stn{font-size:2.5rem;font-weight:900;color:var(--navy);line-height:1;letter-spacing:-1px}
     .stl{font-size:.74rem;color:var(--g);margin-top:5px;font-weight:500;letter-spacing:1px;text-transform:uppercase}
 
     /* SECTION HELPERS */
     section{padding:80px 40px}
     .con{max-width:1100px;margin:0 auto}
-    .stag{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--teal);font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+    .stag{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--navy);font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
     .stag::before{content:'';display:block;width:18px;height:2px;background:var(--teal)}
-    .step-label{display:block;color:var(--teal);font-size:3.6rem;font-weight:900;letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;line-height:1;text-align:center}
+    .step-label{display:block;color:var(--navy);font-size:3.6rem;font-weight:900;letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;line-height:1;text-align:center}
     .sti{font-size:clamp(1.8rem,3vw,2.7rem);font-weight:900;color:var(--w);letter-spacing:-1px;margin-bottom:12px;line-height:1.1;text-align:center}
     .ssu{font-size:.97rem;color:var(--lg);max-width:500px;margin-bottom:48px;line-height:1.8;text-align:center;margin-left:auto;margin-right:auto}
 
@@ -275,7 +275,7 @@ window.addEventListener('load', function(){
     .tg4{grid-template-columns:repeat(2,1fr)}
     .tile{background:var(--bg2);border:1px solid var(--bd);color:var(--lg);font-family:inherit;padding:13px 10px;border-radius:4px;cursor:pointer;text-align:left;transition:all .2s;width:100%}
     .tile:hover{border-color:var(--teal)}
-    .tile.on{border-color:var(--teal);background:rgba(21,0,255,.08);color:var(--teal)}
+    .tile.on{border-color:var(--teal);background:rgba(22,140,132,.08);color:var(--teal)}
     .tn{font-size:.84rem;font-weight:800;color:var(--w);margin:5px 0 3px}
     .tile.on .tn{color:var(--teal)}
     .td{font-size:.69rem;color:var(--g);line-height:1.45}
@@ -283,7 +283,7 @@ window.addEventListener('load', function(){
     /* RESULT */
     .rbox{background:var(--card);border:1px solid var(--bd);padding:32px}
     .rbox h3{font-size:.95rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:20px}
-    .appr{text-align:center;background:rgba(21,0,255,.06);border:1px solid rgba(21,0,255,.3);padding:18px;margin-bottom:18px}
+    .appr{text-align:center;background:rgba(22,140,132,.06);border:1px solid rgba(22,140,132,.3);padding:18px;margin-bottom:18px}
     .appr-lbl{font-size:.7rem;font-weight:700;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
     .appr-price{font-size:2.3rem;font-weight:900;letter-spacing:-1px}
     .appr-sales-lbl{font-size:.9rem;font-weight:800;color:var(--teal);letter-spacing:2px;text-transform:uppercase;display:inline;margin-left:6px}
@@ -292,18 +292,18 @@ window.addEventListener('load', function(){
     .pi{background:var(--bg2);border:1px solid var(--bd);padding:11px 13px}
     .pil{font-size:.67rem;font-weight:700;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
     .piv{font-size:.98rem;font-weight:900}
-    .ptot{background:rgba(21,0,255,.08);border:1px solid var(--teal);padding:13px 15px;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+    .ptot{background:rgba(22,140,132,.08);border:1px solid var(--teal);padding:13px 15px;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
     .ptl{font-size:.7rem;font-weight:700;color:var(--teal);letter-spacing:1px;text-transform:uppercase}
     .ptv{font-size:1.45rem;font-weight:900}
     .pnote{font-size:.67rem;color:var(--g);text-align:center;margin-bottom:18px}
-    .btnl{width:100%;background:var(--teal);color:#000;border:none;padding:15px;font-size:.86rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:opacity .2s}
+    .btnl{width:100%;background:var(--teal);color:#fff;border:none;padding:15px;font-size:.86rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:opacity .2s}
     .btnl:hover{opacity:.85}
     .bnote{font-size:.7rem;color:var(--g);text-align:center;margin-top:7px}
     .lform{display:none;margin-top:14px}
     .lform input{width:100%;padding:11px 13px;background:var(--bg);border:1px solid var(--bd);border-radius:2px;font-size:.9rem;font-family:inherit;color:var(--w);outline:none;margin-bottom:9px;display:block}
     .lform input:focus{border-color:var(--teal)}
     .lform input::placeholder{color:var(--g)}
-    .cbox2{display:none;text-align:center;background:rgba(21,0,255,.08);border:1px solid var(--teal);padding:28px 20px;margin-top:14px}
+    .cbox2{display:none;text-align:center;background:rgba(22,140,132,.08);border:1px solid var(--teal);padding:28px 20px;margin-top:14px}
     .cbox2 .em{font-size:2.2rem;margin-bottom:8px}
     .cbox2 h3{font-size:1.35rem;font-weight:900;color:var(--teal);margin-bottom:5px}
     .cbox2 p{font-size:.86rem;color:var(--lg);margin-bottom:5px}
@@ -330,7 +330,7 @@ window.addEventListener('load', function(){
     #how{background:var(--bg2)}
     .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px}
     .step{background:var(--card);padding:32px 26px}
-    .snum{font-size:2.6rem;font-weight:900;color:var(--teal);opacity:.6;margin-bottom:14px;line-height:1}
+    .snum{font-size:2.6rem;font-weight:900;color:var(--navy);opacity:.5;margin-bottom:14px;line-height:1}
     .step h3{font-size:.93rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px}
     .step p{font-size:.86rem;color:var(--g);line-height:1.7}
 
@@ -338,7 +338,7 @@ window.addEventListener('load', function(){
     #testi{background:var(--bg)}
     .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px}
     .tc{background:var(--card);padding:30px}
-    .tst{color:var(--teal);font-size:.86rem;letter-spacing:2px;margin-bottom:14px}
+    .tst{color:var(--teal);font-size:.86rem;letter-spacing:2px;margin-bottom:14px;filter:hue-rotate(0deg)}
     .ttx{font-size:.9rem;color:var(--lg);line-height:1.8;margin-bottom:18px;font-style:italic}
     .tau{font-weight:700;font-size:.84rem}
     .tlo{font-size:.74rem;color:var(--g);margin-top:3px}
@@ -348,13 +348,14 @@ window.addEventListener('load', function(){
     .cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:2px;margin-top:40px}
     .cc{background:var(--card);padding:28px 22px;text-align:center}
     .cci{font-size:1.5rem;margin-bottom:10px}
-    .cc h4{font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+    .cc h4{font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:7px}
     .cc a,.cc span{color:var(--lg);text-decoration:none;font-size:.86rem}
     .cc a:hover{color:var(--teal)}
+    .footer-link{color:var(--teal)!important}
 
-    .showing-btn{display:block;width:100%;margin-top:12px;background:var(--teal);border:none;color:#000;font-family:inherit;font-size:.78rem;font-weight:700;padding:9px;border-radius:4px;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:opacity .2s}
+    .showing-btn{display:block;width:100%;margin-top:12px;background:var(--teal);border:none;color:#fff;font-family:inherit;font-size:.78rem;font-weight:700;padding:9px;border-radius:4px;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:opacity .2s}
     .showing-btn:hover{opacity:.85}
-    footer{background:#f5f5f5;border-top:1px solid var(--bd);text-align:center;padding:26px;font-size:.76rem;color:var(--g)}
+    footer{background:var(--navy);border-top:1px solid #0d2035;text-align:center;padding:26px;font-size:.76rem;color:rgba(247,244,238,.7)}
     footer a{color:var(--teal);text-decoration:none}
 
     @media(max-width:768px){
@@ -382,7 +383,7 @@ window.addEventListener('load', function(){
       }
       .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div{
         padding:24px 10px!important;
-        border:2px solid #1a6cfe!important;
+        border:2px solid var(--teal)!important;
         border-radius:0!important;
         display:flex!important;
         flex-direction:column!important;
@@ -392,7 +393,7 @@ window.addEventListener('load', function(){
         flex:1!important;
       }
       .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div:first-child{
-        border-color:#1a6cfe!important;
+        border-color:var(--teal)!important;
       }
       .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div > div:first-child{font-size:2.4rem!important}
       .hcon > div[style*="display:flex;gap:0;margin-top:50px"] > div > div:nth-child(2){font-size:.75rem!important;margin-top:8px!important}
@@ -512,13 +513,13 @@ window.addEventListener('load', function(){
 
   </div>
   <div class="nlinks">
-    <a href="#step1"><span style="font-weight:200;color:#555;font-size:.85rem">search</span><span style="font-weight:900;color:#1a6cfe;font-size:.85rem">MLS</span></a>
-    <a href="#step2"><span style="font-weight:200;color:#555;font-size:.85rem">request</span><span style="font-weight:900;color:#1a6cfe;font-size:.85rem">SHOWING</span></a>
-    <a href="#step3"><span style="font-weight:200;color:#555;font-size:.85rem">pre</span><span style="font-weight:900;color:#1a6cfe;font-size:.85rem">QUALIFY</span></a>
-    <a href="/home-value.html"><span style="font-weight:200;color:#555;font-size:.85rem">home</span><span style="font-weight:900;color:#1a6cfe;font-size:.85rem">VALUE</span></a>
-    <a href="#contact"><span style="font-weight:200;color:#555;font-size:.85rem">get</span><span style="font-weight:900;color:#1a6cfe;font-size:.85rem">TOUCH</span></a>
-    <a href="#step1" class="ncta"><span style="font-weight:200;color:#555;font-size:.85rem">get</span><span style="font-weight:900;font-size:.85rem">STARTED</span></a>
-    <button id="langToggle" onclick="toggleLang()" style="margin-left:8px;background:#fff;color:#1a6cfe;border:2px solid #1a6cfe;border-radius:6px;padding:6px 14px;font-weight:900;font-size:.82rem;letter-spacing:1px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='#1a6cfe';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#1a6cfe'">🌐 Español</button>
+    <a href="#step1"><span style="font-weight:200;color:#68737C;font-size:.85rem">search</span><span style="font-weight:900;color:#168C84;font-size:.85rem">MLS</span></a>
+    <a href="#step2"><span style="font-weight:200;color:#68737C;font-size:.85rem">request</span><span style="font-weight:900;color:#168C84;font-size:.85rem">SHOWING</span></a>
+    <a href="#step3"><span style="font-weight:200;color:#68737C;font-size:.85rem">pre</span><span style="font-weight:900;color:#168C84;font-size:.85rem">QUALIFY</span></a>
+    <a href="/home-value.html"><span style="font-weight:200;color:#68737C;font-size:.85rem">home</span><span style="font-weight:900;color:#168C84;font-size:.85rem">VALUE</span></a>
+    <a href="#contact"><span style="font-weight:200;color:#68737C;font-size:.85rem">get</span><span style="font-weight:900;color:#168C84;font-size:.85rem">TOUCH</span></a>
+    <a href="#step1" class="ncta"><span style="font-weight:200;color:#68737C;font-size:.85rem">get</span><span style="font-weight:900;font-size:.85rem">STARTED</span></a>
+    <button id="langToggle" onclick="toggleLang()" style="margin-left:8px;background:#fff;color:#168C84;border:2px solid #168C84;border-radius:6px;padding:6px 14px;font-weight:900;font-size:.82rem;letter-spacing:1px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='#168C84';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#168C84'">🌐 Español</button>
   </div>
 </nav>
 
@@ -588,7 +589,7 @@ window.addEventListener('load', function(){
     <option value="price_desc">Price: High to Low</option>
     <option value="newest">Newest First</option>
   </select>
-  <button onclick="doMLSSearch()" style="background:#1a6cfe;color:#fff;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit">🔍 Search</button>
+  <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit">🔍 Search</button>
   <button class="fsave" onclick="doMLSSearch()">View All →</button>
 </div>
 
@@ -625,11 +626,11 @@ window.addEventListener('load', function(){
     <p data-i18n="hero-p">Search real MLS listings, request a showing, and get pre-approved — all in one place.</p>
     <div class="hbtns" style="flex-direction:column;align-items:center;gap:10px">
       <a href="#step3" class="btnbig">See What You Qualify For →</a>
-      <div style="font-size:.8rem;color:#333;font-weight:700">2 minutes &nbsp;·&nbsp; Free &nbsp;·&nbsp; No credit pull</div>
+      <div style="font-size:.8rem;color:rgba(247,244,238,.7);font-weight:500">2 minutes &nbsp;·&nbsp; Free &nbsp;·&nbsp; No credit pull</div>
       <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin-top:6px">
-        <a href="#step1" style="color:#1a6cfe;font-weight:700;font-size:.85rem">Search MLS</a>
-        <a href="/home-value.html" style="color:#1a6cfe;font-weight:700;font-size:.85rem">What's My Home Worth?</a>
-        <a href="/condo-check" style="color:#1a6cfe;font-weight:700;font-size:.85rem">🏢 Condo FHA/VA Checker</a>
+        <a href="#step1" style="color:rgba(247,244,238,.55);font-weight:400;font-size:.8rem;text-decoration:none">Search MLS</a>
+        <a href="/home-value.html" style="color:rgba(247,244,238,.55);font-weight:400;font-size:.8rem;text-decoration:none">What's My Home Worth?</a>
+        <a href="/condo-check" style="color:rgba(247,244,238,.55);font-weight:400;font-size:.8rem;text-decoration:none">Condo FHA/VA Checker</a>
       </div>
     </div>
     <!-- PROMO VIDEO -->
@@ -649,25 +650,25 @@ window.addEventListener('load', function(){
     </div>
     <!-- 4-STEP PROGRESS BAR -->
     <div style="display:flex;gap:0;margin-top:50px;width:100%;max-width:900px;margin-left:auto;margin-right:auto">
-      <div onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(255,255,255,0.92);border:4px solid #1a6cfe;border-right:none;border-radius:14px 0 0 14px">
+      <div onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(247,244,238,0.92);border:4px solid #17324D;border-right:none;border-radius:14px 0 0 14px">
         <div style="height:160px;display:flex;align-items:center;justify-content:center;background:#fff"><picture><source srcset="/magnifying-glass.webp" type="image/webp" /><img src="/magnifying-glass.jpg" style="max-width:100%;max-height:140px;object-fit:contain;display:block" alt="Search for homes" width="140" height="140" /></picture></div>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px" data-i18n="step1-tag">Step 1</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px" data-i18n="nav-search">Search MLS</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#17324D;margin-top:16px" data-i18n="step1-tag">Step 1</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#17324D;margin-top:8px" data-i18n="nav-search">Search MLS</div>
       </div>
-      <div onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(255,255,255,0.92);border:4px solid #1a6cfe;border-right:none">
+      <div onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(247,244,238,0.92);border:4px solid #17324D;border-right:none">
         <picture><source srcset="/house-photo.webp" type="image/webp" /><img src="/house-photo.jpg" style="width:100%;height:160px;object-fit:cover;object-position:center center;display:block" alt="House" width="282" height="188" /></picture>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px" data-i18n="step2-tag">Step 2</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px" data-i18n="nav-showing">Request Showing</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#17324D;margin-top:16px" data-i18n="step2-tag">Step 2</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#17324D;margin-top:8px" data-i18n="nav-showing">Request Showing</div>
       </div>
-      <div onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(255,255,255,0.92);border:4px solid #1a6cfe;border-right:none">
+      <div onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(247,244,238,0.92);border:4px solid #17324D;border-right:none">
         <picture><source srcset="/lo-photo.webp" type="image/webp" /><img src="/lo-photo.jpg" style="width:100%;height:160px;object-fit:cover;object-position:center center;display:block" alt="Loan Officer" width="568" height="537" /></picture>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px" data-i18n="step3-tag">Step 3</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px" data-i18n="nav-prequal">Get Pre-Qualified</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#17324D;margin-top:16px" data-i18n="step3-tag">Step 3</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#17324D;margin-top:8px" data-i18n="nav-prequal">Get Pre-Qualified</div>
       </div>
-      <div onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(255,255,255,0.92);border:4px solid #1a6cfe;border-radius:0 14px 14px 0">
+      <div onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})" style="flex:1;text-align:center;cursor:pointer;padding:52px 14px;background:rgba(247,244,238,0.92);border:4px solid #17324D;border-radius:0 14px 14px 0">
         <div style="height:160px;display:flex;align-items:center;justify-content:center"><div style="font-size:7rem;line-height:1;font-weight:900;color:#39ff14;-webkit-text-stroke:2px #2acc00">✓</div></div>
-        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a6cfe;margin-top:16px" data-i18n="step4-tag">Step 4</div>
-        <div style="font-size:1.7rem;font-weight:800;color:#1a6cfe;margin-top:8px" data-i18n="step4-title">Pre-Approval Letter</div>
+        <div style="font-size:1.2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#17324D;margin-top:16px" data-i18n="step4-tag">Step 4</div>
+        <div style="font-size:1.7rem;font-weight:800;color:#17324D;margin-top:8px" data-i18n="step4-title">Pre-Approval Letter</div>
       </div>
 
     </div>
@@ -678,7 +679,7 @@ window.addEventListener('load', function(){
 
 
 <!-- QUICK LEAD CAPTURE STRIP -->
-<section id="quickcap" style="background:#1a6cfe;padding:44px 20px">
+<section id="quickcap" style="background:#17324D;padding:44px 20px">
   <div style="max-width:780px;margin:0 auto;text-align:center">
     <h3 style="color:#fff;font-size:1.6rem;font-weight:900;margin-bottom:6px">🔥 Get Hot Listings Before They Hit Zillow</h3>
     <p style="color:rgba(255,255,255,.9);font-size:.95rem;margin-bottom:20px">New listings &amp; price drops in your area — texted straight to your phone. Free, cancel anytime.</p>
@@ -698,13 +699,13 @@ window.addEventListener('load', function(){
   <div class="con">
     <div class="step-label">Step 1 of 4</div>
     <h2 style="font-size:2.8rem;font-weight:900;line-height:1.1;margin-bottom:10px;text-align:center">START YOUR SEARCH HERE</h2>
-    <p style="font-size:1.3rem;font-weight:700;color:#1a6cfe;margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
+    <p style="font-size:1.3rem;font-weight:700;color:#E8DFD1;margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
     <div style="display:flex;justify-content:center;margin-top:32px">
-      <button onclick="doMLSSearch()" style="background:#1a6cfe;color:#000;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px">🔍 Search MLS Listings</button>
+      <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px">🔍 Search MLS Listings</button>
     </div>
     <div style="text-align:center;margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:14px">
       <p style="color:#666;font-size:.85rem">Found a home you love? Come back and complete Step 2 👇</p>
-      <a href="#step2" style="color:#1a6cfe;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
+      <a href="#step2" style="color:#168C84;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
 
     </div>
   </div>
@@ -720,7 +721,7 @@ window.addEventListener('load', function(){
       <div style="position:relative;width:100%">
         <label for="sh2-addr" class="sr-only">Property Address</label>
         <input id="sh2-addr" type="text" aria-label="Property Address" placeholder="Property Address * (e.g. 123 Main St, Chula Vista, CA 91914)" autocomplete="off" oninput="addrAutocomplete(this.value);checkStep2()" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
-        <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#f0f0f0;border:1px solid #1a6cfe;border-top:none;border-radius:0 0 6px 6px;z-index:99;max-height:220px;overflow-y:auto"></div>
+        <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#f0f0f0;border:1px solid #168C84;border-top:none;border-radius:0 0 6px 6px;z-index:99;max-height:220px;overflow-y:auto"></div>
       </div>
       <label for="sh2-name" class="sr-only">Your Full Name</label>
       <input id="sh2-name" type="text" placeholder="Your Full Name *" aria-label="Your Full Name" oninput="checkStep2()" style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:12px 16px;color:#111;font-family:inherit;font-size:.9rem;width:100%"/>
@@ -732,7 +733,7 @@ window.addEventListener('load', function(){
         <div class="cal-wrap" id="calWrap">
           <div class="cal-input" onclick="toggleCal()">
             <span id="calDisplay">📅 Pick a Date</span>
-            <span style="color:#1a6cfe">&#9660;</span>
+            <span style="color:#168C84">&#9660;</span>
           </div>
           <div class="cal-popup" id="calPopup">
             <div class="cal-header">
@@ -755,12 +756,12 @@ window.addEventListener('load', function(){
       </div>
       <button id="sh2-btn" onclick="submitStep2()" disabled style="background:#ccc;border:none;color:#666;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:not-allowed;transition:background .2s,color .2s">🗓 Request My Showing →</button>
       <p id="sh2-hint" style="text-align:center;color:#aaa;font-size:.8rem;margin-top:8px">Fill in address, name &amp; phone to continue</p>
-      <p style="text-align:center;margin-top:14px;color:#888;font-size:.88rem">Want to see if you are pre-qualified? <a href="#step3" style="color:#1a6cfe;font-weight:700;text-decoration:none">Proceed to Step 3 →</a></p>
-      <div id="sh2-thanks" style="display:none;text-align:center;background:rgba(21,0,255,.1);border:1px solid #1a6cfe;border-radius:6px;padding:20px">
+      <p style="text-align:center;margin-top:14px;color:#888;font-size:.88rem">Want to see if you are pre-qualified? <a href="#step3" style="color:#168C84;font-weight:700;text-decoration:none">Proceed to Step 3 →</a></p>
+      <div id="sh2-thanks" style="display:none;text-align:center;background:rgba(22,140,132,.1);border:1px solid #168C84;border-radius:6px;padding:20px">
         <div style="font-size:1.8rem;margin-bottom:8px">✅</div>
         <h4 style="margin-bottom:6px">Showing Requested!</h4>
         <p style="color:#888;font-size:.84rem;margin-bottom:14px">We'll contact you shortly to confirm. Ready for the next step?</p>
-        <a href="#step3" style="background:#1a6cfe;color:#000;font-weight:700;padding:10px 24px;border-radius:4px;text-decoration:none;font-size:.85rem">Next: Get Pre-Qualified →</a>
+        <a href="#step3" style="background:#168C84;color:#fff;font-weight:700;padding:10px 24px;border-radius:4px;text-decoration:none;font-size:.85rem">Next: Get Pre-Qualified →</a>
       </div>
     </div>
   </div>
@@ -775,8 +776,8 @@ window.addEventListener('load', function(){
   <div class="con">
     <div style="display:flex;align-items:center;gap:32px;margin-bottom:32px;flex-wrap:wrap;justify-content:center">
       <div style="display:flex;gap:12px;flex-shrink:0">
-        <picture><source srcset="/lo-photo.webp" type="image/webp" /><img src="/lo-photo.jpg" alt="Your Loan Officer" style="width:180px;height:180px;object-fit:cover;object-position:center center;border-radius:12px;border:4px solid #1a6cfe;box-shadow:0 8px 32px rgba(21,0,255,.2)" width="180" height="180" /></picture>
-        <img src="/mauricio-headshot.jpg" alt="Mauricio Perez-Vazquez" style="width:180px;height:180px;object-fit:cover;object-position:center top;border-radius:12px;border:4px solid #1a6cfe;box-shadow:0 8px 32px rgba(21,0,255,.2)" width="180" height="180" />
+        <picture><source srcset="/lo-photo.webp" type="image/webp" /><img src="/lo-photo.jpg" alt="Your Loan Officer" style="width:180px;height:180px;object-fit:cover;object-position:center center;border-radius:12px;border:4px solid #168C84;box-shadow:0 8px 32px rgba(22,140,132,.2)" width="180" height="180" /></picture>
+        <img src="/mauricio-headshot.jpg" alt="Mauricio Perez-Vazquez" style="width:180px;height:180px;object-fit:cover;object-position:center top;border-radius:12px;border:4px solid #168C84;box-shadow:0 8px 32px rgba(22,140,132,.2)" width="180" height="180" />
       </div>
       <div>
         <div class="stag">Instant Pre-Qualification</div>
@@ -874,7 +875,7 @@ window.addEventListener('load', function(){
 
           <!-- CTA -->
           <div id="ctaArea">
-            <a href="#step4" style="display:block;text-align:center;margin-bottom:8px;color:#1a6cfe;font-size:.9rem;font-weight:700;text-decoration:none">Ready? Proceed to Step 4: Get Your Pre-Approval Letter ↓</a>
+            <a href="#step4" style="display:block;text-align:center;margin-bottom:8px;color:#168C84;font-size:.9rem;font-weight:700;text-decoration:none">Ready? Proceed to Step 4: Get Your Pre-Approval Letter ↓</a>
           </div>
         </div>
       </div>
@@ -890,9 +891,9 @@ window.addEventListener('load', function(){
     <h2 class="sti" style="text-align:center">🎉 You're Pre-Approved!</h2>
 
     <!-- Congrats shown FIRST to hook them -->
-    <div style="text-align:center;background:linear-gradient(135deg,rgba(26,108,254,.12),rgba(26,108,254,.04));border:2px solid #1a6cfe;border-radius:14px;padding:32px 24px;margin-top:28px;margin-bottom:32px">
+    <div style="text-align:center;background:linear-gradient(135deg,rgba(22,140,132,.12),rgba(22,140,132,.04));border:2px solid #168C84;border-radius:14px;padding:32px 24px;margin-top:28px;margin-bottom:32px">
       <p style="color:#888;font-size:.95rem;margin-bottom:6px">Based on your info, you qualify for up to</p>
-      <div id="congratsPrice" style="font-size:2.6rem;font-weight:900;color:#1a6cfe;letter-spacing:-1px;margin-bottom:4px">$500,000</div>
+      <div id="congratsPrice" style="font-size:2.6rem;font-weight:900;color:#168C84;letter-spacing:-1px;margin-bottom:4px">$500,000</div>
       <p style="color:#888;font-size:.82rem">🔒 No hard credit pull &nbsp;·&nbsp; Free &nbsp;·&nbsp; Takes 2 min</p>
     </div>
 
@@ -909,11 +910,11 @@ window.addEventListener('load', function(){
       <p id="lfHint" style="text-align:center;color:#aaa;font-size:.8rem;margin-top:10px">Fill in all 3 fields to unlock your letter</p>
     </div>
 
-    <div id="congratsBox" style="display:none;text-align:center;background:rgba(21,108,254,.08);border:2px solid #1a6cfe;border-radius:10px;padding:36px 24px;margin-top:16px">
+    <div id="congratsBox" style="display:none;text-align:center;background:rgba(22,140,132,.08);border:2px solid #168C84;border-radius:10px;padding:36px 24px;margin-top:16px">
       <div style="font-size:3rem;margin-bottom:12px">✅</div>
       <h3 style="font-size:1.5rem;margin-bottom:8px">You're all set!</h3>
       <p style="color:#aaa;margin-bottom:24px">We're sending your Pre-Approval Letter now.<br>Complete your official application to lock in your rate.</p>
-      <button onclick="trackAndApply()" style="background:#1a6cfe;border:none;color:#000;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
+      <button onclick="trackAndApply()" style="background:#17324D;border:none;color:#fff;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
     </div>
   </div>
 </section>
@@ -972,8 +973,8 @@ window.addEventListener('load', function(){
     <input id="exName" type="text" placeholder="First Name *" aria-label="First Name" style="width:100%;border:2px solid #ddd;border-radius:6px;padding:13px 16px;font-family:inherit;font-size:.95rem;margin-bottom:10px;box-sizing:border-box;color:#111"/>
     <label for="exPhone" class="sr-only">Phone Number</label>
     <input id="exPhone" type="tel" placeholder="Phone Number *" aria-label="Phone Number" style="width:100%;border:2px solid #ddd;border-radius:6px;padding:13px 16px;font-family:inherit;font-size:.95rem;margin-bottom:14px;box-sizing:border-box;color:#111"/>
-    <button onclick="submitExitLead()" style="width:100%;background:#1a6cfe;color:#fff;border:none;border-radius:6px;padding:15px;font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit">Get My Free Pre-Approval →</button>
-    <p id="exDone" style="display:none;color:#1a6cfe;font-weight:800;margin-top:12px">✅ Got it — we'll reach out shortly!</p>
+    <button onclick="submitExitLead()" style="width:100%;background:#168C84;color:#fff;border:none;border-radius:6px;padding:15px;font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit">Get My Free Pre-Approval →</button>
+    <p id="exDone" style="display:none;color:#168C84;font-weight:800;margin-top:12px">✅ Got it — we'll reach out shortly!</p>
   </div>
 </div>
 
@@ -1002,7 +1003,7 @@ window.addEventListener('load', function(){
 <div id="showingModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px">
   <div style="background:#f0f0f0;border:1px solid #ddd;border-radius:10px;padding:36px 32px;max-width:460px;width:100%;position:relative">
     <button onclick="closeShowing()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer">✕</button>
-    <div style="color:#1a6cfe;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Schedule a Visit</div>
+    <div style="color:#168C84;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Schedule a Visit</div>
     <h3 style="font-size:1.3rem;margin-bottom:4px">Request a Showing</h3>
     <p id="showingProperty" style="color:#888;font-size:.84rem;margin-bottom:20px"></p>
     <label for="shName" class="sr-only">Full Name</label>
@@ -1086,22 +1087,22 @@ function togglePromoSound() {
     <div style="font-size:2.5rem;margin-bottom:12px">🏡</div>
     <h2 style="font-size:1.5rem;font-weight:900;color:#1a1a2e;margin-bottom:8px">Wait — Don't Miss Out!</h2>
     <p style="color:#666;margin-bottom:6px;font-size:0.95rem">Get your <strong>FREE same-day pre-approval</strong> before you go.</p>
-    <p style="color:#1a6cfe;font-weight:700;font-size:0.85rem;margin-bottom:24px">⚡ Takes 2 minutes. No hard credit pull.</p>
+    <p style="color:#168C84;font-weight:700;font-size:0.85rem;margin-bottom:24px">⚡ Takes 2 minutes. No hard credit pull.</p>
     <input id="epName" type="text" placeholder="Your Name" style="width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;margin-bottom:10px;box-sizing:border-box">
     <input id="epPhone" type="tel" placeholder="Phone Number" style="width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;margin-bottom:14px;box-sizing:border-box">
-    <button onclick="submitExitPopup()" style="width:100%;background:#1a6cfe;color:#fff;border:none;padding:15px;border-radius:8px;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.5px">📄 Get My Free Pre-Approval →</button>
+    <button onclick="submitExitPopup()" style="width:100%;background:#168C84;color:#fff;border:none;padding:15px;border-radius:8px;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.5px">📄 Get My Free Pre-Approval →</button>
     <p style="font-size:0.75rem;color:#aaa;margin-top:10px">🔒 No spam. No hard pull. Just results.</p>
   </div>
 </div>
 
 <!-- STICKY BOTTOM CTA BAR (mobile) -->
-<div id="mobileStickyBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:#1a6cfe;padding:14px 20px;flex-direction:row;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 -4px 20px rgba(0,0,0,0.2)">
+<div id="mobileStickyBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:#17324D;padding:14px 20px;flex-direction:row;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 -4px 20px rgba(0,0,0,0.2)">
   <span style="color:#fff;font-size:0.85rem;font-weight:700">⚡ Same-Day Pre-Approval</span>
-  <a href="#step1" onclick="document.getElementById('mobileStickyBar').style.display='none'" style="background:#fff;color:#1a6cfe;padding:10px 20px;border-radius:6px;font-weight:800;font-size:0.85rem;text-decoration:none;white-space:nowrap">Get Pre-Approved →</a>
+  <a href="#step1" onclick="document.getElementById('mobileStickyBar').style.display='none'" style="background:#fff;color:#17324D;padding:10px 20px;border-radius:6px;font-weight:800;font-size:0.85rem;text-decoration:none;white-space:nowrap">Get Pre-Approved →</a>
 </div>
 
 <!-- SOCIAL PROOF NOTIFICATION (toast) -->
-<div id="socialProofToast" style="display:none;position:fixed;bottom:80px;left:20px;z-index:998;background:#fff;border-left:4px solid #1a6cfe;border-radius:8px;padding:14px 18px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:280px;animation:fadeInUp 0.4s ease">
+<div id="socialProofToast" style="display:none;position:fixed;bottom:80px;left:20px;z-index:998;background:#fff;border-left:4px solid #17324D;border-radius:8px;padding:14px 18px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:280px;animation:fadeInUp 0.4s ease">
   <div style="font-size:0.8rem;font-weight:700;color:#1a1a2e" id="toastName">Maria S. from Chula Vista</div>
   <div style="font-size:0.75rem;color:#666;margin-top:2px" id="toastAction">just got pre-approved for $485,000 🏡</div>
 </div>

@@ -209,7 +209,7 @@ window.addEventListener('load', function(){
     .fsave{background:var(--teal);border:none;color:#fff;font-family:inherit;font-size:.8rem;font-weight:700;padding:7px 16px;border-radius:4px;cursor:pointer;margin-left:auto}
 
     /* HERO */
-    .hero{min-height:100vh;display:flex;align-items:center;padding:148px 40px 80px;position:relative;overflow:hidden;background:var(--navy)}
+    .hero{min-height:100vh;display:flex;align-items:center;padding:80px 40px 80px;position:relative;overflow:hidden;background:var(--navy)}
     .hvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;z-index:0}
     /* On mobile: hide video, show poster image instead for fast LCP */
     @media(max-width:768px){.hvid{display:none!important}.hero-mobile-bg{display:block!important}}
@@ -623,20 +623,8 @@ window.addEventListener('load', function(){
   <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center">🔊</button>
   <div class="hovl"></div>
   <div class="hcon">
-    <div class="htag" data-i18n="hero-tag">San Diego's Trusted Home Buyer Guide</div>
-    <h1 data-i18n="hero-h1">Find Your Dream<br/>Home in <span>San Diego</span></h1>
-    <p data-i18n="hero-p">Search real MLS listings, request a showing, and get pre-approved — all in one place.</p>
-    <div class="hbtns" style="flex-direction:column;align-items:center;gap:10px">
-      <a href="#step3" class="btnbig">See What You Qualify For →</a>
-      <div style="font-size:.88rem;color:rgba(247,244,238,.7);font-weight:500;font-family:'Poppins',sans-serif;letter-spacing:.3px">2 minutes &nbsp;·&nbsp; Free &nbsp;·&nbsp; No credit pull</div>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin-top:6px">
-        <a href="#step1" style="color:rgba(247,244,238,.55);font-weight:500;font-size:.88rem;text-decoration:none;font-family:'Poppins',sans-serif;letter-spacing:.3px;white-space:nowrap">Search MLS</a>
-        <a href="/home-value.html" style="color:rgba(247,244,238,.55);font-weight:500;font-size:.88rem;text-decoration:none;font-family:'Poppins',sans-serif;letter-spacing:.3px;white-space:nowrap">What's My Home Worth?</a>
-
-      </div>
-    </div>
-    <!-- PROMO VIDEO -->
-    <div style="width:100%;max-width:900px;margin:36px auto 0;border-radius:14px;overflow:visible;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative">
+    <!-- PROMO VIDEO — front and center -->
+    <div style="width:100%;max-width:860px;margin:0 auto 28px;border-radius:14px;overflow:visible;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative">
       <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden">
         <iframe id="promoVid" loading="lazy" data-src="https://www.youtube.com/embed/BMBCJnWTvWM?autoplay=1&mute=1&loop=1&playlist=BMBCJnWTvWM&controls=0&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&enablejsapi=1" style="position:absolute;top:-80px;left:-2px;width:calc(100% + 4px);height:calc(100% + 160px);border:none;pointer-events:none" allow="autoplay; encrypted-media"></iframe>
         <script>
@@ -649,6 +637,18 @@ window.addEventListener('load', function(){
       </div>
       <!-- Sound toggle for promo video -->
       <button id="promoSoundBtn" onclick="togglePromoSound()" style="position:absolute;bottom:14px;right:14px;z-index:30;background:rgba(0,0,0,0.75);border:2px solid #fff;color:#fff;border-radius:50px;padding:8px 18px;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">🔇 Tap for Sound</button>
+    </div>
+    <!-- HEADLINE + CTA (below video) -->
+    <div class="htag" data-i18n="hero-tag" style="margin-top:28px">San Diego's Trusted Home Buyer Guide</div>
+    <h1 data-i18n="hero-h1" style="margin-top:12px">Find Your Dream<br/>Home in <span>San Diego</span></h1>
+    <p data-i18n="hero-p">Search real MLS listings, request a showing, and get pre-approved — all in one place.</p>
+    <div class="hbtns" style="flex-direction:column;align-items:center;gap:10px;margin-top:18px">
+      <a href="#step3" class="btnbig">See What You Qualify For →</a>
+      <div style="font-size:.88rem;color:rgba(247,244,238,.7);font-weight:500;font-family:'Poppins',sans-serif;letter-spacing:.3px">2 minutes &nbsp;·&nbsp; Free &nbsp;·&nbsp; No credit pull</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin-top:6px">
+        <a href="#step1" style="color:rgba(247,244,238,.55);font-weight:500;font-size:.88rem;text-decoration:none;font-family:'Poppins',sans-serif;letter-spacing:.3px;white-space:nowrap">Search MLS</a>
+        <a href="/home-value.html" style="color:rgba(247,244,238,.55);font-weight:500;font-size:.88rem;text-decoration:none;font-family:'Poppins',sans-serif;letter-spacing:.3px;white-space:nowrap">What's My Home Worth?</a>
+      </div>
     </div>
     <!-- 4-STEP CIRCULAR JOURNEY -->
     <div style="margin-top:56px;width:100%;max-width:1300px;margin-left:auto;margin-right:auto">

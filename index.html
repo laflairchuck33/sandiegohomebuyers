@@ -1061,6 +1061,33 @@ window.addEventListener('load', function(){
 </footer>
 
 <script defer src="/app.js"></script>
+<script>
+function startHeroSound() {
+  var v = document.getElementById('heroVid');
+  var overlay = document.getElementById('heroOverlay');
+  var btn = document.getElementById('heroSoundBtn');
+  if (!v) return;
+  v.muted = false;
+  v.volume = 1;
+  v.play();
+  if (overlay) overlay.style.display = 'none';
+  if (btn) { btn.style.display = 'flex'; }
+}
+function toggleHeroSound() {
+  var v = document.getElementById('heroVid');
+  var btn = document.getElementById('heroSoundBtn');
+  if (!v) return;
+  v.muted = !v.muted;
+  if (btn) btn.textContent = v.muted ? '🔇' : '🔊';
+}
+function togglePromoSound() {
+  var v = document.getElementById('promoVid');
+  var btn = document.getElementById('promoSoundBtn');
+  if (!v) return;
+  v.muted = !v.muted;
+  if (btn) btn.innerHTML = v.muted ? '🔇 Tap for Sound' : '🔊 Sound On';
+}
+</script>
 <!-- ═══════════════════════════════════════════
      CONVERSION BOOSTERS — Added by Simmily Aug 2026
      ═══════════════════════════════════════════ -->

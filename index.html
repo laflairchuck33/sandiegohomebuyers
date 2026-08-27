@@ -450,10 +450,10 @@ window.addEventListener('load', function(){
   var currentLang='en';
   var translations={
     en:{
-      'nav-search':'Search MLS','nav-showing':'Request Showing','nav-prequal':'Pre-Qualify','nav-worth':"What's My Home Worth?",'nav-contact':'Contact','nav-cta':'Get Started','lang-btn':'🌐 Español',
+      'nav-search':'Search MLS','nav-showing':'Request Showing','nav-prequal':'Pre-Qualify','nav-worth':"What's My Home Worth?",'nav-contact':'Contact','nav-cta':'Get Started','lang-btn':' Español',
       'hero-tag':'San Diego Real Estate','hero-h1':'Find Your Dream Home in San Diego','hero-p':'Browse homes for sale across San Diego County. FHA, VA & Conventional financing available. Let us guide you home.',
       'btn-search':'Search Listings','btn-apply':'Apply Now','btn-showing':'Request a Showing',
-      'stat1-n':'500+','stat1-l':'Families Helped','stat2-n':'$2B+','stat2-l':'In Home Sales','stat3-n':'15+','stat3-l':'Years Experience','stat4-n':'5★','stat4-l':'Client Rating',
+      'stat1-n':'500+','stat1-l':'Families Helped','stat2-n':'$2B+','stat2-l':'In Home Sales','stat3-n':'15+','stat3-l':'Years Experience','stat4-n':'5','stat4-l':'Client Rating',
       'step1-tag':'Step 1','step1-title':'Search Available Homes','step1-sub':'Browse real MLS listings across San Diego County — Chula Vista, National City, El Cajon, La Mesa and more.',
       'step2-tag':'Step 2','step2-title':'Request a Showing','step2-sub':'See any home in person. Our agents are available 7 days a week to schedule showings at your convenience.',
       'step3-tag':'Step 3','step3-title':'Get Pre-Qualified','step3-sub':'Know your budget before you fall in love with a home. Get pre-qualified in minutes.',
@@ -468,10 +468,10 @@ window.addEventListener('load', function(){
       'footer':'© 2026 San Diego Home Buyers · All rights reserved.'
     },
     es:{
-      'nav-search':'Buscar MLS','nav-showing':'Solicitar Visita','nav-prequal':'Pre-Calificar','nav-worth':'¿Cuánto Vale Mi Casa?','nav-contact':'Contacto','nav-cta':'Comenzar','lang-btn':'🌐 English',
+      'nav-search':'Buscar MLS','nav-showing':'Solicitar Visita','nav-prequal':'Pre-Calificar','nav-worth':'¿Cuánto Vale Mi Casa?','nav-contact':'Contacto','nav-cta':'Comenzar','lang-btn':' English',
       'hero-tag':'Bienes Raíces en San Diego','hero-h1':'Encuentra Tu Hogar Soñado en San Diego','hero-p':'Explora casas en venta en todo el Condado de San Diego. Financiamiento FHA, VA y Convencional disponible. Déjanos guiarte a tu nuevo hogar.',
       'btn-search':'Ver Propiedades','btn-apply':'Aplicar Ahora','btn-showing':'Solicitar una Visita',
-      'stat1-n':'500+','stat1-l':'Familias Ayudadas','stat2-n':'$2B+','stat2-l':'En Ventas de Casas','stat3-n':'15+','stat3-l':'Años de Experiencia','stat4-n':'5★','stat4-l':'Calificación de Clientes',
+      'stat1-n':'500+','stat1-l':'Familias Ayudadas','stat2-n':'$2B+','stat2-l':'En Ventas de Casas','stat3-n':'15+','stat3-l':'Años de Experiencia','stat4-n':'5','stat4-l':'Calificación de Clientes',
       'step1-tag':'Paso 1','step1-title':'Busca Casas Disponibles','step1-sub':'Explora listados MLS reales en todo el Condado de San Diego — Chula Vista, National City, El Cajon, La Mesa y más.',
       'step2-tag':'Paso 2','step2-title':'Solicita una Visita','step2-sub':'Ve cualquier casa en persona. Nuestros agentes están disponibles 7 días a la semana para programar visitas.',
       'step3-tag':'Paso 3','step3-title':'Obtén Pre-Calificación','step3-sub':'Conoce tu presupuesto antes de enamorarte de una casa. Pre-califícate en minutos.',
@@ -521,7 +521,7 @@ window.addEventListener('load', function(){
     <span style="color:#d4c8b8;font-size:1rem;line-height:1">|</span>
     <a href="#contact" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Get in Touch</a>
     <a href="#step3" style="margin-left:18px;background:#168C84;color:#fff;border:none;border-radius:50px;padding:9px 22px;font-weight:700;font-size:.82rem;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Get Started <span style="font-size:1rem;line-height:1">&#8594;</span></a>
-    <button id="langToggle" onclick="toggleLang()" style="margin-left:14px;background:transparent;color:#17324D;border:none;padding:4px 8px;font-weight:500;font-size:.85rem;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:color .2s" onmouseover="this.style.color='#168C84'" onmouseout="this.style.color='#17324D'">🌐 Español</button>
+    <button id="langToggle" onclick="toggleLang()" style="margin-left:14px;background:transparent;color:#17324D;border:none;padding:4px 8px;font-weight:500;font-size:.85rem;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:color .2s" onmouseover="this.style.color='#168C84'" onmouseout="this.style.color='#17324D'"> Español</button>
   </div>
 </nav>
 
@@ -591,14 +591,14 @@ window.addEventListener('load', function(){
     <option value="price_desc">Price: High to Low</option>
     <option value="newest">Newest First</option>
   </select>
-  <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit">🔍 Search</button>
+  <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:4px;padding:7px 20px;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit"> Search</button>
   <button class="fsave" onclick="doMLSSearch()">View All →</button>
 </div>
 
 <!-- HERO -->
 <section class="hero">
   <!-- Agent video hero (autoplays muted; pill enables sound) -->
-  <div id="heroOverlay" onclick="startHeroSound()" style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:20;display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:rgba(0,0,0,0.8);border:2px solid #fff;border-radius:50px;padding:14px 28px;color:#fff;font-weight:800;font-size:1rem;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.5);animation:pulse 2s infinite;">🔊 Tap for Sound</div>
+  <div id="heroOverlay" onclick="startHeroSound()" style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:20;display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:rgba(0,0,0,0.8);border:2px solid #fff;border-radius:50px;padding:14px 28px;color:#fff;font-weight:800;font-size:1rem;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.5);animation:pulse 2s infinite;">🔇 Tap for Sound</div>
   <!-- Mobile: static poster image (no video = fast load) -->
   <picture>
     <source srcset="/agent-poster.webp" type="image/webp" />
@@ -620,7 +620,7 @@ window.addEventListener('load', function(){
     }
   });
   </script>
-  <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center">🔊</button>
+  <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center"></button>
   <div class="hovl"></div>
   <div class="hcon">
     <!-- PROMO VIDEO — front and center -->
@@ -752,7 +752,7 @@ window.addEventListener('load', function(){
 <!-- QUICK LEAD CAPTURE STRIP -->
 <section id="quickcap" style="background:#17324D;padding:44px 20px">
   <div style="max-width:780px;margin:0 auto;text-align:center">
-    <h3 style="color:#fff;font-size:1.6rem;font-weight:900;margin-bottom:6px">🔥 Get Hot Listings Before They Hit Zillow</h3>
+    <h3 style="color:#fff;font-size:1.6rem;font-weight:900;margin-bottom:6px"> Get Hot Listings Before They Hit Zillow</h3>
     <p style="color:rgba(255,255,255,.9);font-size:.95rem;margin-bottom:20px">New listings &amp; price drops in your area — texted straight to your phone. Free, cancel anytime.</p>
     <div id="qc-form" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
       <label for="qc-name" class="sr-only">First Name</label>
@@ -761,7 +761,7 @@ window.addEventListener('load', function(){
       <input id="qc-phone" type="tel" placeholder="Phone Number *" aria-label="Phone Number" style="flex:1;min-width:160px;max-width:220px;padding:14px 16px;border:none;border-radius:8px;font-family:inherit;font-size:.95rem"/>
       <button onclick="submitQuickCap()" style="background:#0d1f3c;color:#fff;border:none;border-radius:8px;padding:14px 28px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit">Send Me Listings →</button>
     </div>
-    <p id="qc-done" style="display:none;color:#fff;font-weight:800;font-size:1.05rem;margin-top:8px">✅ You're in! Watch your texts for hot listings.</p>
+    <p id="qc-done" style="display:none;color:#fff;font-weight:800;font-size:1.05rem;margin-top:8px"> You're in! Watch your texts for hot listings.</p>
   </div>
 </section>
 
@@ -772,10 +772,10 @@ window.addEventListener('load', function(){
     <h2 style="font-size:2.8rem;font-weight:900;line-height:1.1;margin-bottom:10px;text-align:center">START YOUR SEARCH HERE</h2>
     <p style="font-size:1.3rem;font-weight:700;color:#E8DFD1;margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
     <div style="display:flex;justify-content:center;margin-top:32px">
-      <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px">🔍 Search MLS Listings</button>
+      <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px"> Search MLS Listings</button>
     </div>
     <div style="text-align:center;margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:14px">
-      <p style="color:#666;font-size:.85rem">Found a home you love? Come back and complete Step 2 👇</p>
+      <p style="color:#666;font-size:.85rem">Found a home you love? Come back and complete Step 2 </p>
       <a href="#step2" style="color:#168C84;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
 
     </div>
@@ -786,7 +786,7 @@ window.addEventListener('load', function(){
 <section id="step2" style="background:var(--bg);padding:70px 40px">
   <div class="con" style="max-width:600px">
     <div class="step-label">Step 2 of 4</div>
-    <h2 class="sti">🏡 Request a Showing</h2>
+    <h2 class="sti"> Request a Showing</h2>
     <p class="ssu">Found a property you want to see? Enter the address and your info — we'll set it up.</p>
     <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
       <div style="position:relative;width:100%">
@@ -803,7 +803,7 @@ window.addEventListener('load', function(){
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="cal-wrap" id="calWrap">
           <div class="cal-input" onclick="toggleCal()">
-            <span id="calDisplay">📅 Pick a Date</span>
+            <span id="calDisplay"> Pick a Date</span>
             <span style="color:#168C84">&#9660;</span>
           </div>
           <div class="cal-popup" id="calPopup">
@@ -825,11 +825,11 @@ window.addEventListener('load', function(){
           <option>Flexible / Any Time</option>
         </select>
       </div>
-      <button id="sh2-btn" onclick="submitStep2()" disabled style="background:#ccc;border:none;color:#666;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:not-allowed;transition:background .2s,color .2s">🗓 Request My Showing →</button>
+      <button id="sh2-btn" onclick="submitStep2()" disabled style="background:#ccc;border:none;color:#666;font-family:inherit;font-size:.95rem;font-weight:700;padding:14px;border-radius:4px;cursor:not-allowed;transition:background .2s,color .2s"> Request My Showing →</button>
       <p id="sh2-hint" style="text-align:center;color:#aaa;font-size:.8rem;margin-top:8px">Fill in address, name &amp; phone to continue</p>
       <p style="text-align:center;margin-top:14px;color:#888;font-size:.88rem">Want to see if you are pre-qualified? <a href="#step3" style="color:#168C84;font-weight:700;text-decoration:none">Proceed to Step 3 →</a></p>
       <div id="sh2-thanks" style="display:none;text-align:center;background:rgba(22,140,132,.1);border:1px solid #168C84;border-radius:6px;padding:20px">
-        <div style="font-size:1.8rem;margin-bottom:8px">✅</div>
+        <div style="font-size:1.8rem;margin-bottom:8px"></div>
         <h4 style="margin-bottom:6px">Showing Requested!</h4>
         <p style="color:#888;font-size:.84rem;margin-bottom:14px">We'll contact you shortly to confirm. Ready for the next step?</p>
         <a href="#step3" style="background:#168C84;color:#fff;font-weight:700;padding:10px 24px;border-radius:4px;text-decoration:none;font-size:.85rem">Next: Get Pre-Qualified →</a>
@@ -888,15 +888,15 @@ window.addEventListener('load', function(){
           <span class="clbl" id="loanTypeLabel">Select Your Loan Type</span>
           <div class="tg tg3" id="loanGrid">
             <button class="tile on" data-val="conventional" onclick="selectTile(this,'loan')">
-              <div>🏦</div><div class="tn">Conventional</div>
+              <div></div><div class="tn">Conventional</div>
               <div class="td">Min FICO 620. Down Payment as low as 3%.</div>
             </button>
             <button class="tile" data-val="fha" onclick="selectTile(this,'loan')">
-              <div>🏛️</div><div class="tn">FHA</div>
+              <div></div><div class="tn">FHA</div>
               <div class="td">Min FICO 580. Flexible credit. Down Payment as low as 3.5%.</div>
             </button>
             <button class="tile" data-val="va" onclick="selectTile(this,'loan')">
-              <div>🎖️</div><div class="tn">VA</div>
+              <div></div><div class="tn">VA</div>
               <div class="td">Min FICO 580. Veterans &amp; military only. Zero Down Payment. No PMI.</div>
             </button>
           </div>
@@ -904,16 +904,16 @@ window.addEventListener('load', function(){
           <span class="clbl" id="propTypeLabel">Property Type</span>
           <div class="tg tg4" id="propGrid">
             <button class="tile on" data-val="sfr" onclick="selectTile(this,'prop')">
-              <div>🏠</div><div class="tn">Single Family</div><div class="td">SFR</div>
+              <div></div><div class="tn">Single Family</div><div class="td">SFR</div>
             </button>
             <button class="tile" data-val="condo" onclick="selectTile(this,'prop')">
-              <div>🏢</div><div class="tn">Condo</div><div class="td">Condo/Townhome</div>
+              <div></div><div class="tn">Condo</div><div class="td">Condo/Townhome</div>
             </button>
             <button class="tile" data-val="multi" onclick="selectTile(this,'prop')">
-              <div>🏘️</div><div class="tn">Multi-Unit</div><div class="td">2–4 Units</div>
+              <div></div><div class="tn">Multi-Unit</div><div class="td">2–4 Units</div>
             </button>
             <button class="tile" data-val="mfg" onclick="selectTile(this,'prop')">
-              <div>🏗️</div><div class="tn">Manufactured</div><div class="td">Mobile/Manufactured</div>
+              <div></div><div class="tn">Manufactured</div><div class="td">Mobile/Manufactured</div>
             </button>
           </div>
         </div>
@@ -959,13 +959,13 @@ window.addEventListener('load', function(){
 <section id="step4" style="background:var(--bg);padding:80px 40px">
   <div class="con" style="max-width:600px">
     <div class="step-label" style="text-align:center">Step 4 of 4</div>
-    <h2 class="sti" style="text-align:center">🎉 You're Pre-Approved!</h2>
+    <h2 class="sti" style="text-align:center"> You're Pre-Approved!</h2>
 
     <!-- Congrats shown FIRST to hook them -->
     <div style="text-align:center;background:linear-gradient(135deg,rgba(22,140,132,.12),rgba(22,140,132,.04));border:2px solid #168C84;border-radius:14px;padding:32px 24px;margin-top:28px;margin-bottom:32px">
       <p style="color:#888;font-size:.95rem;margin-bottom:6px">Based on your info, you qualify for up to</p>
       <div id="congratsPrice" style="font-size:2.6rem;font-weight:900;color:#168C84;letter-spacing:-1px;margin-bottom:4px">$500,000</div>
-      <p style="color:#888;font-size:.82rem">🔒 No hard credit pull &nbsp;·&nbsp; Free &nbsp;·&nbsp; Takes 2 min</p>
+      <p style="color:#888;font-size:.82rem"> No hard credit pull &nbsp;·&nbsp; Free &nbsp;·&nbsp; Takes 2 min</p>
     </div>
 
     <p class="ssu" style="text-align:center;margin-left:auto;margin-right:auto;margin-bottom:28px">Enter your info below to claim your official Pre-Approval Letter so you can make offers with confidence.</p>
@@ -977,15 +977,15 @@ window.addEventListener('load', function(){
       <input type="tel" id="lfPhone" placeholder="Phone Number *" aria-label="Phone Number" oninput="checkStep4()" style="width:100%;background:#f9f9f9;border:2px solid #ddd;border-radius:6px;padding:14px 16px;color:#111;font-family:inherit;font-size:.95rem;margin-bottom:10px;box-sizing:border-box"/>
       <label for="lfEmail" class="sr-only">Email Address</label>
       <input type="email" id="lfEmail" placeholder="Email Address *" aria-label="Email Address" oninput="checkStep4()" style="width:100%;background:#f9f9f9;border:2px solid #ddd;border-radius:6px;padding:14px 16px;color:#111;font-family:inherit;font-size:.95rem;margin-bottom:16px;box-sizing:border-box"/>
-      <button id="lfSubmitBtn" onclick="submitLetter()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:1.1rem;font-weight:800;padding:17px;border-radius:6px;cursor:not-allowed;letter-spacing:.5px;transition:background .2s,color .2s">📄 Claim My Pre-Approval Letter</button>
+      <button id="lfSubmitBtn" onclick="submitLetter()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:1.1rem;font-weight:800;padding:17px;border-radius:6px;cursor:not-allowed;letter-spacing:.5px;transition:background .2s,color .2s"> Claim My Pre-Approval Letter</button>
       <p id="lfHint" style="text-align:center;color:#aaa;font-size:.8rem;margin-top:10px">Fill in all 3 fields to unlock your letter</p>
     </div>
 
     <div id="congratsBox" style="display:none;text-align:center;background:rgba(22,140,132,.08);border:2px solid #168C84;border-radius:10px;padding:36px 24px;margin-top:16px">
-      <div style="font-size:3rem;margin-bottom:12px">✅</div>
+      <div style="font-size:3rem;margin-bottom:12px"></div>
       <h3 style="font-size:1.5rem;margin-bottom:8px">You're all set!</h3>
       <p style="color:#aaa;margin-bottom:24px">We're sending your Pre-Approval Letter now.<br>Complete your official application to lock in your rate.</p>
-      <button onclick="trackAndApply()" style="background:#17324D;border:none;color:#fff;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer">📝 Complete My Application →</button>
+      <button onclick="trackAndApply()" style="background:#17324D;border:none;color:#fff;font-family:inherit;font-size:1rem;font-weight:800;padding:14px 32px;border-radius:4px;cursor:pointer"> Complete My Application →</button>
     </div>
   </div>
 </section>
@@ -998,9 +998,9 @@ window.addEventListener('load', function(){
     <h2 class="sti">Real Results</h2>
     <p class="ssu">Hundreds of San Diego families found their perfect home with our help.</p>
     <div class="tgrid">
-      <div class="tc"><div class="tst">★★★★★</div><p class="ttx">"They found us our dream home in Eastlake in under 3 weeks. The process was seamless — they handled everything!"</p><div class="tau">Marcus & Deja T.</div><div class="tlo">Eastlake, San Diego</div></div>
-      <div class="tc"><div class="tst">★★★★★</div><p class="ttx">"As a first-time buyer I was nervous, but they walked me through every step. Closed in 30 days and I love my home!"</p><div class="tau">Priya M.</div><div class="tlo">Chula Vista, San Diego</div></div>
-      <div class="tc"><div class="tst">★★★★★</div><p class="ttx">"Got access to listings that weren't even on Zillow. Incredible service, highly recommend to anyone buying in SD."</p><div class="tau">Kevin R.</div><div class="tlo">Otay Ranch, San Diego</div></div>
+      <div class="tc"><div class="tst"></div><p class="ttx">"They found us our dream home in Eastlake in under 3 weeks. The process was seamless — they handled everything!"</p><div class="tau">Marcus & Deja T.</div><div class="tlo">Eastlake, San Diego</div></div>
+      <div class="tc"><div class="tst"></div><p class="ttx">"As a first-time buyer I was nervous, but they walked me through every step. Closed in 30 days and I love my home!"</p><div class="tau">Priya M.</div><div class="tlo">Chula Vista, San Diego</div></div>
+      <div class="tc"><div class="tst"></div><p class="ttx">"Got access to listings that weren't even on Zillow. Incredible service, highly recommend to anyone buying in SD."</p><div class="tau">Kevin R.</div><div class="tlo">Otay Ranch, San Diego</div></div>
     </div>
   </div>
 </section>
@@ -1020,24 +1020,24 @@ window.addEventListener('load', function(){
     <h2 class="sti">Get In Touch</h2>
     <p class="ssu">Have questions? We're here to help — reach out any way that works for you.</p>
     <div class="cgrid">
-      <div class="cc"><div class="cci"><span>📞</span><a href="https://wa.me/18583425615" target="_blank" style="display:inline-block;vertical-align:middle;margin-left:6px;"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="22" height="22" style="width:22px;height:22px;vertical-align:middle;"></a></div><h4>Call, Text or WhatsApp</h4><a href="tel:+18583425615">(858) 342-5615</a></div>
-      <div class="cc"><div class="cci">📍</div><h4>Location</h4><span>Chula Vista, CA 91914</span></div>
-      <div class="cc"><div class="cci">🕐</div><h4>Hours</h4><span>Mon–Sun: 8AM – 7PM</span></div>
+      <div class="cc"><div class="cci"><span></span><a href="https://wa.me/18583425615" target="_blank" style="display:inline-block;vertical-align:middle;margin-left:6px;"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="22" height="22" style="width:22px;height:22px;vertical-align:middle;"></a></div><h4>Call, Text or WhatsApp</h4><a href="tel:+18583425615">(858) 342-5615</a></div>
+      <div class="cc"><div class="cci"></div><h4>Location</h4><span>Chula Vista, CA 91914</span></div>
+      <div class="cc"><div class="cci"></div><h4>Hours</h4><span>Mon–Sun: 8AM – 7PM</span></div>
     </div>
   </div>
 </section>
 
 <!-- MOBILE STICKY CTA BAR -->
 <div id="stickyBar">
-  <a href="tel:+18583425615" class="sb-call" onclick="gtag('event','click_to_call',{event_category:'conversion',event_label:'Sticky Bar Call'})">📞 Call / Text</a>
+  <a href="tel:+18583425615" class="sb-call" onclick="gtag('event','click_to_call',{event_category:'conversion',event_label:'Sticky Bar Call'})"> Call / Text</a>
   <a href="#step3" class="sb-cta">Get Pre-Approved</a>
 </div>
 
 <!-- EXIT INTENT MODAL -->
 <div id="exitModal" style="display:none;position:fixed;inset:0;z-index:1001;background:rgba(0,0,0,.8);align-items:center;justify-content:center;padding:20px">
   <div style="background:#fff;border-radius:14px;padding:36px 32px;max-width:440px;width:100%;position:relative;text-align:center">
-    <button onclick="closeExitModal()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer">✕</button>
-    <div style="font-size:2.4rem;margin-bottom:8px">✋</div>
+    <button onclick="closeExitModal()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer"></button>
+    <div style="font-size:2.4rem;margin-bottom:8px"></div>
     <h3 style="font-size:1.45rem;font-weight:900;color:#0d1f3c;margin-bottom:8px">Wait — grab your free pre-approval first!</h3>
     <p style="color:#666;font-size:.92rem;margin-bottom:20px">Takes 2 minutes, no hard credit pull. Know exactly what you can afford before you keep browsing.</p>
     <label for="exName" class="sr-only">First Name</label>
@@ -1045,7 +1045,7 @@ window.addEventListener('load', function(){
     <label for="exPhone" class="sr-only">Phone Number</label>
     <input id="exPhone" type="tel" placeholder="Phone Number *" aria-label="Phone Number" style="width:100%;border:2px solid #ddd;border-radius:6px;padding:13px 16px;font-family:inherit;font-size:.95rem;margin-bottom:14px;box-sizing:border-box;color:#111"/>
     <button onclick="submitExitLead()" style="width:100%;background:#168C84;color:#fff;border:none;border-radius:6px;padding:15px;font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit">Get My Free Pre-Approval →</button>
-    <p id="exDone" style="display:none;color:#168C84;font-weight:800;margin-top:12px">✅ Got it — we'll reach out shortly!</p>
+    <p id="exDone" style="display:none;color:#168C84;font-weight:800;margin-top:12px"> Got it — we'll reach out shortly!</p>
   </div>
 </div>
 
@@ -1053,9 +1053,9 @@ window.addEventListener('load', function(){
 <!-- PRE-APPLY CAPTURE MODAL -->
 <div id="preApplyModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.8);align-items:center;justify-content:center;padding:20px">
   <div style="background:#fff;border-radius:14px;padding:36px 32px;max-width:440px;width:100%;position:relative">
-    <button onclick="closePreApply()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer">✕</button>
+    <button onclick="closePreApply()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer"></button>
     <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:2.2rem">🏠</div>
+      <div style="font-size:2.2rem"></div>
       <h3 style="font-size:1.4rem;font-weight:900;color:#0d1f3c;margin:8px 0 4px">One Quick Step!</h3>
       <p style="color:#666;font-size:.9rem">Enter your info and we'll send you to the full application — plus notify your loan officer so they can help right away.</p>
     </div>
@@ -1065,15 +1065,15 @@ window.addEventListener('load', function(){
     <input type="tel" id="paPhone" placeholder="Phone Number *" aria-label="Phone Number" oninput="checkPreApply()" style="width:100%;border:2px solid #ddd;border-radius:6px;padding:13px 16px;font-family:inherit;font-size:.95rem;margin-bottom:10px;box-sizing:border-box;color:#111"/>
     <label for="paEmail" class="sr-only">Email Address</label>
     <input type="email" id="paEmail" placeholder="Email Address *" aria-label="Email Address" oninput="checkPreApply()" style="width:100%;border:2px solid #ddd;border-radius:6px;padding:13px 16px;font-family:inherit;font-size:.95rem;margin-bottom:16px;box-sizing:border-box;color:#111"/>
-    <button id="paSubmitBtn" onclick="submitPreApply()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:1rem;font-weight:800;padding:15px;border-radius:6px;cursor:not-allowed;transition:background .2s,color .2s">📝 Continue to Application →</button>
+    <button id="paSubmitBtn" onclick="submitPreApply()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:1rem;font-weight:800;padding:15px;border-radius:6px;cursor:not-allowed;transition:background .2s,color .2s"> Continue to Application →</button>
     <p id="paHint" style="text-align:center;color:#aaa;font-size:.78rem;margin-top:8px">Fill in all 3 fields to continue</p>
-    <p style="text-align:center;color:#bbb;font-size:.75rem;margin-top:6px">🔒 No credit pull &nbsp;·&nbsp; Free &nbsp;·&nbsp; Takes 2 min</p>
+    <p style="text-align:center;color:#bbb;font-size:.75rem;margin-top:6px"> No credit pull &nbsp;·&nbsp; Free &nbsp;·&nbsp; Takes 2 min</p>
   </div>
 </div>
 
 <div id="showingModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px">
   <div style="background:#f0f0f0;border:1px solid #ddd;border-radius:10px;padding:36px 32px;max-width:460px;width:100%;position:relative">
-    <button onclick="closeShowing()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer">✕</button>
+    <button onclick="closeShowing()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer"></button>
     <div style="color:#168C84;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Schedule a Visit</div>
     <h3 style="font-size:1.3rem;margin-bottom:4px">Request a Showing</h3>
     <p id="showingProperty" style="color:#888;font-size:.84rem;margin-bottom:20px"></p>
@@ -1093,10 +1093,10 @@ window.addEventListener('load', function(){
       <option>Evening (4PM–7PM)</option>
       <option>Flexible / Any Time</option>
     </select>
-    <button id="shBtn" onclick="submitShowing()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:not-allowed;letter-spacing:.5px;transition:background .2s,color .2s">📅 Request Showing</button>
+    <button id="shBtn" onclick="submitShowing()" disabled style="width:100%;background:#ccc;border:none;color:#666;font-family:inherit;font-size:.9rem;font-weight:700;padding:13px;border-radius:4px;cursor:not-allowed;letter-spacing:.5px;transition:background .2s,color .2s"> Request Showing</button>
     <p id="shHint" style="text-align:center;color:#aaa;font-size:.78rem;margin-top:6px">Fill in name &amp; phone to continue</p>
     <div id="showingThanks" style="display:none;text-align:center;padding:20px 0">
-      <div style="font-size:2rem;margin-bottom:10px">✅</div>
+      <div style="font-size:2rem;margin-bottom:10px"></div>
       <h4 style="margin-bottom:6px">Request Sent!</h4>
       <p style="color:#888;font-size:.84rem">We'll contact you shortly to confirm your showing.</p>
     </div>
@@ -1114,7 +1114,7 @@ window.addEventListener('load', function(){
     Mauricio Perez-Vazquez | Realty of America &nbsp;&middot;&nbsp; DRE# 01303708<br>
     NMLS# 220926 &nbsp;&middot;&nbsp; Company NMLS# 1935005<br>
     Loans made or arranged pursuant to a California Finance Lenders Law license.<br>
-    This is not a commitment to lend. All loans subject to credit approval. Equal Housing Lender. 🏠<br>
+    This is not a commitment to lend. All loans subject to credit approval. Equal Housing Lender. <br>
     San Diego Home Buyers is a licensed real estate and mortgage referral service operating in California.
   </p>
 </footer>
@@ -1128,52 +1128,73 @@ function startHeroSound() {
   v.muted = !v.muted;
   v.volume = 1;
   v.play();
-  if (overlay) overlay.innerHTML = v.muted ? '🔇 Tap for Sound' : '🔊 Sound On';
+  if (overlay) overlay.innerHTML = v.muted ? ' Tap for Sound' : ' Sound On';
 }
 function toggleHeroSound() {
   var v = document.getElementById('heroVid');
   var overlay = document.getElementById('heroOverlay');
   if (!v) return;
   v.muted = !v.muted;
-  if (overlay) overlay.innerHTML = v.muted ? '🔇 Tap for Sound' : '🔊 Sound On';
+  if (overlay) overlay.innerHTML = v.muted ? ' Tap for Sound' : ' Sound On';
 }
 function togglePromoSound() {
   var v = document.getElementById('promoVid');
   var btn = document.getElementById('promoSoundBtn');
   if (!v) return;
   v.muted = !v.muted;
-  if (btn) btn.innerHTML = v.muted ? '🔇 Tap for Sound' : '🔊 Sound On';
+  if (btn) btn.innerHTML = v.muted ? ' Tap for Sound' : ' Sound On';
 }
 </script>
-<!-- ═══════════════════════════════════════════
+<!-- 
      CONVERSION BOOSTERS — Added by Simmily Aug 2026
-     ═══════════════════════════════════════════ -->
+      -->
 
 <!-- EXIT INTENT POPUP -->
 <div id="exitPopup" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);align-items:center;justify-content:center">
   <div style="background:#fff;border-radius:16px;padding:40px 36px;max-width:460px;width:90%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4)">
-    <button onclick="closeExitPopup()" style="position:absolute;top:14px;right:18px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#aaa">✕</button>
-    <div style="font-size:2.5rem;margin-bottom:12px">🏡</div>
+    <button onclick="closeExitPopup()" style="position:absolute;top:14px;right:18px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#aaa"></button>
+    <!-- Mini 4-step circles -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px">
+      <div style="position:relative;width:52px;height:52px;border-radius:50%;border:3px solid #168C84;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.15)">
+        <span style="position:absolute;top:1px;right:1px;width:16px;height:16px;background:#168C84;color:#fff;border-radius:50%;font-size:.6rem;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:2">1</span>
+        <img src="/house-search.jpg" style="width:100%;height:100%;object-fit:cover" alt="Search" />
+      </div>
+      <div style="color:#d4c8b8;font-size:.8rem">&#8594;</div>
+      <div style="position:relative;width:52px;height:52px;border-radius:50%;border:3px solid #168C84;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.15)">
+        <span style="position:absolute;top:1px;right:1px;width:16px;height:16px;background:#168C84;color:#fff;border-radius:50%;font-size:.6rem;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:2">2</span>
+        <img src="/showing-calendar.jpg" style="width:100%;height:100%;object-fit:cover" alt="Showing" />
+      </div>
+      <div style="color:#d4c8b8;font-size:.8rem">&#8594;</div>
+      <div style="position:relative;width:52px;height:52px;border-radius:50%;border:3px solid #168C84;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.15)">
+        <span style="position:absolute;top:1px;right:1px;width:16px;height:16px;background:#168C84;color:#fff;border-radius:50%;font-size:.6rem;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:2">3</span>
+        <img src="/prequalified.jpg" style="width:100%;height:100%;object-fit:cover" alt="Pre-Qualify" />
+      </div>
+      <div style="color:#d4c8b8;font-size:.8rem">&#8594;</div>
+      <div style="position:relative;width:52px;height:52px;border-radius:50%;border:3px solid #168C84;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.15)">
+        <span style="position:absolute;top:1px;right:1px;width:16px;height:16px;background:#168C84;color:#fff;border-radius:50%;font-size:.6rem;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:2">4</span>
+        <img src="/preapproval.jpg" style="width:100%;height:100%;object-fit:cover" alt="Pre-Approval" />
+      </div>
+    </div>
     <h2 style="font-size:1.5rem;font-weight:900;color:#1a1a2e;margin-bottom:8px">Wait — Don't Miss Out!</h2>
     <p style="color:#666;margin-bottom:6px;font-size:0.95rem">Get your <strong>FREE same-day pre-approval</strong> before you go.</p>
-    <p style="color:#168C84;font-weight:700;font-size:0.85rem;margin-bottom:24px">⚡ Takes 2 minutes. No hard credit pull.</p>
+    <p style="color:#168C84;font-weight:700;font-size:0.85rem;margin-bottom:24px">Takes 2 minutes. No hard credit pull.</p>
     <input id="epName" type="text" placeholder="Your Name" style="width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;margin-bottom:10px;box-sizing:border-box">
     <input id="epPhone" type="tel" placeholder="Phone Number" style="width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;margin-bottom:14px;box-sizing:border-box">
-    <button onclick="submitExitPopup()" style="width:100%;background:#168C84;color:#fff;border:none;padding:15px;border-radius:8px;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.5px">📄 Get My Free Pre-Approval →</button>
-    <p style="font-size:0.75rem;color:#aaa;margin-top:10px">🔒 No spam. No hard pull. Just results.</p>
+    <button onclick="submitExitPopup()" style="width:100%;background:#168C84;color:#fff;border:none;padding:15px;border-radius:8px;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.5px">Get My Free Pre-Approval →</button>
+    <p style="font-size:0.75rem;color:#aaa;margin-top:10px">No spam. No hard pull. Just results.</p>
   </div>
 </div>
 
 <!-- STICKY BOTTOM CTA BAR (mobile) -->
 <div id="mobileStickyBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:#17324D;padding:14px 20px;flex-direction:row;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 -4px 20px rgba(0,0,0,0.2)">
-  <span style="color:#fff;font-size:0.85rem;font-weight:700">⚡ Same-Day Pre-Approval</span>
+  <span style="color:#fff;font-size:0.85rem;font-weight:700"> Same-Day Pre-Approval</span>
   <a href="#step1" onclick="document.getElementById('mobileStickyBar').style.display='none'" style="background:#fff;color:#17324D;padding:10px 20px;border-radius:6px;font-weight:800;font-size:0.85rem;text-decoration:none;white-space:nowrap">Get Pre-Approved →</a>
 </div>
 
 <!-- SOCIAL PROOF NOTIFICATION (toast) -->
 <div id="socialProofToast" style="display:none;position:fixed;bottom:80px;left:20px;z-index:998;background:#fff;border-left:4px solid #17324D;border-radius:8px;padding:14px 18px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:280px;animation:fadeInUp 0.4s ease">
   <div style="font-size:0.8rem;font-weight:700;color:#1a1a2e" id="toastName">Maria S. from Chula Vista</div>
-  <div style="font-size:0.75rem;color:#666;margin-top:2px" id="toastAction">just got pre-approved for $485,000 🏡</div>
+  <div style="font-size:0.75rem;color:#666;margin-top:2px" id="toastAction">just got pre-approved for $485,000 </div>
 </div>
 
 <style>
@@ -1181,7 +1202,7 @@ function togglePromoSound() {
 </style>
 
 <script>
-// ── EXIT INTENT ──
+//  EXIT INTENT 
 let exitShown = false;
 document.addEventListener('mouseleave', function(e) {
   if (e.clientY < 10 && !exitShown && !sessionStorage.getItem('exitShown')) {
@@ -1201,7 +1222,7 @@ function submitExitPopup() {
   window.location.href = 'https://cmc.my1003app.com/220926/register?time=1772669246583';
 }
 
-// ── MOBILE STICKY BAR ──
+//  MOBILE STICKY BAR 
 function checkMobileStickyBar() {
   if (window.innerWidth <= 768) {
     const bar = document.getElementById('mobileStickyBar');
@@ -1215,16 +1236,16 @@ function checkMobileStickyBar() {
 window.addEventListener('scroll', checkMobileStickyBar);
 window.addEventListener('resize', checkMobileStickyBar);
 
-// ── SOCIAL PROOF TOASTS ──
+//  SOCIAL PROOF TOASTS 
 const proofData = [
-  { name: 'Maria S. from Chula Vista', action: 'just got pre-approved for $485,000 🏡' },
-  { name: 'James & Lisa from Eastlake', action: 'just closed on their dream home! 🎉' },
-  { name: 'David R. from National City', action: 'just got pre-approved for $390,000 🏡' },
-  { name: 'Sandra M. from El Cajon', action: 'just started their home search 🔍' },
-  { name: 'Kevin T. from La Mesa', action: 'just got pre-approved for $520,000 🏡' },
-  { name: 'Priya & Jay from Bonita', action: 'just made an offer on a home! ✍️' },
-  { name: 'Carlos F. from Spring Valley', action: 'just got pre-approved for $445,000 🏡' },
-  { name: 'Ashley W. from Lemon Grove', action: 'just completed their application 📝' },
+  { name: 'Maria S. from Chula Vista', action: 'just got pre-approved for $485,000' },
+  { name: 'James & Lisa from Eastlake', action: 'just closed on their dream home! ' },
+  { name: 'David R. from National City', action: 'just got pre-approved for $390,000 ' },
+  { name: 'Sandra M. from El Cajon', action: 'just started their home search ' },
+  { name: 'Kevin T. from La Mesa', action: 'just got pre-approved for $520,000 ' },
+  { name: 'Priya & Jay from Bonita', action: 'just made an offer on a home! ' },
+  { name: 'Carlos F. from Spring Valley', action: 'just got pre-approved for $445,000 ' },
+  { name: 'Ashley W. from Lemon Grove', action: 'just completed their application ' },
 ];
 let toastIndex = 0;
 function showNextToast() {

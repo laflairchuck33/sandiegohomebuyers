@@ -829,7 +829,13 @@ window.addEventListener('load', function(){
     <h2 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;color:#17324D;line-height:1.05;margin-bottom:12px;letter-spacing:-1px">LET'S FIND YOUR HOME.</h2>
     <div style="width:48px;height:3px;background:#168C84;margin:0 auto 20px"></div>
     <p style="color:#68737C;font-size:1rem;max-width:480px;margin:0 auto 32px;line-height:1.7">Your home search starts here. Explore MLS listings that match your lifestyle, budget, and goals.</p>
-    <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:4px;padding:16px 40px;font-weight:800;font-size:.9rem;cursor:pointer;font-family:inherit;letter-spacing:1.5px;text-transform:uppercase">Start My Home Search &rarr;</button>
+    <button onclick="doMLSSearch()" style="background:linear-gradient(135deg,#168C84 0%,#0f6b63 100%);color:#fff;border:2px solid #c9a84c;border-radius:10px;padding:16px 32px;font-weight:800;font-size:.9rem;cursor:pointer;font-family:'Poppins',sans-serif;letter-spacing:2px;text-transform:uppercase;display:inline-flex;align-items:center;gap:0;box-shadow:0 4px 18px rgba(22,140,132,.3);transition:all .2s" onmouseover="this.style.boxShadow='0 6px 28px rgba(22,140,132,.5)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='0 4px 18px rgba(22,140,132,.3)';this.style.transform='translateY(0)'">
+      <span style="display:inline-flex;align-items:center;margin-right:14px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      </span>
+      <span style="width:1px;height:22px;background:rgba(201,168,76,.5);margin-right:14px;display:inline-block"></span>
+      START MY HOME SEARCH &nbsp;→
+    </button>
     <div style="margin-top:24px"><a href="#step2" style="color:#168C84;font-size:.85rem;font-weight:700;text-decoration:none">↓ Next: Request a Showing</a></div>
   </div>
 </section>

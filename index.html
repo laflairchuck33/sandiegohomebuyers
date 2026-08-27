@@ -605,20 +605,21 @@ window.addEventListener('load', function(){
     <img class="hero-mobile-bg" src="/agent-poster.jpg" alt="San Diego Home Buyers" fetchpriority="high" width="848" height="464" />
   </picture>
   <!-- Desktop: autoplay video -->
-  <video id="heroVid" class="hvid" autoplay muted loop playsinline poster="/agent-poster.jpg" style="object-fit:cover" preload="none">
-    <source data-src="/agent-video.mp4" type="video/mp4"/>
+  <video id="heroVid" class="hvid" autoplay muted loop playsinline preload="auto" poster="/agent-poster.jpg" style="object-fit:cover">
+    <source src="/agent-video.mp4" type="video/mp4"/>
   </video>
   <script>
-  // Lazy-load hero video only on desktop after page is interactive
-  window.addEventListener('load', function() {
-    if (window.innerWidth > 768) {
-      var v = document.getElementById('heroVid');
-      if (v) {
-        var s = v.querySelector('source[data-src]');
-        if (s) { s.src = s.getAttribute('data-src'); v.load(); v.play(); }
-      }
-    }
-  });
+  (function(){
+    var v = document.getElementById('heroVid');
+    if(!v) return;
+    v.muted = true;
+    var p = v.play();
+    if(p && p.catch) p.catch(function(){});
+    document.addEventListener('touchstart', function tryPlay(){
+      v.muted = true; v.play().catch(function(){});
+      document.removeEventListener('touchstart', tryPlay);
+    }, {once:true});
+  })();
   </script>
   <button id="heroSoundBtn" onclick="toggleHeroSound()" style="position:absolute;top:80px;right:20px;z-index:20;background:rgba(0,0,0,0.6);border:2px solid #fff;color:#fff;border-radius:50%;width:48px;height:48px;font-size:1.3rem;cursor:pointer;display:none;align-items:center;justify-content:center"></button>
   <div class="hovl"></div>

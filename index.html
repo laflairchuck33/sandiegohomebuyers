@@ -198,11 +198,9 @@ window.addEventListener('load', function(){
     .nsearch input::placeholder{color:var(--g)}
     .nsearch button{background:var(--teal);border:none;color:#fff;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:3px;cursor:pointer;font-family:'Poppins',sans-serif}
     .nlinks{display:flex;gap:12px;align-items:center}
-    .nlinks a{color:var(--navy);text-decoration:none;font-size:.85rem;font-weight:300;letter-spacing:1px;transition:all .2s;border:2px solid var(--navy);border-radius:6px;padding:6px 14px;font-family:'Poppins',sans-serif !important;}
-    .nlinks a:hover{background:var(--navy);color:#fff}
-    .nlinks a.ncta{color:var(--teal) !important;border-color:var(--teal) !important;font-weight:800 !important;}
-    .nlinks a.ncta:hover{background:var(--teal) !important;color:#fff !important;}
-    .ncta{background:var(--teal) !important;color:#fff !important;padding:8px 20px !important;border-radius:6px !important;font-weight:900 !important;border:2px solid var(--teal) !important}
+    .nlinks a{color:var(--navy);text-decoration:none;font-size:.88rem;font-weight:500;letter-spacing:.3px;transition:color .2s;border:none;border-radius:0;padding:6px 16px;font-family:'Poppins',sans-serif !important;}
+    .nlinks a:hover{color:var(--teal);background:transparent}
+    .nlinks a.ncta,.ncta{background:var(--teal) !important;color:#fff !important;padding:9px 22px !important;border-radius:50px !important;font-weight:700 !important;border:none !important;letter-spacing:1.5px !important;text-transform:uppercase !important;}
 
     /* FILTER BAR */
     .fbar{position:fixed;top:62px;left:0;right:0;z-index:99;background:#E8DFD1;border-bottom:1px solid #d4c8b8;padding:9px 40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -512,14 +510,18 @@ window.addEventListener('load', function(){
     <div class="logo">San Diego <span>Home Buyers</span></div>
 
   </div>
-  <div class="nlinks">
-    <a href="#step1"><span style="font-weight:200;color:#68737C;font-size:.85rem">search</span><span style="font-weight:900;color:#168C84;font-size:.85rem">MLS</span></a>
-    <a href="#step2"><span style="font-weight:200;color:#68737C;font-size:.85rem">request</span><span style="font-weight:900;color:#168C84;font-size:.85rem">SHOWING</span></a>
-    <a href="#step3"><span style="font-weight:200;color:#68737C;font-size:.85rem">pre</span><span style="font-weight:900;color:#168C84;font-size:.85rem">QUALIFY</span></a>
-    <a href="/home-value.html"><span style="font-weight:200;color:#68737C;font-size:.85rem">home</span><span style="font-weight:900;color:#168C84;font-size:.85rem">VALUE</span></a>
-    <a href="#contact"><span style="font-weight:200;color:#68737C;font-size:.85rem">get</span><span style="font-weight:900;color:#168C84;font-size:.85rem">TOUCH</span></a>
-    <a href="#step1" class="ncta"><span style="font-weight:200;color:#68737C;font-size:.85rem">get</span><span style="font-weight:900;font-size:.85rem">STARTED</span></a>
-    <button id="langToggle" onclick="toggleLang()" style="margin-left:8px;background:#fff;color:#168C84;border:2px solid #168C84;border-radius:6px;padding:6px 14px;font-weight:900;font-size:.82rem;letter-spacing:1px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='#168C84';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#168C84'">🌐 Español</button>
+  <div class="nlinks" style="gap:0;align-items:center">
+    <a href="#step1" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Search MLS</a>
+    <span style="color:#d4c8b8;font-size:1rem;line-height:1">|</span>
+    <a href="#step2" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Tour a Home</a>
+    <span style="color:#d4c8b8;font-size:1rem;line-height:1">|</span>
+    <a href="#prequal" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Financing</a>
+    <span style="color:#d4c8b8;font-size:1rem;line-height:1">|</span>
+    <a href="/home-value.html" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Home Value</a>
+    <span style="color:#d4c8b8;font-size:1rem;line-height:1">|</span>
+    <a href="#contact" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Get in Touch</a>
+    <a href="#step3" style="margin-left:18px;background:#168C84;color:#fff;border:none;border-radius:50px;padding:9px 22px;font-weight:700;font-size:.82rem;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Get Started <span style="font-size:1rem;line-height:1">&#8594;</span></a>
+    <button id="langToggle" onclick="toggleLang()" style="margin-left:14px;background:transparent;color:#17324D;border:none;padding:4px 8px;font-weight:500;font-size:.85rem;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:color .2s" onmouseover="this.style.color='#168C84'" onmouseout="this.style.color='#17324D'">🌐 Español</button>
   </div>
 </nav>
 
@@ -715,9 +717,9 @@ window.addEventListener('load', function(){
 
           <!-- Step 2 — top right -->
           <div class="journey-step journey-step-tr" onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})" style="justify-self:start;padding-left:20px">
-            <div class="journey-circle">
+            <div class="journey-circle" style="border-width:4px;border-color:#168C84">
               <span class="journey-num">2</span>
-              <span class="journey-icon" style="font-size:2.5rem">📅</span>
+              <picture><source srcset="/showing-calendar.webp" type="image/webp" /><img src="/showing-calendar.jpg" alt="Request a Showing" /></picture>
             </div>
             <div class="journey-label" data-i18n="nav-showing">Request Showing</div>
             <div class="journey-sub">See the homes you love with a local expert.</div>

@@ -785,13 +785,25 @@ window.addEventListener('load', function(){
     <div class="step-label">Step 1 of 4</div>
     <h2 style="font-size:2.8rem;font-weight:900;line-height:1.1;margin-bottom:10px;text-align:center">START YOUR SEARCH HERE</h2>
     <p style="font-size:1.3rem;font-weight:700;color:#E8DFD1;margin-bottom:8px;text-align:center">LOOK FOR HOMES YOU LIKE</p>
+    <!-- TWO VIDEOS SIDE BY SIDE -->
+    <div style="display:flex;gap:20px;margin-top:32px;align-items:stretch">
+      <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.25);position:relative">
+        <video autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;min-height:240px">
+          <source src="/step1-left-web.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.25);position:relative">
+        <video autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;min-height:240px">
+          <source src="/step1-right-web.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
     <div style="display:flex;justify-content:center;margin-top:32px">
-      <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px"> Search MLS Listings</button>
+      <button onclick="doMLSSearch()" style="background:#168C84;color:#fff;border:none;border-radius:6px;padding:16px 48px;font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;letter-spacing:.5px">Search MLS Listings</button>
     </div>
     <div style="text-align:center;margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:14px">
-      <p style="color:#666;font-size:.85rem">Found a home you love? Come back and complete Step 2 </p>
+      <p style="color:#666;font-size:.85rem">Found a home you love? Come back and complete Step 2</p>
       <a href="#step2" style="color:#168C84;font-size:.9rem;font-weight:700;text-decoration:none">↓ Request a Showing</a>
-
     </div>
   </div>
 </section>

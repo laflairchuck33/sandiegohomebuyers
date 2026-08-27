@@ -152,8 +152,8 @@ window.addEventListener('load', function(){
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Raleway:wght@300;400;700;800&display=swap&font-display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Raleway:wght@300;400;700;800&display=swap&font-display=swap" rel="stylesheet" /></noscript>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Raleway:wght@100;200;300;400;700;800;900&display=swap&font-display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Raleway:wght@100;200;300;400;700;800;900&display=swap&font-display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /></noscript>
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -187,6 +187,9 @@ window.addEventListener('load', function(){
     /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#ffffff !important;border-bottom:1px solid #e0e0e0;padding:15px 40px;display:flex;align-items:center;justify-content:space-between}
     nav a, nav button{font-family:'Raleway',sans-serif !important;}
+    .nlinks a{font-weight:300 !important;letter-spacing:2px !important;}
+    .nlinks a.ncta{font-weight:800 !important;}
+    .nsearch button{font-weight:800 !important;}
     .logo{font-size:clamp(1.3rem,2.6vw,3rem);font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#111;white-space:nowrap}
     nav{gap:12px}
     .logo span{color:var(--teal)}

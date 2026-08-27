@@ -511,6 +511,8 @@ window.addEventListener('load', function(){
 
   </div>
   <div class="nlinks" style="gap:0;align-items:center;flex-wrap:nowrap;white-space:nowrap">
+    <a href="#featured" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Listings</a>
+    <span style="color:#d4c8b8;font-size:1rem;line-height:1">|</span>
     <a href="#step1" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Search MLS</a>
     <span style="color:#d4c8b8;font-size:1rem;line-height:1">|</span>
     <a href="#step2" style="border:none;border-radius:0;padding:6px 16px;font-weight:500;font-size:.88rem;color:#17324D;letter-spacing:.3px;text-transform:none">Tour a Home</a>
@@ -781,6 +783,65 @@ window.addEventListener('load', function(){
       <button onclick="submitQuickCap()" style="background:#0d1f3c;color:#fff;border:none;border-radius:8px;padding:14px 28px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit">Send Me Listings →</button>
     </div>
     <p id="qc-done" style="display:none;color:#fff;font-weight:800;font-size:1.05rem;margin-top:8px"> You're in! Watch your texts for hot listings.</p>
+  </div>
+</section>
+
+<!-- FEATURED LISTINGS -->
+<section id="featured" style="background:var(--bg);padding:70px 40px">
+  <div class="con">
+    <div style="text-align:center;margin-bottom:40px">
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#168C84;margin-bottom:10px">Just Listed</div>
+      <h2 style="font-size:2.4rem;font-weight:900;color:#17324D;line-height:1.1;margin-bottom:10px">Featured Listings</h2>
+      <p style="color:#68737C;font-size:.95rem">Hand-picked homes available right now in San Diego County.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1100px;margin:0 auto">
+
+      <!-- Card 1 -->
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:transform .2s" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="position:relative;height:200px;background:#E8DFD1;overflow:hidden">
+          <img src="/house-search.jpg" alt="Featured Home" style="width:100%;height:100%;object-fit:cover" />
+          <div style="position:absolute;top:12px;left:12px;background:#168C84;color:#fff;font-size:.7rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px">New Listing</div>
+        </div>
+        <div style="padding:18px">
+          <div style="font-size:1.4rem;font-weight:900;color:#17324D;margin-bottom:4px">$589,000</div>
+          <div style="font-size:.88rem;font-weight:600;color:#202B35;margin-bottom:6px">3 Bed &middot; 2 Bath &middot; 1,450 sqft</div>
+          <div style="font-size:.82rem;color:#68737C;margin-bottom:14px">Chula Vista, CA 91914</div>
+          <a href="#step2" style="display:block;text-align:center;background:#17324D;color:#fff;padding:10px;border-radius:6px;font-size:.8rem;font-weight:700;text-decoration:none;letter-spacing:.5px">Request Showing</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:transform .2s" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="position:relative;height:200px;background:#E8DFD1;overflow:hidden">
+          <img src="/showing-calendar.jpg" alt="Featured Home" style="width:100%;height:100%;object-fit:cover" />
+          <div style="position:absolute;top:12px;left:12px;background:#17324D;color:#fff;font-size:.7rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px">Price Drop</div>
+        </div>
+        <div style="padding:18px">
+          <div style="font-size:1.4rem;font-weight:900;color:#17324D;margin-bottom:4px">$724,900</div>
+          <div style="font-size:.88rem;font-weight:600;color:#202B35;margin-bottom:6px">4 Bed &middot; 3 Bath &middot; 2,100 sqft</div>
+          <div style="font-size:.82rem;color:#68737C;margin-bottom:14px">La Jolla, CA 92037</div>
+          <a href="#step2" style="display:block;text-align:center;background:#17324D;color:#fff;padding:10px;border-radius:6px;font-size:.8rem;font-weight:700;text-decoration:none;letter-spacing:.5px">Request Showing</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:transform .2s" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="position:relative;height:200px;background:#E8DFD1;overflow:hidden">
+          <img src="/preapproval.jpg" alt="Featured Home" style="width:100%;height:100%;object-fit:cover" />
+          <div style="position:absolute;top:12px;left:12px;background:#168C84;color:#fff;font-size:.7rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px">Hot Deal</div>
+        </div>
+        <div style="padding:18px">
+          <div style="font-size:1.4rem;font-weight:900;color:#17324D;margin-bottom:4px">$449,500</div>
+          <div style="font-size:.88rem;font-weight:600;color:#202B35;margin-bottom:6px">2 Bed &middot; 2 Bath &middot; 1,050 sqft</div>
+          <div style="font-size:.82rem;color:#68737C;margin-bottom:14px">National City, CA 91950</div>
+          <a href="#step2" style="display:block;text-align:center;background:#17324D;color:#fff;padding:10px;border-radius:6px;font-size:.8rem;font-weight:700;text-decoration:none;letter-spacing:.5px">Request Showing</a>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:36px">
+      <button onclick="doMLSSearch()" style="background:transparent;color:#17324D;border:2px solid #17324D;padding:12px 36px;border-radius:6px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s" onmouseover="this.style.background='#17324D';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#17324D'">View All Listings</button>
+    </div>
   </div>
 </section>
 

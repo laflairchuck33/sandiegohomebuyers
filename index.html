@@ -198,7 +198,7 @@ window.addEventListener('load', function(){
     .nsearch input::placeholder{color:var(--g)}
     .nsearch button{background:var(--teal);border:none;color:#000;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:3px;cursor:pointer;font-family:'Raleway',sans-serif}
     .nlinks{display:flex;gap:12px;align-items:center}
-    .nlinks a{color:#111;text-decoration:none;font-size:.85rem;font-weight:300;text-transform:uppercase;letter-spacing:2px;transition:all .2s;border:2px solid #111;border-radius:6px;padding:6px 14px;font-family:'Raleway',sans-serif !important;}
+    .nlinks a{color:#111;text-decoration:none;font-size:.85rem;font-weight:300;letter-spacing:1px;transition:all .2s;border:2px solid #111;border-radius:6px;padding:6px 14px;font-family:'Raleway',sans-serif !important;}
     .nlinks a:hover{background:#111;color:#fff}
     .nlinks a.ncta{color:#1a6cfe !important;border-color:#1a6cfe !important;font-weight:800 !important;}
     .nlinks a.ncta:hover{background:#1a6cfe !important;color:#fff !important;}
@@ -512,13 +512,12 @@ window.addEventListener('load', function(){
 
   </div>
   <div class="nlinks">
-    <a href="#step1" data-i18n="nav-search">Search MLS</a>
-    <a href="#step2" data-i18n="nav-showing">Request Showing</a>
-    <a href="#step3" data-i18n="nav-prequal">Pre-Qualify</a>
-    <a href="/home-value.html" data-i18n="nav-worth">What's My Home Worth?</a>
-
-    <a href="#contact" data-i18n="nav-contact">Contact</a>
-    <a href="#step1" class="ncta" data-i18n="nav-cta">Get Started</a>
+    <a href="#step1"><span style="font-weight:300">search </span><span style="font-weight:900">MLS</span></a>
+    <a href="#step2"><span style="font-weight:300">request </span><span style="font-weight:900">SHOWING</span></a>
+    <a href="#step3"><span style="font-weight:300">pre-</span><span style="font-weight:900">QUALIFY</span></a>
+    <a href="/home-value.html"><span style="font-weight:300">home </span><span style="font-weight:900">VALUE</span></a>
+    <a href="#contact"><span style="font-weight:900">CONTACT</span></a>
+    <a href="#step1" class="ncta"><span style="font-weight:300">get </span><span style="font-weight:900">STARTED</span></a>
     <button id="langToggle" onclick="toggleLang()" style="margin-left:8px;background:#fff;color:#1a6cfe;border:2px solid #1a6cfe;border-radius:6px;padding:6px 14px;font-weight:900;font-size:.82rem;letter-spacing:1px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='#1a6cfe';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#1a6cfe'">🌐 Español</button>
   </div>
 </nav>

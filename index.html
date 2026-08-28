@@ -972,8 +972,13 @@ window.addEventListener('load', function(){
   <div class="con">
     <div style="display:flex;align-items:center;gap:32px;margin-bottom:32px;flex-wrap:wrap;justify-content:center">
       <div style="display:flex;gap:12px;flex-shrink:0">
-        <picture><source srcset="/lo-photo.webp" type="image/webp" /><img src="/lo-photo.jpg" alt="Your Loan Officer" style="width:180px;height:180px;object-fit:cover;object-position:center center;border-radius:12px;border:4px solid #168C84;box-shadow:0 8px 32px rgba(22,140,132,.2)" width="180" height="180" /></picture>
-        <img src="/mauricio-headshot.jpg" alt="Mauricio Perez-Vazquez" style="width:180px;height:180px;object-fit:cover;object-position:center top;border-radius:12px;border:4px solid #168C84;box-shadow:0 8px 32px rgba(22,140,132,.2)" width="180" height="180" />
+        <div style="position:relative;width:180px;height:180px;border-radius:12px;border:4px solid #168C84;box-shadow:0 8px 32px rgba(22,140,132,.2);overflow:hidden;background:#e8f5f3;flex-shrink:0">
+          <picture><source srcset="/lo-photo.webp" type="image/webp" /><img src="/lo-photo.jpg" alt="Your Loan Officer" style="width:100%;height:100%;object-fit:cover;object-position:center center" width="180" height="180" /></picture>
+        </div>
+        <div style="position:relative;width:180px;height:180px;border-radius:12px;border:4px solid #168C84;box-shadow:0 8px 32px rgba(22,140,132,.2);overflow:hidden;background:#e8f5f3;flex-shrink:0">
+          <div style="position:absolute;inset:0;background:#e8f5f3"></div>
+          <img src="/mauricio-headshot-backup.jpg" alt="Mauricio Perez-Vazquez" style="position:relative;width:100%;height:100%;object-fit:cover;object-position:center top" width="180" height="180" />
+        </div>
       </div>
       <div>
         <div class="stag">Instant Pre-Qualification</div>

@@ -793,27 +793,16 @@ window.addEventListener('load', function(){
     <!-- 2 videos side by side -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1200px;margin:0 auto">
       <div style="border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.15);aspect-ratio:16/9">
-        <video class="feat-vid" autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block" oncanplay="this.muted=true;this.play()">
+        <video autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block">
           <source src="/step1-left-web.mp4" type="video/mp4" />
         </video>
       </div>
       <div style="border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.15);aspect-ratio:16/9">
-        <video class="feat-vid" autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block" oncanplay="this.muted=true;this.play()">
+        <video autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block">
           <source src="/step1-right-web.mp4" type="video/mp4" />
         </video>
       </div>
     </div>
-    <script>
-    (function(){
-      var vids = document.querySelectorAll('.feat-vid');
-      var obs = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if(e.isIntersecting){ e.target.muted=true; e.target.play().catch(function(){}); }
-        });
-      },{threshold:0.25});
-      vids.forEach(function(v){ v.muted=true; v.play().catch(function(){}); obs.observe(v); });
-    })();
-    </script>
     <div style="text-align:center;margin-top:36px">
       <button onclick="doMLSSearch()" style="background:transparent;color:#17324D;border:2px solid #17324D;padding:12px 36px;border-radius:6px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s" onmouseover="this.style.background='#17324D';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#17324D'">View All Listings</button>
     </div>
